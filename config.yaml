@@ -1,0 +1,98 @@
+baseURL: https://example.org/
+defaultContentLanguage: zh
+copyright: "© [Qian](https://github.com/QianKuang8) 2024"
+title: Qian's blog
+theme: ["PaperMod"]
+pagination:
+  pagerSize: 10
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+mainsections: ["posts", "papermod"]
+
+minify:
+  disableXML: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+menu:
+  main:
+    - name: 首页
+      url: /
+      weight: 10
+    - name: 归档
+      url: archives/
+      weight: 20
+    - name: 分类
+      url: tags
+      weight: 30
+    - name: 搜索
+      url: search/
+      weight: 40
+    - name: Github
+      url: https://github.com/QianKuang8
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: ExampleSite
+  description: "Qian's Blog"
+  # keywords: [Blog, Portfolio, PaperMod]
+  author: Qian
+  images: ["<link or path of image for opengraph, twitter-cards>"]
+  DateFormat: "2006-01-02"
+
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: false
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: false
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+
+  homeInfoParams:
+    Title: "Qian's Blog"
+    # imageUrl: "images/something"
+    # imageTitle: "title"
+    # imageWidth: 240
+    # imageHeight: 240
+    Content: >
+      What can I say?
+      
+    # <!--  👋 Welcome to demo page of Hugo's theme PaperMod! -->
+
+    # <!-- - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX. -->
+
+    # <!-- - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media . -->
+
+    # <!-- - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3). -->
+
+      
+
+  # socialIcons:
+  #   - name: github
+  #     title: View Source on Github
+  #     url: "https://github.com/adityatelange/hugo-PaperMod"
+
+  markup:
+    goldmark:
+      renderer:
+        unsafe: true
+    highlight:
+      noClasses: false
