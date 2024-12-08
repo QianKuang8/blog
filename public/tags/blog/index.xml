@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Qian&#39;s blog</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on Qian&#39;s blog</description>
+    <title>Blog on Qian&#39;s blog</title>
+    <link>http://localhost:1313/tags/blog/</link>
+    <description>Recent content in Blog on Qian&#39;s blog</description>
     <image>
       <title>Qian&#39;s blog</title>
       <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
@@ -13,12 +13,12 @@
     <language>zh</language>
     <copyright>Qian 2024</copyright>
     <lastBuildDate>Sun, 08 Dec 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>搭建博客tips</title>
-      <link>http://localhost:1313/posts/build-blog-tips/</link>
+      <title>博客tips</title>
+      <link>http://localhost:1313/posts/base-of-blog/</link>
       <pubDate>Sun, 08 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/build-blog-tips/</guid>
+      <guid>http://localhost:1313/posts/base-of-blog/</guid>
       <description>一些如何搭建博客和创建博文的记录</description>
     </item>
   </channel>
