@@ -2,30 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Default on Qian&#39;s blog</title>
-    <link>https://example.org/tags/default/</link>
+    <link>http://localhost:1313/tags/default/</link>
     <description>Recent content in Default on Qian&#39;s blog</description>
     <image>
       <title>Qian&#39;s blog</title>
-      <url>https://example.org/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://example.org/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.139.2</generator>
     <language>zh</language>
     <copyright>Qian 2024</copyright>
-    <lastBuildDate>Tue, 10 Dec 2024 17:22:55 +0800</lastBuildDate>
-    <atom:link href="https://example.org/tags/default/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Apr 2025 13:58:21 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/default/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>技术好文记录</title>
+      <link>http://localhost:1313/posts/awesome-technical-article/</link>
+      <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
+      <guid>http://localhost:1313/posts/awesome-technical-article/</guid>
+      <description>一些技术好文的记录</description>
+    </item>
     <item>
       <title>初始化Mac系统</title>
-      <link>https://example.org/posts/init-mac/</link>
+      <link>http://localhost:1313/posts/init-mac/</link>
       <pubDate>Tue, 10 Dec 2024 17:22:55 +0800</pubDate>
-      <guid>https://example.org/posts/init-mac/</guid>
+      <guid>http://localhost:1313/posts/init-mac/</guid>
       <description>记录一下初始化一个Mac系统需要干些什么</description>
     </item>
     <item>
       <title>搭建博客tips</title>
-      <link>https://example.org/posts/build-blog-tips/</link>
+      <link>http://localhost:1313/posts/build-blog-tips/</link>
       <pubDate>Sun, 08 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://example.org/posts/build-blog-tips/</guid>
+      <guid>http://localhost:1313/posts/build-blog-tips/</guid>
       <description>一些如何搭建博客和创建博文的记录</description>
     </item>
   </channel>
