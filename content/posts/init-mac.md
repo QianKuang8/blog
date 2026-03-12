@@ -130,6 +130,13 @@ finder下当前目录打开shell
 
 [项目地址](https://github.com/dwarvesf/hidden)
 
+
+### Stats
+
+系统监控小组件
+
+[项目地址](https://github.com/exelban/stats)
+
 ### Scroll Reverser
 
 鼠标滚轮反向
