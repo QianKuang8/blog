@@ -1,15 +1,16 @@
 ---
 date: '2025-04-13T13:58:21+08:00'
-title: '技术好文记录'
-summary: "一些技术好文的记录"
-description: "一些技术好文的记录"
-tags: ["technical", "default"]
+lastmod: '2026-03-21T12:00:00+08:00'
+title: 'Uber x86 到 ARM 架构迁移实践'
+summary: "记录 Uber 将服务从 x86 架构迁移到 ARM 架构的实践经验，包括从零启动和大规模推广两个阶段"
+description: "记录 Uber 将服务从 x86 架构迁移到 ARM 架构的实践经验，包括从零启动和大规模推广两个阶段"
+tags: ["uber", "arm", "架构迁移"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
 ---
 
-## 将服务从x86架构迁移到arm架构上
+## x86 到 ARM 架构迁移
 
 思考：这两篇文章讲述了uber如何将服务从x86架构的服务器迁移到arm架构的服务器上，主要出发点是节约成本。
 - 第一篇文章重点在如何从0到1，包括如何启动这个项目，在刚开始搭建CI/CD的过程中做了什么事情，最后直到完成单个服务的迁移
