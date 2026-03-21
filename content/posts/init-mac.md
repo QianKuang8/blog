@@ -1,6 +1,6 @@
 ---
 date: '2024-12-10T17:22:55+08:00'
-lastmod: '2026-03-12T23:00:00+08:00'
+lastmod: '2026-03-21T10:00:00+08:00'
 title: '初始化Mac系统'
 summary: "记录一下初始化一个Mac系统需要干些什么"
 description: "记录一下初始化一个Mac系统需要干些什么"
@@ -53,6 +53,12 @@ Mac 上最常用的包管理器。
 [官网](https://www.warp.dev/)
 
 另一款终端工具，可按需选择。
+
+### cmux
+
+[官网](https://cmux.com/) | [项目地址](https://github.com/manaflow-ai/cmux)
+
+基于 Ghostty 的 macOS 终端，支持垂直标签页和 AI 编码代理通知。当 Claude Code 等代理需要输入时，面板会显示蓝色光环提醒。推荐去官网下载 DMG 安装。
 
 ### Sequel Ace
 
