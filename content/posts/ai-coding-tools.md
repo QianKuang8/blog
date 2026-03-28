@@ -1,6 +1,6 @@
 ---
 date: '2026-03-21T23:00:00+08:00'
-lastmod: '2026-03-21T23:00:00+08:00'
+lastmod: '2026-03-28T23:00:00+08:00'
 title: 'AI Coding 工具推荐'
 summary: "记录一些好用的 AI Coding 相关工具"
 description: "记录一些好用的 AI Coding 相关工具"
@@ -27,6 +27,7 @@ Claude Code CLI 的状态栏美化工具，支持 Powerline 样式、多行状�
 
 ### 我常用的 Widgets
 
+- **Model** - 显示当前使用的模型名称
 - **Context Length** - 显示当前上下文窗口大小
 - **Git Branch** - 显示当前 git 分支
 - **Git Changes** - 显示 git 变更统计（+insertions, -deletions）
@@ -38,6 +39,12 @@ Claude Code CLI 的状态栏美化工具，支持 Powerline 样式、多行状�
   "version": 3,
   "lines": [
     [
+      {
+        "id": "ed25e781-e11d-4a01-9b13-77ffbf4cf4b5",
+        "type": "model",
+        "backgroundColor": "bgGreen",
+        "rawValue": false
+      },
       {
         "id": "3",
         "type": "context-length",
@@ -64,15 +71,18 @@ Claude Code CLI 的状态栏美化工具，支持 Powerline 样式、多行状�
   "flexMode": "full-minus-40",
   "compactThreshold": 60,
   "colorLevel": 2,
+  "defaultPadding": " ",
+  "inheritSeparatorColors": false,
+  "globalBold": false,
   "powerline": {
     "enabled": true,
-    "separators": [""],
+    "separators": [""],
     "separatorInvertBackground": [false],
-    "endCaps": [""],
-    "autoAlign": true,
-    "theme": "solarized"
-  },
-  "defaultPadding": " "
+    "startCaps": [],
+    "endCaps": [""],
+    "theme": "solarized",
+    "autoAlign": true
+  }
 }
 ```
 
