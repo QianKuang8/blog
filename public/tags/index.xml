@@ -9,23 +9,93 @@
       <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
       <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
-    <generator>Hugo -- 0.157.0</generator>
+    <generator>Hugo -- 0.139.2</generator>
     <language>zh</language>
     <copyright>Qian 2024</copyright>
-    <lastBuildDate>Wed, 11 Mar 2026 23:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2026 18:00:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agent</title>
+      <link>http://localhost:1313/tags/agent/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/agent/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Code-Editing</title>
+      <link>http://localhost:1313/tags/code-editing/</link>
+      <pubDate>Sun, 05 Apr 2026 15:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/code-editing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Speculative-Edit</title>
+      <link>http://localhost:1313/tags/speculative-edit/</link>
+      <pubDate>Sun, 05 Apr 2026 15:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/speculative-edit/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Apply</title>
+      <link>http://localhost:1313/tags/apply/</link>
+      <pubDate>Sun, 05 Apr 2026 14:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/apply/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Next-Edit</title>
+      <link>http://localhost:1313/tags/next-edit/</link>
+      <pubDate>Sun, 05 Apr 2026 11:40:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/next-edit/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ai-Coding</title>
+      <link>http://localhost:1313/tags/ai-coding/</link>
+      <pubDate>Sat, 21 Mar 2026 23:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/ai-coding/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tools</title>
+      <link>http://localhost:1313/tags/tools/</link>
+      <pubDate>Sat, 21 Mar 2026 23:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/tools/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Default</title>
       <link>http://localhost:1313/tags/default/</link>
-      <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
+      <pubDate>Thu, 12 Mar 2026 23:30:00 +0800</pubDate>
       <guid>http://localhost:1313/tags/default/</guid>
       <description></description>
     </item>
     <item>
-      <title>Technical</title>
-      <link>http://localhost:1313/tags/technical/</link>
+      <title>Skills</title>
+      <link>http://localhost:1313/tags/skills/</link>
+      <pubDate>Thu, 12 Mar 2026 23:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/skills/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Arm</title>
+      <link>http://localhost:1313/tags/arm/</link>
       <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
-      <guid>http://localhost:1313/tags/technical/</guid>
+      <guid>http://localhost:1313/tags/arm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uber</title>
+      <link>http://localhost:1313/tags/uber/</link>
+      <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
+      <guid>http://localhost:1313/tags/uber/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>架构迁移</title>
+      <link>http://localhost:1313/tags/%E6%9E%B6%E6%9E%84%E8%BF%81%E7%A7%BB/</link>
+      <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
+      <guid>http://localhost:1313/tags/%E6%9E%B6%E6%9E%84%E8%BF%81%E7%A7%BB/</guid>
       <description></description>
     </item>
     <item>

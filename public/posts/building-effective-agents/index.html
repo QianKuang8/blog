@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Building Effective Agents：Agent 系统的架构模式与设计原则 | Qian&#39;s blog</title>
+<meta name="keywords" content="agent">
+<meta name="description" content="解读 Anthropic 的 Agent 架构模式与设计原则">
+<meta name="author" content="Qian">
+<link rel="canonical" href="http://localhost:1313/posts/building-effective-agents/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d6fcd20a4fb86efa4dfac8ec95da60244cc8871042183da1ef28e3a762ad79c8.css" integrity="sha256-1vzSCk&#43;4bvpN&#43;sjsldpgJEzIhxBCGD2h7yjjp2Ktecg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/building-effective-agents/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="http://localhost:1313/posts/building-effective-agents/">
+  <meta property="og:site_name" content="Qian&#39;s blog">
+  <meta property="og:title" content="Building Effective Agents：Agent 系统的架构模式与设计原则">
+  <meta property="og:description" content="解读 Anthropic 的 Agent 架构模式与设计原则">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-05T18:00:00+08:00">
+    <meta property="article:modified_time" content="2026-04-05T18:00:00+08:00">
+    <meta property="article:tag" content="Agent">
+      <meta property="og:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name="twitter:title" content="Building Effective Agents：Agent 系统的架构模式与设计原则">
+<meta name="twitter:description" content="解读 Anthropic 的 Agent 架构模式与设计原则">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Building Effective Agents：Agent 系统的架构模式与设计原则",
+      "item": "http://localhost:1313/posts/building-effective-agents/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building Effective Agents：Agent 系统的架构模式与设计原则",
+  "name": "Building Effective Agents：Agent 系统的架构模式与设计原则",
+  "description": "解读 Anthropic 的 Agent 架构模式与设计原则",
+  "keywords": [
+    "agent"
+  ],
+  "articleBody": "解读 Anthropic 工程博客 Building Effective Agents。\n核心观点：从黑盒框架到可组合模式 文章的核心论点是：生产级 Agent 系统不应依赖高层抽象框架（它们引入\"抽象泄漏\"，掩盖 prompt 和状态管理），而应基于简单、可组合、透明的基本构件来构建。\n许多团队在从实验转向生产时掉入\"复杂性陷阱\"——过度依赖 SDK/GUI，结果无法调试和优化。Anthropic 的建议是：直接使用 LLM API，用几行代码实现这些模式。\n架构分类：Workflow vs Agent 维度 Workflow Agent 控制流 预定义代码路径 LLM 自主推理循环 可预测性 高，一致可重复 低，依赖模型决策 适用场景 步骤明确的任务 路径不可预测的开放问题 7 种可组合模式 1. Augmented LLM（基础单元） 一切 Agent 系统的基础——为 LLM 配备检索、工具、记忆能力。通过 Model Context Protocol (MCP) 实现工具的标准化解耦集成。\n2. Prompt Chaining 将任务顺序分解为多个步骤，前一步输出作为后一步输入。用延迟换准确性，每个 LLM 调用的认知负荷更小，且可插入程序化验证门。\n3. Routing 用分类将输入导向专门的下游处理。实现关注点分离和 token 预算优化——简单查询走 Haiku，复杂问题走 Sonnet。\n4. Parallelization 分段：同时运行独立子任务（如一个生成响应、一个同步做安全检查） 投票：同一任务用不同 prompt 多次执行，聚合结果以提高置信度 5. Orchestrator-Workers 中心 LLM 做协调器，动态分解任务、分发给 worker、综合结果。适用于子任务数量和性质无法预知的场景（如跨大型仓库的多文件编辑）。\n6. Evaluator-Optimizer 递归循环：一个 LLM 生成响应，另一个 LLM 评估反馈，迭代优化。适合有明确评估标准、可通过多轮改进提升质量的场景。\n7. Autonomous Agent LLM 维持规划循环，通过工具与环境交互并推理结果。与 Workflow 不同，Agent 运行在环境驱动循环中，需要\"真实反馈\"（如代码执行结果）来评估每步进展。这要求健壮的 Agent-Computer Interface (ACI)。\nACI 设计：像 HCI 一样认真对待 文章强调 ACI 设计应获得与 HCI 同等的工程投入：\n防错设计（Poka-yoke）：工具参数设计应使 LLM 难以犯常见错误。例如要求绝对路径，因为模型在多步任务中常丢失根目录 Thinking Tokens：给模型足够的 token 先\"思考\"再调用工具，避免把自己写进死角 最小化格式开销：选择 LLM 易于生成的格式，避免需要精确行号计数的 diff 格式 完善文档：为工具提供清晰的 docstring、示例用法和参数边界，像对待初级开发者一样 三大设计权衡 性能 vs 延迟/成本：多轮推理性能更高，但 token 用量和响应时间显著增加 灵活性 vs 确定性：自主 Agent 最灵活，但有错误累积风险——早期失误会级联导致系统失败。任务路径明确时应优先使用 Workflow Human-in-the-loop：高风险场景必须设置人工检查点，不仅为安全，也为确保方案符合组织标准 生产级 Agent 三原则 简洁性：保持最简设计，只在简单方案评估失败时才增加复杂度 透明性：显式记录和暴露 Agent 的规划步骤和工具交互 严谨的工具文档：将 ACI 视为一等公民，配合完善的文档和沙盒测试 原文 Building effective agents | Anthropic ",
+  "wordCount" : "1176",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished": "2026-04-05T18:00:00+08:00",
+  "dateModified": "2026-04-05T18:00:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Qian"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/building-effective-agents/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Qian's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Qian&#39;s blog (Alt + H)">Qian&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/QianKuang8" title="Github">
+                    <span>Github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Building Effective Agents：Agent 系统的架构模式与设计原则
+    </h1>
+    <div class="post-description">
+      解读 Anthropic 的 Agent 架构模式与设计原则
+    </div>
+    <div class="post-meta"><span title='2026-04-05 18:00:00 +0800 CST'>2026-04-05</span>&nbsp;·&nbsp;3 分钟&nbsp;·&nbsp;1176 字&nbsp;·&nbsp;Qian
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#核心观点从黑盒框架到可组合模式">核心观点：从黑盒框架到可组合模式</a></li>
+    <li><a href="#架构分类workflow-vs-agent">架构分类：Workflow vs Agent</a></li>
+    <li><a href="#7-种可组合模式">7 种可组合模式</a>
+      <ul>
+        <li><a href="#1-augmented-llm基础单元">1. Augmented LLM（基础单元）</a></li>
+        <li><a href="#2-prompt-chaining">2. Prompt Chaining</a></li>
+        <li><a href="#3-routing">3. Routing</a></li>
+        <li><a href="#4-parallelization">4. Parallelization</a></li>
+        <li><a href="#5-orchestrator-workers">5. Orchestrator-Workers</a></li>
+        <li><a href="#6-evaluator-optimizer">6. Evaluator-Optimizer</a></li>
+        <li><a href="#7-autonomous-agent">7. Autonomous Agent</a></li>
+      </ul>
+    </li>
+    <li><a href="#aci-设计像-hci-一样认真对待">ACI 设计：像 HCI 一样认真对待</a></li>
+    <li><a href="#三大设计权衡">三大设计权衡</a></li>
+    <li><a href="#生产级-agent-三原则">生产级 Agent 三原则</a></li>
+    <li><a href="#原文">原文</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>解读 Anthropic 工程博客 <a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a>。</p>
+<h2 id="核心观点从黑盒框架到可组合模式">核心观点：从黑盒框架到可组合模式<a hidden class="anchor" aria-hidden="true" href="#核心观点从黑盒框架到可组合模式">#</a></h2>
+<p>文章的核心论点是：生产级 Agent 系统不应依赖高层抽象框架（它们引入&quot;抽象泄漏&quot;，掩盖 prompt 和状态管理），而应基于<strong>简单、可组合、透明的基本构件</strong>来构建。</p>
+<p>许多团队在从实验转向生产时掉入&quot;复杂性陷阱&quot;——过度依赖 SDK/GUI，结果无法调试和优化。Anthropic 的建议是：<strong>直接使用 LLM API，用几行代码实现这些模式</strong>。</p>
+<h2 id="架构分类workflow-vs-agent">架构分类：Workflow vs Agent<a hidden class="anchor" aria-hidden="true" href="#架构分类workflow-vs-agent">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>Workflow</th>
+          <th>Agent</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>控制流</td>
+          <td>预定义代码路径</td>
+          <td>LLM 自主推理循环</td>
+      </tr>
+      <tr>
+          <td>可预测性</td>
+          <td>高，一致可重复</td>
+          <td>低，依赖模型决策</td>
+      </tr>
+      <tr>
+          <td>适用场景</td>
+          <td>步骤明确的任务</td>
+          <td>路径不可预测的开放问题</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="7-种可组合模式">7 种可组合模式<a hidden class="anchor" aria-hidden="true" href="#7-种可组合模式">#</a></h2>
+<h3 id="1-augmented-llm基础单元">1. Augmented LLM（基础单元）<a hidden class="anchor" aria-hidden="true" href="#1-augmented-llm基础单元">#</a></h3>
+<p>一切 Agent 系统的基础——为 LLM 配备<strong>检索、工具、记忆</strong>能力。通过 Model Context Protocol (MCP) 实现工具的标准化解耦集成。</p>
+<h3 id="2-prompt-chaining">2. Prompt Chaining<a hidden class="anchor" aria-hidden="true" href="#2-prompt-chaining">#</a></h3>
+<p>将任务顺序分解为多个步骤，前一步输出作为后一步输入。用延迟换准确性，每个 LLM 调用的认知负荷更小，且可插入程序化验证门。</p>
+<h3 id="3-routing">3. Routing<a hidden class="anchor" aria-hidden="true" href="#3-routing">#</a></h3>
+<p>用分类将输入导向专门的下游处理。实现关注点分离和 token 预算优化——简单查询走 Haiku，复杂问题走 Sonnet。</p>
+<h3 id="4-parallelization">4. Parallelization<a hidden class="anchor" aria-hidden="true" href="#4-parallelization">#</a></h3>
+<ul>
+<li><strong>分段</strong>：同时运行独立子任务（如一个生成响应、一个同步做安全检查）</li>
+<li><strong>投票</strong>：同一任务用不同 prompt 多次执行，聚合结果以提高置信度</li>
+</ul>
+<h3 id="5-orchestrator-workers">5. Orchestrator-Workers<a hidden class="anchor" aria-hidden="true" href="#5-orchestrator-workers">#</a></h3>
+<p>中心 LLM 做协调器，动态分解任务、分发给 worker、综合结果。适用于子任务数量和性质无法预知的场景（如跨大型仓库的多文件编辑）。</p>
+<h3 id="6-evaluator-optimizer">6. Evaluator-Optimizer<a hidden class="anchor" aria-hidden="true" href="#6-evaluator-optimizer">#</a></h3>
+<p>递归循环：一个 LLM 生成响应，另一个 LLM 评估反馈，迭代优化。适合有明确评估标准、可通过多轮改进提升质量的场景。</p>
+<h3 id="7-autonomous-agent">7. Autonomous Agent<a hidden class="anchor" aria-hidden="true" href="#7-autonomous-agent">#</a></h3>
+<p>LLM 维持规划循环，通过工具与环境交互并推理结果。与 Workflow 不同，Agent 运行在<strong>环境驱动循环</strong>中，需要&quot;真实反馈&quot;（如代码执行结果）来评估每步进展。这要求健壮的 Agent-Computer Interface (ACI)。</p>
+<h2 id="aci-设计像-hci-一样认真对待">ACI 设计：像 HCI 一样认真对待<a hidden class="anchor" aria-hidden="true" href="#aci-设计像-hci-一样认真对待">#</a></h2>
+<p>文章强调 ACI 设计应获得与 HCI 同等的工程投入：</p>
+<ul>
+<li><strong>防错设计（Poka-yoke）</strong>：工具参数设计应使 LLM 难以犯常见错误。例如要求绝对路径，因为模型在多步任务中常丢失根目录</li>
+<li><strong>Thinking Tokens</strong>：给模型足够的 token 先&quot;思考&quot;再调用工具，避免把自己写进死角</li>
+<li><strong>最小化格式开销</strong>：选择 LLM 易于生成的格式，避免需要精确行号计数的 diff 格式</li>
+<li><strong>完善文档</strong>：为工具提供清晰的 docstring、示例用法和参数边界，像对待初级开发者一样</li>
+</ul>
+<h2 id="三大设计权衡">三大设计权衡<a hidden class="anchor" aria-hidden="true" href="#三大设计权衡">#</a></h2>
+<ol>
+<li><strong>性能 vs 延迟/成本</strong>：多轮推理性能更高，但 token 用量和响应时间显著增加</li>
+<li><strong>灵活性 vs 确定性</strong>：自主 Agent 最灵活，但有<strong>错误累积</strong>风险——早期失误会级联导致系统失败。任务路径明确时应优先使用 Workflow</li>
+<li><strong>Human-in-the-loop</strong>：高风险场景必须设置人工检查点，不仅为安全，也为确保方案符合组织标准</li>
+</ol>
+<h2 id="生产级-agent-三原则">生产级 Agent 三原则<a hidden class="anchor" aria-hidden="true" href="#生产级-agent-三原则">#</a></h2>
+<ol>
+<li><strong>简洁性</strong>：保持最简设计，只在简单方案评估失败时才增加复杂度</li>
+<li><strong>透明性</strong>：显式记录和暴露 Agent 的规划步骤和工具交互</li>
+<li><strong>严谨的工具文档</strong>：将 ACI 视为一等公民，配合完善的文档和沙盒测试</li>
+</ol>
+<h2 id="原文">原文<a hidden class="anchor" aria-hidden="true" href="#原文">#</a></h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents | Anthropic</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/agent/">Agent</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/code-surgery-edit-tools/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Code Surgery：AI 编辑代码的五种工程架构</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>© <a href="https://github.com/QianKuang8">Qian</a> 2024</span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

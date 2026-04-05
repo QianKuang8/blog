@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Continue Instinct：开源 Next Edit 模型的工程实践 | Qian&#39;s blog</title>
+<meta name="keywords" content="code-editing, next-edit">
+<meta name="description" content="解读 Continue Instinct 开源 Next Edit 模型的技术方案">
+<meta name="author" content="Qian">
+<link rel="canonical" href="http://localhost:1313/posts/continue-instinct/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d6fcd20a4fb86efa4dfac8ec95da60244cc8871042183da1ef28e3a762ad79c8.css" integrity="sha256-1vzSCk&#43;4bvpN&#43;sjsldpgJEzIhxBCGD2h7yjjp2Ktecg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/continue-instinct/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="http://localhost:1313/posts/continue-instinct/">
+  <meta property="og:site_name" content="Qian&#39;s blog">
+  <meta property="og:title" content="Continue Instinct：开源 Next Edit 模型的工程实践">
+  <meta property="og:description" content="解读 Continue Instinct 开源 Next Edit 模型的技术方案">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-05T11:00:00+08:00">
+    <meta property="article:modified_time" content="2026-04-05T11:00:00+08:00">
+    <meta property="article:tag" content="Code-Editing">
+    <meta property="article:tag" content="Next-Edit">
+      <meta property="og:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name="twitter:title" content="Continue Instinct：开源 Next Edit 模型的工程实践">
+<meta name="twitter:description" content="解读 Continue Instinct 开源 Next Edit 模型的技术方案">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Continue Instinct：开源 Next Edit 模型的工程实践",
+      "item": "http://localhost:1313/posts/continue-instinct/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Continue Instinct：开源 Next Edit 模型的工程实践",
+  "name": "Continue Instinct：开源 Next Edit 模型的工程实践",
+  "description": "解读 Continue Instinct 开源 Next Edit 模型的技术方案",
+  "keywords": [
+    "code-editing", "next-edit"
+  ],
+  "articleBody": "解读 Continue 博客 Introducing Instinct 的技术方案。\n问题定义：从补全到编辑 传统自动补全只能在光标位置插入文本。Next Edit 要解决的是更复杂的问题：预测开发者的下一步逻辑修改——包括删除、多行替换和结构重构。\n一个典型的函数重构（修改参数列表、更新返回类型、调整函数体）手动操作需要 40+ 步。Instinct 把这个操作序列压缩成一次 Tab 确认，量化为 6.4 倍工作流加速。\n模型架构 基于 Qwen2.5-Coder-7B，选择 7B 参数量级平衡推理能力和本地部署可行性。\n模型输入：\nEdit Trajectory：会话中最近 5 次编辑 Codebase Context：RAG 检索的外部文件片段 Current File State：当前文件完整内容 Editable Region：指定重写的代码区域 部署支持 Ollama 和 SGLang，面向本地 GPU 执行，满足企业数据隐私需求。\n训练方法：SeleKT 数据工程 数据来源不是 git commit（缺乏编辑轨迹），而是 4000+ 真实开发者编辑会话。\nChunking：基于行和时间启发式，将原始按键流聚合为有意义的 diff 效率过滤：丢弃\"乒乓球\"式编辑（在行间反复跳转无进展的序列） 多语言合成：用自部署的 Qwen3-Coder-30B 将 TypeScript 数据翻译为 Java、C、Python、Rust，通过 CodeBLEU 消融实验调优数据配比 SeleKT 算法 没有使用常见的 LoRA，而是采用了 SeleKT（Selective Knowledge Transfer）：\n执行完整反向传播，计算所有参数的稠密梯度 按幅度提取 top-k 梯度 只应用这些稀疏更新 关键区别：LoRA 更新预定义的低秩适配器，SeleKT 则\"发现\"对任务最关键的参数。这防止了模型预训练编码知识的\"侵蚀\"，缓解过拟合。\n训练配置：\n仅更新 5% 参数 Log warmup + 余弦衰减，5 个 epoch 用 CodeBLEU 监控验证 工程权衡 可编辑区域：固定为光标上方 1 行 + 下方 5 行。基于交互数据集中 diff 的自然特征和平均大小确定 Diff 单位定义：从原始按键转向自包含的 diff 单元。在碎片化字符序列上训练会导致建议\"闪烁\"不稳定 稀疏更新选择：SeleKT 保留了通用编程逻辑，同时注入了\"意图→diff\"的特定映射 评估 质量评估：LLM Judge 用 Claude 做评判者，0-5 分制。关键设计：3 分授予与 ground truth 不匹配但逻辑有效的编辑（专家开发者也会这么做的）。这允许评估意图和替代方案。\n结果：Instinct 平均 3.877，超越此前开源 SOTA Zeta（3.735）。\n速度评估：Keystroke-Distance 通过回溯 Levenshtein 距离的 DP 表，提取字符级 diff，解析为 DP 最优的按键和光标跳转序列。假设开发者 90 WPM 执行该序列，Instinct（8xH100 集群）比手动编辑快 6.4 倍。\n开源生态 开放权重和 HuggingFace 模型卡 4000+ 编辑数据集开放访问 兼容 KTO（Kahneman-Tversky Optimization），团队可以用自己的 accept/reject 交互数据进一步优化 原文 Introducing Instinct ",
+  "wordCount" : "1139",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished": "2026-04-05T11:00:00+08:00",
+  "dateModified": "2026-04-05T11:00:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Qian"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/continue-instinct/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Qian's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Qian&#39;s blog (Alt + H)">Qian&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/QianKuang8" title="Github">
+                    <span>Github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Continue Instinct：开源 Next Edit 模型的工程实践
+    </h1>
+    <div class="post-description">
+      解读 Continue Instinct 开源 Next Edit 模型的技术方案
+    </div>
+    <div class="post-meta"><span title='2026-04-05 11:00:00 +0800 CST'>2026-04-05</span>&nbsp;·&nbsp;3 分钟&nbsp;·&nbsp;1139 字&nbsp;·&nbsp;Qian
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#问题定义从补全到编辑">问题定义：从补全到编辑</a></li>
+    <li><a href="#模型架构">模型架构</a></li>
+    <li><a href="#训练方法selekt">训练方法：SeleKT</a>
+      <ul>
+        <li><a href="#数据工程">数据工程</a></li>
+        <li><a href="#selekt-算法">SeleKT 算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#工程权衡">工程权衡</a></li>
+    <li><a href="#评估">评估</a>
+      <ul>
+        <li><a href="#质量评估llm-judge">质量评估：LLM Judge</a></li>
+        <li><a href="#速度评估keystroke-distance">速度评估：Keystroke-Distance</a></li>
+      </ul>
+    </li>
+    <li><a href="#开源生态">开源生态</a></li>
+    <li><a href="#原文">原文</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>解读 Continue 博客 <a href="https://blog.continue.dev/instinct/">Introducing Instinct</a> 的技术方案。</p>
+<h2 id="问题定义从补全到编辑">问题定义：从补全到编辑<a hidden class="anchor" aria-hidden="true" href="#问题定义从补全到编辑">#</a></h2>
+<p>传统自动补全只能在光标位置插入文本。Next Edit 要解决的是更复杂的问题：预测开发者的下一步逻辑修改——包括删除、多行替换和结构重构。</p>
+<p>一个典型的函数重构（修改参数列表、更新返回类型、调整函数体）手动操作需要 40+ 步。Instinct 把这个操作序列压缩成一次 Tab 确认，量化为 <strong>6.4 倍</strong>工作流加速。</p>
+<h2 id="模型架构">模型架构<a hidden class="anchor" aria-hidden="true" href="#模型架构">#</a></h2>
+<p>基于 <strong>Qwen2.5-Coder-7B</strong>，选择 7B 参数量级平衡推理能力和本地部署可行性。</p>
+<p>模型输入：</p>
+<ul>
+<li><strong>Edit Trajectory</strong>：会话中最近 5 次编辑</li>
+<li><strong>Codebase Context</strong>：RAG 检索的外部文件片段</li>
+<li><strong>Current File State</strong>：当前文件完整内容</li>
+<li><strong>Editable Region</strong>：指定重写的代码区域</li>
+</ul>
+<p>部署支持 <strong>Ollama</strong> 和 <strong>SGLang</strong>，面向本地 GPU 执行，满足企业数据隐私需求。</p>
+<h2 id="训练方法selekt">训练方法：SeleKT<a hidden class="anchor" aria-hidden="true" href="#训练方法selekt">#</a></h2>
+<h3 id="数据工程">数据工程<a hidden class="anchor" aria-hidden="true" href="#数据工程">#</a></h3>
+<p>数据来源不是 git commit（缺乏编辑轨迹），而是 <strong>4000+ 真实开发者编辑会话</strong>。</p>
+<ul>
+<li><strong>Chunking</strong>：基于行和时间启发式，将原始按键流聚合为有意义的 diff</li>
+<li><strong>效率过滤</strong>：丢弃&quot;乒乓球&quot;式编辑（在行间反复跳转无进展的序列）</li>
+<li><strong>多语言合成</strong>：用自部署的 Qwen3-Coder-30B 将 TypeScript 数据翻译为 Java、C、Python、Rust，通过 CodeBLEU 消融实验调优数据配比</li>
+</ul>
+<h3 id="selekt-算法">SeleKT 算法<a hidden class="anchor" aria-hidden="true" href="#selekt-算法">#</a></h3>
+<p>没有使用常见的 LoRA，而是采用了 <strong>SeleKT</strong>（Selective Knowledge Transfer）：</p>
+<ol>
+<li>执行完整反向传播，计算所有参数的稠密梯度</li>
+<li>按幅度提取 <strong>top-k 梯度</strong></li>
+<li>只应用这些稀疏更新</li>
+</ol>
+<p>关键区别：LoRA 更新预定义的低秩适配器，SeleKT 则&quot;发现&quot;对任务最关键的参数。这防止了模型预训练编码知识的&quot;侵蚀&quot;，缓解过拟合。</p>
+<p>训练配置：</p>
+<ul>
+<li>仅更新 5% 参数</li>
+<li>Log warmup + 余弦衰减，5 个 epoch</li>
+<li>用 CodeBLEU 监控验证</li>
+</ul>
+<h2 id="工程权衡">工程权衡<a hidden class="anchor" aria-hidden="true" href="#工程权衡">#</a></h2>
+<ul>
+<li><strong>可编辑区域</strong>：固定为光标上方 1 行 + 下方 5 行。基于交互数据集中 diff 的自然特征和平均大小确定</li>
+<li><strong>Diff 单位定义</strong>：从原始按键转向自包含的 diff 单元。在碎片化字符序列上训练会导致建议&quot;闪烁&quot;不稳定</li>
+<li><strong>稀疏更新选择</strong>：SeleKT 保留了通用编程逻辑，同时注入了&quot;意图→diff&quot;的特定映射</li>
+</ul>
+<h2 id="评估">评估<a hidden class="anchor" aria-hidden="true" href="#评估">#</a></h2>
+<h3 id="质量评估llm-judge">质量评估：LLM Judge<a hidden class="anchor" aria-hidden="true" href="#质量评估llm-judge">#</a></h3>
+<p>用 Claude 做评判者，0-5 分制。关键设计：<strong>3 分</strong>授予与 ground truth 不匹配但逻辑有效的编辑（专家开发者也会这么做的）。这允许评估意图和替代方案。</p>
+<p>结果：Instinct 平均 <strong>3.877</strong>，超越此前开源 SOTA Zeta（3.735）。</p>
+<h3 id="速度评估keystroke-distance">速度评估：Keystroke-Distance<a hidden class="anchor" aria-hidden="true" href="#速度评估keystroke-distance">#</a></h3>
+<p>通过回溯 Levenshtein 距离的 DP 表，提取字符级 diff，解析为 DP 最优的按键和光标跳转序列。假设开发者 90 WPM 执行该序列，Instinct（8xH100 集群）比手动编辑快 <strong>6.4 倍</strong>。</p>
+<h2 id="开源生态">开源生态<a hidden class="anchor" aria-hidden="true" href="#开源生态">#</a></h2>
+<ul>
+<li>开放权重和 HuggingFace 模型卡</li>
+<li>4000+ 编辑数据集开放访问</li>
+<li>兼容 <strong>KTO</strong>（Kahneman-Tversky Optimization），团队可以用自己的 accept/reject 交互数据进一步优化</li>
+</ul>
+<h2 id="原文">原文<a hidden class="anchor" aria-hidden="true" href="#原文">#</a></h2>
+<ul>
+<li><a href="https://blog.continue.dev/instinct/">Introducing Instinct</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/code-editing/">Code-Editing</a></li>
+      <li><a href="http://localhost:1313/tags/next-edit/">Next-Edit</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/copilot-next-edit-suggestions/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>GitHub Copilot Next Edit Suggestions：从快照补全到时序编辑</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/zed-edit-prediction/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Zed Edit Prediction：从代码补全到&#34;编辑预测&#34;</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>© <a href="https://github.com/QianKuang8">Qian</a> 2024</span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

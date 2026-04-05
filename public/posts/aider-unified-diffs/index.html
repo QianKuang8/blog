@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Aider：用 Unified Diff 格式解决 LLM 的&#34;懒惰编码&#34;问题 | Qian&#39;s blog</title>
+<meta name="keywords" content="code-editing, apply">
+<meta name="description" content="解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案">
+<meta name="author" content="Qian">
+<link rel="canonical" href="http://localhost:1313/posts/aider-unified-diffs/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d6fcd20a4fb86efa4dfac8ec95da60244cc8871042183da1ef28e3a762ad79c8.css" integrity="sha256-1vzSCk&#43;4bvpN&#43;sjsldpgJEzIhxBCGD2h7yjjp2Ktecg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/posts/aider-unified-diffs/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="http://localhost:1313/posts/aider-unified-diffs/">
+  <meta property="og:site_name" content="Qian&#39;s blog">
+  <meta property="og:title" content="Aider：用 Unified Diff 格式解决 LLM 的&#34;懒惰编码&#34;问题">
+  <meta property="og:description" content="解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-05T14:30:00+08:00">
+    <meta property="article:modified_time" content="2026-04-05T14:30:00+08:00">
+    <meta property="article:tag" content="Code-Editing">
+    <meta property="article:tag" content="Apply">
+      <meta property="og:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name="twitter:title" content="Aider：用 Unified Diff 格式解决 LLM 的&#34;懒惰编码&#34;问题">
+<meta name="twitter:description" content="解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Aider：用 Unified Diff 格式解决 LLM 的\"懒惰编码\"问题",
+      "item": "http://localhost:1313/posts/aider-unified-diffs/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Aider：用 Unified Diff 格式解决 LLM 的\"懒惰编码\"问题",
+  "name": "Aider：用 Unified Diff 格式解决 LLM 的\u0022懒惰编码\u0022问题",
+  "description": "解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案",
+  "keywords": [
+    "code-editing", "apply"
+  ],
+  "articleBody": "解读 Aider 博客 Unified diffs make GPT-4 Turbo 3X less lazy 的技术方案。\n问题：GPT-4 Turbo 的\"懒惰编码\" GPT-4 Turbo (gpt-4-1106-preview) 引入了一个严重问题：模型用 ... add logic here ... 或 ... include original method body ... 等占位符省略代码。\n在传统的 SEARCH/REPLACE 块格式下，GPT-4 Turbo 复杂任务成功率仅 20%，其中 13.5% 用懒惰注释替代实际代码。\n方案：Unified Diff 编辑格式 从块替换转向修改版的 Unified Diff 格式，利用 LLM 在 git diff 输出上的大量预训练，同时针对机器消费优化：\n省略行号：传统 hunk header（@@ -2,4 +3,5 @@）被去掉。定量分析证实 LLM 无法可靠维护行号的数学计算 搜索替换语义：每个 hunk 被当作搜索替换操作——用 （空格）表示上下文，- 表示删除，+ 表示添加 粒度选择：高层 \u003e 外科手术式 外科手术式（不推荐）： - n = 5 + number = 5 高层上下文（推荐）： def factorial(n): - if n == 0: - return 1 - return n * factorial(n-1) + if number == 0: + return 1 + return number * factorial(number-1) 高层 diff 提供唯一签名防止\"碰撞\"（小片段误匹配无关代码段），同时避免 LLM 因交错过多旧行和新行而混乱。\n评估基准 标准基准如 Exercism（133 题）太简单，无法量化懒惰问题。Aider 构建了自定义基准：\n用 Python ast 模块分析 9 个开源仓库，提取 89 个重构任务 目标：类中的方法重构为独立函数，方法 100-250+ AST 节点，周围类至少是方法的 2 倍大 验证：AST 节点数量对齐（无省略）、结构完整性、... 懒惰检测 对比结果 方案 GPT-4 Turbo 成功率 GPT-4 (June) 成功率 Unified Diff（无行号） 61% 59% SEARCH/REPLACE（基线） 20% 26% 情感诉求 \u003c 20% N/A 结构化 JSON / Tool Calling 低 N/A 基于行号的格式 低 N/A 关键发现：\n模型无关性：GPT-4 June 版从 26% 提升到 59%（上限 72%，因 28% 文件超出 8k 上下文窗口） JSON 转义之痛：JSON 格式包裹源代码容易导致转义错误 情感诉求无效：“用户是盲人\"“我会给 $2000 小费\"这类提示全部不如结构化格式改进 Flexible Patching：抗脆弱层 LLM 输出本质上不稳定——常忘记 docstring、遗漏空行、错误缩进、忘记 + 前缀。Aider 的补丁引擎包含多层恢复策略：\nHunk 归一化：对 LLM 提议的变更重新 diff，修复内部不一致 相对前导空白：即使 LLM 错误偏移缩进也能匹配 Hunk 分片：将失败的大 hunk 拆分为小子 hunk 部分应用 关键数据：在 Exercism 基准上，禁用 flexible patching 导致编辑错误 9 倍增长。\n原文 Unified diffs make GPT-4 Turbo 3X less lazy ",
+  "wordCount" : "915",
+  "inLanguage": "zh",
+  "image": "http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished": "2026-04-05T14:30:00+08:00",
+  "dateModified": "2026-04-05T14:30:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Qian"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/aider-unified-diffs/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Qian's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Qian&#39;s blog (Alt + H)">Qian&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/QianKuang8" title="Github">
+                    <span>Github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Aider：用 Unified Diff 格式解决 LLM 的&#34;懒惰编码&#34;问题
+    </h1>
+    <div class="post-description">
+      解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案
+    </div>
+    <div class="post-meta"><span title='2026-04-05 14:30:00 +0800 CST'>2026-04-05</span>&nbsp;·&nbsp;2 分钟&nbsp;·&nbsp;915 字&nbsp;·&nbsp;Qian
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#问题gpt-4-turbo-的懒惰编码">问题：GPT-4 Turbo 的&quot;懒惰编码&quot;</a></li>
+    <li><a href="#方案unified-diff-编辑格式">方案：Unified Diff 编辑格式</a>
+      <ul>
+        <li><a href="#粒度选择高层--外科手术式">粒度选择：高层 &gt; 外科手术式</a></li>
+      </ul>
+    </li>
+    <li><a href="#评估基准">评估基准</a></li>
+    <li><a href="#对比结果">对比结果</a></li>
+    <li><a href="#flexible-patching抗脆弱层">Flexible Patching：抗脆弱层</a></li>
+    <li><a href="#原文">原文</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>解读 Aider 博客 <a href="https://aider.chat/2023/12/21/unified-diffs.html">Unified diffs make GPT-4 Turbo 3X less lazy</a> 的技术方案。</p>
+<h2 id="问题gpt-4-turbo-的懒惰编码">问题：GPT-4 Turbo 的&quot;懒惰编码&quot;<a hidden class="anchor" aria-hidden="true" href="#问题gpt-4-turbo-的懒惰编码">#</a></h2>
+<p>GPT-4 Turbo (gpt-4-1106-preview) 引入了一个严重问题：模型用 <code>... add logic here ...</code> 或 <code>... include original method body ...</code> 等占位符省略代码。</p>
+<p>在传统的 SEARCH/REPLACE 块格式下，GPT-4 Turbo 复杂任务成功率仅 <strong>20%</strong>，其中 13.5% 用懒惰注释替代实际代码。</p>
+<h2 id="方案unified-diff-编辑格式">方案：Unified Diff 编辑格式<a hidden class="anchor" aria-hidden="true" href="#方案unified-diff-编辑格式">#</a></h2>
+<p>从块替换转向修改版的 <strong>Unified Diff</strong> 格式，利用 LLM 在 <code>git diff</code> 输出上的大量预训练，同时针对机器消费优化：</p>
+<ul>
+<li><strong>省略行号</strong>：传统 hunk header（<code>@@ -2,4 +3,5 @@</code>）被去掉。定量分析证实 LLM 无法可靠维护行号的数学计算</li>
+<li><strong>搜索替换语义</strong>：每个 hunk 被当作搜索替换操作——用 <code> </code>（空格）表示上下文，<code>-</code> 表示删除，<code>+</code> 表示添加</li>
+</ul>
+<h3 id="粒度选择高层--外科手术式">粒度选择：高层 &gt; 外科手术式<a hidden class="anchor" aria-hidden="true" href="#粒度选择高层--外科手术式">#</a></h3>
+<pre tabindex="0"><code>外科手术式（不推荐）：
+- n = 5
++ number = 5
+
+高层上下文（推荐）：
+  def factorial(n):
+-    if n == 0:
+-        return 1
+-    return n * factorial(n-1)
++    if number == 0:
++        return 1
++    return number * factorial(number-1)
+</code></pre><p>高层 diff 提供唯一签名防止&quot;碰撞&quot;（小片段误匹配无关代码段），同时避免 LLM 因交错过多旧行和新行而混乱。</p>
+<h2 id="评估基准">评估基准<a hidden class="anchor" aria-hidden="true" href="#评估基准">#</a></h2>
+<p>标准基准如 Exercism（133 题）太简单，无法量化懒惰问题。Aider 构建了自定义基准：</p>
+<ul>
+<li>用 Python <code>ast</code> 模块分析 9 个开源仓库，提取 89 个重构任务</li>
+<li>目标：类中的方法重构为独立函数，方法 100-250+ AST 节点，周围类至少是方法的 2 倍大</li>
+<li>验证：AST 节点数量对齐（无省略）、结构完整性、<code>...</code> 懒惰检测</li>
+</ul>
+<h2 id="对比结果">对比结果<a hidden class="anchor" aria-hidden="true" href="#对比结果">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>GPT-4 Turbo 成功率</th>
+          <th>GPT-4 (June) 成功率</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Unified Diff（无行号）</strong></td>
+          <td><strong>61%</strong></td>
+          <td><strong>59%</strong></td>
+      </tr>
+      <tr>
+          <td>SEARCH/REPLACE（基线）</td>
+          <td>20%</td>
+          <td>26%</td>
+      </tr>
+      <tr>
+          <td>情感诉求</td>
+          <td>&lt; 20%</td>
+          <td>N/A</td>
+      </tr>
+      <tr>
+          <td>结构化 JSON / Tool Calling</td>
+          <td>低</td>
+          <td>N/A</td>
+      </tr>
+      <tr>
+          <td>基于行号的格式</td>
+          <td>低</td>
+          <td>N/A</td>
+      </tr>
+  </tbody>
+</table>
+<p>关键发现：</p>
+<ul>
+<li><strong>模型无关性</strong>：GPT-4 June 版从 26% 提升到 59%（上限 72%，因 28% 文件超出 8k 上下文窗口）</li>
+<li><strong>JSON 转义之痛</strong>：JSON 格式包裹源代码容易导致转义错误</li>
+<li><strong>情感诉求无效</strong>：&ldquo;用户是盲人&quot;&ldquo;我会给 $2000 小费&quot;这类提示全部不如结构化格式改进</li>
+</ul>
+<h2 id="flexible-patching抗脆弱层">Flexible Patching：抗脆弱层<a hidden class="anchor" aria-hidden="true" href="#flexible-patching抗脆弱层">#</a></h2>
+<p>LLM 输出本质上不稳定——常忘记 docstring、遗漏空行、错误缩进、忘记 <code>+</code> 前缀。Aider 的补丁引擎包含多层恢复策略：</p>
+<ol>
+<li><strong>Hunk 归一化</strong>：对 LLM 提议的变更重新 diff，修复内部不一致</li>
+<li><strong>相对前导空白</strong>：即使 LLM 错误偏移缩进也能匹配</li>
+<li><strong>Hunk 分片</strong>：将失败的大 hunk 拆分为小子 hunk 部分应用</li>
+</ol>
+<p><strong>关键数据</strong>：在 Exercism 基准上，禁用 flexible patching 导致编辑错误 <strong>9 倍增长</strong>。</p>
+<h2 id="原文">原文<a hidden class="anchor" aria-hidden="true" href="#原文">#</a></h2>
+<ul>
+<li><a href="https://aider.chat/2023/12/21/unified-diffs.html">Unified diffs make GPT-4 Turbo 3X less lazy</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/code-editing/">Code-Editing</a></li>
+      <li><a href="http://localhost:1313/tags/apply/">Apply</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/huggingface-assisted-generation/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>HuggingFace Assisted Generation：用小模型加速大模型推理</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/cursor-instant-apply/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Cursor Instant Apply：Speculative Edits 实现极速全文件编辑</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>© <a href="https://github.com/QianKuang8">Qian</a> 2024</span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

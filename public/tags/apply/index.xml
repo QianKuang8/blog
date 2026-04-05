@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Apply on Qian&#39;s blog</title>
+    <link>http://localhost:1313/tags/apply/</link>
+    <description>Recent content in Apply on Qian&#39;s blog</description>
+    <image>
+      <title>Qian&#39;s blog</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.139.2</generator>
+    <language>zh</language>
+    <copyright>Qian 2024</copyright>
+    <lastBuildDate>Sun, 05 Apr 2026 14:30:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/apply/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aider：用 Unified Diff 格式解决 LLM 的&#34;懒惰编码&#34;问题</title>
+      <link>http://localhost:1313/posts/aider-unified-diffs/</link>
+      <pubDate>Sun, 05 Apr 2026 14:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/aider-unified-diffs/</guid>
+      <description>解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案</description>
+    </item>
+    <item>
+      <title>Cursor Instant Apply：Speculative Edits 实现极速全文件编辑</title>
+      <link>http://localhost:1313/posts/cursor-instant-apply/</link>
+      <pubDate>Sun, 05 Apr 2026 14:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/cursor-instant-apply/</guid>
+      <description>解读 Cursor Instant Apply 的 Speculative Edits 技术方案</description>
+    </item>
+  </channel>
+</rss>

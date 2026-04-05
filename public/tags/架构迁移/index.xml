@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>架构迁移 on Qian&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E6%9E%B6%E6%9E%84%E8%BF%81%E7%A7%BB/</link>
+    <description>Recent content in 架构迁移 on Qian&#39;s blog</description>
+    <image>
+      <title>Qian&#39;s blog</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.139.2</generator>
+    <language>zh</language>
+    <copyright>Qian 2024</copyright>
+    <lastBuildDate>Sat, 21 Mar 2026 12:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%9E%B6%E6%9E%84%E8%BF%81%E7%A7%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Uber x86 到 ARM 架构迁移实践</title>
+      <link>http://localhost:1313/posts/uber-arm-migration/</link>
+      <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
+      <guid>http://localhost:1313/posts/uber-arm-migration/</guid>
+      <description>记录 Uber 将服务从 x86 架构迁移到 ARM 架构的实践经验，包括从零启动和大规模推广两个阶段</description>
+    </item>
+  </channel>
+</rss>

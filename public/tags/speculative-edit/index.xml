@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Speculative-Edit on Qian&#39;s blog</title>
+    <link>http://localhost:1313/tags/speculative-edit/</link>
+    <description>Recent content in Speculative-Edit on Qian&#39;s blog</description>
+    <image>
+      <title>Qian&#39;s blog</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.139.2</generator>
+    <language>zh</language>
+    <copyright>Qian 2024</copyright>
+    <lastBuildDate>Sun, 05 Apr 2026 15:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/speculative-edit/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HuggingFace Assisted Generation：用小模型加速大模型推理</title>
+      <link>http://localhost:1313/posts/huggingface-assisted-generation/</link>
+      <pubDate>Sun, 05 Apr 2026 15:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/huggingface-assisted-generation/</guid>
+      <description>解读 HuggingFace Assisted Generation 的 Assistant-Target 推理加速方案</description>
+    </item>
+  </channel>
+</rss>

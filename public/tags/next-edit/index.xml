@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Next-Edit on Qian&#39;s blog</title>
+    <link>http://localhost:1313/tags/next-edit/</link>
+    <description>Recent content in Next-Edit on Qian&#39;s blog</description>
+    <image>
+      <title>Qian&#39;s blog</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.139.2</generator>
+    <language>zh</language>
+    <copyright>Qian 2024</copyright>
+    <lastBuildDate>Sun, 05 Apr 2026 11:40:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/next-edit/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Augment Next Edit：基于 RAG 的跨文件编辑传播</title>
+      <link>http://localhost:1313/posts/augment-next-edit/</link>
+      <pubDate>Sun, 05 Apr 2026 11:40:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/augment-next-edit/</guid>
+      <description>解读 Augment Next Edit 基于 RAG 的跨文件编辑传播方案</description>
+    </item>
+    <item>
+      <title>GitHub Copilot Next Edit Suggestions：从快照补全到时序编辑</title>
+      <link>http://localhost:1313/posts/copilot-next-edit-suggestions/</link>
+      <pubDate>Sun, 05 Apr 2026 11:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/copilot-next-edit-suggestions/</guid>
+      <description>解读 GitHub Copilot Next Edit Suggestions 的技术方案</description>
+    </item>
+    <item>
+      <title>Continue Instinct：开源 Next Edit 模型的工程实践</title>
+      <link>http://localhost:1313/posts/continue-instinct/</link>
+      <pubDate>Sun, 05 Apr 2026 11:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/continue-instinct/</guid>
+      <description>解读 Continue Instinct 开源 Next Edit 模型的技术方案</description>
+    </item>
+    <item>
+      <title>Zed Edit Prediction：从代码补全到&#34;编辑预测&#34;</title>
+      <link>http://localhost:1313/posts/zed-edit-prediction/</link>
+      <pubDate>Sun, 05 Apr 2026 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/zed-edit-prediction/</guid>
+      <description>解读 Zed 的 Next Edit Prediction 技术方案——基于 Qwen2.5-Coder-7B 的 Editing by Rewriting 方法</description>
+    </item>
+  </channel>
+</rss>

@@ -9,17 +9,94 @@
       <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
       <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
-    <generator>Hugo -- 0.157.0</generator>
+    <generator>Hugo -- 0.139.2</generator>
     <language>zh</language>
     <copyright>Qian 2024</copyright>
-    <lastBuildDate>Wed, 11 Mar 2026 23:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2026 18:00:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>技术好文记录</title>
-      <link>http://localhost:1313/posts/awesome-technical-article/</link>
+      <title>Building Effective Agents：Agent 系统的架构模式与设计原则</title>
+      <link>http://localhost:1313/posts/building-effective-agents/</link>
+      <pubDate>Sun, 05 Apr 2026 18:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/building-effective-agents/</guid>
+      <description>解读 Anthropic 的 Agent 架构模式与设计原则</description>
+    </item>
+    <item>
+      <title>Code Surgery：AI 编辑代码的五种工程架构</title>
+      <link>http://localhost:1313/posts/code-surgery-edit-tools/</link>
+      <pubDate>Sun, 05 Apr 2026 15:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/code-surgery-edit-tools/</guid>
+      <description>综述 AI 编辑代码的五种工程架构和编辑格式对比</description>
+    </item>
+    <item>
+      <title>HuggingFace Assisted Generation：用小模型加速大模型推理</title>
+      <link>http://localhost:1313/posts/huggingface-assisted-generation/</link>
+      <pubDate>Sun, 05 Apr 2026 15:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/huggingface-assisted-generation/</guid>
+      <description>解读 HuggingFace Assisted Generation 的 Assistant-Target 推理加速方案</description>
+    </item>
+    <item>
+      <title>Aider：用 Unified Diff 格式解决 LLM 的&#34;懒惰编码&#34;问题</title>
+      <link>http://localhost:1313/posts/aider-unified-diffs/</link>
+      <pubDate>Sun, 05 Apr 2026 14:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/aider-unified-diffs/</guid>
+      <description>解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案</description>
+    </item>
+    <item>
+      <title>Cursor Instant Apply：Speculative Edits 实现极速全文件编辑</title>
+      <link>http://localhost:1313/posts/cursor-instant-apply/</link>
+      <pubDate>Sun, 05 Apr 2026 14:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/cursor-instant-apply/</guid>
+      <description>解读 Cursor Instant Apply 的 Speculative Edits 技术方案</description>
+    </item>
+    <item>
+      <title>Augment Next Edit：基于 RAG 的跨文件编辑传播</title>
+      <link>http://localhost:1313/posts/augment-next-edit/</link>
+      <pubDate>Sun, 05 Apr 2026 11:40:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/augment-next-edit/</guid>
+      <description>解读 Augment Next Edit 基于 RAG 的跨文件编辑传播方案</description>
+    </item>
+    <item>
+      <title>GitHub Copilot Next Edit Suggestions：从快照补全到时序编辑</title>
+      <link>http://localhost:1313/posts/copilot-next-edit-suggestions/</link>
+      <pubDate>Sun, 05 Apr 2026 11:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/copilot-next-edit-suggestions/</guid>
+      <description>解读 GitHub Copilot Next Edit Suggestions 的技术方案</description>
+    </item>
+    <item>
+      <title>Continue Instinct：开源 Next Edit 模型的工程实践</title>
+      <link>http://localhost:1313/posts/continue-instinct/</link>
+      <pubDate>Sun, 05 Apr 2026 11:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/continue-instinct/</guid>
+      <description>解读 Continue Instinct 开源 Next Edit 模型的技术方案</description>
+    </item>
+    <item>
+      <title>Zed Edit Prediction：从代码补全到&#34;编辑预测&#34;</title>
+      <link>http://localhost:1313/posts/zed-edit-prediction/</link>
+      <pubDate>Sun, 05 Apr 2026 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/zed-edit-prediction/</guid>
+      <description>解读 Zed 的 Next Edit Prediction 技术方案——基于 Qwen2.5-Coder-7B 的 Editing by Rewriting 方法</description>
+    </item>
+    <item>
+      <title>AI Coding 工具推荐</title>
+      <link>http://localhost:1313/posts/ai-coding-tools/</link>
+      <pubDate>Sat, 21 Mar 2026 23:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/ai-coding-tools/</guid>
+      <description>记录一些好用的 AI Coding 相关工具</description>
+    </item>
+    <item>
+      <title>好用的Skills</title>
+      <link>http://localhost:1313/posts/useful-skills/</link>
+      <pubDate>Thu, 12 Mar 2026 23:30:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/useful-skills/</guid>
+      <description>记录一些好用的Skills</description>
+    </item>
+    <item>
+      <title>Uber x86 到 ARM 架构迁移实践</title>
+      <link>http://localhost:1313/posts/uber-arm-migration/</link>
       <pubDate>Sun, 13 Apr 2025 13:58:21 +0800</pubDate>
-      <guid>http://localhost:1313/posts/awesome-technical-article/</guid>
-      <description>一些技术好文的记录</description>
+      <guid>http://localhost:1313/posts/uber-arm-migration/</guid>
+      <description>记录 Uber 将服务从 x86 架构迁移到 ARM 架构的实践经验，包括从零启动和大规模推广两个阶段</description>
     </item>
     <item>
       <title>初始化Mac系统</title>
