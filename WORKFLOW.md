@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-04-06
+> 生成时间：2026-03-20，更新：2026-04-07
 
 ## 核心目标
 
@@ -16,8 +16,9 @@
 | **技术栈** | Hugo + PaperMod 主题 | 博文位于 `content/posts/` |
 | **内容组织** | 单篇文章 + Hugo tags | Hugo 自动生成 `/tags/xxx/` 合集页面 |
 | **inbox.md 定位** | 待发布队列 | 处理完后移除，目标是清空 |
+| **原文归档** | `orig.md` 为必选项 | 默认用 defuddle 生成，拿不到则暂停发布 |
 | **摘要用途** | 自己看 + 读者看 | 对特别有意思的文章单开深度解读 |
-| **摘要生成** | 看情况，倾向自动化 | 尝试 nlm CLI，网络受限则手动 |
+| **摘要生成** | `nlm` 报告 + `orig.md` 双材料 | 优先 `nlm --url`，失败时回退 `--file orig.md` |
 | **撰写内容** | 整理摘要 + 个人思考 | A/B 灵活处理，不做关联分析 |
 | **发布节奏** | 分批处理 | 每 5-10 篇处理一次 |
 | **多 tag 处理** | Hugo 多 tag 机制 | frontmatter 里写多个 tags |
@@ -55,7 +56,7 @@ blog/
 ├── inbox.md              # 待处理文章队列（标题 + 链接 + 分类）
 ├── sources/              # 所有原材料（不发布，仅 git 管理）
 │   ├── xxx.nlm.md        # nlm 生成的摘要报告
-│   ├── xxx.orig.md       # 原文存档（md 格式）
+│   ├── xxx.orig.md       # defuddle 生成的原文存档（必选）
 │   ├── xxx.orig.html     # 原文存档（html 格式）
 │   └── failed-sources.md # 失败记录
 ├── content/posts/        # 已发布博文
@@ -76,11 +77,12 @@ blog/
    看到好文章 → 记录到 inbox.md（标题 + 链接）
 
 2. 批量处理（按主题分批）
-   ├─ 2a. 生成摘要（nlm CLI）
-   ├─ 2b. 下载摘要到 sources/<slug>.nlm.md
-   ├─ 2c. 可选：存原文到 sources/<slug>.orig.<ext>
-   ├─ 2d. 确认 tags
-   └─ 2e. 撰写博客文章（中文整理摘要 + 个人思考）
+   ├─ 2a. 生成并保存 sources/<slug>.orig.md（defuddle，必选）
+   ├─ 2b. 创建 nlm source（优先 --url，失败时回退 --file orig.md）
+   ├─ 2c. 生成摘要（nlm CLI）
+   ├─ 2d. 下载摘要到 sources/<slug>.nlm.md
+   ├─ 2e. 确认 tags
+   └─ 2f. 撰写博客文章（结合 orig.md + nlm report）
 
 3. 发布
    ├─ 创建 content/posts/<slug>.md
@@ -95,47 +97,54 @@ blog/
 ### 单篇文章处理流程（nlm CLI）
 
 ```bash
-# 1. 创建 notebook（以文章标题命名）
+# 1. 先生成原文归档（必选）
+defuddle parse "https://..." --md -o sources/<slug>.orig.md
+# 如果这一步失败，记录到 sources/failed-sources.md，并暂停这篇文章
+
+# 2. 创建 notebook（以文章标题命名）
 nlm notebook create "文章标题"
 # 记下返回的 notebook ID
 
-# 2. 添加源文章 URL
+# 3. 优先添加源文章 URL
 nlm source add <notebook-id> --url "https://..."
 
-# 3. 生成摘要报告
+# 4. 如果 URL 读取失败，回退为上传 orig.md
+nlm source add <notebook-id> --file sources/<slug>.orig.md
+
+# 5. 生成摘要报告
 nlm report create <notebook-id> \
   --format "Create Your Own" \
   --prompt "请用中文生成这篇博客的技术摘要，重点包括：1) 核心问题定义 2) 技术方案和架构 3) 训练数据和方法 4) 与同类方案的差异 5) 关键设计决策和 trade-off。保持技术深度，适合有 AI 工程背景的读者。" \
   --confirm
 
-# 4. 查看生成状态（等待 status 变为 completed）
+# 6. 查看生成状态（等待 status 变为 completed）
 nlm studio status <notebook-id>
 
-# 5. 下载摘要
+# 7. 下载摘要
 nlm download report <notebook-id> --output sources/<slug>.nlm.md
 
-# 6. 可选：存原文
-#    手动下载或使用工具保存到 sources/<slug>.orig.md
-
-# 7. 基于摘要撰写中文博客文章（手动/Claude 协助）
+# 8. 基于双材料撰写中文博客文章（手动/Claude 协助）
 #    - 创建 content/posts/<slug>.md
 #    - 按博客文章格式填写 frontmatter
+#    - 结合 sources/<slug>.orig.md 和 sources/<slug>.nlm.md
 #    - 中文整理摘要内容 + 个人思考 + 原文链接
 
-# 8. 预览
+# 9. 预览
 hugo server -D
 
-# 9. 确认 OK 后，从 inbox.md 移除对应条目
+# 10. 确认 OK 后，从 inbox.md 移除对应条目
 
-# 10. 清理 nlm notebook
+# 11. 清理 nlm notebook
 nlm notebook delete <notebook-id> --confirm
 
-# 11. 提交
+# 12. 提交
 git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 ```
 
 **注意事项：**
 - nlm 生成的报告可能是英文，不影响——作为原材料使用，最终博客文章写中文
+- `sources/<slug>.orig.md` 是硬前置，拿不到就不要继续发布
+- `defuddle` 更适合标准文章页；对知乎、X、微信、视频页、重 JS 页面不要假设一定成功
 - nlm session 约 20 分钟过期，长时间操作前先 `nlm login --check`
 - sources/ 目录存放所有中间文件，纳入 git 管理
 
@@ -144,29 +153,34 @@ git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 按主题分批处理多篇文章时，按以下顺序操作：
 
 ```
-步骤 1：批量创建 notebook + 添加 source
-  → 对每篇文章创建 notebook，添加 URL source
-  → 成功的继续，失败的记录到 sources/failed-sources.md
+步骤 1：批量生成 orig.md（必选）
+  → 对每篇文章执行 defuddle，保存到 sources/<slug>.orig.md
+  → 成功的继续，失败的记录到 sources/failed-sources.md，并暂停该文章
 
-步骤 2：成功的文章直接走完整流程（不停顿）
-  → 生成摘要 → 下载到 sources/ → 撰写博客文章 → 清理
+步骤 2：对已有 orig.md 的文章创建 notebook + 添加 source
+  → 先尝试 nlm source add <nb-id> --url "..."
+  → 如果 URL 失败，再回退为 nlm source add <nb-id> --file sources/<slug>.orig.md
 
-步骤 3：批次结束后，汇报失败项给用户
+步骤 3：成功的文章直接走完整流程（不停顿）
+  → 生成摘要 → 下载到 sources/ → 结合 orig.md 撰写博客文章 → 清理
+
+步骤 4：批次结束后，汇报失败项给用户
   → 展示 sources/failed-sources.md 中的记录
   → 等待用户手动解决
 
-步骤 4：用户回来后补充失败项的 source
+步骤 5：用户回来后先补齐 orig.md，再继续后续流程
   → 用户可能提供：替代 URL、复制粘贴的文本、本地文件
-  → 根据情况使用：
+  → 目标是先生成或补齐 sources/<slug>.orig.md
+  → orig.md 准备好后，再根据情况使用：
     - nlm source add <nb-id> --url "新URL"
-    - nlm source add <nb-id> --text "内容" --title "标题"
-    - nlm source add <nb-id> --file /path/to/file
+    - nlm source add <nb-id> --file sources/<slug>.orig.md
 ```
 
 **原则：**
 - 不要因个别失败暂停整个批次，成功的继续走
-- 不要自动尝试 web_fetcher / webReader 等替代方案
-- 信息源问题由用户手动解决
+- 不要自动尝试 defuddle 之外的其他抓取替代方案
+- 没有 `orig.md` 就不要继续发布
+- 信息源问题由用户手动解决，直到能生成 `orig.md`
 - 失败项统一记录在 `sources/failed-sources.md`，格式如下：
 
 ```markdown
