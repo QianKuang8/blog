@@ -1,10 +1,11 @@
 ---
 date: '2026-04-06T11:00:00+08:00'
-lastmod: '2026-04-06T11:00:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Agent 元年复盘：从 Claude Code 到 Deep Agent，架构之争已经结束'
 summary: "解读周星星的 Agent 元年总结：Deep Agent 的两个特征（够垂+Long-Running）、Agent Skills 的渐进式披露设计、LangGraph 四大支柱（Planning/Sub-Agent/FileSystem/SystemPrompt）、架构收敛至主从模式，以及从 Workflow 升级为 Agent 的实践路径。"
 description: "2025 Agent元年复盘与架构收敛分析"
 tags: ["agent"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

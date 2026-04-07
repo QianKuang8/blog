@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T18:00:00+08:00'
-lastmod: '2026-04-05T18:00:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Building Effective Agents：Agent 系统的架构模式与设计原则'
 summary: "解读 Anthropic 经典文章，梳理 Workflow 和 Agent 两大架构范式下的 7 种可组合模式：Prompt Chaining、Routing、Parallelization、Orchestrator-Workers、Evaluator-Optimizer、Autonomous Agent，以及 ACI 设计原则。"
 description: "解读 Anthropic 的 Agent 架构模式与设计原则"
 tags: ["agent"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

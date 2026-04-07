@@ -1,10 +1,11 @@
 ---
 date: '2026-04-06T10:00:00+08:00'
-lastmod: '2026-04-06T10:00:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: '2025 年 AI 产品及架构演进：从 Copilot 到 Autonomous Agent'
 summary: "解读 2025 年 AI 产品架构深度研究报告：ReAct 的结构性失败、System 2 架构与 Test-Time Compute、多 Agent 系统与动态层级聚类、时序知识图谱、以及从聊天室到事件驱动编排的范式转换。"
 description: "2025年AI产品架构演进趋势分析"
 tags: ["agent", "行业动向"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
