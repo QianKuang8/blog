@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T11:30:00+08:00'
-lastmod: '2026-04-05T11:30:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'GitHub Copilot Next Edit Suggestions：从快照补全到时序编辑'
 summary: "解读 GitHub Copilot NES 的技术方案——从静态快照模型转向基于编辑历史的时序 diff 模型，实现跨位置、跨文件的意图传播。"
 description: "解读 GitHub Copilot Next Edit Suggestions 的技术方案"
 tags: ["code-editing", "next-edit"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

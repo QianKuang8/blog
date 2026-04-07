@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T10:00:00+08:00'
-lastmod: '2026-04-05T10:00:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Zed Edit Prediction：从代码补全到"编辑预测"'
 summary: "解读 Zed 的 Next Edit Prediction 技术方案——基于 Qwen2.5-Coder-7B 的 Editing by Rewriting 方法，以及训练、评估和延迟优化的工程实践。"
 description: "解读 Zed 的 Next Edit Prediction 技术方案——基于 Qwen2.5-Coder-7B 的 Editing by Rewriting 方法"
 tags: ["code-editing", "next-edit"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

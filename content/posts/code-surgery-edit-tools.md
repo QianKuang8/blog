@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T15:30:00+08:00'
-lastmod: '2026-04-05T15:30:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Code Surgery：AI 编辑代码的五种工程架构'
 summary: "综述 Codex、Aider、OpenHands、RooCode、Cursor 五个工具的代码编辑架构，对比 Patch、Diff、Search/Replace、Line Operations、AI-Assisted Apply 五种编辑格式。"
 description: "综述 AI 编辑代码的五种工程架构和编辑格式对比"
 tags: ["code-editing"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T11:00:00+08:00'
-lastmod: '2026-04-05T11:00:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Continue Instinct：开源 Next Edit 模型的工程实践'
 summary: "解读 Continue 的开源 Next Edit 模型 Instinct——基于 Qwen2.5-Coder-7B，采用 SeleKT 稀疏更新训练，在 LLM Judge 评测中超越 Zeta。"
 description: "解读 Continue Instinct 开源 Next Edit 模型的技术方案"
 tags: ["code-editing", "next-edit"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

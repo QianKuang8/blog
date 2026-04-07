@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T11:40:00+08:00'
-lastmod: '2026-04-05T11:40:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Augment Next Edit：基于 RAG 的跨文件编辑传播'
 summary: "解读 Augment Next Edit 的三支柱架构——意图推断(What)、定位(Where)、执行(How)，通过 RAG + 专用定位模型实现 workspace 级别的代码涟漪效应自动化。"
 description: "解读 Augment Next Edit 基于 RAG 的跨文件编辑传播方案"
 tags: ["code-editing", "next-edit"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

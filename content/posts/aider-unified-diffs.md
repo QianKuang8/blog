@@ -1,10 +1,11 @@
 ---
 date: '2026-04-05T14:30:00+08:00'
-lastmod: '2026-04-05T14:30:00+08:00'
+lastmod: '2026-04-07T22:43:56+08:00'
 title: 'Aider：用 Unified Diff 格式解决 LLM 的"懒惰编码"问题'
 summary: "解读 Aider 如何通过 Unified Diff 编辑格式将 GPT-4 Turbo 的编辑成功率从 20% 提升到 61%，懒惰输出减少 3 倍。"
 description: "解读 Aider Unified Diff 编辑格式解决 LLM 懒惰编码的技术方案"
 tags: ["code-editing", "apply"]
+origStatus: "missing"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
