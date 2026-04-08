@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-04-07
+> 生成时间：2026-03-20，更新：2026-04-08
 
 ## 核心目标
 
@@ -71,6 +71,33 @@ blog/
 - slug 与最终博文 slug 保持一致，便于查找对应关系
 - 功能性文件集中在 `sources/failed/`（如 `sources/failed/failed-sources.md`）
 
+## 原文归档格式
+
+`sources/orig/<slug>.md` 默认使用单文件格式：
+
+1. 文件头部使用 YAML frontmatter 保存元信息
+2. 文件正文保存 `defuddle` 提取和清洗后的 markdown 内容
+
+推荐字段如下：
+
+```yaml
+---
+title: "原文标题"
+source_url: "https://..."
+domain: "example.com"
+description: "原文描述"
+retrieved_at: "2026-04-08T21:01:02+08:00"
+extractor: "defuddle"
+---
+```
+
+说明：
+- `source_url` 是原文唯一来源
+- `domain` 优先从提取工具元信息获取；如果为空，可从 URL 主域名补齐
+- `retrieved_at` 必须带时区
+- frontmatter 之后直接接正文，不额外插入“Metadata”标题
+- 归档文件不用于 Hugo 发布，仅用于原文留存、阅读和下游摘要流程
+
 ---
 
 ## 工作流
@@ -101,7 +128,9 @@ blog/
 
 ```bash
 # 1. 先生成原文归档（必选）
+#    1a. 用 defuddle 抓取正文 markdown
 defuddle parse "https://..." --md -o sources/orig/<slug>.md
+#    1b. 补齐 frontmatter：title/source_url/domain/description/retrieved_at/extractor
 # 如果这一步失败，记录到 sources/failed/failed-sources.md，并暂停这篇文章
 
 # 2. 创建 notebook（以文章标题命名）
@@ -147,6 +176,7 @@ git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 **注意事项：**
 - nlm 生成的报告可能是英文，不影响——作为原材料使用，最终博客文章写中文
 - `sources/orig/<slug>.md` 是硬前置，拿不到就不要继续发布
+- `sources/orig/<slug>.md` 应包含 frontmatter metadata + 正文，避免归档文件失去来源信息
 - `defuddle` 更适合标准文章页；对知乎、X、微信、视频页、重 JS 页面不要假设一定成功
 - nlm session 约 20 分钟过期，长时间操作前先 `nlm login --check`
 - sources/ 目录存放所有中间文件，纳入 git 管理
