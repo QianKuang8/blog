@@ -1,5 +1,13 @@
 ## 失败记录
 
+### [2026-04-09] Agentic Coding / Agent Engineering 批次
+
+| URL | 失败原因 | Notebook ID | 状态 |
+|-----|---------|-------------|------|
+| https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ | defuddle 拉取失败（403） | - | ⏸️ 暂停，等待用户提供替代来源或本地补档 |
+| https://openai.com/index/harness-engineering/ | defuddle 拉取失败（403） | - | ⏸️ 暂停，等待用户提供替代来源或本地补档 |
+| https://blog.langchain.com/improving-deep-agents-with-harness-engineering/ | defuddle 抓取结果为站点错误页，未取得正文 | - | ⏸️ 暂停，等待后续重试 |
+
 ### [2026-04-09] Orig 补档批次
 
 | URL | 失败原因 | Notebook ID | 状态 |

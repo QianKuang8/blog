@@ -89,24 +89,6 @@ https://x.com/RLanceMartin/status/2024573404888911886
 Effective Agent Design
 https://x.com/RLanceMartin/status/2009683038272401719
 
-We've completely rebuilt the Kilo Code extension for VS Code. Join the beta test.
-https://blog.kilo.ai/p/we-completely-rebuilt-the-kilo-vs-code-extension
-
-How we compare model quality in Cursor
-https://cursor.com/en-US/blog/cursorbench
-
-Every CLI coding agent, compared
-https://michaellivs.com/blog/cli-coding-agents-compared
-
-The 8 Levels of Agentic Engineering
-https://www.bassimeledath.com/blog/levels-of-agentic-engineering
-https://baoyu.io/translations/2026-03-11/levels-of-agentic-engineering
-
-
-How to Kill the Code Review
-https://www.latent.space/p/reviews-dead
-
-
 5 Agent Skills I Use Every Day
 https://www.aihero.dev/5-agent-skills-i-use-every-day
 
