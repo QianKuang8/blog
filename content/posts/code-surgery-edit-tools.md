@@ -1,10 +1,10 @@
 ---
 date: '2026-04-05T15:30:00+08:00'
-lastmod: '2026-04-09T20:34:12+08:00'
+lastmod: '2026-04-09T21:15:39+08:00'
 title: 'Code Surgery：AI 编辑代码的五种工程架构'
 summary: "解读 Fabian Hertwig 的 Code Surgery：这篇文章最重要的地方，不是盘点了几个工具，而是把 AI 编辑代码真正难的那一步说清楚了：模型理解代码并不等于它能可靠地把修改交接给文件系统。"
 description: "从 Code Surgery 看 AI 代码编辑系统如何完成从模型到文件系统的交接"
-tags: ["code-editing"]
+tags: ["code-editing", "apply"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
