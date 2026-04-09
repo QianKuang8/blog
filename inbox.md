@@ -44,14 +44,6 @@ https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/
 Context Engineering
 为什么我们需要 Context Engineering？ - 周星星的文章 - 知乎
 https://zhuanlan.zhihu.com/p/1953085369328337945
-The rise of "context engineering"
-https://blog.langchain.com/the-rise-of-context-engineering/
-Context Engineering for Agents
-https://rlancemartin.github.io/2025/06/23/context_engineering/
-How agents can use filesystems for context engineering
-https://blog.langchain.com/how-agents-can-use-filesystems-for-context-engineering/
-动态上下文发现 Dynamic context discovery
-https://cursor.com/cn/blog/dynamic-context-discovery
 Prompt Engineering
 Best practices for prompt engineering
 https://claude.com/blog/best-practices-for-prompt-engineering
