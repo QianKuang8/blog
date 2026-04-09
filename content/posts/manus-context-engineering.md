@@ -1,11 +1,11 @@
 ---
 date: '2026-04-06T10:20:00+08:00'
-lastmod: '2026-04-07T22:43:56+08:00'
+lastmod: '2026-04-09T20:11:36+08:00'
 title: '构建 Manus 的经验教训：上下文工程的工程实践'
 summary: "解读 Manus 团队从微调到上下文工程的转型：KV-Cache 优化清单、Logit Masking 工具管理、文件系统作为外部记忆、以及注意力操控的三大模式（目标复述、负面证据保留、模式多样性）。"
 description: "Manus 上下文工程实践：从 KV-Cache 到外部记忆架构"
 tags: ["agent", "context-engineering"]
-origStatus: "missing"
+origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

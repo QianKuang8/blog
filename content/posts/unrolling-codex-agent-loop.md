@@ -1,11 +1,11 @@
 ---
 date: '2026-04-06T10:30:00+08:00'
-lastmod: '2026-04-07T22:43:56+08:00'
+lastmod: '2026-04-09T20:11:36+08:00'
 title: '深入解析 Codex 智能体循环'
 summary: "解读 OpenAI Codex Agent Loop 的技术架构：推理-执行迭代机制、Responses API 集成、Prompt 构造与角色层级、无状态架构与 ZDR、以及 Prompt Caching 和上下文压缩策略。"
 description: "Codex Agent Loop 技术架构深度解析"
 tags: ["agent"]
-origStatus: "missing"
+origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

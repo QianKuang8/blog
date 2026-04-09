@@ -1,11 +1,11 @@
 ---
 date: '2026-04-06T10:40:00+08:00'
-lastmod: '2026-04-07T22:43:56+08:00'
+lastmod: '2026-04-09T20:11:36+08:00'
 title: 'Introduction to Agentic Coding：从代码补全到自主编排'
 summary: "解读 Anthropic 文章：AI 辅助编程的三阶段演进（自动补全→对话→Agent）、Agentic Coding 四阶段工作流（上下文收集→自适应规划→实现循环→验证）、Claude Code 的终端优先设计，以及乐天 7 小时无人值守 79% 提效案例。"
 description: "Agentic Coding 的演进历程与架构设计"
 tags: ["agent", "agentic-coding"]
-origStatus: "missing"
+origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

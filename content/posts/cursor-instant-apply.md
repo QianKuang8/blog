@@ -1,11 +1,11 @@
 ---
 date: '2026-04-05T14:00:00+08:00'
-lastmod: '2026-04-07T22:43:56+08:00'
+lastmod: '2026-04-09T20:11:36+08:00'
 title: 'Cursor Instant Apply：Speculative Edits 实现极速全文件编辑'
 summary: "解读 Cursor 的 Speculative Edits 方案——无需 draft model，利用代码编辑的强先验实现 1000 tokens/s 的全文件重写，9 倍加速。"
 description: "解读 Cursor Instant Apply 的 Speculative Edits 技术方案"
 tags: ["code-editing", "apply"]
-origStatus: "missing"
+origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

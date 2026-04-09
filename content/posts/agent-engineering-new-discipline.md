@@ -1,11 +1,11 @@
 ---
 date: '2026-04-06T10:10:00+08:00'
-lastmod: '2026-04-07T22:43:56+08:00'
+lastmod: '2026-04-09T20:11:36+08:00'
 title: 'Agent Engineering：一门新学科的诞生'
 summary: "解读 LangChain 文章：为什么传统软件工程无法驯服非确定性 Agent 系统，Agent Engineering 作为融合产品思维、工程能力和数据科学的多学科方法，以及 Ship-to-Learn 迭代策略。"
 description: "Agent Engineering 作为新学科的框架与方法论"
 tags: ["agent"]
-origStatus: "missing"
+origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
