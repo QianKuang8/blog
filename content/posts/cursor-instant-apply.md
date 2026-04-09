@@ -1,10 +1,10 @@
 ---
 date: '2026-04-05T14:00:00+08:00'
-lastmod: '2026-04-09T20:34:12+08:00'
+lastmod: '2026-04-09T21:15:39+08:00'
 title: 'Cursor Instant Apply：Speculative Edits 实现极速全文件编辑'
 summary: "解读 Cursor 的 Instant Apply：这篇文章真正重要的地方，不只是“快”，而是它把代码编辑明确拆成 planning 和 applying 两个阶段，并证明全文件重写在合适的推理和运行时优化下，反而可能比 diff 更稳。"
 description: "从 Cursor Instant Apply 看全文件重写为何能成为高性能编辑方案"
-tags: ["code-editing", "apply"]
+tags: ["code-editing", "apply", "speculative-edit"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

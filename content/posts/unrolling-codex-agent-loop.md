@@ -1,10 +1,10 @@
 ---
 date: '2026-04-06T10:30:00+08:00'
-lastmod: '2026-04-09T20:21:36+08:00'
+lastmod: '2026-04-09T21:15:39+08:00'
 title: '深入解析 Codex 智能体循环'
 summary: "解读 OpenAI《深入解析 Codex 智能体循环》：这篇文章真正揭示的不是某个 prompt 技巧，而是一个生产级 coding agent 必须如何组织推理、工具执行、状态管理和上下文缓存。"
 description: "从 Codex Agent Loop 看生产级 coding agent 的运行时设计"
-tags: ["agent"]
+tags: ["agent", "agentic-coding"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
