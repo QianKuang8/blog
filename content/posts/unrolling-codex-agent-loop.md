@@ -1,9 +1,9 @@
 ---
 date: '2026-04-06T10:30:00+08:00'
-lastmod: '2026-04-09T20:11:36+08:00'
+lastmod: '2026-04-09T20:21:36+08:00'
 title: '深入解析 Codex 智能体循环'
-summary: "解读 OpenAI Codex Agent Loop 的技术架构：推理-执行迭代机制、Responses API 集成、Prompt 构造与角色层级、无状态架构与 ZDR、以及 Prompt Caching 和上下文压缩策略。"
-description: "Codex Agent Loop 技术架构深度解析"
+summary: "解读 OpenAI《深入解析 Codex 智能体循环》：这篇文章真正揭示的不是某个 prompt 技巧，而是一个生产级 coding agent 必须如何组织推理、工具执行、状态管理和上下文缓存。"
+description: "从 Codex Agent Loop 看生产级 coding agent 的运行时设计"
 tags: ["agent"]
 origStatus: "available"
 author: "Qian"
@@ -11,92 +11,66 @@ isCJKLanguage: true
 showToc: true
 ---
 
-解读 OpenAI 官方博客 [深入解析 Codex 智能体循环](https://openai.com/zh-Hans-CN/index/unrolling-the-codex-agent-loop/)。
+OpenAI 这篇 [深入解析 Codex 智能体循环](https://openai.com/zh-Hans-CN/index/unrolling-the-codex-agent-loop/) 最值得读的地方，在于它把 coding agent 从“一个会写代码的大模型”重新还原成了一个系统工程问题。很多人讨论 Agent 时，注意力会自然集中在模型能力、prompt 设计或者工具数量上，但这篇文章真正展示的是另一层：一个生产级 Agent 到底要靠什么运行起来。
 
-## Agent Loop：软件 Agent 的核心编排逻辑
+如果把全文压缩成一句话，我会说它解释了这样一个事实：**真正的产品边界不是模型本身，而是 agent loop**。模型只负责局部推理；真正把用户请求、工具调用、状态更新、缓存利用和终止条件串成一个可运行系统的，是那条循环。
 
-Agent Loop 是 Codex 框架的核心编排逻辑，协调用户、LLM 和工具集之间的交互。关键概念：
+## Agent Loop 才是 coding agent 的产品本体
 
-- **交互轮次**：从用户输入到最终响应的完整旅程，通常包含多次内部迭代
-- **推理 vs 执行**：模型推理（消费 prompt 生成 token）与工具执行（shell 命令等）交替进行
-- **主要输出**：不是聊天消息，而是对**本地文件系统或环境的直接修改**
+文章开头先把 Agent Loop 定义成用户、模型和工具之间的核心编排逻辑。我觉得这个定义非常重要，因为它纠正了一个常见错觉：很多人以为软件 Agent 的“核心能力”就是生成代码，但从系统视角看，代码生成只是循环中的一个环节。
 
-## 推理-执行迭代机制
+真正困难的地方在于，Agent 必须不断在两种状态之间切换：
 
-通过 SSE (Server-Sent Events) 处理流式数据和工具生命周期：
+- **推理**：根据当前上下文判断下一步该做什么
+- **执行**：真的去运行命令、读取文件、调用工具，并把结果带回来
 
-1. **输入与 Token 化**：用户输入和环境上下文聚合并转换为 token
-2. **推理与 SSE 处理**：模型生成响应流，Codex 处理特定 SSE 事件：
-   - `response.output_text.delta`：实时 UI 流式展示
-   - `response.output_item.added`：转换为内部对象追加到下次输入
-   - `response.output_item.done`：标记推理或工具调用项完成
-3. **迭代子循环**：如果生成 `function_call`，执行工具 → 将输出追加到输入列表 → 重新推理
-4. **终止**：模型返回不含工具请求的 assistant message 时循环结束
+这意味着 software agent 的主要输出也不只是最后那句 assistant message，而是它在本地环境里造成的真实变化。助手消息更像一个终止信号，表示当前轮次的任务已经走到某个可交还控制权的状态。
 
-## Responses API：可配置的后端抽象
+从这个角度看，Agent Loop 才是产品本体，模型只是循环里的推理引擎。这个视角一旦建立，很多设计选择就会变得更容易理解。
 
-Codex 可通过 `~/.codex/config.toml` 中的 `responses_api_endpoint` 指向不同后端：
+## 推理和执行如何真正连起来
 
-| 端点类型 | URL |
-|---------|-----|
-| ChatGPT 后端 | `chatgpt.com/backend-api/codex/responses` |
-| OpenAI API | `api.openai.com/v1/responses` |
-| 本地/OSS (gpt-oss) | `localhost:11434/v1/responses`（支持 Ollama/LM Studio） |
-| 云厂商 | Azure 托管的 Responses API |
+文章对 Codex 的推理-执行循环拆得很细，这一点很有价值。整个机制并不神秘，本质上是一个严格的迭代子循环：
 
-请求 payload 三个参数：
-- `instructions`：核心行为定义（未指定则用模型特定文件如 `gpt-5.2-codex_prompt.md`）
-- `tools`：包含内部工具、API 工具和 MCP 工具的函数列表
-- `input`：包含 `type`、`role`、`content` 的对话历史
+1. 用户输入、项目文档和环境信息被组织成 `input`
+2. Responses API 进行一次模型推理
+3. 如果输出里有 `function_call`，Agent 就暂停文本生成，去执行工具
+4. 工具结果以结构化形式追加回输入历史
+5. 带着更新后的上下文重新推理，直到模型产出最终助手消息
 
-## Prompt 构造与角色层级
+这套机制听起来简单，但它解释了为什么 coding agent 的难点不在单次回答，而在**多轮状态传递是否稳定**。一旦工具输出没有被正确纳入上下文，或者循环中某个中间对象的语义丢失，系统就不是“回答差一点”，而是会直接走偏。
 
-角色权重由层级决定，控制权分布是关键设计：
+这也是我读这篇文章时最强的感受：真正的 Agent 不是“会调用工具的聊天机器人”，而是一个对中间态极其敏感的 runtime。你要让它稳定运行，靠的不是灵感，而是纪律。
 
-| 角色 | 优先级 | 控制方 |
-|------|--------|--------|
-| `system` | 最高 | 服务端（核心安全和对齐） |
-| `developer` | 高 | 客户端（沙盒权限和工程约束） |
-| `user` | 标准 | 具体任务请求和环境数据 |
-| `assistant` | 信息性 | 历史推理和工具结果 |
+## 为什么无状态、Append-Only 和 Prompt Caching 必须一起看
 
-### 初始化序列（构建静态缓存前缀）
+我觉得这篇文章最有技术含量的部分，不是 SSE 或 role hierarchy，而是它把三个常常被分开讨论的话题放进了同一个系统逻辑里：**无状态架构、Append-Only 历史更新、Prompt Caching**。
 
-1. **沙盒权限**（`role=developer`）：定义 shell 工具限制（仅适用于 Codex 工具，MCP 工具需自行实现安全）
-2. **开发者指令**（`role=developer`）：来自本地 `config.toml`
-3. **项目上下文**（`role=user`）：来自 `AGENTS.md`，有 32 KiB 限制，从 CWD 向上扫描到 Git root
-4. **环境上下文**（`role=user`）：声明 CWD 和活跃 Shell 类型
+OpenAI 刻意不依赖 `previous_response_id`，意味着每次请求都要重新携带完整历史。乍看之下，这像是在制造额外网络开销，但背后的理由是它要维持一个无状态架构，以满足 Zero Data Retention 等合规需求。问题是，一旦每次都传完整历史，成本就会上升，于是系统又必须极度依赖提示缓存。
 
-## 无状态架构与 Zero Data Retention
+而要让缓存真正命中，旧提示就必须成为新提示的精确前缀。这时 Append-Only 策略就不再只是“实现细节”，而是整个体系成立的前提：环境变化不能回写旧消息，而只能往后追加；工具枚举必须稳定排序；静态指令必须尽量放在前部，才能形成可复用的缓存前缀。
 
-Codex 刻意避免使用 `previous_response_id`：
+也就是说，这三件事根本不是独立优化项，而是同一套 runtime 设计的三个侧面。少看任何一个，都很容易把整篇文章读浅。
 
-- **代价**：每次请求传输完整对话历史，JSON payload "二次增长"
-- **理由**：确保**无状态架构**，对 ZDR 合规至关重要——服务器可能持有解密密钥，但不存储对话数据
-- **可接受性**：网络开销远低于模型采样成本
+## 上下文管理不是附属能力，而是 Agent 的主战场
 
-## Prompt Caching 与 Append-Only 策略
+随着一轮对话里可能发生几十次甚至上百次工具调用，上下文窗口迟早会撞到边界。文章对 compaction 的描述很关键，因为它提醒我们：上下文管理不是一个“快满了再处理”的边缘问题，而是 Agent 从设计之初就必须面对的主战场。
 
-为维持线性采样复杂度，依赖**精确前缀匹配**缓存：
+Codex 的做法很工程化：
 
-- **缓存未命中的陷阱**：动态工具枚举（MCP server 排序变化）、对话中换模型、环境配置变更
-- **Append-Only**：配置变更（如目录切换）时，不修改原始环境消息，而是在 input 末尾**追加**新消息，保留所有前序 token 的缓存前缀
+- 手动可以通过 `/compact` 生成摘要替代历史
+- 自动则在达到阈值后调用专门的压缩端点
+- 压缩后的结果不是简单文本摘要，而是带有 `encrypted_content` 的结构化对象
 
-## 上下文压缩（Compaction）
+这背后体现出的思路是，Agent 不只是需要“记住更多”，而是需要**以一种对系统可控、对模型可消费、对合规可接受的方式记住更多**。这和普通聊天产品的上下文处理不是一个量级的问题。对 coding agent 来说，历史既是理解能力的来源，也是成本、延迟和缓存命中率的压力源。
 
-防止超出 token 限制：
+## 我的看法：好的 coding agent，首先是一个严格的运行时系统
 
-- **手动**：`/compact` 命令生成摘要替代历史
-- **自动**：达到 `auto_compact_limit` 后调用 `/responses/compact` 端点
-- **技术细节**：返回 `type=compaction` 项和 opaque `encrypted_content`，模型以压缩无状态格式保留"理解"，同时释放上下文窗口
+我觉得这篇文章最有启发的一点，是它让 coding agent 的讨论落回到了软件工程语言，而不是继续停留在“模型好不好用”的层面。文章通篇没有试图把 Codex 包装成某种神秘智能，而是在不断强调：角色层级、输入构造、工具 schema、缓存前缀、上下文压缩、权限边界，这些才是系统最终是否可靠的关键。
 
-## 工程实践要点
+这其实给了一个很清晰的判断标准：一个成熟的 coding agent，不该只看它能不能在 demo 里把代码写出来，而要看它的 loop 是否可复现、状态是否可管理、缓存策略是否稳定、安全边界是否清楚。换句话说，**好的 coding agent，首先是一个严格的运行时系统，其次才是一个会写代码的模型产品**。
 
-- **确定性工具枚举**：MCP 工具列表必须保持一致排序
-- **静态指令优先**：核心指令和项目文档放在 payload 开头
-- **客户端侧 MCP 安全**：不假设 Codex 沙盒覆盖第三方 MCP 工具
-- **Append-Only 状态更新**：环境变量或 CWD 变更时追加而非编辑历史
-- **关注压缩阈值**：关键项目指令放在 `instructions` 或早期 `input` 项中
+如果把这篇文章放到更大的行业语境里看，它也说明了一件事：Agent 竞争最终不会只发生在模型层，而会越来越多地发生在 runtime 层。谁能把这条循环做得更稳、更省、更透明，谁才更接近真正可用的生产级软件智能体。
 
 ## 原文
 
