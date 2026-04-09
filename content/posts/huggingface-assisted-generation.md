@@ -1,11 +1,11 @@
 ---
 date: '2026-04-05T15:00:00+08:00'
-lastmod: '2026-04-07T22:43:56+08:00'
+lastmod: '2026-04-09T20:11:36+08:00'
 title: 'HuggingFace Assisted Generation：用小模型加速大模型推理'
 summary: "解读 HuggingFace 的 Assisted Generation 方案——利用 Assistant-Target 架构和因果掩码特性，在保持 100% 输出保真度的前提下实现 2-10 倍推理加速。"
 description: "解读 HuggingFace Assisted Generation 的 Assistant-Target 推理加速方案"
 tags: ["code-editing", "speculative-edit"]
-origStatus: "missing"
+origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
