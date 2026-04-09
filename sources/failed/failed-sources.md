@@ -1,5 +1,13 @@
 ## 失败记录
 
+### [2026-04-09] Orig 补档批次
+
+| URL | 失败原因 | Notebook ID | 状态 |
+|-----|---------|-------------|------|
+| https://blog.zihanjian.com/article/2b69db82-fa86-80f4-abc2-f6a70258f7ad | defuddle 无法提取正文（No content could be extracted） | - | ✅ 已用本地 Clippings 手动补档 |
+| https://zhuanlan.zhihu.com/p/1983512173549483912 | defuddle 拉取失败（403） | - | ✅ 已用本地 Clippings 手动补档 |
+| https://openai.com/zh-Hans-CN/index/unrolling-the-codex-agent-loop/ | defuddle 拉取失败（403） | - | ✅ 已用本地 Clippings 手动补档 |
+
 ### [2026-04-06] Agent 批次 — 全部完成 ✅
 
 | URL | 原始失败原因 | 最终状态 |
