@@ -98,3 +98,60 @@ https://blog.riba2534.cn/blog/2026/%E6%8B%86%E8%A7%A3anthropic%E7%9A%84skill-cre
 Lessons from Building Claude Code: How We Use Skills 
 https://x.com/trq212/status/2033949937936085378
 https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons
+
+Lessons from Building Claude Code: Seeing like an Agent
+https://x.com/trq212/status/2027463795355095314
+
+Lessons from Building Claude Code: Prompt Caching Is Everything
+https://x.com/trq212/status/2024574133011673516
+
+Prompt auto-caching with Claude
+https://x.com/RLanceMartin/status/2024573404888911886
+
+Effective Agent Design
+https://x.com/RLanceMartin/status/2009683038272401719
+
+We've completely rebuilt the Kilo Code extension for VS Code. Join the beta test.
+https://blog.kilo.ai/p/we-completely-rebuilt-the-kilo-vs-code-extension
+
+How we compare model quality in Cursor
+https://cursor.com/en-US/blog/cursorbench
+
+Every CLI coding agent, compared
+https://michaellivs.com/blog/cli-coding-agents-compared
+
+The 8 Levels of Agentic Engineering
+https://www.bassimeledath.com/blog/levels-of-agentic-engineering
+https://baoyu.io/translations/2026-03-11/levels-of-agentic-engineering
+
+
+How to Kill the Code Review
+https://www.latent.space/p/reviews-dead
+
+
+5 Agent Skills I Use Every Day
+https://www.aihero.dev/5-agent-skills-i-use-every-day
+
+拆解 Anthropic 的 skill-creator：AI Agent 的技能工厂是怎么运转的
+https://blog.riba2534.cn/blog/2026/%E6%8B%86%E8%A7%A3anthropic%E7%9A%84skill-creator-ai-agent%E7%9A%84%E6%8A%80%E8%83%BD%E5%B7%A5%E5%8E%82%E6%98%AF%E6%80%8E%E4%B9%88%E8%BF%90%E8%BD%AC%E7%9A%84/
+
+Lessons from Building Claude Code: How We Use Skills 
+https://x.com/trq212/status/2033949937936085378
+https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons
+
+Harness design for long-running application development
+https://www.anthropic.com/engineering/harness-design-long-running-apps
+
+Claude Code auto mode: a safer way to skip permissions
+https://www.anthropic.com/engineering/claude-code-auto-mode
+https://mp.weixin.qq.com/s/x3uMAZ8TyCYLtVmdeZPVqg
+
+Harness 工程可视化：在 Vibe Coding 中重建工程可控性
+https://mp.weixin.qq.com/s/a3PXFruUYTyD3EhzU30ZhA
+
+How and when to use subagents in Claude Code
+https://claude.com/blog/subagents-in-claude-code
+
+AI 原生软件工程的可观测性与可控制性
+https://mp.weixin.qq.com/s/6wCbAAtovhulsMpzVjIdpA
+
