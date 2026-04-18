@@ -4,9 +4,9 @@
 
 | URL | 失败原因 | Notebook ID | 状态 |
 |-----|---------|-------------|------|
-| https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ | defuddle 拉取失败（403） | - | ⏸️ 暂停，等待用户提供替代来源或本地补档 |
-| https://openai.com/index/harness-engineering/ | defuddle 拉取失败（403） | - | ⏸️ 暂停，等待用户提供替代来源或本地补档 |
-| https://blog.langchain.com/improving-deep-agents-with-harness-engineering/ | defuddle 抓取结果为站点错误页，未取得正文 | - | ⏸️ 暂停，等待后续重试 |
+| https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/ | defuddle 拉取失败（403）；2026-04-10 重试原 URL 和 `zh-Hans-CN` URL 仍为 403 | - | ✅ 已用本地 Clippings 手动补档 |
+| https://openai.com/index/harness-engineering/ | defuddle 拉取失败（403）；2026-04-10 重试原 URL 和 `zh-Hans-CN` URL 仍为 403 | - | ✅ 已用本地 Clippings 手动补档 |
+| https://blog.langchain.com/improving-deep-agents-with-harness-engineering/ | 初次抓取为站点错误页；2026-04-10 重试成功 | - | ✅ 已恢复原文归档 |
 
 ### [2026-04-09] Orig 补档批次
 
