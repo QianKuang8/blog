@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-04-08
+> 生成时间：2026-03-20，更新：2026-04-18
 
 ## 核心目标
 
@@ -18,7 +18,7 @@
 | **inbox.md 定位** | 待发布队列 | 处理完后移除，目标是清空 |
 | **原文归档** | `sources/orig/<slug>.md` 为必选项 | 默认用 defuddle 生成，拿不到则暂停发布 |
 | **摘要用途** | 自己看 + 读者看 | 对特别有意思的文章单开深度解读 |
-| **摘要生成** | `nlm` 报告 + `sources/orig/<slug>.md` 双材料 | 优先 `nlm --url`，失败时回退 `--file sources/orig/<slug>.md` |
+| **摘要生成** | 手动 NotebookLM 摘要 + `sources/orig/<slug>.md` 双材料 | 不再使用 `nlm` CLI；由用户手动创建 NotebookLM 文档/摘要后放入 `sources/nlm/<slug>.md` |
 | **撰写内容** | 整理摘要 + 个人思考 | A/B 灵活处理，不做关联分析 |
 | **发布节奏** | 分批处理 | 每 5-10 篇处理一次 |
 | **多 tag 处理** | Hugo 多 tag 机制 | frontmatter 里写多个 tags |
@@ -59,7 +59,7 @@ blog/
 │   ├── orig/
 │   │   └── <slug>.md     # defuddle 生成的原文存档（必选）
 │   ├── nlm/
-│   │   └── <slug>.md     # nlm 生成的摘要报告
+│   │   └── <slug>.md     # 用户手动从 NotebookLM 复制/导出的摘要材料
 │   └── failed/
 │       └── failed-sources.md # 失败记录
 ├── content/posts/        # 已发布博文
@@ -67,7 +67,7 @@ blog/
 ```
 
 **命名约定：**
-- `sources/orig/<slug>.md` 存放原文归档，`sources/nlm/<slug>.md` 存放摘要报告
+- `sources/orig/<slug>.md` 存放原文归档，`sources/nlm/<slug>.md` 存放用户手动生成的 NotebookLM 摘要材料
 - slug 与最终博文 slug 保持一致，便于查找对应关系
 - 功能性文件集中在 `sources/failed/`（如 `sources/failed/failed-sources.md`）
 
@@ -108,11 +108,11 @@ extractor: "defuddle"
 
 2. 批量处理（按主题分批）
    ├─ 2a. 生成并保存 sources/orig/<slug>.md（defuddle，必选）
-   ├─ 2b. 创建 nlm source（优先 --url，失败时回退 --file sources/orig/<slug>.md）
-   ├─ 2c. 生成摘要（nlm CLI）
-   ├─ 2d. 下载摘要到 sources/nlm/<slug>.md
+   ├─ 2b. 等待用户在 NotebookLM Web 手动创建文档/摘要
+   ├─ 2c. 用户将 NotebookLM 摘要复制或导出到 sources/nlm/<slug>.md
+   ├─ 2d. 检查 sources/nlm/<slug>.md 是否存在且内容可用
    ├─ 2e. 确认 tags
-   └─ 2f. 撰写博客文章（结合原文归档 + nlm report）
+   └─ 2f. 撰写博客文章（结合原文归档 + NotebookLM 摘要）
 
 3. 发布
    ├─ 创建 content/posts/<slug>.md
@@ -120,11 +120,10 @@ extractor: "defuddle"
    └─ git commit & push
 
 4. 清理
-   ├─ 从 inbox.md 移除已发布的条目
-   └─ 删除 nlm notebook
+   └─ 从 inbox.md 移除已发布的条目
 ```
 
-### 单篇文章处理流程（nlm CLI）
+### 单篇文章处理流程（手动 NotebookLM）
 
 ```bash
 # 1. 先生成原文归档（必选）
@@ -132,53 +131,57 @@ extractor: "defuddle"
 defuddle parse "https://..." --md -o sources/orig/<slug>.md
 #    1b. 补齐 frontmatter：title/source_url/domain/description/retrieved_at/extractor
 # 如果这一步失败，记录到 sources/failed/failed-sources.md，并暂停这篇文章
+```
 
-# 2. 创建 notebook（以文章标题命名）
-nlm notebook create "文章标题"
-# 记下返回的 notebook ID
+2. 用户在 NotebookLM Web 中手动创建文档
 
-# 3. 优先添加源文章 URL
-nlm source add <notebook-id> --url "https://..."
+- Notebook 名称建议使用原文标题
+- Source 优先添加原文 URL
+- 如果 NotebookLM 无法读取 URL，则上传 `sources/orig/<slug>.md`
+- 使用以下提示词生成摘要：
 
-# 4. 如果 URL 读取失败，回退为上传原文归档
-nlm source add <notebook-id> --file sources/orig/<slug>.md
+```text
+请用中文生成这篇博客的技术摘要，重点包括：
+1) 核心问题定义
+2) 技术方案和架构
+3) 训练数据和方法
+4) 与同类方案的差异
+5) 关键设计决策和 trade-off
 
-# 5. 生成摘要报告
-nlm report create <notebook-id> \
-  --format "Create Your Own" \
-  --prompt "请用中文生成这篇博客的技术摘要，重点包括：1) 核心问题定义 2) 技术方案和架构 3) 训练数据和方法 4) 与同类方案的差异 5) 关键设计决策和 trade-off。保持技术深度，适合有 AI 工程背景的读者。" \
-  --confirm
+保持技术深度，适合有 AI 工程背景的读者。
+```
 
-# 6. 查看生成状态（等待 status 变为 completed）
-nlm studio status <notebook-id>
+3. 用户将 NotebookLM 摘要保存到本仓库
 
-# 7. 下载摘要
-nlm download report <notebook-id> --output sources/nlm/<slug>.md
+- 将 NotebookLM 输出复制或导出为 markdown
+- 保存为 `sources/nlm/<slug>.md`
+- 文件名 `<slug>` 必须与 `sources/orig/<slug>.md`、最终博文 slug 保持一致
+- 如果用户只提供了剪贴板文本或本地文件，先整理成 `sources/nlm/<slug>.md`
 
-# 8. 基于双材料撰写中文博客文章（手动/Claude 协助）
-#    - 创建 content/posts/<slug>.md
-#    - 按博客文章格式填写 frontmatter
-#    - 结合 sources/orig/<slug>.md 和 sources/nlm/<slug>.md
-#    - 中文整理摘要内容 + 个人思考 + 原文链接
+4. 基于双材料撰写中文博客文章
 
-# 9. 预览
+```bash
+# 创建 content/posts/<slug>.md
+# 按博客文章格式填写 frontmatter
+# 结合 sources/orig/<slug>.md 和 sources/nlm/<slug>.md
+# 中文整理摘要内容 + 个人思考 + 原文链接
+
+# 预览
 hugo server -D
 
-# 10. 确认 OK 后，从 inbox.md 移除对应条目
+# 确认 OK 后，从 inbox.md 移除对应条目
 
-# 11. 清理 nlm notebook
-nlm notebook delete <notebook-id> --confirm
-
-# 12. 提交
+# 提交
 git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 ```
 
 **注意事项：**
-- nlm 生成的报告可能是英文，不影响——作为原材料使用，最终博客文章写中文
+- 不再使用 `nlm` CLI；NotebookLM 相关动作全部由用户在 Web 端手动完成
+- NotebookLM 生成的摘要可能是英文，不影响——作为原材料使用，最终博客文章写中文
 - `sources/orig/<slug>.md` 是硬前置，拿不到就不要继续发布
+- `sources/nlm/<slug>.md` 是推荐材料；没有它时，应先询问用户是否手动补充 NotebookLM 摘要，除非用户明确要求直接基于原文撰写
 - `sources/orig/<slug>.md` 应包含 frontmatter metadata + 正文，避免归档文件失去来源信息
 - `defuddle` 更适合标准文章页；对知乎、X、微信、视频页、重 JS 页面不要假设一定成功
-- nlm session 约 20 分钟过期，长时间操作前先 `nlm login --check`
 - sources/ 目录存放所有中间文件，纳入 git 管理
 
 ### 批量处理流程（推荐）
@@ -190,12 +193,13 @@ git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
   → 对每篇文章执行 defuddle，保存到 sources/orig/<slug>.md
   → 成功的继续，失败的记录到 sources/failed/failed-sources.md，并暂停该文章
 
-步骤 2：对已有 sources/orig/<slug>.md 的文章创建 notebook + 添加 source
-  → 先尝试 nlm source add <nb-id> --url "..."
-  → 如果 URL 失败，再回退为 nlm source add <nb-id> --file sources/orig/<slug>.md
+步骤 2：把待摘要清单交给用户手动创建 NotebookLM 文档
+  → 列出每篇文章的标题、原文 URL、sources/orig/<slug>.md 路径
+  → 用户在 NotebookLM Web 里手动创建 notebook/source/report
+  → 用户将摘要复制或导出到 sources/nlm/<slug>.md
 
 步骤 3：成功的文章直接走完整流程（不停顿）
-  → 生成摘要 → 下载到 sources/nlm/<slug>.md → 结合 sources/orig/<slug>.md 撰写博客文章 → 清理
+  → 检查 sources/nlm/<slug>.md → 结合 sources/orig/<slug>.md 撰写博客文章
 
 步骤 4：批次结束后，汇报失败项给用户
   → 展示 sources/failed/failed-sources.md 中的记录
@@ -204,9 +208,8 @@ git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 步骤 5：用户回来后先补齐原文归档，再继续后续流程
   → 用户可能提供：替代 URL、复制粘贴的文本、本地文件
   → 目标是先生成或补齐 sources/orig/<slug>.md
-  → 原文归档准备好后，再根据情况使用：
-    - nlm source add <nb-id> --url "新URL"
-    - nlm source add <nb-id> --file sources/orig/<slug>.md
+  → 原文归档准备好后，等待用户手动创建或更新 NotebookLM 摘要
+  → 用户提供摘要后，整理到 sources/nlm/<slug>.md
 ```
 
 **原则：**
@@ -221,9 +224,9 @@ git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 
 ### [日期] 批次名称
 
-| URL | 失败原因 | Notebook ID | 状态 |
-|-----|---------|-------------|------|
-| https://... | 无法访问 | xxx | 待处理 |
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://... | 无法访问 | - | 待处理 |
 ```
 
 ---
@@ -285,6 +288,7 @@ showToc: true
    - 修改或重写旧文时，优先同时参考：
      - `sources/orig/<slug>.md`
      - `sources/nlm/<slug>.md`
+   - 如果 `sources/nlm/<slug>.md` 尚未由用户手动提供，先询问是否需要补充 NotebookLM 摘要；不要调用任何 NotebookLM CLI。
    - 不要只基于旧稿做表面润色。
 
 ---
@@ -292,7 +296,7 @@ showToc: true
 ## 待办事项
 
 - [x] **商量 tag 列表** — 12 个 tag，粗细结合，详见上方 tag 体系表
-- [x] **验证 nlm CLI 摘要流程** — Zed Edit Prediction 已跑通，流程见上方
+- [x] **迁移摘要流程** — 不再使用 `nlm` CLI，改为用户手动创建 NotebookLM 摘要并保存到 `sources/nlm/`
 - [ ] **处理第一批文章** — Next Edit 批次剩余 5 篇
 
 ---
