@@ -1,16 +1,5 @@
 # 文章队列
 
-## 已归档待写
-
-Why SWE-bench Verified no longer measures frontier coding capabilities
-https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/
-
-Improving Deep Agents with harness engineering
-https://blog.langchain.com/improving-deep-agents-with-harness-engineering/
-
-Harness engineering: leveraging Codex in an agent-first world
-https://openai.com/index/harness-engineering/
-
 ## 实现讲解
 
 Cursor 团队访谈

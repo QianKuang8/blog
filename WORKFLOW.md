@@ -109,7 +109,8 @@ extractor: "defuddle"
    ├─ 2a. 生成并保存 sources/orig/<slug>.md（defuddle，必选）
    ├─ 2b. 检查原文归档是否有完整 metadata + 正文
    ├─ 2c. 确认 tags
-   └─ 2d. 基于原文归档撰写博客文章
+   ├─ 2d. 基于原文归档撰写博客文章
+   └─ 2e. 按 BLOG_PROMPTS.md 做发布前 review
 
 3. 发布
    ├─ 创建 content/posts/<slug>.md
@@ -170,6 +171,8 @@ git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
 
 步骤 3：成功的文章直接走完整流程（不停顿）
   → 结合 sources/orig/<slug>.md 撰写博客文章
+  → 批量处理、长文、重要文章必须在提交前走 reviewer 发布检查
+  → reviewer 按 BLOG_PROMPTS.md 对照 content/posts/<slug>.md 和 sources/orig/<slug>.md 验收
 
 步骤 4：批次结束后，汇报失败项给用户
   → 展示 sources/failed/failed-sources.md 中的记录

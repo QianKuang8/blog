@@ -110,11 +110,11 @@ frontmatter 要求：
 - trade-off、限制条件或隐含前提还可以更具体。
 - 个人判断可以更克制或更有依据。
 
-## 可选 Subagent 流程
+## Reviewer / Subagent 流程
 
 普通文章可以由当前 agent 直接写作并自查。
 
-批量处理、长文、重要文章或改旧文时，建议拆成 writer + reviewer：
+批量处理、长文、重要文章或改旧文时，必须在提交前拆成 writer + reviewer，或至少由独立 reviewer 按“发布前检查 Prompt”审查。不要把这一步当作可选优化；它是这类文章的发布门禁。
 
 - Writer 必须阅读 `sources/orig/<slug>.md`。
 - 默认只读 orig；只有改旧文或原文特别长时，才允许顺手读历史 `sources/nlm/<slug>.md`。
