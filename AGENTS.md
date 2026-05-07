@@ -44,7 +44,7 @@ showToc: true
 
 ## 相关文档
 
-- 处理 `inbox.md` 中的文章队列、生成摘要、发布博文时，先阅读 [WORKFLOW.md](WORKFLOW.md)。
+- 处理 `inbox.md` 中的文章队列、生成原文归档、发布博文时，先阅读 [WORKFLOW.md](WORKFLOW.md)。
 
 ## 规则
 
