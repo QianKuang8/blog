@@ -1,16 +1,5 @@
 # 文章队列
 
-## 实现讲解
-
-Cursor 团队访谈
-https://lexfridman.com/cursor-team-transcript/
-
-GitHub 介绍 continuous-ai 的概念
-https://githubnext.com/projects/continuous-ai
-
-Claude Code: Anthropic's Agent in Your Terminal
-https://www.latent.space/p/claude-code
-
 ## 流行概念
 
 ### Context Engineering
