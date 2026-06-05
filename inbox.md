@@ -47,37 +47,11 @@ https://artificialanalysis.ai/
 
 ## 未分类
 
-Lessons from Building Claude Code: Seeing like an Agent
-https://x.com/trq212/status/2027463795355095314
-
-Lessons from Building Claude Code: Prompt Caching Is Everything
-https://x.com/trq212/status/2024574133011673516
-
-Prompt auto-caching with Claude
-https://x.com/RLanceMartin/status/2024573404888911886
-
-Effective Agent Design
-https://x.com/RLanceMartin/status/2009683038272401719
-
-5 Agent Skills I Use Every Day
-https://www.aihero.dev/5-agent-skills-i-use-every-day
-
-拆解 Anthropic 的 skill-creator：AI Agent 的技能工厂是怎么运转的
-https://blog.riba2534.cn/blog/2026/%E6%8B%86%E8%A7%A3anthropic%E7%9A%84skill-creator-ai-agent%E7%9A%84%E6%8A%80%E8%83%BD%E5%B7%A5%E5%8E%82%E6%98%AF%E6%80%8E%E4%B9%88%E8%BF%90%E8%BD%AC%E7%9A%84/
-
-Lessons from Building Claude Code: How We Use Skills
-https://x.com/trq212/status/2033949937936085378
-https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons
-
 Harness 工程可视化：在 Vibe Coding 中重建工程可控性
 https://mp.weixin.qq.com/s/a3PXFruUYTyD3EhzU30ZhA
 
 AI 原生软件工程的可观测性与可控制性
 https://mp.weixin.qq.com/s/6wCbAAtovhulsMpzVjIdpA
-
-Components of A Coding Agent
-https://magazine.sebastianraschka.com/p/components-of-a-coding-agent
-https://mp.weixin.qq.com/s/KncnrhR_ITWURt8G59wg-A
 
 Harness Engineering 来了，SDD 还有意义吗？
 https://mp.weixin.qq.com/s/Laz4W0180y9yGW0b6EpUMQ
