@@ -39,9 +39,12 @@ menu:
     - name: 归档
       url: archives/
       weight: 20
-    - name: 分类
+    - name: 标签
       url: tags
       weight: 30
+    - name: 专题
+      url: topics/
+      weight: 35
     - name: 搜索
       url: search/
       weight: 40
@@ -51,7 +54,7 @@ menu:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Qian's blog
-  description: "Qian's Blog"
+  description: "Qian 的个人博客，记录 AI 工程、Coding Agent、Context Engineering 和软件工程实践。"
   # keywords: [Blog, Portfolio, PaperMod]
   author: Qian
   images: ["site-card.png"]
@@ -79,8 +82,19 @@ params:
     # imageTitle: "title"
     # imageWidth: 240
     # imageHeight: 240
-    Content: >
+    Content: |
       记录 AI 工程、Coding Agent、Context Engineering 和一些个人折腾。
+
+      推荐从几条阅读路径开始：
+
+      - [Coding Agent](/blog/topics/coding-agent/)
+      - [Context Engineering](/blog/topics/context-engineering/)
+      - [Harness Engineering](/blog/topics/harness-engineering/)
+
+  schema:
+    publisherType: Person
+    sameAs:
+      - "https://github.com/QianKuang8"
 
   # socialIcons:
   #   - name: github

@@ -1,0 +1,23 @@
+.post-content {
+  line-height: 1.85;
+}
+
+.post-content p {
+  margin-bottom: 1.05em;
+}
+
+.post-content li + li {
+  margin-top: 0.35em;
+}
+
+.home-info .entry-content ul {
+  margin-top: 0.75rem;
+}
+
+.home-info .entry-content li {
+  margin-top: 0.25rem;
+}
+
+.terms-tags a {
+  text-transform: none;
+}

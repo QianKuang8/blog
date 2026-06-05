@@ -59,7 +59,7 @@
   ]
 }
 </script>
-{{- if .IsPage }}
+{{- if and .IsPage (eq .Section "posts") }}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -123,6 +123,6 @@
   }
 }
 </script>
-{{- end }}{{/* .IsPage end */}}
+{{- end }}{{/* post page BlogPosting end */}}
 
 {{- end -}}
