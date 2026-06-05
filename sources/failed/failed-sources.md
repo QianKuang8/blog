@@ -1,5 +1,14 @@
 ## 失败记录
 
+### [2026-06-05] Inbox 全量处理批次
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://zhuanlan.zhihu.com/p/1953085369328337945 | defuddle 拉取失败（403 Forbidden） | - | 待补档 |
+| https://artificialanalysis.ai/ | defuddle fetch failed，未生成可用原文归档 | - | 待补档 |
+| https://z.ai/blog/scaling-pain | defuddle 无法提取正文（No content could be extracted） | - | 待补档 |
+| LLM Open Source Landscape and Trends | inbox 只有标题、缺少 URL，无法生成原文归档 | - | 待补档 |
+
 ### [2026-04-09] Agentic Coding / Agent Engineering 批次
 
 | URL | 失败原因 | Notebook ID | 状态 |
