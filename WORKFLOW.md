@@ -235,7 +235,7 @@ showToc: true
 
 - [x] **商量 tag 列表** — 12 个 tag，粗细结合，详见上方 tag 体系表
 - [x] **移除摘要流程** — 不再使用 NotebookLM / `nlm`，直接基于 `sources/orig/` 写作
-- [ ] **处理第一批文章** — Next Edit 批次剩余 5 篇
+- [x] **清空 inbox 文章队列** — 2026-06-05 已完成，无法作为博文发布的条目已记录在 `sources/failed/failed-sources.md`
 
 ---
 
