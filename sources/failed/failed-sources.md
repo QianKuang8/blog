@@ -4,10 +4,10 @@
 
 | URL | 失败原因 | 补档来源 | 状态 |
 |-----|---------|---------|------|
-| https://zhuanlan.zhihu.com/p/1953085369328337945 | defuddle 拉取失败（403 Forbidden） | - | 待补档 |
-| https://artificialanalysis.ai/ | defuddle fetch failed，未生成可用原文归档 | - | 待补档 |
-| https://z.ai/blog/scaling-pain | defuddle 无法提取正文（No content could be extracted） | - | 待补档 |
-| LLM Open Source Landscape and Trends | inbox 只有标题、缺少 URL，无法生成原文归档 | - | 待补档 |
+| https://zhuanlan.zhihu.com/p/1953085369328337945 | defuddle 拉取失败（403 Forbidden） | 本地 Markdown：`sources/orig/why-context-engineering-needed.md` | ✅ 已用本地补档发布 |
+| https://artificialanalysis.ai/ | defuddle fetch failed，未生成可用原文归档 | 非博客网站 | 不发布 |
+| https://z.ai/blog/scaling-pain | defuddle 无法提取正文（No content could be extracted） | 本地 Markdown：`sources/orig/scaling-pain-coding-agent-serving.md` | ✅ 已用本地补档发布 |
+| LLM Open Source Landscape and Trends | inbox 只有标题、缺少 URL，无法生成原文归档 | 非独立文章，疑似标题或 tag | 不发布 |
 
 ### [2026-04-09] Agentic Coding / Agent Engineering 批次
 
