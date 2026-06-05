@@ -9,9 +9,6 @@ https://zhuanlan.zhihu.com/p/1953085369328337945
 
 ### Prompt Engineering
 
-Best practices for prompt engineering
-https://claude.com/blog/best-practices-for-prompt-engineering
-
 Prompt Engineering Guide 提示工程指南
 https://www.promptingguide.ai/zh
 
@@ -72,18 +69,8 @@ Lessons from Building Claude Code: How We Use Skills
 https://x.com/trq212/status/2033949937936085378
 https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons
 
-Harness design for long-running application development
-https://www.anthropic.com/engineering/harness-design-long-running-apps
-
-Claude Code auto mode: a safer way to skip permissions
-https://www.anthropic.com/engineering/claude-code-auto-mode
-https://mp.weixin.qq.com/s/x3uMAZ8TyCYLtVmdeZPVqg
-
 Harness 工程可视化：在 Vibe Coding 中重建工程可控性
 https://mp.weixin.qq.com/s/a3PXFruUYTyD3EhzU30ZhA
-
-How and when to use subagents in Claude Code
-https://claude.com/blog/subagents-in-claude-code
 
 AI 原生软件工程的可观测性与可控制性
 https://mp.weixin.qq.com/s/6wCbAAtovhulsMpzVjIdpA
