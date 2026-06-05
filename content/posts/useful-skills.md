@@ -1,10 +1,10 @@
 ---
 date: '2026-03-12T23:30:00+08:00'
-lastmod: '2026-03-21T22:00:00+08:00'
+lastmod: '2026-06-05T21:48:35+08:00'
 title: '好用的Skills'
 summary: "记录一些好用的Skills"
 description: "记录一些好用的Skills"
-tags: ["skills", "default"]
+tags: ["agent", "harness-engineering"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

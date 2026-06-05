@@ -1,10 +1,10 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
-lastmod: '2026-06-05T21:34:00+08:00'
+lastmod: '2026-06-05T21:48:35+08:00'
 title: 'Coding Agent Serving 的 Scaling Pain：质量问题也可能是系统一致性问题'
 summary: "解读 z.ai 关于 GLM-5 Coding Agent Serving 的排障文章：长上下文、高并发和 KV Cache 复用会把底层竞态条件表现成乱码、重复和罕见字符等模型质量问题。"
 description: "从 GLM-5 大规模 Coding Agent 推理实践看 PD 分离、KV Cache 竞态、HiCache 同步、Speculative Decoding 监控和 LayerSplit 优化"
-tags: ["agentic-coding", "行业动向"]
+tags: ["model-engineering", "agentic-coding"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

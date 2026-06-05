@@ -1,10 +1,10 @@
 ---
 date: '2024-12-10T17:22:55+08:00'
-lastmod: '2026-03-21T10:00:00+08:00'
+lastmod: '2026-06-05T21:48:35+08:00'
 title: '初始化Mac系统'
 summary: "记录一下初始化一个Mac系统需要干些什么"
 description: "记录一下初始化一个Mac系统需要干些什么"
-tags: ["init","default"]
+tags: ["init"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
