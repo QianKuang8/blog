@@ -1,4 +1,4 @@
-baseURL: https://example.org/
+baseURL: https://qiankuang8.github.io/blog/
 defaultContentLanguage: zh
 copyright: "© [Qian](https://github.com/QianKuang8) 2024"
 title: Qian's blog
@@ -9,14 +9,21 @@ pagination:
 enableInlineShortcodes: true
 enableRobotsTXT: true
 buildDrafts: false
-buildFuture: true
+buildFuture: false
 buildExpired: false
 enableEmoji: true
 pygmentsUseClasses: true
-mainsections: ["posts", "papermod"]
+mainsections: ["posts"]
 
 minify:
   disableXML: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
 
 outputs:
   home:
@@ -43,11 +50,11 @@ menu:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: ExampleSite
+  title: Qian's blog
   description: "Qian's Blog"
   # keywords: [Blog, Portfolio, PaperMod]
   author: Qian
-  images: ["<link or path of image for opengraph, twitter-cards>"]
+  images: ["site-card.png"]
   DateFormat: "2006-01-02"
 
   ShowReadingTime: true
@@ -73,26 +80,9 @@ params:
     # imageWidth: 240
     # imageHeight: 240
     Content: >
-      What can I say?
-      
-    # <!--  👋 Welcome to demo page of Hugo's theme PaperMod! -->
-
-    # <!-- - **PaperMod**  is designed to be clean and simple but fast and responsive theme with useful feature-set that enhances UX. -->
-
-    # <!-- - Feel free to show your support by giving us a star 🌟 on GitHub and sharing with your friends and social media . -->
-
-    # <!-- - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper/tree/4330c8b12aa48bfdecbcad6ad66145f679a430b3). -->
-
-      
+      记录 AI 工程、Coding Agent、Context Engineering 和一些个人折腾。
 
   # socialIcons:
   #   - name: github
   #     title: View Source on Github
   #     url: "https://github.com/adityatelange/hugo-PaperMod"
-
-  markup:
-    goldmark:
-      renderer:
-        unsafe: true
-    highlight:
-      noClasses: false
