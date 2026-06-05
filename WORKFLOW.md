@@ -32,12 +32,15 @@
 
 **规则：** 单层平铺（Hugo tags）、技术概念英文/类型中文、一篇文章标 1-3 个 tag
 
+说明：以下 tag 体系主要约束 AI 技术文章；少量个人记录、环境初始化、非 AI 工程文章可保留少数自定义 tag，但应避免使用 `default` 这类无信息量标签。
+
 | Tag | 类型 | 说明 |
 |-----|------|------|
 | `code-editing` | 宽 tag | AI 代码编辑总类 |
 | `next-edit` | 细 tag | Next Edit 预测（cursor tab、copilot NES、zed、augment） |
 | `apply` | 细 tag | Apply / Unified Diffs |
-| `speculative-edit` | 细 tag | Speculative Decoding 辅助生成 |
+| `speculative-edit` | 细 tag | Speculative Edits 辅助代码编辑 |
+| `model-engineering` | 细 tag | 模型架构、推理优化、Serving、KV Cache 等模型工程 |
 | `agent` | 细 tag | Agent 通用（架构、工程、设计） |
 | `agentic-coding` | 细 tag | Coding Agent 产品和对比 |
 | `harness-engineering` | 细 tag | Harness Engineering |

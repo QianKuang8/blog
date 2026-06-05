@@ -1,10 +1,10 @@
 ---
 date: '2026-03-21T23:00:00+08:00'
-lastmod: '2026-03-28T23:00:00+08:00'
+lastmod: '2026-06-05T21:48:35+08:00'
 title: 'AI Coding 工具推荐'
 summary: "记录一些好用的 AI Coding 相关工具"
 description: "记录一些好用的 AI Coding 相关工具"
-tags: ["ai-coding", "tools"]
+tags: ["agentic-coding", "code-editing"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

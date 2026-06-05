@@ -1,10 +1,10 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
-lastmod: '2026-06-05T21:28:00+08:00'
+lastmod: '2026-06-05T21:48:35+08:00'
 title: '领域大模型是伪命题吗：关键在模型能力和应用闭环'
 summary: "解读清华唐杰关于领域大模型的观点：文章真正讨论的不是要不要做专用模型，而是通用基础模型、对齐、推理、记忆、在线学习和应用闭环如何共同决定模型价值。"
 description: "从唐杰关于领域大模型的八点思考看 scaling、Agent、记忆、在线学习、多模态和领域应用"
-tags: ["行业动向", "agent"]
+tags: ["行业动向", "model-engineering", "agent"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

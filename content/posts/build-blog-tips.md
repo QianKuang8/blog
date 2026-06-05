@@ -1,10 +1,10 @@
 ---
 date: '2024-12-08T00:00:00+08:00'
-lastmod: '2026-05-07T00:00:00+08:00'
+lastmod: '2026-06-05T21:48:35+08:00'
 title: '搭建博客tips'
 summary: "一些如何搭建博客和创建博文的记录"
 description: "一些如何搭建博客和创建博文的记录"
-tags: ["blog", "default"]
+tags: ["blog"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
@@ -28,4 +28,3 @@ showToc: true
 - https://gohugo.io/hosting-and-deployment/hosting-on-github/
 - https://gohugo.io/getting-started/quick-start/
 - https://github.com/adityatelange/hugo-PaperMod/wiki/Installation
-
