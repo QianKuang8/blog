@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-05-07
+> 生成时间：2026-03-20，更新：2026-08-31
 
 ## 核心目标
 
@@ -15,14 +15,16 @@
 | **发布目标** | 知识管理型，个人网站 | 主要是 A，偏向 C |
 | **技术栈** | Hugo + PaperMod 主题 | 博文位于 `content/posts/` |
 | **内容组织** | 单篇文章 + Hugo tags | Hugo 自动生成 `/tags/xxx/` 合集页面 |
+| **视频笔记** | 单篇解读 + 视频来源记录 | 来源记录保存到 `sources/video/<slug>.md` |
+| **PDF 资产** | 独立公开仓库 + submodule | 源 PDF 不压缩，挂载到 `static/pdfs` |
 | **inbox.md 定位** | 待发布队列 | 处理完后移除，目标是清空 |
-| **原文归档** | `sources/orig/<slug>.md` 为必选项 | 默认用 defuddle 生成，拿不到则暂停发布 |
-| **写作依据** | `sources/orig/<slug>.md` 原文归档 | 不再要求 NotebookLM / `nlm` 摘要材料 |
+| **原文归档** | 外部网页文章必须有 `sources/orig/<slug>.md` | 默认用 defuddle 生成，拿不到则暂停发布 |
+| **写作依据** | `sources/orig/` 或 `sources/video/` | 按内容类型选择，不再要求 NotebookLM / `nlm` 摘要材料 |
 | **撰写内容** | 原文解读 + 个人思考 | A/B 灵活处理，不做关联分析 |
 | **发布节奏** | 分批处理 | 每 5-10 篇处理一次 |
 | **多 tag 处理** | Hugo 多 tag 机制 | frontmatter 里写多个 tags |
 | **积累文章** | 分批处理 | 按主题分批，慢慢清空 inbox.md |
-| **tags 管理** | 12 个 tag，粗细结合 | 见下方 tag 体系表 |
+| **tags 管理** | 13 个 tag，粗细结合 | 见下方 tag 体系表 |
 
 ---
 
@@ -47,6 +49,7 @@
 | `context-engineering` | 细 tag | Context Engineering |
 | `prompt-engineering` | 细 tag | Prompt Engineering |
 | `行业动向` | 中文类型 | 行业趋势、开源生态、LLM 发展 |
+| `视频笔记` | 中文类型 | 视频访谈、课程和演讲的解读文章 |
 | `博客推荐` | 特殊 | 博客源推荐文章 |
 
 ### 非 AI / 个人记录 tag
@@ -69,17 +72,23 @@ blog/
 │   ├── Orig Index.md     # Obsidian 导航索引
 │   ├── orig/
 │   │   └── <slug>.md     # defuddle 生成的原文存档（必选）
+│   ├── video/
+│   │   └── <slug>.md     # 视频来源、章节时间戳与证据边界
 │   ├── nlm/              # 历史摘要材料（保留，不再作为流程输入）
 │   └── failed/
 │       └── failed-sources.md # 失败记录
 ├── content/posts/        # 已发布博文
+├── static/pdfs/          # 目标挂载点：公开 blog-pdfs 仓库的 submodule
 └── WORKFLOW.md           # 本文档
 ```
 
 **命名约定：**
 - `sources/orig/<slug>.md` 存放外部文章解读的原文归档，是写作的主要输入；个人笔记、清单、博客维护记录这类没有单一原文的文章可不创建
+- `sources/video/<slug>.md` 存放视频笔记的来源元信息、章节时间戳和证据边界；不要把视频伪装成 defuddle 原文归档
 - `sources/nlm/` 仅保留历史摘要材料，不再要求新增或补齐
 - slug 与最终博文 slug 保持一致，便于查找对应关系
+- PDF 使用稳定的英文 slug 文件名，不在文件名中维护 `v1`、`v2`；历史版本由 PDF 仓库提交和博客 submodule 指针追踪
+- `blog-pdfs` 只使用 `standalone/` 与 `stanford-mse435/` 两个顶层目录
 - 功能性文件集中在 `sources/failed/`（如 `sources/failed/failed-sources.md`）
 
 ## 原文归档格式
@@ -111,7 +120,115 @@ extractor: "defuddle"
 
 ---
 
-## 工作流
+## 视频笔记与 PDF 资产
+
+### 来源记录
+
+视频笔记不走 defuddle 原文归档流程。每篇视频笔记必须先创建 `sources/video/<slug>.md`，最小格式如下：
+
+```yaml
+---
+title: "原视频标题"
+source_url: "https://..."
+source_type: "video"
+channel: "频道或机构"
+speaker: "讲者（若可得）"
+published_at: "视频发布日期（若可得）"
+duration: "视频时长"
+retrieved_at: "2026-08-31T12:00:00+08:00"
+series: "系列名称（若有）"
+pdf_path: "standalone/<slug>.pdf"
+---
+```
+
+正文记录以下内容：
+
+- 视频章节和关键时间戳
+- 使用的字幕轨道、课程材料或补充来源
+- 讲者明确表达的观点、整理者归纳和未确认内容之间的边界
+- 对应博客文章与 PDF 的映射
+
+不在来源记录中提交完整字幕、视频、音频、全量抽帧、生成日志或本地绝对路径。
+
+### PDF 存储约定
+
+- PDF 母版来自本地学习工作区，母版仍由该工作区保存，不进入博客主仓库
+- 公开版直接使用选定的源 PDF，不压缩、不重新编码；允许改成稳定的英文文件名
+- 复制后使用 `cmp` 或 SHA-256 确认文件字节未改变
+- PDF 只提交到公开仓库 `https://github.com/QianKuang8/blog-pdfs`
+- 博客主仓库通过 `static/pdfs` submodule 固定 PDF 仓库 commit；禁止把 PDF 作为博客主仓库的普通 Git 文件提交
+- PDF 仓库使用以下目录：
+
+```text
+standalone/<slug>.pdf
+stanford-mse435/week-<nn>-<slug>.pdf
+```
+
+对应站点地址为：
+
+```text
+/blog/pdfs/standalone/<slug>.pdf
+/blog/pdfs/stanford-mse435/week-<nn>-<slug>.pdf
+```
+
+文章优先链接站点 PDF，并同时提供固定到 PDF commit 的 GitHub 源文件链接：
+
+```text
+https://github.com/QianKuang8/blog-pdfs/blob/<pdf-commit>/<pdf-path>
+```
+
+### Submodule 使用
+
+本节约定在公开 `blog-pdfs` 仓库创建、并将其挂载为 `static/pdfs` submodule 后生效；完成初始化前不要运行 PDF 专用命令或发布 PDF 链接。
+
+普通 `git clone` 不自动下载 submodule。完整初始化主题和 PDF：
+
+```bash
+git submodule update --init --recursive
+```
+
+只按需下载 PDF 仓库当前版本：
+
+```bash
+git submodule update --init --depth 1 static/pdfs
+```
+
+未初始化 `static/pdfs` 时，本地 Hugo 仍可编译文章，但 PDF 链接在本地预览中不可用。GitHub Pages workflow 必须在运行 Hugo 前检出 submodule。
+
+### 发布、更新与回滚
+
+首次发布或更新 PDF 时，严格按以下顺序执行：
+
+```text
+1. 检查视频来源、公开边界和 PDF 内容
+2. 创建或更新 sources/video/<slug>.md
+3. 将选定源 PDF 复制到 blog-pdfs 的约定路径
+4. 使用 cmp 或 SHA-256 验证源文件与目标文件字节一致
+5. 在 blog-pdfs 提交并推送 PDF commit
+6. 在博客仓库更新 static/pdfs submodule 指针
+7. 创建或更新 content/posts/<slug>.md，并同步更新 lastmod
+8. 运行 Hugo 构建并检查 PDF 产物与文章链接
+9. 提交并推送博客仓库
+```
+
+不能让博客仓库指向只存在于本地、尚未推送的 PDF commit，也不能只更新 PDF 仓库而遗漏博客 submodule 指针。
+
+回滚时优先回退博客仓库中的文章和 submodule 指针；PDF 仓库历史继续保留，不通过删除历史完成回滚。
+
+发布前至少检查：
+
+```bash
+git submodule status --recursive
+hugo
+test -f public/pdfs/<pdf-path>
+cmp static/pdfs/<pdf-path> public/pdfs/<pdf-path>
+```
+
+文章还必须确认原视频链接、站点 PDF 链接和 GitHub 源文件链接与当前发布版本一致。
+
+---
+
+## 外部文章工作流
 
 ```
 1. 收集
@@ -156,8 +273,9 @@ hugo server -D
 
 # 确认 OK 后，从 inbox.md 移除对应条目
 
-# 提交
-git add content/posts/<slug>.md sources/ && git commit -m "add: 文章标题"
+# 提交当前文章及其原文归档；其它实际改动按文件逐项添加
+git add content/posts/<slug>.md sources/orig/<slug>.md
+git commit -m "add: 文章标题"
 ```
 
 **注意事项：**
@@ -245,7 +363,7 @@ showToc: true
 
 ## 待办事项
 
-- [x] **商量 tag 列表** — 12 个 tag，粗细结合，详见上方 tag 体系表
+- [x] **商量 tag 列表** — 13 个 tag，粗细结合，详见上方 tag 体系表
 - [x] **移除摘要流程** — 不再使用 NotebookLM / `nlm`，直接基于 `sources/orig/` 写作
 - [x] **清空 inbox 文章队列** — 2026-06-05 已完成，无法作为博文发布的条目已记录在 `sources/failed/failed-sources.md`
 
@@ -255,6 +373,8 @@ showToc: true
 
 - 文章队列: `inbox.md`
 - 原材料目录: `sources/`
+- 视频来源记录: `sources/video/`
 - 博文目录: `content/posts/`
+- PDF 资产挂载点: `static/pdfs/`
 - 写作 prompts: `BLOG_PROMPTS.md`
 - 博客配置: `config/_default/config.yaml`
