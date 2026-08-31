@@ -96,4 +96,4 @@ Shopify 案例把这套方法落到公司叙事。从小镇里想开果酱店的
 
 - [原视频：The Comms Strategist Behind Anduril, Shopify & Cognition](https://www.youtube.com/watch?v=DFImJfJGXl0)
 - [完整课程笔记 PDF：23 页](/blog/pdfs/standalone/communication-strategy-direct-narrative.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/38a0fac/standalone/communication-strategy-direct-narrative.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/standalone/communication-strategy-direct-narrative.pdf)

@@ -62,5 +62,5 @@ pdf_path: "standalone/building-high-talent-density-teams.pdf"
 
 - 博客文章：`content/posts/building-high-talent-density-teams.md`
 - 站点 PDF：`/blog/pdfs/standalone/building-high-talent-density-teams.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/38a0fac/standalone/building-high-talent-density-teams.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/standalone/building-high-talent-density-teams.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。

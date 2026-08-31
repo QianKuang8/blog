@@ -65,5 +65,5 @@ pdf_path: "standalone/communication-strategy-direct-narrative.pdf"
 
 - 博客文章：`content/posts/communication-strategy-direct-narrative.md`
 - 站点 PDF：`/blog/pdfs/standalone/communication-strategy-direct-narrative.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/38a0fac/standalone/communication-strategy-direct-narrative.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/standalone/communication-strategy-direct-narrative.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。
