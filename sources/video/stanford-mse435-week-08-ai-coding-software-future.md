@@ -65,5 +65,5 @@ PDF 九章结构：
 
 - 博客文章：`content/posts/stanford-mse435-week-08-ai-coding-software-future.md`
 - 站点 PDF：`/blog/pdfs/stanford-mse435/week-08-ai-coding-software-future.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/a0d1ded/stanford-mse435/week-08-ai-coding-software-future.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/05a75cc84034e498d84a136ae147c3a5e0e43df2/stanford-mse435/week-08-ai-coding-software-future.pdf`
 - 源 PDF 与公开仓库文件已经通过 `cmp` 验证，字节一致，没有压缩或重新编码。

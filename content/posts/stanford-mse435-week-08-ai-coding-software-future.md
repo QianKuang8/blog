@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:00:00+08:00'
-lastmod: '2026-08-31T16:00:00+08:00'
+lastmod: '2026-08-31T16:31:44+08:00'
 title: '当代码生成越来越容易：智能体软件的价值转向可靠运行'
 summary: "Guillermo Rauch 从部署、沙箱、可组合接口与运维出发，解释代码生成成本下降后，软件经济的稀缺性为何会迁移到可靠运行与可信治理。"
 description: "解读 Stanford MS&E 435 Week 8 关于 AI coding、智能体基础设施、SaaS 分层与软件未来的课堂访谈"
@@ -83,4 +83,4 @@ Rauch 最后用“Energy goes in, intelligence goes out”把讨论拉回物理�
 
 - [原视频：Applications, Coding AI](https://www.youtube.com/watch?v=HA7lZd7zk3M)
 - [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-08-ai-coding-software-future.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/a0d1ded/stanford-mse435/week-08-ai-coding-software-future.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/05a75cc84034e498d84a136ae147c3a5e0e43df2/stanford-mse435/week-08-ai-coding-software-future.pdf)
