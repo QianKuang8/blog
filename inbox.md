@@ -74,8 +74,8 @@
   - tags：`视频笔记`、`agentic-coding`、`行业动向`
   - 备注：22 页 PDF；最终 review PASS；与现有博客主题最相关。
 
-- [ ] **从分子 CAD 到自主湿实验室：AI 生命科学的下一步**
-  - 状态：`可领取`
+- [x] **从分子 CAD 到自主湿实验室：AI 生命科学的下一步**
+  - 状态：`已发布`
   - 原视频：[Applications, AI in Life Sciences](https://www.youtube.com/watch?v=nWKiJHKIZfo)
   - 来源目录：`/Users/bytedance/Documents/学习/AI生命科学_Stanford_MSE435_Week9`
   - slug：`stanford-mse435-week-09-ai-life-sciences`
