@@ -83,4 +83,4 @@ Ward 在结尾把招聘方法重新连接到人的长期成长：理解情境、
 
 - [原视频：The playbook for building high talent density teams](https://www.youtube.com/watch?v=zegYJ6dhIg4)
 - [完整课程笔记 PDF：19 页](/blog/pdfs/standalone/building-high-talent-density-teams.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/409d269/standalone/building-high-talent-density-teams.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/38a0fac/standalone/building-high-talent-density-teams.pdf)
