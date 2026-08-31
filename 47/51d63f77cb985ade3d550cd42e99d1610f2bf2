@@ -1,0 +1,21 @@
+static/pdfs
+  s_0285e07529f5d8::t_7c21531c83ba9c 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4751d63f77cb985ade3d550cd42e99d1610f2bf2",
+  "prompts": {},
+  "sessions": {
+    "s_0285e07529f5d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a055e8-2677-74a2-9e64-f5aafec4a4b1",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
