@@ -50,8 +50,8 @@
   - tags：`视频笔记`、`model-engineering`、`行业动向`
   - 备注：21 页 PDF；两轮 review PASS；Round 1 三项 Medium（Trainium 归因、电网风险、章节编号）已全部修正并通过复核。
 
-- [ ] **解锁企业内部知识：从通用模型到可验证的企业智能**
-  - 状态：`可领取`（建议优先）
+- [x] **解锁企业内部知识：从通用模型到可验证的企业智能**
+  - 状态：`已发布`
   - 原视频：[Enterprise Internal Knowledge](https://www.youtube.com/watch?v=LRGX-gTegVA)
   - 来源目录：`/Users/bytedance/Documents/学习/企业内部知识智能_Stanford_MSE435_Week6`
   - slug：`stanford-mse435-week-06-enterprise-knowledge-intelligence`
@@ -107,3 +107,4 @@
   - slug：`communication-strategy-direct-narrative`
   - tags：`视频笔记`
   - 备注：23 页 PDF；最终 review PASS；字幕为英文自动字幕，发布时明确标注。
+��明确标注。
