@@ -1,0 +1,25 @@
+sources/video/building-high-talent-density-teams.md
+  s_af0319ac1e47ac::t_0d904fa8335573 1-66
+sources/video/communication-strategy-direct-narrative.md
+  s_af0319ac1e47ac::t_9c9722b983c55f 1-69
+sources/video/stanford-mse435-week-06-enterprise-knowledge-intelligence.md
+  s_af0319ac1e47ac::t_92796a3d604a1b 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6adfbb17dd4bc0d9d3163b18aab0e2ded264f71c",
+  "prompts": {},
+  "sessions": {
+    "s_af0319ac1e47ac": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056ec-a655-7043-b359-4d1686ef9a63",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
