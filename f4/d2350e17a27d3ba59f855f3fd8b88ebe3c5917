@@ -1,0 +1,29 @@
+content/posts/agent-era-design.md
+  s_af0319ac1e47ac::t_b86bf7645feae2 3,83
+content/posts/stanford-mse435-week-08-ai-coding-software-future.md
+  s_af0319ac1e47ac::t_b9566ea22e802c 3,86
+sources/video/agent-era-design.md
+  s_af0319ac1e47ac::t_39ea1b5e84ab3c 75
+sources/video/stanford-mse435-week-08-ai-coding-software-future.md
+  s_af0319ac1e47ac::t_f1b4fb7f8df88a 68
+static/pdfs
+  s_af0319ac1e47ac::t_1f695df360e05d 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f4d2350e17a27d3ba59f855f3fd8b88ebe3c5917",
+  "prompts": {},
+  "sessions": {
+    "s_af0319ac1e47ac": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056ec-a655-7043-b359-4d1686ef9a63",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
