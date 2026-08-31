@@ -4,7 +4,7 @@
 
 | URL | 失败原因 | 补档来源 | 状态 |
 |-----|---------|---------|------|
-| https://tech.meituan.com/2026/05/07/agent-ai-coding.html | 页面 404（美团技术博客返回迷路页面） | - | 待处理 |
+| https://tech.meituan.com/2026/05/07/agent-ai-coding.html | 页面 404（美团技术博客返回迷路页面） | 正确 URL：`https://tech.meituan.com/2026/05/07/Agent-AI-Coding.html` | ✅ 已用正确 URL 补档发布 |
 
 ### [2026-06-05] Inbox 全量处理批次
 
