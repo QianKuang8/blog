@@ -63,5 +63,5 @@ pdf_path: "stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf"
 
 - 博客文章：`content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md`
 - 站点 PDF：`/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/38a0fac/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。

@@ -87,4 +87,4 @@ Patil 把持续学习描述为模型进入生产后，从使用过程、稀疏�
 
 - [原视频：Enterprise Internal Knowledge](https://www.youtube.com/watch?v=LRGX-gTegVA)
 - [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/38a0fac/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
