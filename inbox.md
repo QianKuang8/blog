@@ -26,8 +26,8 @@
   - tags：`视频笔记`、`model-engineering`、`行业动向`
   - 备注：最终 review PASS；使用 `output/pdf/GPU经济_课程笔记.pdf`，不要误用较小的旧 render 版或附加访谈素材。
 
-- [ ] **从电子到 Token：吉瓦级 AI 工厂的工程与经济学**
-  - 状态：`可领取`
+- [x] **从电子到 Token：吉瓦级 AI 工厂的工程与经济学**
+  - 状态：`已发布`
   - 原视频：[Building AI Factories](https://www.youtube.com/watch?v=GcCGzfKdCd0)
   - 来源目录：`/Users/bytedance/Documents/学习/AI工厂与吉瓦级基础设施_Stanford_MSE435_Week3`
   - slug：`stanford-mse435-week-03-ai-factories-gigawatt-infrastructure`
@@ -107,4 +107,4 @@
   - slug：`communication-strategy-direct-narrative`
   - tags：`视频笔记`
   - 备注：23 页 PDF；最终 review PASS；字幕为英文自动字幕，发布时明确标注。
-��明确标注。
+��明确标注。
