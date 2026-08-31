@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:00:00+08:00'
-lastmod: '2026-08-31T16:00:00+08:00'
+lastmod: '2026-08-31T16:31:44+08:00'
 title: '代理时代的设计：执行更便宜，判断更昂贵'
 summary: "代理可以迅速生成界面、图像与代码，却不会自动决定什么值得保留。本文从共享表示、策展式工作流和三个网站评审案例出发，讨论设计工具如何让人的判断跟上生成速度。"
 description: "解读 Stephen Haney 对代理原生画布、新代理栈、AI 设计俗套、品味与信任的判断"
@@ -80,4 +80,4 @@ Moreta 则揭示了另一种风险。二维码支付产品需要专业与可信�
 
 - [原视频：How To Design In The Agent Era](https://www.youtube.com/watch?v=P06RgnUKX_I)
 - [完整课程笔记 PDF：32 页](/blog/pdfs/standalone/agent-era-design.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/a0d1ded/standalone/agent-era-design.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/05a75cc84034e498d84a136ae147c3a5e0e43df2/standalone/agent-era-design.pdf)

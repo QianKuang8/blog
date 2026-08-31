@@ -72,5 +72,5 @@ pdf_path: "standalone/agent-era-design.pdf"
 
 - 博客文章：`content/posts/agent-era-design.md`
 - 站点 PDF：`/blog/pdfs/standalone/agent-era-design.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/a0d1ded/standalone/agent-era-design.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/05a75cc84034e498d84a136ae147c3a5e0e43df2/standalone/agent-era-design.pdf`
 - 源 PDF 与公开仓库文件已经通过 `cmp` 验证，字节一致，没有压缩或重新编码。
