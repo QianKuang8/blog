@@ -4,7 +4,7 @@
 
 - 领取任务时，把状态改成 `进行中 — <agent 名称>`；一个 agent 同时只领取一篇。
 - `可领取` 可以直接进入 `sources/video → PDF → 博文 → reviewer` 流程；`先修订` 或 `先补审校` 必须先关闭备注中的问题。
-- 建议优先并行处理 Week 8、Week 6 和《代理时代如何做设计》；Week 3、Week 5 与《打造高人才密度团队》先做发布前修订或审校。
+- 建议优先处理 Week 6。
 - slug 作为文章、来源记录和 PDF 文件的稳定映射，除非发现冲突，不再修改。
 - 发布完成并验证 Pages 后，从本文件移除对应条目。具体流程见 `WORKFLOW.md` 和 `BLOG_PROMPTS.md`。
 
@@ -27,12 +27,12 @@
   - 备注：最终 review PASS；使用 `output/pdf/GPU经济_课程笔记.pdf`，不要误用较小的旧 render 版或附加访谈素材。
 
 - [ ] **从电子到 Token：吉瓦级 AI 工厂的工程与经济学**
-  - 状态：`先修订`
+  - 状态：`可领取`
   - 原视频：[Building AI Factories](https://www.youtube.com/watch?v=GcCGzfKdCd0)
   - 来源目录：`/Users/bytedance/Documents/学习/AI工厂与吉瓦级基础设施_Stanford_MSE435_Week3`
   - slug：`stanford-mse435-week-03-ai-factories-gigawatt-infrastructure`
   - tags：`视频笔记`、`model-engineering`、`行业动向`
-  - 备注：30 页 PDF；现有 review 未明确 PASS，且公式箭头与原课件等号的差异需要先复核。
+  - 备注：30 页 PDF；两轮 review PASS；Round 1 四项 Medium 已全部修正，Round 2 确认通过。
 
 - [ ] **企业 AI 与软件即服务：SaaS 会消失，还是价值会重新上移？**
   - 状态：`可领取`
@@ -43,12 +43,12 @@
   - 备注：23 页 PDF；review PASS；收入数字需保留“内部估算、未经独立审计”的边界。
 
 - [ ] **AI 基础设施与前沿实验室：推理、能源与规模化实验的闭环**
-  - 状态：`先修订`
+  - 状态：`可领取`
   - 原视频：[Infrastructure, Capstone Case](https://www.youtube.com/watch?v=4k53z3Ysjg0)
   - 来源目录：`/Users/bytedance/Documents/学习/AI基础设施与前沿实验室案例_Stanford_MSE435_Week5`
   - slug：`stanford-mse435-week-05-ai-infrastructure-frontier-labs`
   - tags：`视频笔记`、`model-engineering`、`行业动向`
-  - 备注：21 页 PDF；review 为 `PASS_NO_HIGH`，发布前处理 Trainium 数字归因、电网风险遗漏和章节编号问题。
+  - 备注：21 页 PDF；两轮 review PASS；Round 1 三项 Medium（Trainium 归因、电网风险、章节编号）已全部修正并通过复核。
 
 - [ ] **解锁企业内部知识：从通用模型到可验证的企业智能**
   - 状态：`可领取`（建议优先）
@@ -64,10 +64,10 @@
   - 来源目录：`/Users/bytedance/Documents/学习/AI推理云与应用商业化_Baseten_Stanford_MSE435_Week7`
   - slug：`stanford-mse435-week-07-inference-cloud-ai-commercialization`
   - tags：`视频笔记`、`model-engineering`、`行业动向`
-  - 备注：26 页 PDF；最终 review PASS；根目录 PDF 与 render 版字节一致，发布时选定一个作为源文件。
+  - 备注：26 页 PDF；最终 review PASS；根目录 PDF 与 render 版逐字节一致，发布时选定一个作为源文件。
 
-- [ ] **AI 编程与软件未来：从一次性软件到 Agent-to-Agent 经济**
-  - 状态：`可领取`（建议优先）
+- [x] **AI 编程与软件未来：从一次性软件到 Agent-to-Agent 经济**
+  - 状态：`已发布`
   - 原视频：[Applications, Coding AI](https://www.youtube.com/watch?v=HA7lZd7zk3M)
   - 来源目录：`/Users/bytedance/Documents/学习/AI编程与软件未来_Stanford_MSE435_Week8`
   - slug：`stanford-mse435-week-08-ai-coding-software-future`
@@ -84,8 +84,8 @@
 
 ## 独立访谈与演讲
 
-- [ ] **代理时代如何做设计：从确定性界面到协作式产品**
-  - 状态：`可领取`（建议优先）
+- [x] **代理时代如何做设计：从确定性界面到协作式产品**
+  - 状态：`已发布`
   - 原视频：[How To Design In The Agent Era](https://www.youtube.com/watch?v=P06RgnUKX_I)
   - 来源目录：`/Users/bytedance/Documents/学习/代理时代的设计_How_To_Design_In_The_Agent_Era`
   - slug：`agent-era-design`
@@ -93,12 +93,12 @@
   - 备注：32 页 PDF；Round 2 PASS；源 PDF 约 40.4 MB，按既定规则原样发布。
 
 - [ ] **打造高人才密度团队：从招聘漏斗到人才系统**
-  - 状态：`先补审校`
+  - 状态：`可领取`
   - 原视频：[The playbook for building high talent density teams](https://www.youtube.com/watch?v=zegYJ6dhIg4)
   - 来源目录：`/Users/bytedance/Documents/学习/打造高人才密度团队_Adam_Ward`
   - slug：`building-high-talent-density-teams`
   - tags：`视频笔记`
-  - 备注：19 页 PDF；先补独立 reviewer 和最终验证，再进入博客写作。
+  - 备注：19 页 PDF；独立审校 PASS（无 High、无 Medium）；九章主线完整，经验数字边界清晰，ethical guardrails 到位。
 
 - [ ] **从读懂房间到直接叙事：沟通战略如何形成影响力**
   - 状态：`可领取`
