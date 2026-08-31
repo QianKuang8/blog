@@ -1,0 +1,23 @@
+.gitmodules
+  s_0285e07529f5d8::t_c3192266b779ee 4-6
+static/pdfs
+  s_0285e07529f5d8::t_0e99566766fd56 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f47e990e59093b74ba340f82ebca7640c6d22399",
+  "prompts": {},
+  "sessions": {
+    "s_0285e07529f5d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a055e8-2677-74a2-9e64-f5aafec4a4b1",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
