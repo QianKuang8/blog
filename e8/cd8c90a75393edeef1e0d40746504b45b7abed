@@ -1,0 +1,29 @@
+AGENTS.md
+  s_0285e07529f5d8::t_bde102b8fafe35 24-29,54-55,61-65
+BLOG_PROMPTS.md
+  s_0285e07529f5d8::t_c45ac3ecb57af4 3,5,64-96,99,123-126,130-131,135-138,156-159
+CLAUDE.md
+  s_0285e07529f5d8::t_e17f5df5e85d86 20-25,49-50,56-60
+README.md
+  s_0285e07529f5d8::t_6b2d31051de2c4 13-30
+WORKFLOW.md
+  s_0285e07529f5d8::t_d8f7e9d031ff69 3,18-19,21-22,27,52,75-76,81,87,90-91,123-231,276-278,366,376,378
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e8cd8c90a75393edeef1e0d40746504b45b7abed",
+  "prompts": {},
+  "sessions": {
+    "s_0285e07529f5d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a055e8-2677-74a2-9e64-f5aafec4a4b1",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
