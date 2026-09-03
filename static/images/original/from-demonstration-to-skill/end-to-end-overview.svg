@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">从一次操作演示到可复用 Skill</title>
+  <desc id="desc">一条由三个阶段组成的生命周期：录制并留下证据，Agent 理解证据并生成 Skill，再在新任务中使用。以每周填报为例，本周演示一次并保存方法，下周换了数据与页面仍可继续完成。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 42px; font-weight: 750; }
+      .subtitle { font-size: 20px; fill: #475569; }
+      .eyebrow { font-size: 15px; font-weight: 700; letter-spacing: 0.08em; }
+      .step-number { font-size: 15px; font-weight: 750; letter-spacing: 0.05em; }
+      .step-title { font-size: 25px; font-weight: 750; }
+      .body { font-size: 18px; fill: #334155; }
+      .small { font-size: 16px; fill: #64748b; }
+      .closing { font-size: 22px; font-weight: 700; }
+      .connector { fill: none; stroke: #94a3b8; stroke-width: 4; stroke-linecap: round; }
+      .arrowhead { fill: #94a3b8; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="900" fill="#f8fafc"/>
+
+  <rect x="624" y="38" width="192" height="30" rx="15" fill="#e0f2fe"/>
+  <text class="text eyebrow" x="720" y="59" text-anchor="middle" fill="#0369a1" style="fill:#0369a1">共同主线</text>
+  <text class="text title" x="720" y="120" text-anchor="middle">从一次操作演示到可复用 Skill</text>
+  <text class="text subtitle" x="720" y="160" text-anchor="middle">三个阶段，把一次操作变成可以再次使用的方法</text>
+
+  <!-- Step 1: record one real task and leave evidence. -->
+  <rect x="70" y="220" width="380" height="390" rx="28" fill="#fff7ed" stroke="#fdba74" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="96" y="246" width="56" height="28" rx="14" fill="#ffedd5"/>
+  <text class="text step-number" x="124" y="266" text-anchor="middle" fill="#c2410c" style="fill:#c2410c">01</text>
+  <circle cx="260" cy="328" r="47" fill="#f97316"/>
+  <circle cx="246" cy="315" r="6" fill="#ffffff"/>
+  <circle cx="274" cy="315" r="6" fill="#ffffff"/>
+  <circle cx="260" cy="344" r="6" fill="#ffffff"/>
+  <path d="M250 320 L256 337 M270 320 L264 337" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+  <text class="text step-title" x="260" y="420" text-anchor="middle">录制并留下证据</text>
+  <text class="text body" x="260" y="465" text-anchor="middle">用户完成一遍真实任务</text>
+  <text class="text small" x="260" y="507" text-anchor="middle">系统记录操作和任务上下文</text>
+
+  <!-- Step 2: understand the evidence and create a reusable Skill. -->
+  <rect x="530" y="220" width="380" height="390" rx="28" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="556" y="246" width="56" height="28" rx="14" fill="#ede9fe"/>
+  <text class="text step-number" x="584" y="266" text-anchor="middle" fill="#6d28d9" style="fill:#6d28d9">02</text>
+  <circle cx="720" cy="328" r="47" fill="#8b5cf6"/>
+  <path d="M700 302 H727 L740 315 V354 H700 Z" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M727 302 V315 H740 M709 329 H731 M709 340 H727" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text step-title" x="720" y="420" text-anchor="middle">Agent 理解证据并生成 Skill</text>
+  <text class="text body" x="720" y="465" text-anchor="middle">提炼目标、变量、步骤和成功标准</text>
+  <text class="text small" x="720" y="507" text-anchor="middle">把一次演示写成可复用说明</text>
+
+  <!-- Step 3: reuse under the conditions of a new task. -->
+  <rect x="990" y="220" width="380" height="390" rx="28" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="1016" y="246" width="56" height="28" rx="14" fill="#d1fae5"/>
+  <text class="text step-number" x="1044" y="266" text-anchor="middle" fill="#047857" style="fill:#047857">03</text>
+  <circle cx="1180" cy="328" r="47" fill="#10b981"/>
+  <path d="M1157 329 L1172 344 L1205 311" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text step-title" x="1180" y="420" text-anchor="middle">在新任务中使用</text>
+  <text class="text body" x="1180" y="465" text-anchor="middle">Agent 按当前条件重新规划</text>
+  <text class="text small" x="1180" y="507" text-anchor="middle">适应变化，并检查结果</text>
+
+  <!-- Arrows connect the three stages. -->
+  <path class="connector" d="M450 415 H508"/>
+  <path class="arrowhead" d="M524 415 L506 404 L506 426 Z"/>
+  <path class="connector" d="M910 415 H968"/>
+  <path class="arrowhead" d="M984 415 L966 404 L966 426 Z"/>
+
+  <!-- One closing idea, without repeating the task scenario. -->
+  <rect x="170" y="692" width="1100" height="116" rx="28" fill="#ffffff" stroke="#dbe3ee" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="236" cy="750" r="26" fill="#e0f2fe"/>
+  <path d="M225 750 H247 M236 739 V761" fill="none" stroke="#0369a1" stroke-width="4" stroke-linecap="round"/>
+  <text class="text closing" x="720" y="758" text-anchor="middle">
+    <tspan fill="#c2410c">本周演示一次</tspan>
+    <tspan fill="#94a3b8">　→　</tspan>
+    <tspan fill="#6d28d9">保存填报方法</tspan>
+    <tspan fill="#94a3b8">　→　</tspan>
+    <tspan fill="#047857">下周适应新数据与页面</tspan>
+  </text>
+</svg>

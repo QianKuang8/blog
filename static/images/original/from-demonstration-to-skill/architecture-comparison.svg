@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-labelledby="title desc">
+  <title id="title">同样把演示变成 Skill，两套产品采用不同的内部架构</title>
+  <desc id="desc">左右两列展示两套独立实现。Claude for Mac 在桌面应用内管理录制，并把动作文字、关键画面、应用信息和可选旁白组成 Cowork 消息。Codex 的插件把录制请求交给本地桥接进程，再转发给独立的 Computer Use 服务；服务收集语义事件、写入本地文件，Agent 在下一轮查询文件位置。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 36px; font-weight: 700; }
+      .subtitle { font-size: 19px; fill: #475569; }
+      .panel-title { font-size: 23px; font-weight: 700; }
+      .node-title { font-size: 17px; font-weight: 650; }
+      .body { font-size: 15px; fill: #334155; }
+      .small { font-size: 14px; fill: #64748b; }
+      .label { font-size: 14px; font-weight: 700; letter-spacing: 0.03em; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 14px; font-weight: 700; }
+      .connector { fill: none; stroke: #475569; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .control { fill: none; stroke: #7c3aed; stroke-width: 4; stroke-linecap: round; }
+      .evidence { fill: none; stroke: #7c3aed; stroke-width: 4; stroke-linecap: round; }
+      .arrowhead { fill: #475569; }
+      .purple-arrowhead { fill: #7c3aed; }
+      .light-purple-arrowhead { fill: #7c3aed; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="720" fill="#f8fafc"/>
+
+  <text class="text title" x="720" y="47" text-anchor="middle">同样把演示变成 Skill，两套产品采用不同的内部架构</text>
+  <text class="text subtitle" x="720" y="79" text-anchor="middle">Claude 在桌面应用内编排录制；Codex 用插件接入独立的 Computer Use 服务</text>
+
+  <!-- Claude: host-integrated capture. -->
+  <rect x="45" y="150" width="650" height="535" rx="28" fill="#faf5ff" stroke="#a78bfa" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="45" y="150" width="650" height="70" rx="28" fill="#7c3aed"/>
+  <path d="M45 190h650v30H45z" fill="#7c3aed"/>
+  <text class="text panel-title" x="80" y="193" style="fill:#ffffff">Claude：桌面应用直接编排录制</text>
+  <rect x="533" y="171" width="130" height="28" rx="14" fill="#ede9fe"/>
+  <text class="text label" x="598" y="190" text-anchor="middle" style="fill:#6d28d9">宿主内编排</text>
+
+  <rect x="80" y="242" width="580" height="60" rx="16" fill="#ffffff" stroke="#d8b4fe"/>
+  <text class="text label" x="105" y="264" style="fill:#7c3aed">入口</text>
+  <text class="text node-title" x="105" y="287">Claude for Mac · Cowork 中的 Record a Skill</text>
+
+  <path class="connector" d="M370 302v17"/>
+  <polygon class="arrowhead" points="361,319 379,319 370,337"/>
+
+  <rect x="78" y="338" width="584" height="226" rx="20" fill="#ffffff" stroke="#c4b5fd" stroke-width="2" stroke-dasharray="7 6"/>
+  <rect x="98" y="324" width="184" height="28" rx="14" fill="#ede9fe"/>
+  <text class="text label" x="190" y="343" text-anchor="middle" style="fill:#6d28d9">CLAUDE DESKTOP · 本机</text>
+
+  <rect x="102" y="370" width="242" height="158" rx="17" fill="#f5f3ff" stroke="#a78bfa"/>
+  <text class="text node-title" x="223" y="399" text-anchor="middle">Electron Main</text>
+  <text class="text body" x="125" y="429">保存录制状态</text>
+  <text class="text body" x="125" y="454">启动、停止采集</text>
+  <text class="text body" x="125" y="479">整理并交出录制结果</text>
+
+  <rect x="396" y="370" width="242" height="158" rx="17" fill="#fff7ed" stroke="#f59e0b"/>
+  <text class="text node-title" x="517" y="399" text-anchor="middle">随应用打包的原生模块</text>
+  <text class="text body" x="419" y="429">收集键鼠动作</text>
+  <text class="text body" x="419" y="454">采集连续画面</text>
+  <text class="text body" x="419" y="479">接收可选旁白</text>
+
+  <path class="control" d="M344 413h32"/>
+  <polygon class="purple-arrowhead" points="376,404 376,422 394,413"/>
+  <text class="text small" x="369" y="402" text-anchor="middle" style="fill:#6d28d9">调用</text>
+  <path class="evidence" d="M396 474h-32"/>
+  <polygon class="light-purple-arrowhead" points="364,465 364,483 346,474"/>
+  <text class="text small" x="370" y="495" text-anchor="middle" style="fill:#7c3aed">原始信号</text>
+
+  <path class="connector" d="M370 564v12"/>
+  <polygon class="arrowhead" points="361,576 379,576 370,594"/>
+  <rect x="103" y="595" width="534" height="45" rx="16" fill="#ffffff" stroke="#a78bfa"/>
+  <text class="text node-title" x="370" y="623" text-anchor="middle">Cowork 多模态输入</text>
+
+  <!-- Codex: plugin-integrated, runtime-owned capture. -->
+  <rect x="745" y="150" width="650" height="535" rx="28" fill="#ecfdf5" stroke="#34d399" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="745" y="150" width="650" height="70" rx="28" fill="#059669"/>
+  <path d="M745 190h650v30H745z" fill="#059669"/>
+  <text class="text panel-title" x="780" y="193" style="fill:#ffffff">Codex：插件接入，独立服务负责录制</text>
+  <rect x="1237" y="171" width="126" height="28" rx="14" fill="#d1fae5"/>
+  <text class="text label" x="1300" y="190" text-anchor="middle" style="fill:#047857">独立运行时</text>
+
+  <rect x="780" y="242" width="580" height="60" rx="16" fill="#ffffff" stroke="#6ee7b7"/>
+  <text class="text label" x="805" y="264" style="fill:#059669">入口</text>
+  <text class="text node-title" x="805" y="287">ChatGPT / Codex 中启用 Record &amp; Replay</text>
+
+  <path class="connector" d="M1070 302v17"/>
+  <polygon class="arrowhead" points="1061,319 1079,319 1070,337"/>
+
+  <rect x="778" y="338" width="584" height="226" rx="20" fill="#ffffff" stroke="#6ee7b7" stroke-width="2" stroke-dasharray="7 6"/>
+  <rect x="798" y="324" width="160" height="28" rx="14" fill="#d1fae5"/>
+  <text class="text label" x="878" y="343" text-anchor="middle" style="fill:#047857">本机三个进程</text>
+
+  <rect x="795" y="370" width="165" height="158" rx="17" fill="#ecfdf5" stroke="#34d399"/>
+  <text class="text node-title" x="882.5" y="397" text-anchor="middle">ChatGPT / Codex</text>
+  <text class="text small" x="882.5" y="419" text-anchor="middle">主应用进程</text>
+  <rect x="812" y="435" width="141" height="36" rx="11" fill="#d1fae5"/>
+  <text class="text body" x="882.5" y="458" text-anchor="middle">R&amp;R plugin</text>
+  <text class="text small" x="882.5" y="492" text-anchor="middle">提供入口与流程约定</text>
+
+  <rect x="990" y="370" width="140" height="158" rx="17" fill="#f0fdf4" stroke="#86efac"/>
+  <text class="text node-title" x="1065" y="397" text-anchor="middle">本地桥接进程</text>
+  <rect x="1007" y="411" width="116" height="28" rx="14" fill="#dcfce7"/>
+  <text class="text label" x="1065" y="430" text-anchor="middle" style="fill:#047857">独立进程</text>
+  <text class="text body" x="1065" y="467" text-anchor="middle">接收插件调用</text>
+  <text class="text body" x="1065" y="492" text-anchor="middle">转发给录制服务</text>
+
+  <rect x="1160" y="370" width="185" height="158" rx="17" fill="#ecfdf5" stroke="#10b981"/>
+  <text class="text node-title" x="1252.5" y="397" text-anchor="middle">Computer Use 服务</text>
+  <rect x="1194.5" y="411" width="116" height="28" rx="14" fill="#d1fae5"/>
+  <text class="text label" x="1252.5" y="430" text-anchor="middle" style="fill:#047857">独立进程</text>
+  <text class="text body" x="1252.5" y="463" text-anchor="middle">原生录制控件</text>
+  <text class="text body" x="1252.5" y="487" text-anchor="middle">收集界面语义事件</text>
+  <text class="text body" x="1252.5" y="511" text-anchor="middle">写 JSONL 和会话信息</text>
+
+  <path class="connector" d="M960 449h14"/>
+  <polygon class="arrowhead" points="974,439 974,459 988,449"/>
+  <path class="connector" d="M1130 449h14"/>
+  <polygon class="arrowhead" points="1144,439 1144,459 1158,449"/>
+
+  <path class="connector" d="M1252.5 528v34h-182.5v14"/>
+  <polygon class="arrowhead" points="1061,576 1079,576 1070,594"/>
+  <rect x="803" y="595" width="534" height="45" rx="16" fill="#ffffff" stroke="#34d399"/>
+  <text class="text node-title" x="1070" y="623" text-anchor="middle">同一会话继续：原对话进入下一轮</text>
+
+</svg>

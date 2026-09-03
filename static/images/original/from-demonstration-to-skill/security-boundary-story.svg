@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">安全边界：录制范围可能超过任务范围</title>
+  <desc id="desc">用户只想演示登录内部系统并提交周报，录制现场却还出现了密码、机密文件和敏感旁白。图中分别展示 Claude 和 Codex 会遮住哪些内容，以及哪些任务外信息仍可能被 Agent 看到。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 38px; font-weight: 740; }
+      .subtitle { font-size: 19px; fill: #475569; }
+      .section { font-size: 20px; font-weight: 720; }
+      .panel-title { font-size: 24px; font-weight: 730; }
+      .card-title { font-size: 18px; font-weight: 700; }
+      .body { font-size: 16px; fill: #334155; }
+      .small { font-size: 14px; fill: #64748b; }
+      .micro { font-size: 13px; fill: #64748b; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 14px; fill: #334155; }
+      .badge { font-size: 13px; font-weight: 700; }
+      .result { font-size: 25px; font-weight: 760; }
+      .line { fill: none; stroke: #94a3b8; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="900" fill="#f8fafc"/>
+
+  <text class="text title" x="720" y="56" text-anchor="middle">安全边界：录制范围可能超过任务范围</text>
+  <text class="text subtitle" x="720" y="91" text-anchor="middle">录制中还会输入密码、显示机密文件，并说出敏感信息</text>
+
+  <!-- Intended task -->
+  <rect x="50" y="118" width="1340" height="98" rx="22" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="74" y="139" width="136" height="56" rx="18" fill="#2563eb"/>
+  <text class="text card-title" x="142" y="164" text-anchor="middle" style="fill:#ffffff">任务范围</text>
+  <text class="text small" x="142" y="184" text-anchor="middle" style="fill:#dbeafe">登录、填报、验收</text>
+
+  <rect x="254" y="139" width="255" height="56" rx="16" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+  <circle cx="285" cy="167" r="17" fill="#dbeafe"/>
+  <path d="M278 166v-4a7 7 0 0 1 14 0v4M276 166h18v14h-18z" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text card-title" x="315" y="173">登录内部数据后台</text>
+
+  <path class="line" d="M509 167 H555"/>
+  <path d="M555 160 L567 167 L555 174 Z" fill="#94a3b8"/>
+
+  <rect x="577" y="139" width="300" height="56" rx="16" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+  <circle cx="608" cy="167" r="17" fill="#dbeafe"/>
+  <text class="text card-title" x="608" y="173" text-anchor="middle" style="fill:#2563eb">¥</text>
+  <text class="text card-title" x="638" y="173">填写本周金额 42,680</text>
+
+  <path class="line" d="M877 167 H923"/>
+  <path d="M923 160 L935 167 L923 174 Z" fill="#94a3b8"/>
+
+  <rect x="945" y="139" width="202" height="56" rx="16" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+  <circle cx="976" cy="167" r="17" fill="#dbeafe"/>
+  <path d="M968 167l6 6 11-13" fill="none" stroke="#2563eb" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text card-title" x="1006" y="173">提交成功</text>
+  <text class="text small" x="1196" y="160">需要学会：</text>
+  <text class="text card-title" x="1196" y="184">登录、填报和验收</text>
+
+  <!-- Story moments -->
+  <text class="text section" x="50" y="258">演示现场还包含三类敏感信息</text>
+
+  <rect x="50" y="278" width="420" height="161" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="278" width="420" height="38" rx="20" fill="#fff7ed"/>
+  <path d="M50 298 Q50 278 70 278 H450 Q470 278 470 298 V316 H50 Z" fill="#fff7ed"/>
+  <text class="text card-title" x="72" y="304">① 键盘：用户输入密码</text>
+  <rect x="76" y="331" width="151" height="82" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text class="text micro" x="90" y="351">屏幕显示</text>
+  <rect x="90" y="361" width="122" height="34" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+  <text class="text body" x="151" y="384" text-anchor="middle">••••••••</text>
+  <text class="text small" x="253" y="354">实际输入</text>
+  <rect x="252" y="364" width="190" height="37" rx="9" fill="#fff1f2" stroke="#fda4af"/>
+  <text class="text mono" x="347" y="388" text-anchor="middle" style="fill:#be123c">MktOps!2026</text>
+  <text class="text micro" x="76" y="422">屏幕遮住了密码，键盘记录未必会遮住</text>
+
+  <rect x="510" y="278" width="420" height="161" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="510" y="278" width="420" height="38" rx="20" fill="#fff7ed"/>
+  <path d="M510 298 Q510 278 530 278 H910 Q930 278 930 298 V316 H510 Z" fill="#fff7ed"/>
+  <text class="text card-title" x="532" y="304">② 画面：浏览器旁打开着机密文件</text>
+  <rect x="640" y="344" width="265" height="84" rx="10" fill="#fff1f2" stroke="#fb7185" stroke-width="2"/>
+  <rect x="640" y="344" width="265" height="23" rx="10" fill="#ffe4e6"/>
+  <path d="M640 355 Q640 344 651 344 H894 Q905 344 905 355 V367 H640 Z" fill="#ffe4e6"/>
+  <text class="text micro" x="730" y="361" style="fill:#be123c">并购计划.docx</text>
+  <text class="text small" x="732" y="391" style="fill:#881337">目标公司：Northstar</text>
+  <text class="text small" x="732" y="415" style="fill:#881337">拟议报价：¥80,000,000</text>
+  <rect x="535" y="332" width="185" height="92" rx="10" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+  <rect x="535" y="332" width="185" height="24" rx="10" fill="#dbeafe"/>
+  <path d="M535 344 Q535 332 547 332 H708 Q720 332 720 344 V356 H535 Z" fill="#dbeafe"/>
+  <text class="text micro" x="548" y="349">浏览器：数据后台</text>
+  <rect x="551" y="373" width="153" height="29" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text class="text micro" x="627.5" y="392" text-anchor="middle">本周金额 42,680</text>
+
+  <rect x="970" y="278" width="420" height="161" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="970" y="278" width="420" height="38" rx="20" fill="#fff7ed"/>
+  <path d="M970 298 Q970 278 990 278 H1370 Q1390 278 1390 298 V316 H970 Z" fill="#fff7ed"/>
+  <text class="text card-title" x="992" y="304">③ 旁白：用户说出敏感信息</text>
+  <circle cx="1018" cy="367" r="29" fill="#ffedd5"/>
+  <rect x="1012" y="345" width="12" height="32" rx="6" fill="#ea580c"/>
+  <path d="M1001 369a17 17 0 0 0 34 0M1018 386v12M1007 398h22" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M1066 337 H1357 Q1372 337 1372 352 V394 Q1372 409 1357 409 H1090 L1075 422 V409 H1066 Q1051 409 1051 394 V352 Q1051 337 1066 337 Z" fill="#fff7ed" stroke="#fdba74"/>
+  <text class="text body" x="1074" y="366">“客户 A 的续约底价</text>
+  <text class="text body" x="1074" y="391">是 78 万。”</text>
+
+  <!-- Product exposure surfaces -->
+  <rect x="50" y="474" width="650" height="287" rx="24" fill="#faf5ff" stroke="#a78bfa" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="474" width="650" height="54" rx="24" fill="#7c3aed"/>
+  <path d="M50 502 H700 V528 H50 Z" fill="#7c3aed"/>
+  <text class="text panel-title" x="76" y="509" style="fill:#ffffff">Claude：画面、键盘输入与旁白</text>
+
+  <rect x="76" y="550" width="286" height="182" rx="17" fill="#ffffff" stroke="#c4b5fd"/>
+  <rect x="92" y="566" width="84" height="25" rx="12.5" fill="#dcfce7"/>
+  <text class="text badge" x="134" y="583" text-anchor="middle" style="fill:#047857">部分已遮住</text>
+  <circle cx="99" cy="616" r="7" fill="#10b981"/>
+  <text class="text body" x="116" y="621">密码框显示圆点时，</text>
+  <text class="text body" x="116" y="645">关键帧中也只有圆点</text>
+  <circle cx="99" cy="676" r="7" fill="#10b981"/>
+  <text class="text body" x="116" y="681">应用开启 Secure Input 时，</text>
+  <text class="text mono" x="116" y="706">按键记作：[secure input]</text>
+
+  <rect x="380" y="550" width="294" height="182" rx="17" fill="#ffffff" stroke="#fda4af"/>
+  <rect x="396" y="566" width="112" height="25" rx="12.5" fill="#ffe4e6"/>
+  <text class="text badge" x="452" y="583" text-anchor="middle" style="fill:#be123c">仍可能进入 Agent</text>
+  <circle cx="403" cy="615" r="7" fill="#f43f5e"/>
+  <text class="text body" x="420" y="620">Secure Input 未启用：</text>
+  <text class="text mono" x="420" y="642" style="fill:#be123c">MktOps!2026</text>
+  <circle cx="403" cy="666" r="7" fill="#f43f5e"/>
+  <text class="text body" x="420" y="671">关键帧可能拍到机密文件</text>
+  <circle cx="403" cy="703" r="7" fill="#f43f5e"/>
+  <text class="text body" x="420" y="708">旁白文字可能包含客户底价</text>
+
+  <rect x="740" y="474" width="650" height="287" rx="24" fill="#ecfdf5" stroke="#34d399" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="740" y="474" width="650" height="54" rx="24" fill="#059669"/>
+  <path d="M740 502 H1390 V528 H740 Z" fill="#059669"/>
+  <text class="text panel-title" x="766" y="509" style="fill:#ffffff">Codex：键盘事件与 AX 文字</text>
+
+  <rect x="766" y="550" width="286" height="112" rx="17" fill="#ffffff" stroke="#6ee7b7"/>
+  <rect x="782" y="566" width="84" height="25" rx="12.5" fill="#dcfce7"/>
+  <text class="text badge" x="824" y="583" text-anchor="middle" style="fill:#047857">已核验路径</text>
+  <circle cx="789" cy="614" r="7" fill="#10b981"/>
+  <text class="text small" x="806" y="619">Agent 读取事件与 AX 文字</text>
+  <text class="text small" x="806" y="643">同屏文件不会作为图片进入</text>
+
+  <rect x="1070" y="550" width="294" height="198" rx="17" fill="#ffffff" stroke="#fda4af"/>
+  <rect x="1086" y="566" width="112" height="25" rx="12.5" fill="#ffe4e6"/>
+  <text class="text badge" x="1142" y="583" text-anchor="middle" style="fill:#be123c">仍可能进入 Agent</text>
+  <circle cx="1093" cy="614" r="7" fill="#f43f5e"/>
+  <text class="text body" x="1110" y="619">键盘事件可能保留实际输入</text>
+  <text class="text small" x="1110" y="643">Secure Input 标记不等于已经过滤</text>
+  <circle cx="1093" cy="668" r="7" fill="#f43f5e"/>
+  <text class="text body" x="1110" y="673">切换窗口或选择文字后，</text>
+  <text class="text body" x="1110" y="697">标题和文字可能进入事件</text>
+  <circle cx="1093" cy="722" r="7" fill="#f43f5e"/>
+  <text class="text body" x="1110" y="727">AX 快照可能捕获任务范围外的控件值</text>
+
+  <rect x="766" y="677" width="286" height="55" rx="14" fill="#d1fae5" stroke="#34d399"/>
+  <rect x="779" y="690" width="96" height="28" rx="14" fill="#a7f3d0"/>
+  <text class="text badge" x="827" y="709" text-anchor="middle" style="fill:#047857">生成 Skill 时</text>
+  <text class="text small" x="885" y="698">要求用占位符代替密码</text>
+  <text class="text small" x="885" y="718">但不会删除原始录制</text>
+
+  <!-- Consequence -->
+  <path class="line" d="M375 761 V787 H720"/>
+  <path class="line" d="M1065 761 V787 H720"/>
+  <path class="line" d="M720 787 V802"/>
+  <path d="M712 802 L720 813 L728 802 Z" fill="#94a3b8"/>
+
+  <rect x="225" y="815" width="990" height="66" rx="22" fill="#0f172a"/>
+  <text class="text result" x="720" y="844" text-anchor="middle" style="fill:#ffffff">录制证据可能包含任务之外的信息</text>
+  <text class="text small" x="720" y="869" text-anchor="middle" style="fill:#cbd5e1">这些信息一旦被 Agent 写进 SKILL.md，就会随最终 Skill 保存</text>
+</svg>
