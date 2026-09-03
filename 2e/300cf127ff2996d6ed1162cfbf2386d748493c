@@ -1,0 +1,29 @@
+content/posts/from-demonstration-to-skill.md
+  s_5ea2b44342c628::t_cf6a0f7cc2fb1d 3-6,14,16,18,20-24,26-28,30,32,34,40,42,44,48-56,58,60,62-85,87,89-107,125,138-140,142,144,146,148,150,154,156,158-164,168-172,174,176-180,184-188,190,192,194,196,198,200,202,204,206,208-209,212
+static/images/original/from-demonstration-to-skill/claude-agent-input.svg
+  s_5ea2b44342c628::t_565097759b4a56 1-126
+static/images/original/from-demonstration-to-skill/codex-agent-input.svg
+  s_5ea2b44342c628::t_a115eec49b1ba9 1-137
+static/images/original/from-demonstration-to-skill/evidence-to-skill.svg
+  s_5ea2b44342c628::t_8e65018965d52e 1-73
+static/images/original/from-demonstration-to-skill/skill-anatomy.svg
+  s_5ea2b44342c628::t_d8b088f21528a1 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2e300cf127ff2996d6ed1162cfbf2386d748493c",
+  "prompts": {},
+  "sessions": {
+    "s_5ea2b44342c628": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0666a-eede-7560-a71b-b5d818ec8185",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
