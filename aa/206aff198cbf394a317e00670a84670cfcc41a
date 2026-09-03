@@ -1,0 +1,35 @@
+content/posts/from-demonstration-to-skill.md
+  s_5ea2b44342c628::t_78800a5912fc63 1-145
+static/images/original/from-demonstration-to-skill/architecture-comparison.svg
+  s_5ea2b44342c628::t_74c556a065918b 1-127
+static/images/original/from-demonstration-to-skill/demo-to-rule.svg
+  s_5ea2b44342c628::t_05e144d914fcd3 1-84
+static/images/original/from-demonstration-to-skill/end-to-end-overview.svg
+  s_5ea2b44342c628::t_b728d9c10caa08 1-82
+static/images/original/from-demonstration-to-skill/replay-execution.svg
+  s_5ea2b44342c628::t_162f67a871531a 1-115
+static/images/original/from-demonstration-to-skill/security-boundary-story.svg
+  s_5ea2b44342c628::t_98a01b723e7cfb 1-170
+static/images/original/from-demonstration-to-skill/task-scenario.svg
+  s_5ea2b44342c628::t_404ca79ba4d80f 1-171
+static/images/original/from-demonstration-to-skill/what-is-recorded.svg
+  s_5ea2b44342c628::t_00510dfb58403b 1-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "aa206aff198cbf394a317e00670a84670cfcc41a",
+  "prompts": {},
+  "sessions": {
+    "s_5ea2b44342c628": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0666a-eede-7560-a71b-b5d818ec8185",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
