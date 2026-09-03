@@ -1,0 +1,56 @@
+{{- define "main" }}
+
+{{- $home := site.Params.homeInfoParams -}}
+<header class="home-category-hero">
+  <h1>{{ $home.Title | markdownify }}</h1>
+  {{- with $home.Content }}
+  <div class="home-category-intro">{{ . | markdownify }}</div>
+  {{- end }}
+</header>
+
+{{- $categoryDefinitions := slice
+  (dict "term" "原创文章" "class" "original")
+  (dict "term" "视频笔记" "class" "video")
+  (dict "term" "好文分享" "class" "shared")
+-}}
+<div class="home-category-shelves" aria-label="文章栏目">
+  {{- range $categoryDefinitions }}
+  {{- $termPage := site.GetPage (printf "/categories/%s" .term) -}}
+  {{- if not $termPage -}}
+    {{- errorf "homepage category %q does not exist" .term -}}
+  {{- end -}}
+  {{- $allPages := $termPage.RegularPages -}}
+  {{- $previewPages := where $allPages "Params.hiddenInHomeList" "!=" true -}}
+  <section class="home-category-shelf home-category-shelf--{{ .class }}" data-category="{{ .term }}" data-count="{{ len $allPages }}">
+    <header class="home-category-heading">
+      <div>
+        <h2>
+          <span class="home-category-dot" aria-hidden="true"></span>
+          {{ .term }}
+          <span class="home-category-count">· {{ len $allPages }}</span>
+        </h2>
+        {{- with $termPage.Params.summary }}
+        <p>{{ . }}</p>
+        {{- end }}
+      </div>
+      <a class="home-category-all" href="{{ $termPage.RelPermalink }}" aria-label="查看全部{{ .term }}">查看全部 <span aria-hidden="true">→</span></a>
+    </header>
+
+    <div class="home-category-stories">
+      {{- range first 2 $previewPages.ByDate.Reverse }}
+      <a class="home-category-story home-category-preview" href="{{ .RelPermalink }}">
+        <article>
+          <h3>{{ .Title }}</h3>
+          {{- if ne (.Param "hideSummary") true }}
+          <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}…{{ end }}</p>
+          {{- end }}
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (default "2006-01-02" site.Params.DateFormat) }}</time>
+        </article>
+      </a>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+</div>
+
+{{- end }}
