@@ -5,6 +5,7 @@ title: '31 万行代码的 AI 重构：规范先行，渐进消化'
 summary: "美团 Agent 评测团队分享了 31 万行代码库的 AI 辅助重构实践。最核心的经验不是 AI 写代码有多快，而是没有规范约束的 AI Coding 会加速系统腐化，以及技术债可以拆解为业务需求的顺带动作来渐进消化。"
 description: "从美团 31 万行代码 AI 重构实践看规范驱动的 AI Coding 和渐进式技术债治理"
 tags: ["agentic-coding"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

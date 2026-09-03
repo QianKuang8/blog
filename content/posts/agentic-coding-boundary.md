@@ -5,6 +5,7 @@ title: 'Agentic Coding 的边界：瓶颈会转移到 Review 和隐性知识'
 summary: "解读 tisonkun 关于 Agentic Coding 边界的文章：AI 能生成 plausible code，但高质量软件仍受限于复杂度控制、可量化回归指标、Review 带宽和隐性知识供给。"
 description: "从 Agentic Coding 的边界看 AI 生成代码、软件工程实践、测试、review、隐性知识和高质量软件生产"
 tags: ["agentic-coding", "agent", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

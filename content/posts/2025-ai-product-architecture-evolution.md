@@ -5,6 +5,7 @@ title: '2025 年 AI 产品及架构演进：从 Copilot 到 Autonomous Agent'
 summary: "解读这篇 2025 年 AI 产品与架构综述：最关键的变化不是又冒出了哪些新名词，而是企业终于开始从聊天式 Copilot 转向真正可托付任务的 Agent，同时底层架构也从单体 ReAct 转向分层思考、多 Agent 协作和事件驱动编排。"
 description: "从 Copilot 到 Autonomous Agent，梳理 2025 年 AI 产品与架构的真正转向"
 tags: ["agent", "行业动向"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

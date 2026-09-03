@@ -5,6 +5,7 @@ title: 'AI Coding 工具推荐'
 summary: "记录一些好用的 AI Coding 相关工具"
 description: "记录一些好用的 AI Coding 相关工具"
 tags: ["agentic-coding", "code-editing"]
+categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

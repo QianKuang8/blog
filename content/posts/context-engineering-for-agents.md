@@ -5,6 +5,7 @@ title: 'Context Engineering for Agents：把上下文窗口当作 Agent 的工�
 summary: "解读 Lance Martin 的《Context Engineering for Agents》：这篇文章最重要的价值，不只是给出 Write、Select、Compress、Isolate 四类策略，而是把 Agent 的长轨迹稳定性问题重新解释成“有限工作内存如何管理”的系统问题。"
 description: "从 Lance Martin 的文章看长轨迹 Agent 如何管理上下文窗口、外部记忆与压缩策略"
 tags: ["agent", "context-engineering"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

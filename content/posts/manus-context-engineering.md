@@ -5,6 +5,7 @@ title: '构建 Manus 的经验教训：上下文工程的工程实践'
 summary: "解读 Manus 的上下文工程文章：它最重要的判断，不是“Prompt 很重要”，而是 Agent 的竞争正在越来越多地落到上下文组织、KV-Cache 命中率、外部记忆和注意力操控这些运行时工程上。"
 description: "从 Manus 的上下文工程实践看 Agent 系统如何围绕上下文与缓存设计"
 tags: ["agent", "context-engineering"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

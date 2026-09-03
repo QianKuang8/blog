@@ -5,6 +5,7 @@ title: 'Coding Agent 的六个组件：模型之外的系统才是关键'
 summary: "解读 Sebastian Raschka 的 coding agent 组件文章：Claude Code、Codex 这类工具的能力不只来自模型，而来自 repo context、prompt shape、工具、上下文压缩、session memory 和 bounded subagents 的组合。"
 description: "从 Components of A Coding Agent 看 coding harness 的上下文、工具、记忆、缓存和子代理设计"
 tags: ["agentic-coding", "agent", "context-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

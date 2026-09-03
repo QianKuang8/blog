@@ -5,6 +5,7 @@ title: '深入解析 Codex 智能体循环'
 summary: "解读 OpenAI《深入解析 Codex 智能体循环》：这篇文章真正揭示的不是某个 prompt 技巧，而是一个生产级 coding agent 必须如何组织推理、工具执行、状态管理和上下文缓存。"
 description: "从 Codex Agent Loop 看生产级 coding agent 的运行时设计"
 tags: ["agent", "agentic-coding"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

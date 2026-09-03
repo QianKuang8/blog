@@ -5,6 +5,7 @@ title: '初始化Mac系统'
 summary: "记录一下初始化一个Mac系统需要干些什么"
 description: "记录一下初始化一个Mac系统需要干些什么"
 tags: ["init"]
+categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

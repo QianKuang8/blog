@@ -5,6 +5,7 @@ title: '企业专用化不是微调：从 Eval 定义山峰到持续学习闭环
 summary: "通用模型提供能力底座，企业用自己的 eval 定义方向、用人工纠错生产训练信号、用 model-context-harness 三层系统交付结果，再把生产反馈转成下一轮更新。这场 Stanford 讲座把'企业内部知识'从知识库问题提升为学习闭环问题。"
 description: "解读 Stanford MS&E 435 Week 6 讲座：通用模型与企业知识的结构性距离、RLVR、DoorDash 案例、持续学习与三层系统协同"
 tags: ["视频笔记", "context-engineering", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

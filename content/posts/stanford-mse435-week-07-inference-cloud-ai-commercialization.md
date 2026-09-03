@@ -5,6 +5,7 @@ title: '从定制模型到推理云：为什么离开前沿 API 可能是正确�
 summary: "推理量将增长'十亿倍'只是问题设置，真正的问题是：当 AI 从回答问题变成交付服务，推理基础设施的经济学、定制化路径和算力稀缺如何共同决定应用的毛利和防御性。"
 description: "解读 Stanford MS&E 435 Week 7：Baseten 的推理云、后训练闭环、定制模型经济学、多云推理、算力稀缺与垂直整合"
 tags: ["视频笔记", "model-engineering", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

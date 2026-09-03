@@ -5,6 +5,7 @@ title: 'How agents can use filesystems for context engineering：文件系统如
 summary: "解读 LangChain 的《How agents can use filesystems for context engineering》：这篇文章真正重要的，不是再强调“文件系统很有用”，而是解释了为什么文件系统会成为 Agent 时代最便宜、最稳定、也最符合模型先验的外部记忆与上下文交换层。"
 description: "从 LangChain 的文章看文件系统为什么会成为深度 Agent 的外部记忆与上下文总线"
 tags: ["agent", "context-engineering"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

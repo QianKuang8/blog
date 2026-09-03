@@ -1,5 +1,19 @@
 {{- $scratch := newScratch }}
 
+{{- if and .IsPage (eq .Section "posts") -}}
+{{- $categories := .GetTerms "categories" -}}
+{{- $allowedCategories := slice "好文分享" "原创文章" "视频笔记" -}}
+{{- if ne (len $categories) 1 -}}
+{{- errorf "post %q must have exactly one category, got %d" .File.Path (len $categories) -}}
+{{- end -}}
+{{- $category := index $categories 0 -}}
+{{- $categoryTerm := $category.Data.Term -}}
+{{- if not (in $allowedCategories $categoryTerm) -}}
+{{- errorf "post %q has unsupported category %q" .File.Path $categoryTerm -}}
+{{- end -}}
+{{- $scratch.Add "meta" (slice (partial "article_type.html" $category)) }}
+{{- end -}}
+
 {{- if not .Date.IsZero -}}
 {{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default "2006-01-02" site.Params.DateFormat)))) }}
 {{- end }}

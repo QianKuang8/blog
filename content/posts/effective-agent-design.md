@@ -5,6 +5,7 @@ title: 'Effective Agent Design：长程 Agent 的核心是上下文管理'
 summary: "解读 Lance Martin 对 Agent 设计模式的梳理：给 Agent 一台电脑、多层 action space、渐进暴露、缓存、隔离和演化，本质上都在解决有限上下文如何承载长任务。"
 description: "从 Effective Agent Design 看长程 Agent 的计算环境、工具空间、上下文缓存、隔离和演化策略"
 tags: ["agent", "context-engineering", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

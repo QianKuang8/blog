@@ -5,6 +5,7 @@ title: 'Claude Code Auto Mode：把批准按钮改造成分类器问题'
 summary: "解读 Claude Code auto mode 的设计：它不是简单取消权限确认，而是用 prompt-injection probe 和 transcript classifier 在自动化与安全之间做一个可度量的折中。"
 description: "从 Claude Code auto mode 看 agent 权限、prompt injection 防御、分类器门禁和自动化风险"
 tags: ["agentic-coding", "harness-engineering", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

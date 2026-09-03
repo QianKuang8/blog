@@ -5,6 +5,7 @@ title: 'Claude Code 访谈：CLI Agent 的价值在于薄，而不是全'
 summary: "解读 Latent Space 对 Claude Code 团队的访谈：这篇访谈最值得读的地方，是它把 Claude Code 的定位讲清楚了，它不是完整 IDE，而是一个尽量薄、可组合、贴近模型的 Unix utility。"
 description: "从 Claude Code 的 CLI 形态、权限系统、非交互模式和上下文策略看 coding agent 的产品边界"
 tags: ["agentic-coding", "harness-engineering", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

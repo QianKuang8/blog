@@ -5,6 +5,7 @@ title: 'Continuous AI：GitHub 想把 Agent 拉回协作流水线'
 summary: "解读 GitHub Next 的 Continuous AI：它真正强调的不是让 agent 随意接管仓库，而是把 AI 自动化放进可触发、可审计、可集成的软件协作流程里。"
 description: "从 GitHub Next 的 Continuous AI 看软件协作中的 AI 自动化边界"
 tags: ["agent", "行业动向"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

@@ -5,6 +5,7 @@ title: 'Every CLI coding agent, compared：终端已经成为 coding agent 的�
 summary: "解读 Michael Livs 的《Every CLI coding agent, compared》：这篇文章最有意思的地方，不是罗列 30 多个产品，而是说明 coding agent 的主战场已经从 IDE 辅助转向终端运行时，差异开始落在协议、沙箱、上下文管理和可扩展性上。"
 description: "从 30 多个 CLI coding agent 的横向比较看终端为何成为 agent 工程的默认载体"
 tags: ["agentic-coding", "行业动向"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

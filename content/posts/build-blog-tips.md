@@ -5,6 +5,7 @@ title: '搭建博客tips'
 summary: "一些如何搭建博客和创建博文的记录"
 description: "一些如何搭建博客和创建博文的记录"
 tags: ["blog"]
+categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

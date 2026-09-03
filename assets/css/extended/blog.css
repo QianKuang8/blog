@@ -21,3 +21,20 @@
 .terms-tags a {
   text-transform: none;
 }
+
+.article-type {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--primary);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.article-type:hover {
+  background: var(--code-bg);
+}

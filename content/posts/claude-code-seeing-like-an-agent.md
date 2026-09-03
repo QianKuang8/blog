@@ -5,6 +5,7 @@ title: 'Seeing Like an Agent：工具设计要贴着模型能力走'
 summary: "解读 Claude Code 团队关于 action space 的经验：给 Agent 设计工具，不是把所有能力都暴露出来，而是观察模型如何理解、选择和使用工具，再把工具形状调到它能稳定发挥的位置。"
 description: "从 Claude Code 的 AskUserQuestion 工具设计看 coding agent 的 action space、elicitation 和工具边界"
 tags: ["agentic-coding", "agent", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

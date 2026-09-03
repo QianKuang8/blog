@@ -5,6 +5,7 @@ title: 'Augment Next Edit：基于 RAG 的跨文件编辑传播'
 summary: "解读 Augment Next Edit：它最核心的突破，不是又做了一个会补代码的模型，而是把编辑问题拆成意图、定位、执行三层，并用专用检索与 diff 解码去处理 workspace 级的“涟漪效应”。"
 description: "从 Augment Next Edit 看跨文件编辑传播如何落到 workspace 级能力"
 tags: ["code-editing", "next-edit"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

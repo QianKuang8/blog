@@ -5,6 +5,7 @@ title: 'How to Kill the Code Review：AI 时代的人类审查应从 diff 前移
 summary: "解读《How to Kill the Code Review》：这篇文章最有刺激性的地方，不是喊“代码评审已死”，而是提出一个更值得讨论的判断：当 agent 成为主要产码者之后，人类最有价值的审核点会从 PR diff 前移到 specs、约束和验证规则。"
 description: "从 Latent Space 这篇文章看 AI 时代代码审查为何需要从读 diff 转向定义规范与验证"
 tags: ["agentic-coding"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

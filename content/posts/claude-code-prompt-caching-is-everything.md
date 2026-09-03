@@ -5,6 +5,7 @@ title: 'Prompt Caching 是 Claude Code Harness 的隐形地基'
 summary: "解读 Claude Code 团队关于 prompt caching 的经验：缓存不是成本优化小技巧，而是决定长轨迹 Agent 能不能低延迟、低成本运行的系统约束。"
 description: "从 Claude Code 的 prompt caching 实践看静态前缀、工具稳定性、上下文分叉和 cache hit rate 运维"
 tags: ["agentic-coding", "context-engineering", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

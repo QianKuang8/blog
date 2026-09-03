@@ -5,6 +5,7 @@ title: 'Kilo 重构 VS Code 扩展：把子智能体和并行执行带回编辑�
 summary: "解读 Kilo 的重构文章：它最有意思的点，不是又加了几个功能，而是说明 IDE 里的 agent 产品正在把底层核心从编辑器内部实现中抽出来，转向一个可在 CLI、IDE 和云端复用的便携 runtime。"
 description: "从 Kilo 重构 VS Code 扩展看 agent 产品如何以便携核心承载并行执行、子智能体与 worktree"
 tags: ["agentic-coding", "行业动向"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

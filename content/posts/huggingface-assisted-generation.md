@@ -5,6 +5,7 @@ title: 'HuggingFace Assisted Generation：用小模型加速大模型推理'
 summary: "解读 HuggingFace 的 Assisted Generation：这篇文章真正改变视角的地方，不是又发明了一种小技巧，而是它把文本生成的瓶颈重新定义成内存带宽问题，并用 assistant-target 架构证明不是每个 token 都值得花同样昂贵的算力。"
 description: "从 HuggingFace Assisted Generation 看大模型低延迟生成为何需要可变计算"
 tags: ["model-engineering"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

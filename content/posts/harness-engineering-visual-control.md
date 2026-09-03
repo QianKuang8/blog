@@ -5,6 +5,7 @@ title: 'Harness 工程可视化：人要开始读取系统结构'
 summary: "解读 Phodal 关于 Routa Harness 可视化的文章：AI Coding 的关键不只是生成代码，而是让反馈环、规则、控制点和工程资产变成可观察的系统结构。"
 description: "从 Routa Desktop Harness 工程可视化看多层反馈环、治理对象组织和 AI Coding 的工程可控性"
 tags: ["harness-engineering", "agentic-coding"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

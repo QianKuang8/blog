@@ -5,6 +5,7 @@ title: '5 个 Agent Skills：把经验变成可重复调用的流程'
 summary: "解读 Matt Pocock 的 Agent Skills 实践：skills 的价值不是多写几段提示词，而是把设计澄清、PRD、任务拆分、TDD 和架构整理这些工程习惯固化成可重复工作流。"
 description: "从 Matt Pocock 的 5 个日常 Agent Skills 看 AI 编程中的流程固化、TDD 和 agent-friendly 代码库"
 tags: ["agent", "harness-engineering", "博客推荐"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

@@ -5,6 +5,7 @@ title: 'LLM 开源 2.0 大洗牌：生态热度正在向基础设施沉降'
 summary: "解读 LLM 开源 2.0 大洗牌：60 个项目出局、39 个新晋项目背后，真正的趋势是应用层快速换血，基础设施层逐渐稳定，AI Coding 成为生态重心之一。"
 description: "从 LLM 开源 2.0 项目更替看 AI Coding、向量数据库、模型服务、开源商业化和生态趋势"
 tags: ["行业动向", "agentic-coding"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

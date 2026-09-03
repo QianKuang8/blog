@@ -5,6 +5,7 @@ title: 'Harness Engineering 和 SDD 不是竞争关系'
 summary: "解读《Harness Engineering 来了，SDD 还有意义吗？》：Harness 是让 Agent 可靠工作的支撑结构，而 Spec 是支撑结构里最关键的语义资产，两者不是替代关系。"
 description: "从 Harness Engineering 与 Spec-Driven Development 的关系看 AI Coding 中的 spec、scaffolding、反馈回路和工程记忆"
 tags: ["harness-engineering", "agentic-coding", "context-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

@@ -5,6 +5,7 @@ title: '好用的Skills'
 summary: "记录一些好用的Skills"
 description: "记录一些好用的Skills"
 tags: ["agent", "harness-engineering"]
+categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

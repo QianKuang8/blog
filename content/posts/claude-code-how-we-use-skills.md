@@ -5,6 +5,7 @@ title: 'Claude Code 怎么用 Skills：扩展点要按工作类型分层'
 summary: "解读 Claude Code 团队关于 Skills 的经验：好 Skill 不只是 markdown，而是可携带脚本、数据、hook 和渐进式上下文的任务包；它的分类、触发和分发方式决定了是否真的能被团队复用。"
 description: "从 Claude Code 团队的 Skills 实践看 skill 类型、description 触发、progressive disclosure、hooks、marketplace 和评估"
 tags: ["agentic-coding", "agent", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

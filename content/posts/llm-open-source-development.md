@@ -5,6 +5,7 @@ title: 'LLM 开源生态 2.0：AI Coding 正在改写项目分层'
 summary: "解读机器之心关于大模型开源生态全景图 2.0 的报道：真正值得看的不是项目名单变化，而是 AI Agent、模型服务、LLMOps 和开源商业化之间的生态位重新分配。"
 description: "从大模型开源生态全景图 2.0 看 AI Coding、Agent Workflow、Model Serving、LLMOps 和开源商业博弈"
 tags: ["行业动向", "agentic-coding", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

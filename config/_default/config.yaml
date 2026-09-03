@@ -36,20 +36,24 @@ menu:
     - name: 首页
       url: /
       weight: 10
-    - name: 归档
-      url: archives/
+    - name: 栏目
+      url: categories/
       weight: 20
-    - name: 标签
-      url: tags
-      weight: 30
     - name: 专题
       url: topics/
-      weight: 35
+      weight: 30
+    - name: 标签
+      url: tags
+      weight: 40
+    - name: 归档
+      url: archives/
+      weight: 50
     - name: 搜索
       url: search/
-      weight: 40
+      weight: 60
     - name: Github
       url: https://github.com/QianKuang8
+      weight: 70
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
@@ -85,7 +89,13 @@ params:
     Content: |
       记录 AI 工程、Coding Agent、Context Engineering 和一些个人折腾。
 
-      推荐从几条阅读路径开始：
+      按内容浏览：
+
+      - [好文分享](categories/好文分享/)
+      - [原创文章](categories/原创文章/)
+      - [视频笔记](categories/视频笔记/)
+
+      按主题阅读：
 
       - [Coding Agent](/blog/topics/coding-agent/)
       - [Context Engineering](/blog/topics/context-engineering/)

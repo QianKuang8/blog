@@ -5,6 +5,7 @@ title: 'Long-running Harness 的关键，不是多 Agent，而是把判断外置
 summary: "解读 Anthropic 的 long-running application harness 实验：文章真正值得看的不是三 agent 架构本身，而是它如何把生成、评价、规划和上下文交接拆成可调试的工程系统。"
 description: "从 Anthropic 的 generator-evaluator harness 看长时间自主编码、前端设计评价和 agent QA 的工程取舍"
 tags: ["harness-engineering", "agentic-coding", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

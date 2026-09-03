@@ -5,6 +5,7 @@ title: 'GPU 经济：当 AI 的边际成本不再是零，谁来承担 Token 工
 summary: "传统软件复制接近免费，AI 每次推理都要消耗新的计算。这场 Stanford 课堂把 GPU 经济拆成三层：token 怎样被生产、一次任务的智能为何值得付费、基础设施扩张后的收益与转型成本如何分配。"
 description: "解读 Stanford MS&E 435 Week 2：token 经济、Groq 推理芯片、异构推理工厂、代理单位经济与 100× 共设计"
 tags: ["视频笔记", "model-engineering", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

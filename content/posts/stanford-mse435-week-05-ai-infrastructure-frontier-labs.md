@@ -5,6 +5,7 @@ title: 'AI 基础设施的竞争单位：从名义算力到可交付智能的端
 summary: "前沿 AI 的竞争已从单个模型扩大为从电力、晶圆到智能体工作流的端到端交付系统。这场 Stanford 课堂从算力约束收入、吉瓦级供应链同步、智能体计算图到全栈瓶颈迁移，讨论了真正有意义的不是合同上的 GPU 数，而是能按时上线、稳定运行的有效算力。"
 description: "解读 Stanford MS&E 435 Week 5：算力交付、供应链同步、智能体计算图、TTFT 与全栈瓶颈迁移、价值迁移"
 tags: ["视频笔记", "model-engineering", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
