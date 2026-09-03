@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">已有 Cowork 任务中的一种录制消息形态</title>
+  <desc id="desc">图中展示已有 Cowork 任务优先采用的交错 content blocks：动作文字、关键帧图片、动作文字、局部裁剪图片和动作文字按录制顺序排列，并可附带整段旁白文字。新建任务也会携带同一批文字和图片，但不保证使用相同的交错布局。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 38px; font-weight: 700; }
+      .subtitle { font-size: 20px; fill: #475569; }
+      .panel-title { font-size: 25px; font-weight: 700; }
+      .section-title { font-size: 20px; font-weight: 700; }
+      .node-title { font-size: 18px; font-weight: 650; }
+      .body { font-size: 17px; fill: #334155; }
+      .small { font-size: 15px; fill: #64748b; }
+      .micro { font-size: 13px; fill: #64748b; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 16px; fill: #334155; }
+      .sequence { fill: none; stroke: #8b5cf6; stroke-width: 3; stroke-linecap: round; }
+      .sequence-arrowhead { fill: #8b5cf6; }
+      .arrowhead { fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="900" fill="#f8fafc"/>
+
+  <text class="text title" x="720" y="54" text-anchor="middle">已有 Cowork 任务中的一种消息形态</text>
+  <text class="text subtitle" x="720" y="88" text-anchor="middle">动作文字与真实图片可以按录制顺序交错</text>
+
+  <!-- One synthetic Cowork message. -->
+  <rect x="60" y="120" width="1080" height="720" rx="30" fill="#faf5ff" stroke="#a78bfa" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="60" y="120" width="1080" height="72" rx="30" fill="#7c3aed"/>
+  <path d="M60 156 H1140 V192 H60 Z" fill="#7c3aed"/>
+  <circle cx="102" cy="156" r="20" fill="#ede9fe"/>
+  <path d="M93 150 H111 M93 157 H107 M93 164 H103" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round"/>
+  <text class="text panel-title" x="140" y="164" style="fill:#ffffff">给 Agent 的一条 Cowork 消息</text>
+
+  <!-- Ordered multimodal stream. -->
+  <rect x="92" y="218" width="648" height="584" rx="22" fill="#ffffff" stroke="#ddd6fe" stroke-width="2"/>
+  <text class="text section-title" x="122" y="254" fill="#6d28d9" style="fill:#6d28d9">动作 + 图片：按录制顺序交错</text>
+  <text class="text small" x="122" y="280">图片直接夹在前后动作文字之间</text>
+
+  <line x1="132" y1="318" x2="132" y2="746" stroke="#ddd6fe" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Step 1: action text. -->
+  <circle cx="132" cy="330" r="17" fill="#7c3aed"/>
+  <text class="text small" x="132" y="336" text-anchor="middle" style="fill:#ffffff;font-weight:700">1</text>
+  <rect x="170" y="304" width="526" height="54" rx="14" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2"/>
+  <text class="text micro" x="192" y="325">动作文字</text>
+  <text class="text mono" x="192" y="347">[00:03] 切换到浏览器</text>
+  <path class="sequence" d="M132 350 V376"/>
+  <path class="sequence-arrowhead" d="M124 365 L140 365 L132 376 Z"/>
+
+  <!-- Step 2: keyframe image. -->
+  <circle cx="132" cy="401" r="17" fill="#7c3aed"/>
+  <text class="text small" x="132" y="407" text-anchor="middle" style="fill:#ffffff;font-weight:700">2</text>
+  <rect x="170" y="374" width="526" height="132" rx="14" fill="#ffffff" stroke="#a78bfa" stroke-width="2"/>
+  <text class="text micro" x="192" y="397">关键帧图片</text>
+  <rect x="192" y="410" width="482" height="76" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="192" y="410" width="482" height="19" rx="8" fill="#e2e8f0"/>
+  <circle cx="205" cy="419.5" r="3.5" fill="#f87171"/>
+  <circle cx="216" cy="419.5" r="3.5" fill="#fbbf24"/>
+  <circle cx="227" cy="419.5" r="3.5" fill="#34d399"/>
+  <rect x="208" y="440" width="98" height="35" rx="6" fill="#ede9fe"/>
+  <rect x="319" y="440" width="155" height="8" rx="4" fill="#cbd5e1"/>
+  <rect x="319" y="455" width="128" height="8" rx="4" fill="#e2e8f0"/>
+  <rect x="501" y="440" width="153" height="35" rx="6" fill="#ffffff" stroke="#a78bfa" stroke-width="2"/>
+  <text class="text micro" x="577.5" y="462" text-anchor="middle">本周金额</text>
+  <path class="sequence" d="M132 421 V524"/>
+  <path class="sequence-arrowhead" d="M124 513 L140 513 L132 524 Z"/>
+
+  <!-- Step 3: action text. -->
+  <circle cx="132" cy="546" r="17" fill="#7c3aed"/>
+  <text class="text small" x="132" y="552" text-anchor="middle" style="fill:#ffffff;font-weight:700">3</text>
+  <rect x="170" y="520" width="526" height="54" rx="14" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2"/>
+  <text class="text micro" x="192" y="541">动作文字</text>
+  <text class="text mono" x="192" y="563">[00:05] 在 Chrome 点击 (824,516)</text>
+  <path class="sequence" d="M132 566 V592"/>
+  <path class="sequence-arrowhead" d="M124 581 L140 581 L132 592 Z"/>
+
+  <!-- Step 4: crop image. -->
+  <circle cx="132" cy="617" r="17" fill="#7c3aed"/>
+  <text class="text small" x="132" y="623" text-anchor="middle" style="fill:#ffffff;font-weight:700">4</text>
+  <rect x="170" y="590" width="526" height="105" rx="14" fill="#ffffff" stroke="#a78bfa" stroke-width="2"/>
+  <text class="text micro" x="192" y="613">局部裁剪图片</text>
+  <rect x="192" y="624" width="482" height="52" rx="9" fill="#faf5ff" stroke="#c4b5fd"/>
+  <text class="text small" x="215" y="655">本周金额</text>
+  <rect x="351" y="635" width="196" height="30" rx="7" fill="#ffffff" stroke="#8b5cf6" stroke-width="2"/>
+  <line x1="373" y1="643" x2="373" y2="657" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="562" y="637" width="89" height="26" rx="13" fill="#ede9fe"/>
+  <text class="text micro" x="606.5" y="655" text-anchor="middle">输入框特写</text>
+  <path class="sequence" d="M132 637 V711"/>
+  <path class="sequence-arrowhead" d="M124 700 L140 700 L132 711 Z"/>
+
+  <!-- Step 5: action text. -->
+  <circle cx="132" cy="733" r="17" fill="#7c3aed"/>
+  <text class="text small" x="132" y="739" text-anchor="middle" style="fill:#ffffff;font-weight:700">5</text>
+  <rect x="170" y="707" width="526" height="54" rx="14" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2"/>
+  <text class="text micro" x="192" y="728">动作文字</text>
+  <text class="text mono" x="192" y="750">[00:08] 输入“42,680”</text>
+
+  <!-- Separate whole-recording narration block. -->
+  <line x1="770" y1="232" x2="770" y2="787" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="7 9"/>
+  <rect x="800" y="318" width="306" height="330" rx="22" fill="#fff7ed" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="826" y="346" width="202" height="30" rx="15" fill="#ffedd5"/>
+  <text class="text small" x="927" y="366" text-anchor="middle" style="fill:#9a3412;font-weight:700">可选旁白</text>
+  <path d="M838 414 C838 404 849 397 860 397 C871 397 882 404 882 414 V435 C882 445 871 452 860 452 C849 452 838 445 838 435 Z" fill="#ffedd5" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M860 452 V463 M849 463 H871" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
+  <text class="text body" x="826" y="501">“这里每周都要换成</text>
+  <text class="text body" x="826" y="529">表格里的最新数字。”</text>
+  <line x1="826" y1="559" x2="1080" y2="559" stroke="#fed7aa" stroke-width="2"/>
+  <text class="text small" x="826" y="594">整段语音转成文字</text>
+
+  <!-- The whole message reaches a multimodal Agent. -->
+  <path d="M1140 474 H1196" fill="none" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+  <path class="arrowhead" d="M1182 464 L1196 474 L1182 484 Z"/>
+
+  <rect x="1210" y="354" width="190" height="200" rx="28" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="1305" cy="414" r="38" fill="#2563eb"/>
+  <circle cx="1292" cy="408" r="4" fill="#ffffff"/>
+  <circle cx="1318" cy="408" r="4" fill="#ffffff"/>
+  <path d="M1290 426 Q1305 438 1320 426" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <text class="text panel-title" x="1305" y="486" text-anchor="middle">Agent</text>
+  <text class="text small" x="1305" y="516" text-anchor="middle">读取文字和图片</text>
+</svg>
