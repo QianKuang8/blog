@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">再次执行：Skill 与当前任务进入 Agent</title>
+  <desc id="desc">原始录制证据用于创建 Skill。再次执行时，保存的 Skill 和当前任务作为两项上下文进入 Agent。产品编排层 Harness 包围 Agent 的规划与后续执行过程，负责加载 Skill、提供工具、权限和运行规则。Agent 随后选择工具、执行当前任务并验证结果。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 36px; font-weight: 720; }
+      .subtitle { font-size: 19px; fill: #475569; }
+      .eyebrow { font-size: 14px; font-weight: 720; letter-spacing: 0.04em; }
+      .card-title { font-size: 22px; font-weight: 700; }
+      .node-title { font-size: 19px; font-weight: 680; }
+      .body { font-size: 17px; fill: #334155; }
+      .small { font-size: 15px; fill: #64748b; }
+      .connector { fill: none; stroke: #64748b; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+      .arrowhead { fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="900" fill="#f8fafc"/>
+
+  <text class="text title" x="720" y="50" text-anchor="middle">再次执行：Skill 与当前任务进入 Agent</text>
+  <text class="text subtitle" x="720" y="81" text-anchor="middle">Harness 加载 Skill、提供工具，并承载规划、执行与验证</text>
+
+  <!-- Recording material is a secondary source for creating the Skill. -->
+  <rect x="35" y="150" width="220" height="140" rx="21" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" filter="url(#shadow)"/>
+  <text class="text eyebrow" x="60" y="180" style="fill:#64748b">录制阶段</text>
+  <text class="text card-title" x="60" y="212">原始录制证据</text>
+  <text class="text body" x="60" y="243">操作 · 画面 · 事件</text>
+  <rect x="60" y="256" width="170" height="25" rx="12.5" fill="#ffffff" stroke="#cbd5e1"/>
+  <text class="text small" x="145" y="274" text-anchor="middle">用于创建 Skill</text>
+
+  <path class="connector" d="M255 220 H329"/>
+  <polygon class="arrowhead" points="329,213 329,227 340,220"/>
+  <text class="text small" x="292" y="204" text-anchor="middle">提炼</text>
+
+  <!-- Two peer context inputs enter the Agent. -->
+  <rect x="340" y="120" width="340" height="190" rx="23" fill="#fff7ed" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <text class="text eyebrow" x="370" y="151" style="fill:#b45309">执行上下文</text>
+  <text class="text card-title" x="370" y="184">保存的 Skill</text>
+  <text class="text body" x="370" y="213">保留可复用的方法</text>
+  <rect x="370" y="232" width="128" height="29" rx="14.5" fill="#ffedd5"/>
+  <rect x="514" y="232" width="128" height="29" rx="14.5" fill="#ffedd5"/>
+  <rect x="370" y="270" width="128" height="29" rx="14.5" fill="#ffedd5"/>
+  <rect x="514" y="270" width="128" height="29" rx="14.5" fill="#ffedd5"/>
+  <text class="text small" x="434" y="252" text-anchor="middle" style="fill:#9a3412">目标</text>
+  <text class="text small" x="578" y="252" text-anchor="middle" style="fill:#9a3412">变量</text>
+  <text class="text small" x="434" y="290" text-anchor="middle" style="fill:#9a3412">步骤</text>
+  <text class="text small" x="578" y="290" text-anchor="middle" style="fill:#9a3412">成功标准</text>
+
+  <rect x="760" y="120" width="340" height="190" rx="23" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#shadow)"/>
+  <text class="text eyebrow" x="790" y="151" style="fill:#2563eb">执行上下文</text>
+  <text class="text card-title" x="790" y="184">当前任务</text>
+  <text class="text body" x="790" y="213">此刻的数据与界面</text>
+  <rect x="790" y="232" width="280" height="67" rx="15" fill="#ffffff" stroke="#bfdbfe"/>
+  <text class="text small" x="930" y="258" text-anchor="middle">新金额 43,210 · 新位置 D8</text>
+  <text class="text small" x="930" y="284" text-anchor="middle">页面也可能已经变化</text>
+
+  <!-- Harness frames planning and the complete execution sequence. -->
+  <rect x="55" y="350" width="1330" height="530" rx="30" fill="#faf5ff" fill-opacity="0.72" stroke="#a78bfa" stroke-width="2.5"/>
+  <text class="text card-title" x="88" y="383" style="fill:#6d28d9">产品编排层（Harness）</text>
+  <text class="text small" x="88" y="410" style="fill:#7c3aed">加载 Skill · 提供工具 · 权限 · 运行规则</text>
+
+  <path class="connector" d="M510 310 V419"/>
+  <polygon class="arrowhead" points="503,419 517,419 510,430"/>
+  <path class="connector" d="M930 310 V419"/>
+  <polygon class="arrowhead" points="923,419 937,419 930,430"/>
+
+  <rect x="205" y="430" width="1030" height="120" rx="25" fill="#ecfeff" stroke="#22d3ee" stroke-width="2" filter="url(#shadow)"/>
+  <text class="text card-title" x="720" y="467" text-anchor="middle">Agent 重新规划这一次任务</text>
+  <text class="text body" x="720" y="497" text-anchor="middle">把 Skill 中的方法用于当前任务，再根据可用工具和权限制定步骤</text>
+  <rect x="360" y="512" width="200" height="27" rx="13.5" fill="#ffffff" stroke="#a5f3fc"/>
+  <rect x="620" y="512" width="200" height="27" rx="13.5" fill="#ffffff" stroke="#a5f3fc"/>
+  <rect x="880" y="512" width="200" height="27" rx="13.5" fill="#ffffff" stroke="#a5f3fc"/>
+  <text class="text small" x="460" y="531" text-anchor="middle">确认目标与变量</text>
+  <text class="text small" x="720" y="531" text-anchor="middle">定位当前对象</text>
+  <text class="text small" x="980" y="531" text-anchor="middle">制定本次步骤</text>
+
+  <path class="connector" d="M720 550 V575 H300 V614"/>
+  <polygon class="arrowhead" points="293,614 307,614 300,625"/>
+
+  <rect x="120" y="625" width="360" height="125" rx="22" fill="#ffffff" stroke="#94a3b8" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="157" cy="659" r="20" fill="#0f766e"/>
+  <text class="text node-title" x="157" y="666" text-anchor="middle" style="fill:#ffffff">1</text>
+  <text class="text card-title" x="190" y="666">选择工具</text>
+  <text class="text body" x="300" y="700" text-anchor="middle">外部服务接口 · 浏览器</text>
+  <text class="text small" x="300" y="729" text-anchor="middle">需要操作界面时使用 Computer Use</text>
+
+  <path class="connector" d="M480 687 H529"/>
+  <polygon class="arrowhead" points="529,680 529,694 540,687"/>
+
+  <rect x="540" y="625" width="360" height="125" rx="22" fill="#ffffff" stroke="#60a5fa" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="577" cy="659" r="20" fill="#2563eb"/>
+  <text class="text node-title" x="577" y="666" text-anchor="middle" style="fill:#ffffff">2</text>
+  <text class="text card-title" x="610" y="666">执行当前任务</text>
+  <text class="text body" x="720" y="700" text-anchor="middle">读取新数据，找到当前对象</text>
+  <text class="text small" x="720" y="729" text-anchor="middle">按眼前的页面完成操作</text>
+
+  <path class="connector" d="M900 687 H949"/>
+  <polygon class="arrowhead" points="949,680 949,694 960,687"/>
+
+  <rect x="960" y="625" width="360" height="125" rx="22" fill="#ffffff" stroke="#34d399" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="997" cy="659" r="20" fill="#059669"/>
+  <text class="text node-title" x="997" y="666" text-anchor="middle" style="fill:#ffffff">3</text>
+  <text class="text card-title" x="1030" y="666">验证结果</text>
+  <text class="text body" x="1140" y="700" text-anchor="middle">检查 Skill 写下的成功标准</text>
+  <text class="text small" x="1140" y="729" text-anchor="middle">结果不符时继续调整</text>
+
+  <rect x="90" y="790" width="1260" height="68" rx="22" fill="#0f172a" filter="url(#shadow)"/>
+  <text class="text node-title" x="125" y="817" style="fill:#a5b4fc">再次执行不是播放录像</text>
+  <text class="text card-title" x="720" y="839" text-anchor="middle" style="fill:#ffffff">Skill 与当前任务进入 Agent；Harness 提供运行环境</text>
+</svg>
