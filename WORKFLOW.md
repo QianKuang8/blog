@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-08-31
+> 生成时间：2026-03-20，更新：2026-09-03
 
 ## 核心目标
 
@@ -14,7 +14,7 @@
 |------|------|------|
 | **发布目标** | 知识管理型，个人网站 | 主要是 A，偏向 C |
 | **技术栈** | Hugo + PaperMod 主题 | 博文位于 `content/posts/` |
-| **内容组织** | 单篇文章 + Hugo tags | Hugo 自动生成 `/tags/xxx/` 合集页面 |
+| **内容组织** | 单篇文章 + categories + tags | 栏目区分文章类型，tags 表达主题，topics 提供阅读路径 |
 | **视频笔记** | 单篇解读 + 视频来源记录 | 来源记录保存到 `sources/video/<slug>.md` |
 | **PDF 资产** | 独立公开仓库 + submodule | 源 PDF 不压缩，挂载到 `static/pdfs` |
 | **inbox.md 定位** | 待发布队列 | 处理完后移除，目标是清空 |
@@ -24,7 +24,30 @@
 | **发布节奏** | 分批处理 | 每 5-10 篇处理一次 |
 | **多 tag 处理** | Hugo 多 tag 机制 | frontmatter 里写多个 tags |
 | **积累文章** | 分批处理 | 按主题分批，慢慢清空 inbox.md |
-| **tags 管理** | 13 个 tag，粗细结合 | 见下方 tag 体系表 |
+| **categories 管理** | 3 个栏目，单选 | `好文分享`、`原创文章`、`视频笔记` |
+| **tags 管理** | 13 个主题 tag，粗细结合 | 见下方 tag 体系表 |
+
+---
+
+## 栏目体系
+
+`categories` 回答“这是什么类型的文章”，`tags` 回答“文章在谈什么”，`topics` 则是人工维护的主题阅读路径。三者不要混用。
+
+每篇文章必须且只能选择一个栏目：
+
+| 栏目 | 适用范围 | 来源要求 |
+|------|----------|----------|
+| `好文分享` | 基于外部网页文章整理的中文解读 | 必须有 `sources/orig/<slug>.md`；历史存量除外 |
+| `原创文章` | 个人实践、研究、观点或工具清单 | 没有强制来源文件 |
+| `视频笔记` | 基于课程、访谈或演讲整理的主题式笔记 | 必须有 `sources/video/<slug>.md` 和对应 PDF |
+
+frontmatter 使用单值数组，便于 Hugo 生成 `/categories/` 及各栏目列表：
+
+```yaml
+categories: ["原创文章"]
+```
+
+纯栏目、标签或格式整理不修改 `lastmod`；只有标题、摘要、description 或正文发生变化时才更新内容时间。历史 `视频笔记` tag 暂时保留，以兼容已有 `/tags/视频笔记/` 入口。
 
 ---
 
@@ -49,7 +72,7 @@
 | `context-engineering` | 细 tag | Context Engineering |
 | `prompt-engineering` | 细 tag | Prompt Engineering |
 | `行业动向` | 中文类型 | 行业趋势、开源生态、LLM 发展 |
-| `视频笔记` | 中文类型 | 视频访谈、课程和演讲的解读文章 |
+| `视频笔记` | 兼容 tag | 暂时保留既有视频访谈、课程和演讲入口；新分类以 categories 为准 |
 | `博客推荐` | 特殊 | 博客源推荐文章 |
 
 ### 非 AI / 个人记录 tag
@@ -78,6 +101,7 @@ blog/
 │   └── failed/
 │       └── failed-sources.md # 失败记录
 ├── content/posts/        # 已发布博文
+├── content/categories/   # 栏目总页与三个栏目说明
 ├── static/pdfs/          # 目标挂载点：公开 blog-pdfs 仓库的 submodule
 └── WORKFLOW.md           # 本文档
 ```
@@ -237,7 +261,7 @@ cmp static/pdfs/<pdf-path> public/pdfs/<pdf-path>
 2. 批量处理（按主题分批）
    ├─ 2a. 生成并保存 sources/orig/<slug>.md（defuddle，必选）
    ├─ 2b. 检查原文归档是否有完整 metadata + 正文
-   ├─ 2c. 确认 tags
+   ├─ 2c. 确认 `categories: ["好文分享"]` 和 tags
    ├─ 2d. 基于原文归档撰写博客文章
    └─ 2e. 按 BLOG_PROMPTS.md 做发布前 review
 
@@ -343,6 +367,7 @@ title: '文章标题'
 summary: "摘要"
 description: "描述"
 tags: ["tag1", "tag2"]
+categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

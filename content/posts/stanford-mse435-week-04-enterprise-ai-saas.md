@@ -5,6 +5,7 @@ title: '企业 AI 的真正瓶颈不是模型能力：从生产率悖论到端�
 summary: "Ali Ghodsi 认为当前系统已经'有 AGI'，但强模型与失败的企业 POC 仍然并存。这场 Stanford 课堂用生产率悖论、Databricks Connector 案例和五层价值栈，解释了为什么模型能力之外的组织上下文和流程重构才是价值迁移的关键。"
 description: "解读 Stanford MS&E 435 Week 4：AGI 与企业价值差距、软件已死命题、生产率悖论、Amdahl 定律与价值栈"
 tags: ["视频笔记", "agent", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

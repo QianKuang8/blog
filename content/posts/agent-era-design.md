@@ -5,6 +5,7 @@ title: '代理时代的设计：执行更便宜，判断更昂贵'
 summary: "代理可以迅速生成界面、图像与代码，却不会自动决定什么值得保留。本文从共享表示、策展式工作流和三个网站评审案例出发，讨论设计工具如何让人的判断跟上生成速度。"
 description: "解读 Stephen Haney 对代理原生画布、新代理栈、AI 设计俗套、品味与信任的判断"
 tags: ["视频笔记", "agent"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

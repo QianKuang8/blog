@@ -5,6 +5,7 @@ title: 'Agent 元年复盘：从 Claude Code 到 Deep Agent，架构之争已经
 summary: "解读周星星这篇 Agent 年终复盘：它最有意思的判断，不是“Agent 很火”，而是通用型 Agent 的主从架构已经收敛，真正拉开差距的开始转向业务知识如何注入，以及系统如何稳定 long-running。"
 description: "从 Claude Code 到 Deep Agent，看通用型 Agent 架构如何收敛"
 tags: ["agent", "行业动向"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

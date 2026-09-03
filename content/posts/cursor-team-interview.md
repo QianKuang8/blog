@@ -5,6 +5,7 @@ title: 'Cursor 团队访谈：AI 编程工具真正竞争的是编辑循环'
 summary: "解读 Lex Fridman 对 Cursor 团队的访谈：这篇长访谈最有价值的地方，是把 Cursor 的产品判断还原成一个更底层的问题：AI 到底应该怎样进入程序员的编辑循环。"
 description: "从 Cursor Tab、Apply、Shadow Workspace 和 agent 边界看 AI 编程工具的产品竞争"
 tags: ["agentic-coding", "code-editing", "next-edit"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

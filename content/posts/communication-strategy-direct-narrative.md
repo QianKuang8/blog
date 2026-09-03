@@ -5,6 +5,7 @@ title: '沟通战略的核心不是说话技巧：从读懂房间到直接叙事
 summary: "Lulu Cheng Meservey 的方法论不是'如何把公关做得更好'，而是创始人怎样在资源弱势下构建运动：先读懂受众语境，形成不可替代的信念核，选择最短且不失真的叙事路径，再用真实行动和人的故事填好事实之间的空间。"
 description: "解读 Lulu Cheng Meservey 的沟通战略：Go Direct、宣言作为承诺装置、Jetsons 原则、真实性信号与长期复利"
 tags: ["视频笔记"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

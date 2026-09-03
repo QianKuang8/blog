@@ -5,6 +5,7 @@ title: 'Aider：用 Unified Diff 格式解决 LLM 的"懒惰编码"问题'
 summary: "解读 Aider 的 Unified Diff 方案：这篇文章真正证明的，不只是某种 diff 格式更好用，而是代码编辑任务里“输出格式”本身就是模型能力的一部分，格式选错了，强模型也会显得懒。"
 description: "从 Aider Unified Diff 看代码编辑格式如何决定 LLM 的实际可用性"
 tags: ["code-editing", "apply"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

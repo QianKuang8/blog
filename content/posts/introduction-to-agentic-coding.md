@@ -5,6 +5,7 @@ title: 'Introduction to Agentic Coding：从代码补全到自主编排'
 summary: "解读 Anthropic 的《Introduction to agentic coding》：这篇文章真正想说的，不只是“AI 会自己写代码了”，而是编程辅助的主战场正在从局部补全和聊天问答，转向面向整个代码库的自主编排。"
 description: "从 Anthropic 的 Agentic Coding 文章看编程辅助如何走向自主编排"
 tags: ["agent", "agentic-coding"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

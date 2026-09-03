@@ -5,6 +5,7 @@ title: 'Subagents 的价值：为 Claude Code 保留主线程的清醒'
 summary: "解读 Claude Code subagents 指南：subagent 的核心价值不是“多开几个模型”，而是在研究、并行修改和独立 review 中隔离上下文、减少主线程污染。"
 description: "从 Claude Code 官方文章看 subagents 的适用场景、调用方式、自动化路径和不该使用的边界"
 tags: ["agentic-coding", "agent", "context-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

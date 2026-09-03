@@ -5,6 +5,7 @@ title: 'Harrison Chase 谈长程 Agent：核心仍是上下文和 Harness'
 summary: "解读 Harrison Chase 关于 long-horizon agents 的访谈：长程 Agent 开始可用，不只是模型变强，而是 planning、compaction、file system、traces 和人类评估共同构成了更成熟的 harness。"
 description: "从 LangChain Harrison Chase 访谈看 long-horizon agents、context engineering、agent harness、traces 和 memory"
 tags: ["agent", "context-engineering", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

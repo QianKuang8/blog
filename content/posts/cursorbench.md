@@ -5,6 +5,7 @@ title: 'CursorBench：为什么真实开发会话比公开 benchmark 更重要'
 summary: "解读 Cursor 的《How we compare model quality in Cursor》：这篇文章最重要的价值，不是又造了一个 benchmark，而是说明 coding agent 的评测目标已经从“能不能解公开题”转向“能不能稳定贴合真实开发者工作流”。"
 description: "从 CursorBench 看 coding agent 评测为何必须走向真实任务、真实反馈和线上线下闭环"
 tags: ["agentic-coding"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

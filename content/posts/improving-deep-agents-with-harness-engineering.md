@@ -5,6 +5,7 @@ title: 'Deep Agents 提分：Harness Engineering 的价值在反馈回路'
 summary: "LangChain 这篇文章的重点不是某个提示词技巧，而是展示了如何用 trace、middleware 和验证循环，把 coding agent 的失败模式系统性转化为 harness 改进。"
 description: "解读 LangChain 如何只调整 harness，就让 deepagents-cli 在 Terminal Bench 2.0 上从 52.8 提升到 66.5。"
 tags: ["harness-engineering", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

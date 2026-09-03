@@ -5,6 +5,7 @@ title: '从分子 CAD 到自主湿实验室：AI 生命科学的两条互补路�
 summary: "AI 做药不是'输入疾病名、输出获批药'。这场 Stanford 课堂用 Chai Discovery 的分子设计引擎和 Anthropic Claude 的研发外循环，讨论了从候选生成到临床验证的完整证据链，以及实验的杰文斯悖论为什么意味着 AI 越强、实验可能越多。"
 description: "解读 Stanford MS&E 435 Week 9：分子 CAD、Claude 研发外循环、药物发现全链条、zero-shot 设计、实验杰文斯悖论与工具经济"
 tags: ["视频笔记", "model-engineering", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

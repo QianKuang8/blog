@@ -5,6 +5,7 @@ title: 'Claude Auto-Caching：把共享上下文从成本中心变成复用资�
 summary: "解读 Lance Martin 关于 Claude prompt auto-caching 的说明：缓存的价值不只是省钱，而是让无状态 API 下的 Agent 循环可以反复复用稳定上下文。"
 description: "从 Claude prompt auto-caching 看 prefill 复用、cache_control、cached token 成本和 agent loop 的上下文结构"
 tags: ["context-engineering", "agent", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

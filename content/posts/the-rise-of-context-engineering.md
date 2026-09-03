@@ -5,6 +5,7 @@ title: 'The rise of "context engineering"：从 Prompt 技巧转向运行时系�
 summary: "解读 LangChain 的《The rise of context engineering》：这篇文章真正重要的，不只是给行业补了一个新词，而是把 Agent 失败的主要原因从“模型不够聪明”重新定义成“系统没有把正确的信息、工具和格式在正确时机交给模型”。"
 description: "从 LangChain 的 context engineering 文章看 Agent 系统为什么开始转向运行时上下文编排"
 tags: ["context-engineering"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

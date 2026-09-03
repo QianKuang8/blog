@@ -5,6 +5,7 @@ title: '生成式 AI 的倒三角：为什么巨额资本先沉在底层，应�
 summary: "AI 产业的收入和利润仍然集中在半导体层，应用层两年增长超过十倍却没有改变结构。这场 Stanford 开场讲座用倒三角、时间错配和消费 AI 的用户-ARPU 双缺口，建立了一套判断 AI 价值归属的经济框架。"
 description: "解读 Stanford MS&E 435 Week 1：AI 价值分配的倒三角、供给集中与推理边际成本、跨层公司拆分、消费 AI 的规模上限与广告变现"
 tags: ["视频笔记", "model-engineering", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

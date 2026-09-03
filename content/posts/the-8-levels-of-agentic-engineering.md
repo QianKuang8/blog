@@ -5,6 +5,7 @@ title: 'The 8 Levels of Agentic Engineering：从补全到后台代理团队的�
 summary: "解读《The 8 Levels of Agentic Engineering》：这篇文章最有价值的地方，不是发明了一个新术语，而是把 agentic coding 的成熟度差异拆成了一条很具体的升级路径，从上下文工程一路走到 harness、后台代理和多智能体协作。"
 description: "从 8 个层级看 agentic engineering 如何从个人辅助工具演进成团队级生产系统"
 tags: ["agent", "agentic-coding"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

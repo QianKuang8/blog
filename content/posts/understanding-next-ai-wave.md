@@ -5,6 +5,7 @@ title: '下一波 AI 的分水岭：组织能否兑现模型能力'
 summary: "从 Tibo 访谈看下一波 AI 的真正分水岭：组织能否把模型能力转化为产品、基础设施、工作流和可治理的用户效用。"
 description: "解读 Tibo 关于 AI agent、ChatGPT 与 Codex 合流、系统级递归改进、ultra-fast 和能力普及的访谈"
 tags: ["视频笔记", "agent", "行业动向"]
+categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

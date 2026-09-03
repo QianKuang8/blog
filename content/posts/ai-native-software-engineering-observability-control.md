@@ -5,6 +5,7 @@ title: 'AI 原生软件工程：可观测性和可控制性会变成核心能力
 summary: "解读思码逸关于 AI 原生软件工程的文章：当 AI coding 过程变成黑盒，团队需要用规约、指标、测试、工具调用和连续自主时长重新建立可观测性与控制面。"
 description: "从 AI 原生软件工程看 coding agent 可观测性、规约指标、GEARS、验收测试、工作流和可控制性"
 tags: ["harness-engineering", "agentic-coding", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

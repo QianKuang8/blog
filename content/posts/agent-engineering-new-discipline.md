@@ -5,6 +5,7 @@ title: 'Agent Engineering：一门新学科的诞生'
 summary: "解读 LangChain《Agent Engineering: A New Discipline》：这篇文章真正想说的，不是 Agent 很新，而是传统软件工程在非确定性系统面前已经不够用了，团队必须围绕生产 trace、评估和快速迭代建立一套新的工程纪律。"
 description: "从 LangChain 的 Agent Engineering 文章看非确定性系统的工程方法"
 tags: ["agent"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

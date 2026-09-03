@@ -5,6 +5,7 @@ title: 'Continue Instinct：开源 Next Edit 模型的工程实践'
 summary: "解读 Continue 的 Instinct：它真正重要的地方，不只是开源了一个 Next Edit 模型，而是把这类能力从产品黑箱里拉出来，变成一个可以围绕真实编辑轨迹、开源数据和稀疏训练方法持续迭代的开放工程问题。"
 description: "从 Continue Instinct 看开源 Next Edit 模型如何被训练和评估"
 tags: ["code-editing", "next-edit"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

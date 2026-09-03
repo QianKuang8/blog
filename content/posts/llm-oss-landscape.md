@@ -5,6 +5,7 @@ title: 'Agentic AI Landscape：看生态图要先看分层'
 summary: "解读 antgroup/llm-oss-landscape：这个仓库的价值不只是收集项目，而是把 Agentic AI 生态拆成 Agent Infra、Model Infra 和 Large Models 三层，方便判断项目所在位置。"
 description: "从 Agentic AI Landscape and Trends 看开源项目生态、Agent Infra、Model Infra 和大模型基础层"
 tags: ["行业动向", "agent"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

@@ -5,6 +5,7 @@ title: 'skill-creator 的真正变化：从脚手架变成评估闭环'
 summary: "解读 Riba 对 Anthropic skill-creator 的拆解：更新后的 skill-creator 不只是生成 SKILL.md，而是把意图捕获、测试、评估、描述优化和基准比较连成了一个自我改进系统。"
 description: "从 skill-creator 的 Draft-Test-Evaluate-Improve 流程看 Agent Skills 的触发、评估、description 优化和元技能设计"
 tags: ["agent", "harness-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

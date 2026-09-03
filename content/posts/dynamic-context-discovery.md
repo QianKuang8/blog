@@ -5,6 +5,7 @@ title: 'Dynamic context discovery：为什么给 Agent 更少上下文反而更�
 summary: "解读 Cursor 的《Dynamic context discovery》：这篇文章最重要的观点，不是又提出一个新的 context engineering 名词，而是明确提出了一个反直觉判断：随着模型变强，预先塞给 Agent 的上下文不一定越多越好，很多时候更优的系统是让它自己去发现需要的上下文。"
 description: "从 Cursor 的动态上下文发现机制看编程 Agent 为什么开始从静态上下文转向按需提取"
 tags: ["agentic-coding", "context-engineering"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

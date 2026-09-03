@@ -5,6 +5,7 @@ title: '为什么需要 Context Engineering：Agent 的问题常常是上下文�
 summary: "解读周星星关于 Context Engineering 的文章：上下文工程不是 prompt engineering 的新包装，而是在 Agent 系统里动态写入、选择、压缩和隔离上下文的系统学科。"
 description: "从 Context Engineering 看 Prompt、RAG、Memory、Tools、MCP、多 Agent、上下文压缩和 Agent 评估"
 tags: ["context-engineering", "agent", "prompt-engineering"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

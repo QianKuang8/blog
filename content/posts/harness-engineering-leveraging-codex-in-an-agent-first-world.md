@@ -5,6 +5,7 @@ title: 'Agent-first 软件工程：Harness Engineering 改变的是组织方式'
 summary: "OpenAI 的 Codex 实验说明，agent-first 并不是让人类少写几行代码，而是把工程师的工作上移到环境设计、反馈回路、约束系统和可读知识库。"
 description: "解读 OpenAI 在一个百万行级别、完全由 Codex 生成代码的内部产品中总结出的 harness engineering 经验。"
 tags: ["harness-engineering", "agentic-coding"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

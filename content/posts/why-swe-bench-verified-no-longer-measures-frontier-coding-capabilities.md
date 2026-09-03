@@ -5,6 +5,7 @@ title: 'SWE-bench Verified 失效：前沿 coding benchmark 的污染与错配'
 summary: "OpenAI 停止报告 SWE-bench Verified 分数，不只是因为模型刷题刷得太多，而是因为公开 benchmark、自动化测试和真实软件能力之间的关系已经开始失真。"
 description: "解读 OpenAI 为什么认为 SWE-bench Verified 已不再适合衡量前沿模型的自主软件工程能力。"
 tags: ["agentic-coding", "行业动向"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

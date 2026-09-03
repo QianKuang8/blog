@@ -5,6 +5,7 @@ title: 'Prompt Engineering Guide：适合作为提示工程的长期导航'
 summary: "解读 Prompt Engineering Guide：它的价值不在单篇文章的深度，而在于把提示工程相关概念、论文、模型能力和工具组织成一个可持续浏览的学习入口。"
 description: "从 Prompt Engineering Guide 看提示工程作为 LLM 使用、评估和系统接入基础能力的定位"
 tags: ["prompt-engineering", "博客推荐"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

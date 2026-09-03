@@ -5,6 +5,7 @@ title: 'LLM 架构比较：今天的创新更多是在效率边界上'
 summary: "解读 Sebastian Raschka 的大模型架构比较：从 DeepSeek V3 到 GLM-5，现代 LLM 仍延续 Transformer 主干，真正的变化集中在注意力、MoE、归一化、位置编码和推理效率。"
 description: "从 The Big LLM Architecture Comparison 看 MLA、MoE、GQA、滑动窗口注意力、QK-Norm、线性注意力和现代 LLM 架构演化"
 tags: ["model-engineering", "行业动向"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

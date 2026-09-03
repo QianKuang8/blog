@@ -5,6 +5,7 @@ title: 'Uber x86 到 ARM 架构迁移实践'
 summary: "记录 Uber 将服务从 x86 架构迁移到 ARM 架构的实践经验，包括从零启动和大规模推广两个阶段"
 description: "记录 Uber 将服务从 x86 架构迁移到 ARM 架构的实践经验，包括从零启动和大规模推广两个阶段"
 tags: ["arm", "架构迁移"]
+categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true

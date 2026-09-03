@@ -5,6 +5,7 @@ title: 'Zed Edit Prediction：从代码补全到"编辑预测"'
 summary: "解读 Zed 的 Edit Prediction：它最重要的突破不是又做了一个更快的补全模型，而是把 IDE 里的 AI 任务从“在光标处续写”重新定义成“围绕编辑轨迹重写代码片段”。"
 description: "从 Zed Edit Prediction 看代码补全如何转向编辑预测"
 tags: ["code-editing", "next-edit"]
+categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
 isCJKLanguage: true

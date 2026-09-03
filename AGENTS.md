@@ -42,6 +42,7 @@ title: '标题'
 summary: "摘要"
 description: "描述"
 tags: ["tag1", "tag2"]
+categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
@@ -51,13 +52,14 @@ showToc: true
 ## 相关文档
 
 - 处理 `inbox.md` 中的文章队列、生成原文归档、发布博文时，先阅读 [WORKFLOW.md](WORKFLOW.md)。
-- 撰写或审校外部文章、视频笔记时，先阅读 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)。
+- 撰写或审校博客文章时，先阅读 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)。
 - 视频来源记录、PDF 仓库、submodule、发布和回滚规则以 [WORKFLOW.md](WORKFLOW.md) 为准。
 
 ## 规则
 
 - frontmatter 中的日期必须带时区，例如 `2024-12-08T17:22:55+08:00`。否则文章可能被解析为未来时间并导致不显示。
-- 更新博文后，必须同步更新 `lastmod`。
+- 每篇文章必须且只能属于一个栏目：`好文分享`、`原创文章` 或 `视频笔记`。栏目使用 `categories`，主题使用 `tags`。
+- 修改标题、摘要、description 或正文时，必须同步更新 `lastmod`；纯栏目、标签或格式整理保留原有 `lastmod`，避免制造虚假的内容更新时间。
 - 视频笔记必须使用 `sources/video/<slug>.md` 保存来源、时间戳和证据边界。
 - PDF 使用选定源文件，不压缩、不重新编码，只提交到公开 `blog-pdfs` 仓库；博客主仓库仅提交 `static/pdfs` submodule 指针。
 - 不要把 PDF 作为博客主仓库的普通文件提交，也不要用 `git add .` 代替对主仓库和 submodule 的分别检查。
