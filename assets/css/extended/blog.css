@@ -10,14 +10,6 @@
   margin-top: 0.35em;
 }
 
-.home-info .entry-content ul {
-  margin-top: 0.75rem;
-}
-
-.home-info .entry-content li {
-  margin-top: 0.25rem;
-}
-
 .terms-tags a {
   text-transform: none;
 }
@@ -37,4 +29,212 @@
 
 .article-type:hover {
   background: var(--code-bg);
+}
+
+.home-category-hero {
+  margin: calc(var(--gap) * 1.5) 0 calc(var(--gap) * 1.25);
+}
+
+.home-category-hero h1 {
+  color: var(--primary);
+  font-size: 36px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.home-category-intro {
+  margin-top: 10px;
+  color: var(--secondary);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.home-category-intro p {
+  margin: 0;
+}
+
+.home-category-shelves {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.home-category-shelf {
+  min-width: 0;
+  padding: 18px 20px;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 3px);
+}
+
+.home-category-heading {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-category-heading > div {
+  min-width: 0;
+}
+
+.home-category-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.home-category-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.home-category-shelf--original .home-category-heading h2 {
+  color: #326bc2;
+}
+
+.home-category-shelf--video .home-category-heading h2 {
+  color: #7449b2;
+}
+
+.home-category-shelf--shared .home-category-heading h2 {
+  color: #bb5a1c;
+}
+
+.dark .home-category-shelf--original .home-category-heading h2 {
+  color: #75a8ef;
+}
+
+.dark .home-category-shelf--video .home-category-heading h2 {
+  color: #b193e1;
+}
+
+.dark .home-category-shelf--shared .home-category-heading h2 {
+  color: #e79a64;
+}
+
+.home-category-count {
+  color: inherit;
+  font-weight: 500;
+}
+
+.home-category-heading p {
+  margin: 3px 0 0 16px;
+  color: var(--secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.home-category-all {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.home-category-all:hover {
+  color: var(--primary);
+}
+
+.home-category-stories {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-category-story {
+  min-width: 0;
+  padding: 16px 18px 2px 0;
+  color: var(--primary);
+}
+
+.home-category-story + .home-category-story {
+  padding-right: 0;
+  padding-left: 18px;
+  border-left: 1px solid var(--border);
+}
+
+.home-category-story h3 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.home-category-story p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 6px 0 0;
+  color: var(--secondary);
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.home-category-story time {
+  display: block;
+  margin-top: 8px;
+  color: var(--secondary);
+  font-size: 12px;
+}
+
+.home-category-story:hover h3 {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media screen and (max-width: 600px) {
+  .home-category-hero {
+    margin: var(--gap) 0;
+  }
+
+  .home-category-hero h1 {
+    font-size: 32px;
+  }
+
+  .home-category-shelf {
+    padding: 16px;
+  }
+
+  .home-category-heading {
+    display: block;
+  }
+
+  .home-category-heading p {
+    margin-left: 16px;
+  }
+
+  .home-category-all {
+    display: inline-block;
+    margin: 10px 0 0 16px;
+  }
+
+  .home-category-stories {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-category-story,
+  .home-category-story + .home-category-story {
+    padding: 14px 0;
+    border-left: 0;
+  }
+
+  .home-category-story + .home-category-story {
+    border-top: 1px solid var(--border);
+  }
 }
