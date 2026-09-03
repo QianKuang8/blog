@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="940" viewBox="0 0 1080 940" role="img" aria-labelledby="title desc">
+  <title id="title">一份 Skill 要写清四件事</title>
+  <desc id="desc">一张抽象的 SKILL.md 文件示意图，用四个区域说明适用场景、可变输入、操作方法和成功标准。Skill 保存可复用的方法，不保存操作录像。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.09"/>
+    </filter>
+    <style>
+      .text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 50px; font-weight: 750; }
+      .subtitle { font-size: 32px; fill: #475569; }
+      .file { font-size: 36px; font-weight: 750; fill: #1d4ed8; }
+      .card-title { font-size: 34px; font-weight: 750; fill: #1d4ed8; }
+      .body { font-size: 32px; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="1080" height="940" fill="#f8fafc"/>
+  <text class="text title" x="540" y="60" text-anchor="middle">一份 Skill 要写清四件事</text>
+  <text class="text subtitle" x="540" y="108" text-anchor="middle">SKILL.md 保存方法，不保存操作录像</text>
+
+  <!-- Abstract file sheet -->
+  <path d="M90 170 H878 L990 282 V890 H90 Z" fill="#ffffff" stroke="#93c5fd" stroke-width="4" filter="url(#shadow)"/>
+  <path d="M878 170 V282 H990" fill="#dbeafe" stroke="#93c5fd" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- Shared output -->
+  <rect x="360" y="202" width="360" height="84" rx="20" fill="#eff6ff" stroke="#60a5fa" stroke-width="3"/>
+  <path d="M405 222h43l17 17v28h-60z" fill="#dbeafe" stroke="#2563eb" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M448 222v17h17" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <text class="text file" x="590" y="255" text-anchor="middle">SKILL.md</text>
+
+  <path d="M150 326 H930" stroke="#bfdbfe" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Four fields in the shared file -->
+  <rect x="140" y="375" width="370" height="205" rx="24" fill="#eff6ff" stroke="#93c5fd" stroke-width="3"/>
+  <circle cx="195" cy="431" r="27" fill="#2563eb"/>
+  <path d="M185 430l8 8 15-19" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text card-title" x="325" y="442" text-anchor="middle">适用场景</text>
+  <text class="text body" x="325" y="526" text-anchor="middle">每周数据填报</text>
+
+  <rect x="570" y="375" width="370" height="205" rx="24" fill="#eff6ff" stroke="#93c5fd" stroke-width="3"/>
+  <circle cx="625" cy="431" r="27" fill="#2563eb"/>
+  <path d="M615 421v20M625 416v25M635 426v15" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <text class="text card-title" x="755" y="442" text-anchor="middle">可变输入</text>
+  <text class="text body" x="755" y="526" text-anchor="middle">本周表格 · 目标记录</text>
+
+  <rect x="140" y="625" width="370" height="205" rx="24" fill="#eff6ff" stroke="#93c5fd" stroke-width="3"/>
+  <circle cx="195" cy="681" r="27" fill="#2563eb"/>
+  <path d="M181 681h28M201 671l10 10-10 10" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text card-title" x="325" y="692" text-anchor="middle">操作方法</text>
+  <text class="text body" x="325" y="776" text-anchor="middle">读取 → 填写 → 提交</text>
+
+  <rect x="570" y="625" width="370" height="205" rx="24" fill="#eff6ff" stroke="#93c5fd" stroke-width="3"/>
+  <circle cx="625" cy="681" r="27" fill="#2563eb"/>
+  <path d="M613 681l8 8 17-21" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text card-title" x="755" y="692" text-anchor="middle">成功标准</text>
+  <text class="text body" x="755" y="776" text-anchor="middle">提示成功 · 金额正确</text>
+</svg>
