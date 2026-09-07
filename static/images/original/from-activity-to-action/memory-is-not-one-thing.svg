@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940" role="img" aria-labelledby="title desc">
+  <title id="title">Memory、任务上下文与数据控制不是同一层</title>
+  <desc id="desc">关系图将相关概念分开：本机最多保留四十八小时的临时事件不是 Memory；全局 Memories 是启用 Computer History 的门；本地 History Memory 是 Markdown 活动摘要；当次任务上下文只在使用 History 时进入当前任务；ChatGPT Memory 可在未来对话中继续提供相关上下文。Clear 删除相关事件和生成的 memories；ChatGPT data controls 决定对话内容能否用于改进模型，而不是新的存储位置。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="9" stdDeviation="14" flood-color="#172033" flood-opacity="0.09"/>
+    </filter>
+    <style>
+      .text { font-family: "Avenir Next", "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .title { font-size: 42px; font-weight: 760; letter-spacing: -0.02em; }
+      .center { font-size: 24px; font-weight: 650; fill: #46536a; }
+      .node-title { font-size: 27px; font-weight: 760; }
+      .body { font-size: 22px; fill: #566176; }
+      .label { font-size: 18px; font-weight: 760; letter-spacing: .06em; }
+      .band-title { font-size: 24px; font-weight: 750; }
+      .band-body { font-size: 22px; fill: #d7deea; }
+      .orange-line { fill:none; stroke:#ed7a32; stroke-width:4; stroke-linecap:round; }
+      .blue-line { fill:none; stroke:#347fc4; stroke-width:4; stroke-linecap:round; }
+      .dash-line { fill:none; stroke:#c94e3a; stroke-width:3; stroke-linecap:round; stroke-dasharray:8 8; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="940" fill="#f7f6f2"/>
+  <text class="text title" x="720" y="63" text-anchor="middle">Memory 与任务上下文不是同一层</text>
+  <text class="text center" x="720" y="105" text-anchor="middle">三种 Memory、当前任务上下文与 data controls 分别管理</text>
+
+  <!-- Gate: a prerequisite, not a store. -->
+  <rect x="410" y="144" width="620" height="120" rx="28" fill="#ffffff" stroke="#aeb7c4" stroke-width="2" filter="url(#shadow)"/>
+  <g transform="translate(442 168)">
+    <rect x="8" y="23" width="56" height="48" rx="9" fill="#eef1f5" stroke="#667286" stroke-width="3"/>
+    <path d="M20 23V15a16 16 0 0 1 32 0v8" fill="none" stroke="#667286" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="36" cy="46" r="5" fill="#667286"/>
+    <path d="M36 50v10" stroke="#667286" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text class="text label" x="535" y="181" style="fill:#566176">启用的门</text>
+  <text class="text node-title" x="535" y="218">全局 Memories</text>
+  <text class="text body" x="535" y="248" style="font-size:21px">Computer History 的启用前置项；不是本地文件</text>
+  <path d="M720 264V303" stroke="#667286" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 7"/>
+  <text class="text label" x="742" y="287" style="fill:#566176">启用条件</text>
+
+  <!-- Temporary events to local History Memory. -->
+  <rect x="74" y="318" width="344" height="224" rx="30" fill="#fff7ed" stroke="#f2a65a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="102" y="345" width="118" height="32" rx="16" fill="#ffdfc1"/>
+  <text class="text label" x="161" y="368" text-anchor="middle" style="fill:#a84312">最多 48h</text>
+  <circle cx="246" cy="424" r="37" fill="#ed7a32"/>
+  <path d="M228 413h36M228 425h36M228 437h24" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <text class="text node-title" x="246" y="494" text-anchor="middle">临时事件</text>
+  <text class="text body" x="246" y="526" text-anchor="middle">原始活动片段，不叫 Memory</text>
+
+  <path class="orange-line" d="M418 430H515"/>
+  <path d="M515 420 L533 430 L515 440 Z" fill="#ed7a32"/>
+  <text class="text label" x="466" y="405" text-anchor="middle" style="fill:#b94a13">生成摘要</text>
+
+  <rect x="533" y="303" width="374" height="264" rx="32" fill="#edf5ff" stroke="#5da0dd" stroke-width="3" filter="url(#shadow)"/>
+  <rect x="563" y="332" width="118" height="32" rx="16" fill="#d7eaff"/>
+  <text class="text label" x="622" y="355" text-anchor="middle" style="fill:#1f67a7">本机文件</text>
+  <path d="M670 381h83l26 26v75H670z" fill="#fff" stroke="#347fc4" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M753 381v26h26M689 430h69M689 449h52" fill="none" stroke="#347fc4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text node-title" x="720" y="515" text-anchor="middle">本地 History Memory</text>
+  <text class="text body" x="720" y="545" text-anchor="middle">Markdown 摘要 · Timeline 的材料</text>
+
+  <!-- At-use context. -->
+  <path class="blue-line" d="M907 430H1004"/>
+  <path d="M1004 420 L1022 430 L1004 440 Z" fill="#347fc4"/>
+  <text class="text label" x="955" y="405" text-anchor="middle" style="fill:#1f67a7">使用时</text>
+  <rect x="1022" y="318" width="344" height="224" rx="30" fill="#ebf7f0" stroke="#67b88a" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="1194" cy="412" r="39" fill="#2e9460"/>
+  <path d="M1174 397h40v32h-28l-10 9v-9h-2z" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/>
+  <text class="text node-title" x="1194" y="494" text-anchor="middle">当次任务上下文</text>
+  <text class="text body" x="1194" y="526" text-anchor="middle">使用时才进入当前任务</text>
+
+  <!-- Clear handles existing history objects. -->
+  <path class="dash-line" d="M246 620V542"/>
+  <path class="dash-line" d="M720 620V567"/>
+  <rect x="74" y="620" width="766" height="156" rx="30" fill="#fff2ef" stroke="#df7b68" stroke-width="2"/>
+  <rect x="102" y="646" width="108" height="32" rx="16" fill="#ffd9d1"/>
+  <text class="text label" x="156" y="669" text-anchor="middle" style="fill:#ad3e2d">CLEAR</text>
+  <text class="text node-title" x="102" y="713">删除相关事件和生成的 memories</text>
+  <text class="text body" x="102" y="747">处理已有记录，不改变未来采集状态</text>
+
+  <!-- Separate memory used by future chats. -->
+  <rect x="870" y="620" width="496" height="156" rx="30" fill="#ffffff" stroke="#b7c0cc" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="924" cy="678" r="27" fill="#eef1f5"/>
+  <path d="M910 678c0-12 9-22 21-22 9 0 17 6 20 14 9 1 16 8 16 17 0 10-8 18-18 18h-25c-8 0-14-6-14-14z" fill="none" stroke="#667286" stroke-width="2.5"/>
+  <text class="text label" x="974" y="655" style="fill:#566176">未来对话</text>
+  <text class="text node-title" x="974" y="695">ChatGPT Memory</text>
+  <text class="text body" x="974" y="734">可能继续使用相关 History</text>
+
+  <!-- Policy band: rule, not another store. -->
+  <rect x="74" y="812" width="1292" height="92" rx="28" fill="#172033"/>
+  <path d="M116 842h38M116 857h27M116 872h33" stroke="#67b88a" stroke-width="4" stroke-linecap="round"/>
+  <text class="text band-title" x="184" y="851" style="fill:#fff">ChatGPT data controls</text>
+  <text class="text band-body" x="184" y="882">决定对话内容能否用于改进模型；它是一条贯穿规则，不是新的存储位置</text>
+</svg>

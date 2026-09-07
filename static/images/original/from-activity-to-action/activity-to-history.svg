@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="680" viewBox="0 0 1440 680" role="img" aria-labelledby="title desc">
+  <title id="title">活动怎样变成可回看的 History</title>
+  <desc id="desc">获准的鼠标、键盘、快捷键、应用切换与辅助功能界面上下文，先写入本机最多保留四十八小时的临时事件，再送到 OpenAI 服务器临时生成摘要，写成本地 Markdown History Memory，最后由 Timeline 展示。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#172033" flood-opacity="0.09"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M1 1 L11 6 L1 11 Z" fill="#76839a"/>
+    </marker>
+    <style>
+      .text { font-family: "Avenir Next", "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .title { font-size: 42px; font-weight: 760; letter-spacing: -0.02em; }
+      .center { font-size: 24px; font-weight: 650; fill: #39465e; }
+      .eyebrow { font-size: 18px; font-weight: 750; letter-spacing: .09em; }
+      .node-title { font-size: 27px; font-weight: 740; }
+      .body { font-size: 22px; fill: #4a576d; }
+      .badge { font-size: 18px; font-weight: 720; }
+      .arrow { fill: none; stroke: #76839a; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1440" height="680" fill="#f7f6f2"/>
+  <text class="text title" x="720" y="65" text-anchor="middle">活动怎样变成可回看的 History</text>
+  <text class="text center" x="720" y="107" text-anchor="middle">系统先压缩活动，再把可审查的摘要留在本机</text>
+
+  <!-- Admitted input, kept outside the four-stage lifecycle. -->
+  <rect x="74" y="153" width="448" height="92" rx="24" fill="#fff7ed" stroke="#f2a65a" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="122" cy="199" r="25" fill="#ed7a32"/>
+  <path d="M111 198h22M122 187v22" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <text class="text eyebrow" x="163" y="189" style="fill:#b94a13">获准的活动</text>
+  <text class="text body" x="163" y="220">交互事件 + Accessibility 上下文</text>
+
+  <path class="arrow" d="M298 245 C298 284 213 284 213 328"/>
+
+  <!-- Four-stage lifecycle. -->
+  <rect x="70" y="332" width="286" height="276" rx="30" fill="#fff7ed" stroke="#f2a65a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="94" y="356" width="94" height="31" rx="15.5" fill="#ffdfc1"/>
+  <text class="text badge" x="141" y="378" text-anchor="middle" style="fill:#a84312">最多 48h</text>
+  <circle cx="213" cy="442" r="43" fill="#ed7a32"/>
+  <path d="M192 430h42M192 443h42M192 456h28" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <text class="text node-title" x="213" y="523" text-anchor="middle">本机临时事件</text>
+  <text class="text body" x="213" y="561" text-anchor="middle">等待整理的活动片段</text>
+
+  <path class="arrow" d="M356 470 H413"/>
+
+  <rect x="431" y="332" width="286" height="276" rx="30" fill="#ffffff" stroke="#b8c0cc" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="455" y="356" width="136" height="31" rx="15.5" fill="#eef0f3"/>
+  <text class="text badge" x="523" y="378" text-anchor="middle" style="fill:#566176">临时处理</text>
+  <path d="M528 489h95c21 0 36-13 36-31 0-17-13-30-30-31-7-26-29-43-56-43-29 0-53 20-58 48-18 2-32 16-32 34 0 14 8 23 18 23z" fill="#e8ebf0" stroke="#7b879a" stroke-width="3"/>
+  <path d="M548 448h53M548 462h35" stroke="#667286" stroke-width="4" stroke-linecap="round"/>
+  <text class="text node-title" x="574" y="523" text-anchor="middle">OpenAI 服务器</text>
+  <text class="text body" x="574" y="561" text-anchor="middle">临时生成活动摘要</text>
+
+  <path class="arrow" d="M717 470 H774"/>
+
+  <rect x="792" y="332" width="286" height="276" rx="30" fill="#eef6ff" stroke="#62a5e8" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="816" y="356" width="117" height="31" rx="15.5" fill="#d7eaff"/>
+  <text class="text badge" x="874.5" y="378" text-anchor="middle" style="fill:#1d65a8">留在本机</text>
+  <path d="M891 405h69l22 22v63h-91z" fill="#fff" stroke="#347fc4" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M960 405v22h22M908 449h55M908 466h42" fill="none" stroke="#347fc4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text node-title" x="935" y="523" text-anchor="middle">History Memory</text>
+  <text class="text body" x="935" y="561" text-anchor="middle">Markdown 活动摘要</text>
+
+  <path class="arrow" d="M1078 470 H1135"/>
+
+  <rect x="1153" y="332" width="217" height="276" rx="30" fill="#eaf3ff" stroke="#347fc4" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="1177" y="356" width="95" height="31" rx="15.5" fill="#cfe5ff"/>
+  <text class="text badge" x="1224.5" y="378" text-anchor="middle" style="fill:#155f9f">可回看</text>
+  <rect x="1200" y="409" width="124" height="81" rx="13" fill="#fff" stroke="#347fc4" stroke-width="3"/>
+  <line x1="1224" y1="428" x2="1224" y2="472" stroke="#7db3e6" stroke-width="3"/>
+  <circle cx="1224" cy="438" r="5" fill="#347fc4"/>
+  <circle cx="1224" cy="459" r="5" fill="#347fc4"/>
+  <path d="M1240 437h60M1240 458h42" stroke="#347fc4" stroke-width="3" stroke-linecap="round"/>
+  <text class="text node-title" x="1261.5" y="523" text-anchor="middle">Timeline</text>
+  <text class="text body" x="1261.5" y="561" text-anchor="middle">按时间浏览</text>
+
+</svg>
