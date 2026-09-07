@@ -1,0 +1,41 @@
+content/posts/from-activity-to-action.md
+  s_781c7a384cd5c1::t_ece094ce3acf86 1-141
+static/images/original/from-activity-to-action/activity-to-history.svg
+  s_781c7a384cd5c1::t_db089ce7add467 1-79
+static/images/original/from-activity-to-action/computer-history-in-three-steps.svg
+  s_781c7a384cd5c1::t_f9e6ce3d32569d 1-65
+static/images/original/from-activity-to-action/controls-scope.svg
+  s_781c7a384cd5c1::t_2e8e80bf3bf67a 1-78
+static/images/original/from-activity-to-action/discovery-surfaces.svg
+  s_781c7a384cd5c1::t_a2a17d86c49d85 1-58
+static/images/original/from-activity-to-action/history-entry-anatomy.svg
+  s_781c7a384cd5c1::t_80ceab68faff65 1-100
+static/images/original/from-activity-to-action/memory-is-not-one-thing.svg
+  s_781c7a384cd5c1::t_9cbae5840a8d3e 1-95
+static/images/original/from-activity-to-action/observation-boundary.svg
+  s_781c7a384cd5c1::t_9096294ec86958 1-90
+static/images/original/from-activity-to-action/resume-work-story.svg
+  s_781c7a384cd5c1::t_2b1ded8d625366 1-84
+static/images/original/from-activity-to-action/three-ways-to-continue.svg
+  s_781c7a384cd5c1::t_4399b1b08ea566 1-88
+static/images/original/from-activity-to-action/untrusted-history-content.svg
+  s_781c7a384cd5c1::t_4fd8008cc6bed0 1-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d652eed66606379300feada74ca64b7f281f520a",
+  "prompts": {},
+  "sessions": {
+    "s_781c7a384cd5c1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a079f8-0803-7122-8e57-a285e9b494d6",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
