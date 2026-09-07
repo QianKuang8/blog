@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">一条 Timeline History 能告诉你什么</title>
+  <desc id="desc">概念性的 Timeline 条目剖面，展示日期和时间、标题和摘要、贡献应用、本地 History 文件入口、删除入口，以及可选的 Skill 或 Automation 建议。Reveal 显示系统生成的本地 History 文件，不是原始工作文件。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#172033" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .text { font-family: "Avenir Next", "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .title { font-size: 42px; font-weight: 760; letter-spacing: -0.02em; }
+      .center { font-size: 24px; font-weight: 650; fill: #46536a; }
+      .day { font-size: 24px; font-weight: 740; }
+      .time { font-size: 20px; font-weight: 700; fill: #286eae; }
+      .entry-title { font-size: 30px; font-weight: 760; }
+      .body { font-size: 22px; fill: #4b586e; }
+      .label { font-size: 18px; font-weight: 740; letter-spacing: .04em; }
+      .action { font-size: 20px; font-weight: 720; }
+      .callout-title { font-size: 23px; font-weight: 740; }
+      .callout-body { font-size: 22px; fill: #566176; }
+      .line { fill: none; stroke: #8793a5; stroke-width: 3; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="900" fill="#f7f6f2"/>
+  <text class="text title" x="720" y="62" text-anchor="middle">一条 Timeline History 能告诉你什么</text>
+  <text class="text center" x="720" y="103" text-anchor="middle">它是活动摘要和后续入口，不是工作文件的副本</text>
+
+  <!-- Conceptual timeline entry. -->
+  <rect x="250" y="154" width="940" height="558" rx="34" fill="#fff" stroke="#b9c8d8" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="250" y="154" width="188" height="558" rx="34" fill="#edf5ff"/>
+  <path d="M404 154h34v558h-34z" fill="#edf5ff"/>
+  <text class="text day" x="344" y="214" text-anchor="middle">9 月 4 日</text>
+  <text class="text time" x="344" y="258" text-anchor="middle">11:28—11:50</text>
+  <line x1="344" y1="294" x2="344" y2="642" stroke="#a8cbea" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="344" cy="336" r="12" fill="#347fc4"/>
+  <circle cx="344" cy="474" r="8" fill="#77aee0"/>
+
+  <rect x="479" y="187" width="121" height="32" rx="16" fill="#dcecff"/>
+  <text class="text label" x="539.5" y="210" text-anchor="middle" style="fill:#1f67a7">ACTIVITY</text>
+  <text class="text entry-title" x="479" y="263">继续推进发布计划</text>
+  <text class="text body" x="479" y="307">先在 Slack 确认阻塞项，再修改浏览器里的上线说明。</text>
+  <text class="text body" x="479" y="343">最后更新表格进度，并把待确认项留在任务中。</text>
+
+  <text class="text label" x="479" y="403" style="fill:#607087">CONTRIBUTING APPS</text>
+  <g transform="translate(479 425)">
+    <rect width="142" height="50" rx="15" fill="#eef2f6"/>
+    <rect x="17" y="13" width="24" height="24" rx="6" fill="#172033"/>
+    <path d="M22 20h14v10H27l-5 4v-4z" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="text action" x="53" y="33">Slack</text>
+  </g>
+  <g transform="translate(637 425)">
+    <rect width="174" height="50" rx="15" fill="#eef2f6"/>
+    <circle cx="29" cy="25" r="13" fill="#347fc4"/>
+    <circle cx="29" cy="25" r="5" fill="#fff"/>
+    <text class="text action" x="53" y="33" textLength="96" lengthAdjust="spacingAndGlyphs">Browser</text>
+  </g>
+  <g transform="translate(827 425)">
+    <rect width="154" height="50" rx="15" fill="#eef2f6"/>
+    <rect x="17" y="13" width="24" height="24" rx="5" fill="#2e9460"/>
+    <path d="M22 19h14M22 25h14M22 31h14M27 17v18M33 17v18" stroke="#fff" stroke-width="1.6" fill="none"/>
+    <text class="text action" x="53" y="33">Sheets</text>
+  </g>
+
+  <line x1="479" y1="514" x2="1151" y2="514" stroke="#e0e4e9" stroke-width="2"/>
+
+  <g transform="translate(479 548)">
+    <rect width="244" height="56" rx="18" fill="#edf5ff" stroke="#6faee6" stroke-width="2"/>
+    <path d="M23 18h22l9 9v17H23zM45 18v9h9" fill="none" stroke="#286eae" stroke-width="2.5" stroke-linejoin="round"/>
+    <text class="text action" x="70" y="36" style="fill:#1f67a7">Reveal in Finder</text>
+  </g>
+
+  <g transform="translate(747 548)">
+    <rect width="149" height="56" rx="18" fill="#fff1ef" stroke="#e38370" stroke-width="2"/>
+    <path d="M24 23h20M29 23v22h10V23M31 18h6" fill="none" stroke="#c94e3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="text action" x="61" y="36" style="fill:#b64230">Delete</text>
+  </g>
+
+  <g transform="translate(479 630)">
+    <rect width="672" height="54" rx="18" fill="#e9f7ef" stroke="#66b98a" stroke-width="2"/>
+    <circle cx="30" cy="27" r="15" fill="#2e9460"/>
+    <path d="M24 27h12M30 21v12" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
+    <text class="text action" x="59" y="34" style="fill:#23754d">Suggested Skill / Automation</text>
+    <text class="text body" x="377" y="34">可选建议；先审阅，再起草</text>
+  </g>
+
+  <!-- Callouts: one for content, one for the source boundary. -->
+  <path class="line" d="M1190 273 H1210"/>
+  <circle cx="1190" cy="273" r="6" fill="#8793a5"/>
+  <rect x="1210" y="153" width="194" height="130" rx="21" fill="#fff" stroke="#cad1db" stroke-width="2"/>
+  <text class="text callout-title" x="1232" y="190">摘要</text>
+  <text class="text callout-body" x="1232" y="222">帮你认出</text>
+  <text class="text callout-body" x="1232" y="251">这段工作</text>
+
+  <path class="line" d="M584 604 V761 H862"/>
+  <circle cx="584" cy="604" r="6" fill="#286eae"/>
+  <rect x="837" y="744" width="484" height="106" rx="23" fill="#172033"/>
+  <text class="text callout-title" x="1079" y="784" text-anchor="middle" style="fill:#fff">Reveal 打开本地 History 文件</text>
+  <text class="text callout-body" x="1079" y="817" text-anchor="middle" style="fill:#cdd6e3">它不是代码、网页、表格等原始工作文件</text>
+</svg>

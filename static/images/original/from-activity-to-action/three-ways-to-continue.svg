@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="850" viewBox="0 0 1440 850" role="img" aria-labelledby="title desc">
+  <title id="title">History 提供三种不同的继续方式</title>
+  <desc id="desc">三条不同的路径。Ask 先预填问题，用户确认后进入 Codex 任务，并可让 Agent 回到原始来源。Home weekly 点击 View recap 后，请求 Codex 总结本周，结果仍待生成。Suggested Skill 或 Automation 需要用户先审阅，再由 Codex 起草。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#172033" flood-opacity="0.08"/>
+    </filter>
+    <marker id="blueArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M1 1L11 6L1 11Z" fill="#347fc4"/></marker>
+    <marker id="grayArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M1 1L11 6L1 11Z" fill="#76839a"/></marker>
+    <marker id="greenArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M1 1L11 6L1 11Z" fill="#2e9460"/></marker>
+    <style>
+      .text { font-family: "Avenir Next", "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .title { font-size: 42px; font-weight: 760; letter-spacing: -0.02em; }
+      .center { font-size: 24px; font-weight: 650; fill: #46536a; }
+      .lane-tag { font-size: 19px; font-weight: 780; letter-spacing: .06em; }
+      .lane-title { font-size: 28px; font-weight: 760; }
+      .step { font-size: 22px; font-weight: 680; }
+      .note { font-size: 22px; fill: #566176; }
+      .foot { font-size: 22px; font-weight: 650; }
+      .arrow-blue { fill:none; stroke:#347fc4; stroke-width:4; stroke-linecap:round; }
+      .arrow-gray { fill:none; stroke:#76839a; stroke-width:4; stroke-linecap:round; }
+      .arrow-green { fill:none; stroke:#2e9460; stroke-width:4; stroke-linecap:round; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="850" fill="#f7f6f2"/>
+  <text class="text title" x="720" y="63" text-anchor="middle">History 提供三种不同的继续方式</text>
+  <text class="text center" x="720" y="105" text-anchor="middle">想找回一件事、回顾一周，还是复用重复流程？</text>
+
+  <!-- Lane 1: Ask. -->
+  <rect x="70" y="151" width="1300" height="200" rx="30" fill="#edf5ff" stroke="#72afe6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="98" y="178" width="113" height="34" rx="17" fill="#347fc4"/>
+  <text class="text lane-tag" x="154.5" y="202" text-anchor="middle" style="fill:#fff">ASK</text>
+  <text class="text lane-title" x="98" y="254">想找回一件具体的事</text>
+  <text class="text note" x="98" y="291">例如：午饭前，发布计划做到哪了？</text>
+
+  <rect x="470" y="198" width="300" height="92" rx="22" fill="#fff" stroke="#78afe0" stroke-width="2"/>
+  <circle cx="511" cy="244" r="23" fill="#d8ebfc"/>
+  <path d="M504 239a8 8 0 1 1 9 12v4M513 263h.1" fill="none" stroke="#286eae" stroke-width="3" stroke-linecap="round"/>
+  <text class="text step" x="543" y="252">预填问题，用户确认</text>
+  <path class="arrow-blue" d="M770 244 H803"/>
+  <path d="M793 234 L807 244 L793 254 Z" fill="#347fc4"/>
+  <rect x="821" y="198" width="220" height="92" rx="22" fill="#fff" stroke="#78afe0" stroke-width="2"/>
+  <path d="M850 224h42v33h-29l-10 9v-9h-3z" fill="none" stroke="#286eae" stroke-width="3" stroke-linejoin="round"/>
+  <text class="text step" x="909" y="252">Codex 任务</text>
+  <path class="arrow-blue" d="M1041 244 H1084"/>
+  <path d="M1074 234 L1088 244 L1074 254 Z" fill="#347fc4"/>
+  <rect x="1102" y="198" width="235" height="92" rx="22" fill="#fff" stroke="#78afe0" stroke-width="2"/>
+  <path d="M1131 223h40l13 13v33h-53zM1171 223v13h13" fill="none" stroke="#286eae" stroke-width="3" stroke-linejoin="round"/>
+  <text class="text step" x="1194" y="252">回到原始来源</text>
+  <text class="text note" x="922" y="325" text-anchor="middle">Agent 可以循线索找文件或网页；回答仍需核对</text>
+
+  <!-- Lane 2: weekly recap. -->
+  <rect x="70" y="380" width="1300" height="200" rx="30" fill="#ffffff" stroke="#c9ced6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="98" y="407" width="196" height="34" rx="17" fill="#172033"/>
+  <text class="text lane-tag" x="196" y="431" text-anchor="middle" style="fill:#fff">HOME WEEKLY</text>
+  <text class="text lane-title" x="98" y="483">想回顾这一周</text>
+  <text class="text note" x="98" y="520">Home 在满足展示条件后，可能出现周回顾入口</text>
+
+  <rect x="570" y="426" width="244" height="92" rx="22" fill="#f7f8fa" stroke="#aeb7c4" stroke-width="2"/>
+  <rect x="590" y="449" width="145" height="45" rx="14" fill="#172033"/>
+  <text class="text step" x="662.5" y="480" text-anchor="middle" style="fill:#fff">View recap</text>
+  <path class="arrow-gray" d="M814 472 H869"/>
+  <path d="M859 462 L873 472 L859 482 Z" fill="#76839a"/>
+  <rect x="887" y="426" width="364" height="92" rx="22" fill="#f7f8fa" stroke="#aeb7c4" stroke-width="2"/>
+  <path d="M915 472 L962 449 L950 494 L938 477 Z" fill="none" stroke="#566176" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M938 477 L962 449" stroke="#566176" stroke-width="3" stroke-linecap="round"/>
+  <text class="text step" x="989" y="479">请求 Codex 总结本周</text>
+  <text class="text note" x="1069" y="551" text-anchor="middle">客户端提交请求；总结仍待生成</text>
+
+  <!-- Lane 3: suggestion. -->
+  <rect x="70" y="609" width="1300" height="200" rx="30" fill="#ebf7f0" stroke="#67b88a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="98" y="636" width="159" height="34" rx="17" fill="#2e9460"/>
+  <text class="text lane-tag" x="177.5" y="660" text-anchor="middle" style="fill:#fff">SUGGESTION</text>
+  <text class="text lane-title" x="98" y="712">发现重复工作</text>
+  <text class="text note" x="98" y="749">Timeline 可能建议 Skill 或 Automation</text>
+
+  <rect x="537" y="655" width="232" height="92" rx="22" fill="#fff" stroke="#70b98e" stroke-width="2"/>
+  <path d="M569 679h31v39h-31zM576 690h17M576 700h17M576 710h11" fill="none" stroke="#257b50" stroke-width="3" stroke-linecap="round"/>
+  <text class="text step" x="620" y="709">先审阅建议</text>
+  <path class="arrow-green" d="M769 701 H822"/>
+  <path d="M812 691 L826 701 L812 711 Z" fill="#2e9460"/>
+  <rect x="840" y="655" width="497" height="92" rx="22" fill="#fff" stroke="#70b98e" stroke-width="2"/>
+  <circle cx="882" cy="701" r="21" fill="#d9f0e3"/>
+  <path d="M872 701h20M882 691v20" stroke="#257b50" stroke-width="3" stroke-linecap="round"/>
+  <text class="text step" x="916" y="709">Codex 起草 Skill / Automation</text>
+</svg>

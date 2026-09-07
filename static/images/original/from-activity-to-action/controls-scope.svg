@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="850" viewBox="0 0 1440 850" role="img" aria-labelledby="title desc">
+  <title id="title">控制未来采集与清理已有记录是两回事</title>
+  <desc id="desc">以现在为分界，一侧是清理已经产生的 History，包括删除单条和按时间范围 Clear；另一侧是控制未来活动的来源与采集状态，包括 Include only 或 Exclude、Pause 或 Resume、Turn off。Turn off 不会自动删除已有 History，Clear 不可撤销。</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#172033" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .text { font-family: "Avenir Next", "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .title { font-size: 42px; font-weight: 760; letter-spacing: -0.02em; }
+      .center { font-size: 24px; font-weight: 650; fill: #46536a; }
+      .side { font-size: 29px; font-weight: 760; }
+      .item-title { font-size: 24px; font-weight: 740; }
+      .body { font-size: 22px; fill: #566176; }
+      .badge { font-size: 18px; font-weight: 760; letter-spacing: .06em; }
+      .result { font-size: 25px; font-weight: 730; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="850" fill="#f7f6f2"/>
+  <text class="text title" x="720" y="63" text-anchor="middle">控制未来采集与清理已有记录是两回事</text>
+  <text class="text center" x="720" y="105" text-anchor="middle">先问：我要改变接下来的采集，还是清理已有记录？</text>
+
+  <!-- Shared now marker and two control scopes. -->
+  <line x1="720" y1="158" x2="720" y2="657" stroke="#172033" stroke-width="4" stroke-dasharray="8 10"/>
+  <rect x="660" y="142" width="120" height="48" rx="24" fill="#172033"/>
+  <text class="text item-title" x="720" y="175" text-anchor="middle" style="fill:#fff">现在</text>
+
+  <path d="M102 223H659" fill="none" stroke="#c94e3a" stroke-width="5" stroke-linecap="round"/>
+  <path d="M781 223H1338" fill="none" stroke="#347fc4" stroke-width="5" stroke-linecap="round"/>
+  <text class="text side" x="365" y="276" text-anchor="middle" style="fill:#ad3e2d">清理已有记录</text>
+  <text class="text side" x="1075" y="276" text-anchor="middle" style="fill:#246cae">控制未来采集</text>
+
+  <!-- Past controls. -->
+  <rect x="92" y="318" width="267" height="210" rx="28" fill="#fff2ef" stroke="#e58a78" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="225.5" cy="375" r="30" fill="#d85843"/>
+  <path d="M212 369h27M217 369v25h17v-25M220 362h11" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text item-title" x="225.5" y="440" text-anchor="middle">Delete</text>
+  <text class="text body" x="225.5" y="477" text-anchor="middle">删除单个条目</text>
+
+  <rect x="391" y="318" width="267" height="210" rx="28" fill="#fff2ef" stroke="#d85843" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="419" y="342" width="113" height="31" rx="15.5" fill="#ffd9d1"/>
+  <text class="text badge" x="475.5" y="364" text-anchor="middle" style="fill:#a93625">不可撤销</text>
+  <path d="M495 391h60v40h-60zM505 381h40M512 381v-8h26v8" fill="none" stroke="#c94e3a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="text item-title" x="524.5" y="463" text-anchor="middle">Clear</text>
+  <text class="text body" x="524.5" y="498" text-anchor="middle">清除所选时间范围</text>
+  <text class="text body" x="365" y="571" text-anchor="middle">对象：已经产生的事件与 History</text>
+
+  <!-- Future controls. -->
+  <rect x="782" y="318" width="176" height="210" rx="28" fill="#edf5ff" stroke="#78afe0" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="870" cy="375" r="30" fill="#347fc4"/>
+  <path d="M857 375h26M870 362v26" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+  <text class="text item-title" x="870" y="440" text-anchor="middle" style="font-size:21px">Include only</text>
+  <text class="text item-title" x="870" y="471" text-anchor="middle">/ Exclude</text>
+  <text class="text body" x="870" y="505" text-anchor="middle">调整来源范围</text>
+
+  <rect x="982" y="318" width="176" height="210" rx="28" fill="#edf5ff" stroke="#78afe0" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="1070" cy="375" r="30" fill="#347fc4"/>
+  <path d="M1061 362v26M1079 362v26" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <text class="text item-title" x="1070" y="440" text-anchor="middle">Pause</text>
+  <text class="text item-title" x="1070" y="471" text-anchor="middle">/ Resume</text>
+  <text class="text body" x="1070" y="505" text-anchor="middle">暂时停或恢复</text>
+
+  <rect x="1182" y="318" width="176" height="210" rx="28" fill="#f3f6fa" stroke="#92a0b3" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="1270" cy="375" r="30" fill="#667286"/>
+  <path d="M1270 357v18M1257 364a18 18 0 1 0 26 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <text class="text item-title" x="1270" y="455" text-anchor="middle">Turn off</text>
+  <text class="text body" x="1270" y="493" text-anchor="middle">停止未来采集</text>
+  <text class="text body" x="1070" y="571" text-anchor="middle">对象：接下来会不会收、从哪里收</text>
+
+  <!-- Essential non-equivalence. -->
+  <rect x="187" y="657" width="1066" height="119" rx="30" fill="#172033"/>
+  <circle cx="258" cy="716.5" r="31" fill="#d85843"/>
+  <path d="M246 716.5h24" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <text class="text result" x="720" y="705" text-anchor="middle" style="fill:#fff">Turn off 只停止未来采集</text>
+  <text class="text center" x="720" y="746" text-anchor="middle" style="fill:#cfd7e2">已有 History 会保留，直到你另外 Delete 或 Clear</text>
+</svg>
