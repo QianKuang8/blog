@@ -1,0 +1,31 @@
+sources/video/how-claude-code-team-uses-claude-code.md
+  s_360f30d6a38071::t_8b9ecd5d038a1e 1-69
+static/images/how-claude-code-team-uses-claude-code/review-workflow.svg
+  s_20b8390358f060::t_5404f57e579477 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e06d71dfaff7aaf5e295e2ef45817f8c130869a6",
+  "prompts": {},
+  "sessions": {
+    "s_20b8390358f060": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07fe3-699c-7df2-bcd7-c8747cd8953e",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_360f30d6a38071": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07fe8-d7c2-7c61-b3d2-b694c92dd5bd",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
