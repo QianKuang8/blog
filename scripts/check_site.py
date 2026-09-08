@@ -3,13 +3,14 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from functools import lru_cache
 from html.parser import HTMLParser
 import json
+import re
 import sys
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urljoin, urlsplit
 from xml.etree import ElementTree
 
 
@@ -31,6 +32,10 @@ class PageParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.json_ld_scripts: list[str] = []
         self.links: list[tuple[dict[str, str | None], str]] = []
+        self.references: list[tuple[str, str, str]] = []
+        self.canonical_url: str | None = None
+        self.post_meta: list[str] = []
+        self.post_meta_fields: set[str] = set()
         self.main_menu_links: list[tuple[dict[str, str | None], str]] = []
         self.meta: list[dict[str, str | None]] = []
         self.headings: list[tuple[str, str]] = []
@@ -47,6 +52,8 @@ class PageParser(HTMLParser):
         self._heading_tag: str | None = None
         self._heading_parts: list[str] = []
         self._main_menu_depth = 0
+        self._post_meta_depth = 0
+        self._post_meta_parts: list[str] = []
         self._section_depth = 0
         self._shelf_contexts: list[tuple[int, dict[str, object]]] = []
 
@@ -57,6 +64,22 @@ class PageParser(HTMLParser):
         classes = class_names(attributes)
         for class_name in classes:
             self.class_counts[class_name] = self.class_counts.get(class_name, 0) + 1
+
+        for attribute in ("href", "src"):
+            if attributes.get(attribute) and tag != "base":
+                self.references.append((tag, attribute, attributes[attribute]))
+        if tag == "link" and "canonical" in (attributes.get("rel") or "").split():
+            self.canonical_url = attributes.get("href")
+        if tag == "div":
+            if self._post_meta_depth:
+                self._post_meta_depth += 1
+            elif "post-meta" in classes:
+                self._post_meta_depth = 1
+                self._post_meta_parts = []
+        if self._post_meta_depth:
+            self.post_meta_fields.update(
+                (attributes.get("data-post-meta-fields") or "").split()
+            )
 
         if tag == "ul":
             if self._main_menu_depth:
@@ -98,6 +121,8 @@ class PageParser(HTMLParser):
             self._link_preview_datetime = attributes.get("datetime")
 
     def handle_data(self, data: str) -> None:
+        if self._post_meta_depth:
+            self._post_meta_parts.append(data)
         if self._json_ld_parts is not None:
             self._json_ld_parts.append(data)
         if self._link_attrs is not None:
@@ -106,6 +131,10 @@ class PageParser(HTMLParser):
             self._heading_parts.append(data)
 
     def handle_endtag(self, tag: str) -> None:
+        if tag == "div" and self._post_meta_depth:
+            self._post_meta_depth -= 1
+            if not self._post_meta_depth:
+                self.post_meta.append(" ".join("".join(self._post_meta_parts).split()))
         if tag == "script" and self._json_ld_parts is not None:
             self.json_ld_scripts.append("".join(self._json_ld_parts).strip())
             self._json_ld_parts = None
@@ -166,8 +195,19 @@ def parse_html(relative_path: str) -> PageParser:
     return parser
 
 
-def json_ld(relative_path: str) -> list[dict]:
-    return [json.loads(script) for script in parse_html(relative_path).json_ld_scripts]
+def json_ld(relative_path: str, failures: list[str]) -> list[dict]:
+    items = []
+    for script in parse_html(relative_path).json_ld_scripts:
+        try:
+            item = json.loads(script)
+        except json.JSONDecodeError as error:
+            failures.append(f"{relative_path} should contain valid JSON-LD: {error}")
+            continue
+        if not isinstance(item, dict):
+            failures.append(f"{relative_path} JSON-LD should contain an object")
+            continue
+        items.append(item)
+    return items
 
 
 def assert_true(condition: bool, message: str, failures: list[str]) -> None:
@@ -185,6 +225,145 @@ def url_path_ends_with(href: str | None, suffix: str) -> bool:
     path = normalized_url_path(href)
     normalized_suffix = suffix.strip("/")
     return path == normalized_suffix or path.endswith(f"/{normalized_suffix}")
+
+
+def schema_datetime(
+    schema: dict, field: str, relative_path: str, failures: list[str]
+) -> datetime | None:
+    value = schema.get(field)
+    try:
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("missing date")
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if parsed.utcoffset() is None or parsed.year == 1:
+            raise ValueError("missing timezone or zero date")
+    except ValueError:
+        failures.append(
+            f"{relative_path} BlogPosting {field} should be a real ISO datetime with timezone"
+        )
+        return None
+    return parsed
+
+
+def validate_post_meta(
+    relative_path: str,
+    page: PageParser,
+    schema: dict,
+    published: datetime | None,
+    modified: datetime | None,
+    failures: list[str],
+) -> None:
+    # PaperMod omits the container entirely when hideMeta is enabled.
+    if not page.post_meta:
+        return
+    text = " ".join(page.post_meta)
+    parts = [part.strip() for part in text.split("·")]
+    assert_true(
+        bool(text) and all(parts),
+        f"{relative_path} post-meta should not be empty or contain empty separator items",
+        failures,
+    )
+    fields = page.post_meta_fields
+    assert_true(
+        bool(fields),
+        f"{relative_path} post-meta should declare its enabled data-post-meta-fields",
+        failures,
+    )
+    assert_true(
+        fields <= {"date", "updated", "reading-time", "word-count", "author"},
+        f"{relative_path} post-meta declares unsupported fields: {sorted(fields)}",
+        failures,
+    )
+    if "date" in fields and published:
+        assert_true(
+            published.date().isoformat() in parts,
+            f"{relative_path} post-meta should show its publication date",
+            failures,
+        )
+    if "updated" in fields and modified:
+        assert_true(
+            f"更新于 {modified.date().isoformat()}" in parts,
+            f"{relative_path} post-meta should show its modification date",
+            failures,
+        )
+    if "reading-time" in fields:
+        assert_true(
+            any(re.fullmatch(r"\d+\s*(?:分钟|min(?:ute)?s?)", part) for part in parts),
+            f"{relative_path} post-meta should show a numeric reading time",
+            failures,
+        )
+    if "word-count" in fields:
+        count = str(schema.get("wordCount", ""))
+        assert_true(
+            count.isdigit()
+            and any(
+                re.fullmatch(rf"{count}\s*(?:字|words?)", part)
+                or (count == "1" and part == "字")
+                for part in parts
+            ),
+            f"{relative_path} post-meta word count should match BlogPosting wordCount",
+            failures,
+        )
+    if "author" in fields:
+        authors = schema.get("author", [])
+        if isinstance(authors, dict):
+            authors = [authors]
+        if not isinstance(authors, list):
+            authors = []
+        names = [
+            author.get("name")
+            for author in authors
+            if isinstance(author, dict) and isinstance(author.get("name"), str)
+        ]
+        assert_true(
+            bool(names) and all(names) and ", ".join(names) in parts,
+            f"{relative_path} post-meta should show its BlogPosting author",
+            failures,
+        )
+
+
+def validate_local_references(failures: list[str]) -> None:
+    home_url = parse_html("index.html").canonical_url or ""
+    home = urlsplit(home_url)
+    if home.scheme not in {"http", "https"} or not home.netloc:
+        failures.append("home page should have an absolute canonical URL for link validation")
+        return
+    base_path = unquote(home.path).rstrip("/") + "/"
+    root = SITE_DIR.resolve()
+    for html_path in sorted(SITE_DIR.rglob("*.html")):
+        relative_path = html_path.relative_to(SITE_DIR).as_posix()
+        page_url = urljoin(home_url.rstrip("/") + "/", quote(relative_path))
+        for tag, attribute, reference in parse_html(relative_path).references:
+            try:
+                raw = urlsplit(reference)
+            except ValueError:
+                failures.append(f"{relative_path}: invalid {tag}[{attribute}] URL: {reference}")
+                continue
+            if (raw.scheme and raw.scheme not in {"http", "https"}) or not raw.path:
+                continue
+            resolved = urlsplit(urljoin(page_url, reference))
+            if (resolved.scheme, resolved.netloc) != (home.scheme, home.netloc):
+                continue
+            path = unquote(resolved.path)
+            if path == base_path.rstrip("/"):
+                path = base_path
+            # Absolute URLs may point to other sites on this origin. Relative
+            # references must retain this site's deployment path (e.g. /blog/).
+            if not path.startswith(base_path):
+                assert_true(
+                    bool(raw.netloc),
+                    f"{relative_path}: {tag}[{attribute}] is outside site base path {base_path}: {reference}",
+                    failures,
+                )
+                continue
+            target = (root / path[len(base_path):]).resolve()
+            if target.is_dir():
+                target /= "index.html"
+            assert_true(
+                target.is_relative_to(root) and target.is_file(),
+                f"{relative_path}: {tag}[{attribute}] target does not exist: {reference}",
+                failures,
+            )
 
 
 def rss_items(
@@ -219,7 +398,7 @@ def rss_items(
 def main() -> int:
     failures: list[str] = []
 
-    home_schema = json_ld("index.html")
+    home_schema = json_ld("index.html", failures)
     people = [item for item in home_schema if item.get("@type") == "Person"]
     assert_true(bool(people), "home page JSON-LD should describe Qian as a Person", failures)
     if people:
@@ -241,23 +420,12 @@ def main() -> int:
             f"{relative_path} should be generated",
             failures,
         )
-        page_schema = json_ld(relative_path)
+        page_schema = json_ld(relative_path, failures)
         assert_true(
             not any(item.get("@type") == "BlogPosting" for item in page_schema),
             f"{relative_path} should not emit BlogPosting JSON-LD",
             failures,
         )
-
-    post_schema = json_ld("posts/claude-code-prompt-caching-is-everything/index.html")
-    assert_true(
-        any(
-            item.get("@type") == "BlogPosting"
-            and not str(item.get("datePublished", "")).startswith("0001")
-            for item in post_schema
-        ),
-        "post pages should still emit BlogPosting JSON-LD with a real date",
-        failures,
-    )
 
     home_page = parse_html("index.html")
     assert_true(
@@ -459,13 +627,31 @@ def main() -> int:
     )
 
     posts_dir = SITE_DIR / "posts"
-    for post_path in sorted(posts_dir.glob("*/index.html")):
+    post_count = 0
+    for post_path in sorted(posts_dir.rglob("*.html")):
         relative_path = post_path.relative_to(SITE_DIR).as_posix()
-        if not any(
-            item.get("@type") == "BlogPosting" for item in json_ld(relative_path)
-        ):
-            continue
         post_page = parse_html(relative_path)
+        if not post_page.class_counts.get("post-single"):
+            continue
+        post_count += 1
+        schemas = [
+            item for item in json_ld(relative_path, failures)
+            if item.get("@type") == "BlogPosting"
+        ]
+        assert_true(
+            len(schemas) == 1,
+            f"{relative_path} should contain exactly one BlogPosting JSON-LD object",
+            failures,
+        )
+        if schemas:
+            schema = schemas[0]
+            published = schema_datetime(schema, "datePublished", relative_path, failures)
+            modified = schema_datetime(schema, "dateModified", relative_path, failures)
+            validate_post_meta(
+                relative_path, post_page, schema, published, modified, failures
+            )
+        if not post_page.post_meta:
+            continue
         article_types = [
             text
             for attrs, text in post_page.links
@@ -482,6 +668,9 @@ def main() -> int:
                 f"{relative_path} has an unsupported article category: {article_types[0]}",
                 failures,
             )
+
+    assert_true(post_count > 0, "at least one post page should be generated", failures)
+    validate_local_references(failures)
 
     search_page = parse_html("search/index.html")
     assert_true(
