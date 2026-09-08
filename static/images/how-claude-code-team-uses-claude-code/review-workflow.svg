@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="714" viewBox="0 0 640 714" role="img" aria-labelledby="title desc">
+  <title id="title">代码审查：并行查找之后，逐项复核再汇总</title>
+  <desc id="desc">根据访谈整理：把审查目标分给多个搜索分支，收集候选问题；从不同视角逐项复核，过滤不成立的问题，再把重要发现交给人。分支数量仅为示意。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#426b80"/></marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #203c49; text-anchor: middle; }
+      .heading { font-size: 27px; font-weight: 650; }
+      .label { font-size: 25px; font-weight: 600; }
+      .body { font-size: 22px; }
+      .note { font-size: 19px; fill: #516873; }
+      .line { fill: none; stroke: #426b80; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="640" height="714" rx="16" fill="#f7f9fa"/>
+  <text x="320" y="49" class="heading">并行扩大搜索，复核帮助收敛</text>
+  <rect x="130" y="81" width="380" height="70" rx="10" fill="#e5eef3" stroke="#9bb6c5"/>
+  <text x="320" y="125" class="label">目标：找出值得处理的问题</text>
+  <path d="M 260 152 V 176 H 166 V 198" class="line"/>
+  <path d="M 380 152 V 176 H 474 V 198" class="line"/>
+  <rect x="42" y="208" width="248" height="92" rx="10" fill="#fff" stroke="#9bb6c5"/>
+  <rect x="350" y="208" width="248" height="92" rx="10" fill="#fff" stroke="#9bb6c5"/>
+  <text x="166" y="247" class="label">搜索分支 A</text>
+  <text x="166" y="279" class="body">寻找候选问题</text>
+  <text x="474" y="247" class="label">搜索分支 B</text>
+  <text x="474" y="279" class="body">寻找候选问题</text>
+  <text x="320" y="334" class="note">分支数按任务确定</text>
+  <path d="M 166 301 V 357 H 290 V 381" class="line"/>
+  <path d="M 474 301 V 357 H 350 V 381" class="line"/>
+  <rect x="62" y="391" width="516" height="126" rx="10" fill="#fcf3df" stroke="#cbb780"/>
+  <text x="320" y="430" class="label">逐项复核候选问题</text>
+  <text x="320" y="465" class="body">从不同视角质疑：问题是否真实？</text>
+  <text x="320" y="495" class="body">过滤不成立的问题，保留重要发现</text>
+  <path d="M 320 518 V 553" class="line"/>
+  <rect x="90" y="563" width="460" height="94" rx="10" fill="#e5eef3" stroke="#9bb6c5"/>
+  <text x="320" y="602" class="label">汇总给人判断</text>
+  <text x="320" y="635" class="body">结合产品背景、API 设计与服务边界</text>
+  <text x="320" y="694" class="note">根据视频 09:16–14:04 整理重绘，分支仅为示意</text>
+</svg>
