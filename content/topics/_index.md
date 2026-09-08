@@ -1,5 +1,6 @@
 ---
 title: "专题"
+aliases: ["/topics/page/1/"]
 description: "按问题选择 AI 工程阅读路径，或按周浏览 Stanford MS&E 435 课程笔记。"
 summary: "从 Coding Agent、上下文、Harness、记忆与 Skill 到 Stanford AI 经济课程，按问题选择阅读入口。"
 hideMeta: true

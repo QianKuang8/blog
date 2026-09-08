@@ -11,7 +11,8 @@
 {{- if not (in $allowedCategories $categoryTerm) -}}
 {{- errorf "post %q has unsupported category %q" .File.Path $categoryTerm -}}
 {{- end -}}
-{{- $scratch.Add "meta" (slice (partial "article_type.html" $category)) }}
+{{/* Normalize partial HTML to strings so Scratch keeps a flat string slice. */}}
+{{- $scratch.Add "meta" (slice (printf "%s" (partial "article_type.html" $category))) }}
 {{- end -}}
 
 {{- if not .Date.IsZero -}}
@@ -34,10 +35,27 @@
 
 {{- if not (.Param "hideAuthor") -}}
 {{- with (partial "author.html" .) }}
-{{- $scratch.Add "meta" (slice .) }}
+{{- $scratch.Add "meta" (slice (printf "%s" .)) }}
 {{- end }}
 {{- end }}
 
+{{/* Declare enabled fields independently of the rendered items for validation. */}}
+{{- if not .Date.IsZero -}}
+{{- $scratch.Add "fields" (slice "date") }}
+{{- end }}
+{{- if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02 15:04:05 -0700 MST") (.Date.Format "2006-01-02 15:04:05 -0700 MST")) -}}
+{{- $scratch.Add "fields" (slice "updated") }}
+{{- end }}
+{{- if (.Param "ShowReadingTime") -}}
+{{- $scratch.Add "fields" (slice "reading-time") }}
+{{- end }}
+{{- if (.Param "ShowWordCount") -}}
+{{- $scratch.Add "fields" (slice "word-count") }}
+{{- end }}
+{{- if and (not (.Param "hideAuthor")) (partial "author.html" .) -}}
+{{- $scratch.Add "fields" (slice "author") }}
+{{- end }}
+
 {{- with ($scratch.Get "meta") }}
-{{- delimit . "&nbsp;·&nbsp;" | safeHTML -}}
+<span data-post-meta-fields="{{ delimit ($scratch.Get "fields" | default (slice)) " " }}">{{ delimit . "&nbsp;·&nbsp;" | safeHTML }}</span>
 {{- end -}}

@@ -10,8 +10,6 @@ author: "Qian"
 isCJKLanguage: true
 showToc: true
 ---
-# 初始化Mac
-
 初始化一台新的 Mac 时，我通常会先把基础开发软件、语言环境和效率工具补齐。这里记录一份我自己常用的安装清单，供以后重装系统时回查。
 
 实际核验日期及对应的 macOS 版本、芯片架构尚未记录。
