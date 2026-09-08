@@ -1,0 +1,23 @@
+config/_default/config.yaml
+  s_48027e62cea7d9::t_b3bc15b449ecda 17
+layouts/topics/list.html
+  s_48027e62cea7d9::t_104d079625aeff 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "99c874538a573f1b06a4a9e5d2686c9156f08512",
+  "prompts": {},
+  "sessions": {
+    "s_48027e62cea7d9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07fe4-8489-7d51-b5c0-4a0e57f622a3",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
