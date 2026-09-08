@@ -1,0 +1,21 @@
+sources/orig/uber-efficient-software-factory.md
+  s_fc32fb78fc89d3::t_0485b7e80f469c 1-251
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ab940421235f10c67dd6fd4c524c0783f2e9915b",
+  "prompts": {},
+  "sessions": {
+    "s_fc32fb78fc89d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07fd8-cd1f-7553-8de4-196a30e6914d",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
