@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
-lastmod: '2026-08-31T16:40:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '企业专用化不是微调：从 Eval 定义山峰到持续学习闭环'
 summary: "通用模型提供能力底座，企业用自己的 eval 定义方向、用人工纠错生产训练信号、用 model-context-harness 三层系统交付结果，再把生产反馈转成下一轮更新。这场 Stanford 讲座把'企业内部知识'从知识库问题提升为学习闭环问题。"
 description: "解读 Stanford MS&E 435 Week 6 讲座：通用模型与企业知识的结构性距离、RLVR、DoorDash 案例、持续学习与三层系统协同"
@@ -86,6 +86,7 @@ Patil 把持续学习描述为模型进入生产后，从使用过程、稀疏�
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Enterprise Internal Knowledge](https://www.youtube.com/watch?v=LRGX-gTegVA)
 - [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)

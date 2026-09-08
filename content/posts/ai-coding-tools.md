@@ -1,9 +1,9 @@
 ---
 date: '2026-03-21T23:00:00+08:00'
-lastmod: '2026-06-05T21:48:35+08:00'
-title: 'AI Coding 工具推荐'
-summary: "记录一些好用的 AI Coding 相关工具"
-description: "记录一些好用的 AI Coding 相关工具"
+lastmod: '2026-09-08T15:34:44+08:00'
+title: 'ccstatusline：我的 Claude Code 状态栏配置'
+summary: "记录我在 Claude Code CLI 中使用的 ccstatusline 配置，显示模型、上下文长度和 Git 变更。"
+description: "ccstatusline 的常用 Widgets、个人配置与安装命令。"
 tags: ["agentic-coding", "code-editing"]
 categories: ["原创文章"]
 author: "Qian"
@@ -11,7 +11,7 @@ isCJKLanguage: true
 showToc: true
 ---
 
-记录一些好用的 AI Coding 相关工具。
+这里保存我在 Claude Code CLI 中使用的 ccstatusline 配置，方便以后恢复状态栏。实际核验日期和对应的 Claude Code、ccstatusline、终端环境版本尚未记录。
 
 ## ccstatusline
 

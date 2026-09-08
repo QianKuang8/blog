@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
-lastmod: '2026-08-31T17:10:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '从电子到 Token：吉瓦级 AI 工厂的物理约束与经济回报'
 summary: "AI 产品看起来是聊天框或 API，但每次训练与推理都要经过芯片、电力、冷却、建筑和网络。这场 Stanford 课堂用 Crusoe 的 Abilene 项目，把数据中心从抽象 CapEx 数字拆成能源选址、设备堆叠、互联集群和 token 服务的完整物理链。"
 description: "解读 Stanford MS&E 435 Week 3：吉瓦级 AI 工厂的能源选址、CapEx 堆叠、算力经济寿命与从基础设施出租到 token 服务的商业模式演进"
@@ -73,6 +73,7 @@ Lochmiller 描述了一条商业模式演进链：最基础是出租电力和机
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Building AI Factories](https://www.youtube.com/watch?v=GcCGzfKdCd0)
 - [完整课程笔记 PDF：30 页](/blog/pdfs/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/2eaabbb/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf)

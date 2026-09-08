@@ -7,9 +7,14 @@
 ```bash
 hugo server -D
 hugo
+python3 scripts/check_site.py public
 ```
 
-发布流程、文章 frontmatter 规范和原文归档要求见 [WORKFLOW.md](WORKFLOW.md)。
+日常在 `main` 修改，构建并检查后提交、推送，由现有 GitHub Pages workflow 部署。无需 PR。CI 的 Hugo 版本固定在 [hugo.yaml](.github/workflows/hugo.yaml) 的 `HUGO_VERSION`，本地排查构建差异时使用同一版本。
+
+仓库约束见 [AGENTS.md](AGENTS.md)，发布流程和来源归档见 [WORKFLOW.md](WORKFLOW.md)，按文章用途选择的写作与审校标准见 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)。
+
+博文保存在 `content/posts/`，专题目录和阅读路径保存在 `content/topics/`。新增文章后，按需要补入相关专题；系列文章按课程或内容顺序组织，方便查找和连续阅读。
 
 ## 视频笔记与 PDF
 

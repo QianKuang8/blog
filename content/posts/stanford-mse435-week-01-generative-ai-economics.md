@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
-lastmod: '2026-08-31T17:10:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '生成式 AI 的倒三角：为什么巨额资本先沉在底层，应用层收入仍然很薄'
 summary: "AI 产业的收入和利润仍然集中在半导体层，应用层两年增长超过十倍却没有改变结构。这场 Stanford 开场讲座用倒三角、时间错配和消费 AI 的用户-ARPU 双缺口，建立了一套判断 AI 价值归属的经济框架。"
 description: "解读 Stanford MS&E 435 Week 1：AI 价值分配的倒三角、供给集中与推理边际成本、跨层公司拆分、消费 AI 的规模上限与广告变现"
@@ -68,6 +68,7 @@ ARPU 方面，他用近似值比较：Alphabet 约 40 亿用户、每用户每�
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Economics of Generative AI](https://www.youtube.com/watch?v=LNSvp-9b-J0)
 - [完整课程笔记 PDF：21 页](/blog/pdfs/stanford-mse435/week-01-generative-ai-economics.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/2eaabbb/stanford-mse435/week-01-generative-ai-economics.pdf)

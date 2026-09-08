@@ -7,6 +7,7 @@
 - 这是一个 Hugo 静态博客仓库。
 - 主题使用 PaperMod。
 - 站点通过 GitHub Pages 部署。
+- 日常修改直接提交到主分支 `main`，推送后由现有 workflow 构建部署；不要求 PR。
 
 ## 常用命令
 
@@ -21,6 +22,9 @@ hugo server -D
 
 # 构建静态文件到 public/
 hugo
+
+# 检查生成的站点
+python3 scripts/check_site.py public
 
 # 初始化所有 submodule（主题与 PDF）
 git submodule update --init --recursive
@@ -58,6 +62,7 @@ showToc: true
 ## 规则
 
 - frontmatter 中的日期必须带时区，例如 `2024-12-08T17:22:55+08:00`。否则文章可能被解析为未来时间并导致不显示。
+- 新建文章时设置 `date`；修订已有文章保留首次发布的 `date`。
 - 每篇文章必须且只能属于一个栏目：`好文分享`、`原创文章` 或 `视频笔记`。栏目使用 `categories`，主题使用 `tags`。
 - 修改标题、摘要、description 或正文时，必须同步更新 `lastmod`；纯栏目、标签或格式整理保留原有 `lastmod`，避免制造虚假的内容更新时间。
 - 视频笔记必须使用 `sources/video/<slug>.md` 保存来源、时间戳和证据边界。
