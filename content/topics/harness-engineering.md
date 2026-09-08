@@ -19,13 +19,13 @@ isCJKLanguage: true
 
 - [Seeing Like an Agent：工具设计要贴着模型能力走]({{< relref "/posts/claude-code-seeing-like-an-agent.md" >}})：理解 action space 为什么要贴着模型的实际使用方式设计。
 - [Claude Code Auto Mode：把批准按钮改造成分类器问题]({{< relref "/posts/claude-code-auto-mode.md" >}})：从权限分类器看 agent 控制系统。
-- [Claude Code 怎么用 Skills：扩展点要按工作类型分层]({{< relref "/posts/claude-code-how-we-use-skills.md" >}})：看 skills 如何成为可复用的任务包。
+- [从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill]({{< relref "/posts/from-demonstration-to-skill.md" >}})：看录制证据怎样写成方法，以及 Skill、当前任务、工具与权限怎样共同决定执行。
 
-## 最后看反馈和观测
+## 最后看反馈、观测与成本
 
 - [AI 原生软件工程：可观测性和可控制性会变成核心能力]({{< relref "/posts/ai-native-software-engineering-observability-control.md" >}})：把 trace、可控性和组织转型放在一起看。
-- [Improving Deep Agents with Harness Engineering：优化 Agent 要看 trace，而不是只改 prompt]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：理解失败分析和评估闭环。
-- [Harness 工程可视化：人要开始读取系统结构]({{< relref "/posts/harness-engineering-visual-control.md" >}})：看可视化为什么是控制面，而不是装饰。
+- [Deep Agents 提分：Harness Engineering 的价值在反馈回路]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：理解失败分析和评估闭环。
+- [Uber 软件工厂：围绕有效交付优化 Agent 成本]({{< relref "/posts/uber-efficient-software-factory.md" >}})：看模型分工与工具流程的改进，怎样用同一组真实任务检查质量和成本。
 
 ## 继续探索
 

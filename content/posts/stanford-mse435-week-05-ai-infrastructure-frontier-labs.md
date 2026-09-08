@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-08-31T17:30:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: 'AI 基础设施的竞争单位：从名义算力到可交付智能的端到端系统'
 summary: "前沿 AI 的竞争已从单个模型扩大为从电力、晶圆到智能体工作流的端到端交付系统。这场 Stanford 课堂从算力约束收入、吉瓦级供应链同步、智能体计算图到全栈瓶颈迁移，讨论了真正有意义的不是合同上的 GPU 数，而是能按时上线、稳定运行的有效算力。"
 description: "解读 Stanford MS&E 435 Week 5：算力交付、供应链同步、智能体计算图、TTFT 与全栈瓶颈迁移、价值迁移"
@@ -68,6 +68,7 @@ Katti 的关键洞察是：局部加速会暴露下一层瓶颈。[00:27:29–00
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Infrastructure, Capstone Case](https://www.youtube.com/watch?v=4k53z3Ysjg0)
 - [完整课程笔记 PDF：21 页](/blog/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/85c8d5d/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf)

@@ -1,6 +1,6 @@
 ---
 date: '2026-03-12T23:30:00+08:00'
-lastmod: '2026-06-05T21:48:35+08:00'
+lastmod: '2026-09-08T15:34:44+08:00'
 title: '好用的Skills'
 summary: "记录一些好用的Skills"
 description: "记录一些好用的Skills"
@@ -14,6 +14,8 @@ showToc: true
 ## 简介
 
 Skills 是一种扩展机制，可以为 Claude 添加特定领域的知识和工作流程。这里记录一些好用的 Skills。
+
+这份清单用于回查技能创建、开发流程、设计审查和 GitHub 仓库管理相关的 Claude Skills，并保留个人定制技能的创建 prompt。实际核验日期、使用的 Claude 环境及各 Skill 的版本尚未记录。
 
 ## Skill Creator
 

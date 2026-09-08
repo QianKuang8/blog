@@ -19,7 +19,7 @@ isCJKLanguage: true
 
 - [Claude Code 访谈：CLI Agent 的价值在于薄，而不是全]({{< relref "/posts/claude-code-anthropic-agent-terminal.md" >}})：理解终端优先、Unix utility 和权限系统。
 - [Cursor 团队访谈：AI 编程工具真正竞争的是编辑循环]({{< relref "/posts/cursor-team-interview.md" >}})：和 CLI 路线形成对照，看到编辑器内循环的价值。
-- [Kilo 重构 VS Code 扩展：把子智能体和并行执行带回编辑器]({{< relref "/posts/we-completely-rebuilt-the-kilo-vs-code-extension.md" >}})：看 IDE 插件如何吸收 Agent 能力。
+- [当代码生成越来越容易：智能体软件的价值转向可靠运行]({{< relref "/posts/stanford-mse435-week-08-ai-coding-software-future.md" >}})：接着看生成代码之后的部署、状态管理与可靠交付。
 
 ## 最后看评测和边界
 

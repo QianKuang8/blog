@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-09-03
+> 生成时间：2026-03-20，更新：2026-09-08
 
 ## 核心目标
 
@@ -12,7 +12,7 @@
 
 | 环节 | 决策 | 说明 |
 |------|------|------|
-| **发布目标** | 知识管理型，个人网站 | 主要是 A，偏向 C |
+| **发布目标** | 知识管理型，个人网站 | 方便自己回查，也帮助读者按问题阅读 |
 | **技术栈** | Hugo + PaperMod 主题 | 博文位于 `content/posts/` |
 | **内容组织** | 单篇文章 + categories + tags | 栏目区分文章类型，tags 表达主题，topics 提供阅读路径 |
 | **视频笔记** | 单篇解读 + 视频来源记录 | 来源记录保存到 `sources/video/<slug>.md` |
@@ -20,8 +20,9 @@
 | **inbox.md 定位** | 待发布队列 | 处理完后移除，目标是清空 |
 | **原文归档** | 外部网页文章必须有 `sources/orig/<slug>.md` | 默认用 defuddle 生成，拿不到则暂停发布 |
 | **写作依据** | `sources/orig/` 或 `sources/video/` | 按内容类型选择，不再要求 NotebookLM / `nlm` 摘要材料 |
-| **撰写内容** | 原文解读 + 个人思考 | A/B 灵活处理，不做关联分析 |
+| **撰写内容** | 按文章用途组织 | 解读、研究、教程与清单使用各自的写作和审校标准 |
 | **发布节奏** | 分批处理 | 每 5-10 篇处理一次 |
+| **提交与部署** | 直接提交主分支 `main` | 本地构建和检查后提交、推送；现有 workflow 负责部署，无需 PR |
 | **多 tag 处理** | Hugo 多 tag 机制 | frontmatter 里写多个 tags |
 | **积累文章** | 分批处理 | 按主题分批，慢慢清空 inbox.md |
 | **categories 管理** | 3 个栏目，单选 | `好文分享`、`原创文章`、`视频笔记` |
@@ -47,7 +48,7 @@ frontmatter 使用单值数组，便于 Hugo 生成 `/categories/` 及各栏目�
 categories: ["原创文章"]
 ```
 
-纯栏目、标签或格式整理不修改 `lastmod`；只有标题、摘要、description 或正文发生变化时才更新内容时间。历史 `视频笔记` tag 暂时保留，以兼容已有 `/tags/视频笔记/` 入口。
+新建文章时设置 `date` 和 `lastmod`，修订已有文章保留首次发布的 `date`。纯栏目、标签或格式整理不修改 `lastmod`；只有标题、摘要、description 或正文发生变化时才更新内容时间。历史 `视频笔记` tag 暂时保留，以兼容已有 `/tags/视频笔记/` 入口。
 
 首页不再展示全部文章的混合时间流。它按 `原创文章`、`视频笔记`、`好文分享` 的顺序分别展示最近 2 篇；每个栏目的“查看全部”链接进入对应 taxonomy 页面继续分页浏览。栏目入口已经在首页完整呈现，因此顶部导航不再重复显示“栏目”。
 
@@ -68,7 +69,7 @@ categories: ["原创文章"]
 | `apply` | 细 tag | Apply / Unified Diffs |
 | `speculative-edit` | 细 tag | Speculative Edits 辅助代码编辑 |
 | `model-engineering` | 细 tag | 模型架构、推理优化、Serving、KV Cache 等模型工程 |
-| `agent` | 细 tag | Agent 通用（架构、工程、设计） |
+| `agent` | 宽 tag | Agent 通用（架构、工程、设计），不限于编程任务 |
 | `agentic-coding` | 细 tag | Coding Agent 产品和对比 |
 | `harness-engineering` | 细 tag | Harness Engineering |
 | `context-engineering` | 细 tag | Context Engineering |
@@ -85,6 +86,23 @@ categories: ["原创文章"]
 | `init` | 个人记录 | 本机初始化、开发环境配置 |
 | `arm` | 工程主题 | Arm / 多架构迁移 |
 | `架构迁移` | 工程主题 | 基础设施或系统架构迁移 |
+
+### 标签选择
+
+- 先选最能描述文章内容的主题，再按需要补充，一篇保持 1-3 个 tag。
+- `agent` 适合跨任务的 Agent 机制，例如 Computer History 和 Skill 复用；`agentic-coding` 适合 AI 编程产品、工作流和工程实践。只有两个范围都在正文中充分展开时才同时使用。
+- 视频笔记保留 `视频笔记` 兼容 tag，通常另选 1-2 个主题 tag。沟通、组织管理等非 AI 文章若没有合适的既有主题，可以只保留兼容 tag；持续积累同类内容后再考虑新增主题，不强套 AI 标签。
+- 新增 tag 前先检查既有含义，避免同义词、大小写变体和没有检索价值的标签；旧入口需要迁移时保留兼容链接。
+
+## 专题与文章内链
+
+专题保存在 `content/topics/`，用于课程目录、问题索引和精选阅读路径；沿用现有页面模板，通过 `content/topics/_index.md` 提供入口。
+
+- 课程目录按周次或内容顺序列出文章，说明每篇回答什么问题；系列文章链接回目录。
+- 问题型专题说明适合谁、从哪里开始，以及条目之间的关系。它可以同时收录原创文章、视频笔记和好文分享。
+- 重点文章可补 1-3 个确有帮助的站内链接，并说明用于补背景、看机制或理解边界。使用 Hugo `relref` 引用已有文章与专题。
+- 发布或修订文章时，检查是否适合补入已有专题；新建专题需有明确问题和足够的现有内容支撑。专题保持精选，避免重复堆积同类条目。
+- 专题目录使用 `content/topics/` 的元数据约定，不添加文章栏目；新增论证完整的专题文章仍放在 `content/posts/` 并选择一个栏目。向博文正文增加导航或推荐链接时更新 `lastmod`，保留 `date`。
 
 ---
 
@@ -104,6 +122,7 @@ blog/
 │       └── failed-sources.md # 失败记录
 ├── content/posts/        # 已发布博文
 ├── content/categories/   # 栏目总页与三个栏目说明
+├── content/topics/       # 课程目录、问题索引与精选阅读路径
 ├── static/pdfs/          # 目标挂载点：公开 blog-pdfs 仓库的 submodule
 └── WORKFLOW.md           # 本文档
 ```
@@ -270,6 +289,7 @@ cmp static/pdfs/<pdf-path> public/pdfs/<pdf-path>
 3. 发布
    ├─ 创建 content/posts/<slug>.md
    ├─ hugo server -D 预览
+   ├─ hugo && python3 scripts/check_site.py public
    └─ git commit & push
 
 4. 清理
@@ -296,6 +316,10 @@ defuddle parse "https://..." --md -o sources/orig/<slug>.md
 
 # 预览
 hugo server -D
+
+# 构建并检查生成站点
+hugo
+python3 scripts/check_site.py public
 
 # 确认 OK 后，从 inbox.md 移除对应条目
 
@@ -382,9 +406,11 @@ showToc: true
 
 ## 博客写作风格
 
-后续技术博客默认采用 **博客解读** 风格，而不是纯摘要、纯资料卡片或提纲式笔记。
+外部文章和视频默认采用 **博客解读** 风格。原创研究、实践教程和工具清单按用途组织；清单可以使用列表，教程可以使用步骤，不要求统一写成评论文章。
 
-写作时先阅读 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)，按其中的写作 prompt、发布前检查 prompt 和可选 subagent 流程执行。
+写作时先阅读 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)，确认任务是新写、修订还是定稿发布适配，再按对应用途的写作与审校标准执行。批量、长文、重要文章及改旧文遵守其中的独立 reviewer 流程。
+
+工具推荐、安装教程和持续维护的清单，按实际情况记录核验日期、环境或版本及核验范围。未记录或未复跑时如实说明；不能以文章的 `lastmod` 代替实际核验时间。
 
 ---
 
@@ -402,6 +428,7 @@ showToc: true
 - 原材料目录: `sources/`
 - 视频来源记录: `sources/video/`
 - 博文目录: `content/posts/`
+- 专题与目录: `content/topics/`
 - PDF 资产挂载点: `static/pdfs/`
 - 写作 prompts: `BLOG_PROMPTS.md`
 - 博客配置: `config/_default/config.yaml`

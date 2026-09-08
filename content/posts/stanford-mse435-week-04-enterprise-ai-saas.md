@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-08-31T17:30:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '企业 AI 的真正瓶颈不是模型能力：从生产率悖论到端到端流程重构'
 summary: "Ali Ghodsi 认为当前系统已经'有 AGI'，但强模型与失败的企业 POC 仍然并存。这场 Stanford 课堂用生产率悖论、Databricks Connector 案例和五层价值栈，解释了为什么模型能力之外的组织上下文和流程重构才是价值迁移的关键。"
 description: "解读 Stanford MS&E 435 Week 4：AGI 与企业价值差距、软件已死命题、生产率悖论、Amdahl 定律与价值栈"
@@ -72,6 +72,7 @@ Ali 把 AI 技术栈分成五层：芯片/硬件、云/基础设施、模型、�
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Enterprise AI and SaaS](https://www.youtube.com/watch?v=sRvrXL83N-c)
 - [完整课程笔记 PDF：23 页](/blog/pdfs/stanford-mse435/week-04-enterprise-ai-saas.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/85c8d5d/stanford-mse435/week-04-enterprise-ai-saas.pdf)

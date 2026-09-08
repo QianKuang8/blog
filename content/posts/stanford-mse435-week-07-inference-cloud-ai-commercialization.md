@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-08-31T17:30:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '从定制模型到推理云：为什么离开前沿 API 可能是正确的商业决策'
 summary: "推理量将增长'十亿倍'只是问题设置，真正的问题是：当 AI 从回答问题变成交付服务，推理基础设施的经济学、定制化路径和算力稀缺如何共同决定应用的毛利和防御性。"
 description: "解读 Stanford MS&E 435 Week 7：Baseten 的推理云、后训练闭环、定制模型经济学、多云推理、算力稀缺与垂直整合"
@@ -67,6 +67,7 @@ Tuhin 还讨论了算力稀缺为何推动垂直整合：当 GPU 提前期长达
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Applications, Applied AI](https://www.youtube.com/watch?v=Qh7Oxvo5sJI)
 - [完整课程笔记 PDF：26 页](/blog/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/85c8d5d/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)

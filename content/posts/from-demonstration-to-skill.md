@@ -1,6 +1,6 @@
 ---
 date: '2026-09-03T16:49:48+08:00'
-lastmod: '2026-09-03T17:09:31+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill'
 summary: "比较 Codex Record & Replay 与 Claude Record a Skill 如何把一次桌面演示变成可复用 Skill，以及两种证据形态、执行机制和安全边界的差异。"
 description: "从录制证据、Skill 生成、再次执行和安全边界四个方面，比较 Codex Record & Replay 与 Claude Record a Skill。"
@@ -202,6 +202,12 @@ Codex Record & Replay 和 Claude Record a Skill 都先把一次桌面演示变�
 两者的关键差别在于 Agent 能看到什么、又怎样取得材料：Claude 接收 Cowork 图文消息，Codex 读取 Computer Use 服务保存的本地事件和 AX 快照。之后，两条路径重新汇合：Agent 都从证据中提炼方法，并依靠 Skill、当前任务以及产品编排层提供的工具和权限执行。
 
 这也解释了录制证据为何可能包含任务范围之外的信息：两套录制机制按各自方式采集演示期间的输入、画面、界面状态或旁白，而不是只接收整理好的操作手册。任务之外的信息可能进入 Agent，甚至被写入最终 Skill。也就是说，"录制"决定 Agent 能看到哪些证据，"复用"则依靠 Agent 在新环境中重新执行方法。
+
+## 相关阅读
+
+- [从电脑活动到下一步行动：Computer History]({{< relref "/posts/from-activity-to-action.md" >}})：比较另一种工作线索来源，了解持续活动记录如何帮助用户接续任务。
+- [skill-creator 的真正变化：从脚手架变成评估闭环]({{< relref "/posts/anthropic-skill-creator-breakdown.md" >}})：继续看 Skill 写好之后，怎样检验触发条件与执行效果。
+- [Agent 记忆与 Skill 阅读路径]({{< relref "/topics/agent-memory-and-skills.md" >}})：把桌面演示放回工作线索、文件上下文与方法复用的阅读路径。
 
 ## 官方来源
 

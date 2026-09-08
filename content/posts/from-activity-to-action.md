@@ -1,6 +1,6 @@
 ---
 date: '2026-09-07T11:51:10+08:00'
-lastmod: '2026-09-07T11:51:10+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '从电脑活动到下一步行动：Computer History'
 summary: "Computer History 如何把获准的电脑活动整理成 History，并帮助 ChatGPT 或 Codex 找回工作、回顾一周与复用流程。"
 description: "从观察范围、History 生成、Timeline 使用、安全边界和数据控制五个方面，解释 Computer History 如何把电脑活动变成下一步行动的线索。"
@@ -132,6 +132,12 @@ Computer History 用三步帮助用户接上被打断的工作：用户先划定
 这条链路受两条边界约束：History 负责提供线索，原始来源用于核对当前状态，两者都不能替代用户授权；Pause 和 Turn off 管理未来采集，Delete 和 Clear 处理已有记录，两组操作不能混为一谈。
 
 因此，Computer History 的价值不是替用户记住一切，也不是替用户决定下一步，而是把获准活动变成用户看得见、查得到、能控制，并最终可以继续使用的工作线索。它把开篇的两个问题连在一起：“我刚才在做什么”，以及“我现在从哪里继续”。
+
+## 相关阅读
+
+- [从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill]({{< relref "/posts/from-demonstration-to-skill.md" >}})：比较持续整理活动与主动演示任务这两种取得工作经验的方式。
+- [How agents can use filesystems for context engineering：文件系统如何成为 Agent 的外部记忆]({{< relref "/posts/filesystems-for-context-engineering.md" >}})：继续看文件怎样承载材料与中间状态，供 Agent 按需读取。
+- [Agent 记忆与 Skill 阅读路径]({{< relref "/topics/agent-memory-and-skills.md" >}})：沿着找回线索、保存方法和检查效果的顺序继续阅读。
 
 ## 官方来源
 

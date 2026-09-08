@@ -1,6 +1,6 @@
 ---
 date: '2026-09-08T15:13:00+08:00'
-lastmod: '2026-09-08T15:16:03+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: 'Uber 软件工厂：围绕有效交付优化 Agent 成本'
 summary: "Uber 把 Agent 成本拆到模型选择、工具调用和上下文路径，再用任务质量与交付成本检验优化。值得借鉴的是这套测量和改进方法，以及托管 Agent 如何让它持续运转。"
 description: "解读 Uber 软件工厂如何通过真实任务评测、Code-mode 和上下文工程降低 Agent 成本，并分析这些做法的适用条件。"
@@ -74,6 +74,12 @@ Code-mode 在此基础上进一步改变了流程由谁推进。以数据仓库�
 但这也要求团队持续维护评测集、工具和上下文资料。对尚未掌握自身成本结构的团队，我会先选择一个高频、可验收的任务，记录完成成本、失败与重试，再根据证据决定投入哪一层。Uber 的会话分析面板提供了一个有用的参照：它把模型选择不合适、上下文膨胀、缓存过期等模式关联到具体会话和改进动作，帮助工程师找到下一步。
 
 这也是我从文章中最想保留的实践顺序：定义交付结果，定位无效开销，修改执行方式，再用相同任务检查质量和成本。只有这条循环能够持续运行，单次降本才会成为可复用的工程能力。
+
+## 相关阅读
+
+- [Deep Agents 提分：Harness Engineering 的价值在反馈回路]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：对照另一个改进案例，看失败轨迹怎样指导验证机制与推理预算调整。
+- [Prompt Caching 是 Claude Code Harness 的隐形地基]({{< relref "/posts/claude-code-prompt-caching-is-everything.md" >}})：补充缓存命中的机制，理解稳定前缀与上下文布局为什么影响成本。
+- [Harness Engineering 阅读路径]({{< relref "/topics/harness-engineering.md" >}})：从工具与权限继续读到运行反馈、任务验证和成本改进。
 
 ## 原文
 

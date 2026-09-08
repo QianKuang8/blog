@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-08-31T17:30:00+08:00'
+lastmod: '2026-09-08T15:38:17+08:00'
 title: '从分子 CAD 到自主湿实验室：AI 生命科学的两条互补路线'
 summary: "AI 做药不是'输入疾病名、输出获批药'。这场 Stanford 课堂用 Chai Discovery 的分子设计引擎和 Anthropic Claude 的研发外循环，讨论了从候选生成到临床验证的完整证据链，以及实验的杰文斯悖论为什么意味着 AI 越强、实验可能越多。"
 description: "解读 Stanford MS&E 435 Week 9：分子 CAD、Claude 研发外循环、药物发现全链条、zero-shot 设计、实验杰文斯悖论与工具经济"
@@ -67,6 +67,7 @@ Joshua 还讨论了一个激进的可能性：AI 辅助的"单人药物管线"�
 
 ## 继续阅读
 
+- [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Applications, AI in Life Sciences](https://www.youtube.com/watch?v=nWKiJHKIZfo)
 - [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-09-ai-life-sciences.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/85c8d5d/stanford-mse435/week-09-ai-life-sciences.pdf)
