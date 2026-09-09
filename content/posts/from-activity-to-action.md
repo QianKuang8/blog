@@ -1,6 +1,6 @@
 ---
 date: '2026-09-07T11:51:10+08:00'
-lastmod: '2026-09-08T15:38:17+08:00'
+lastmod: '2026-09-09T10:35:55+08:00'
 title: '从电脑活动到下一步行动：Computer History'
 summary: "Computer History 如何把获准的电脑活动整理成 History，并帮助 ChatGPT 或 Codex 找回工作、回顾一周与复用流程。"
 description: "从观察范围、History 生成、Timeline 使用、安全边界和数据控制五个方面，解释 Computer History 如何把电脑活动变成下一步行动的线索。"
@@ -19,21 +19,19 @@ showToc: true
 
 Computer History 想解决的正是这个问题。它在用户允许的范围内观察电脑活动，把零散线索整理成 History，再帮助 ChatGPT 或 Codex 找回工作上下文。本文所说的 Agent，是在 ChatGPT 或 Codex 中读取这些线索、查找来源并继续执行任务的 AI。
 
-## 先看场景：午饭后接着做，而不是重新找一遍
+## 一图看懂：平时积累线索，使用时继续工作
 
-![用户在多个应用中推进发布工作，中断后由 Computer History 帮助找回上下文并回到原始来源](/blog/images/original/from-activity-to-action/resume-work-story.svg)
+![Computer History 平时将获准活动整理成本地 History Memory，并在 Timeline 中呈现；用户提出任务后，Agent 读取相关线索、核对原始来源并帮助用户采取下一步行动](/blog/images/original/from-activity-to-action/computer-history-workflow.svg)
 
-History 可以先告诉你：上午的工作围绕发布清单、上线说明和剩余阻塞项展开。但它不是工作原文，也不该替代工作原文。要继续发布，Agent 还需要打开那份文档、那段 Slack 对话或那张表格，核对它们此刻的内容。
+图的上层说明 History 怎样生成：系统把获准的电脑活动整理成 **History Memory**，也就是保存在本地的活动摘要，再通过 **Timeline** 按时间呈现。下层说明这些线索怎样派上用场：用户提出任务，Agent 读取相关 History，帮助用户继续工作、回顾一周或复用流程。
+
+回到发布计划的例子，History 可以先告诉你：上午的工作围绕发布清单、上线说明和剩余阻塞项展开。但它不是工作原文，也不该替代工作原文。要继续发布，Agent 还需要打开那份文档、那段 Slack 对话或那张表格，核对它们此刻的内容。
 
 因此，History 更像一份工作索引。它先帮你找回线索，再把你带回真正需要处理的地方。
 
-## 一眼看懂：观察、整理、继续
+正文按三个阶段展开这条流程：先看用户如何开启功能并划定观察范围，再看系统如何整理和呈现 History，最后看用户如何找回工作、回顾一周或复用流程。
 
-![Computer History 从获准活动中整理 History，再帮助用户回到工作或发现下一步行动](/blog/images/original/from-activity-to-action/computer-history-in-three-steps.svg)
-
-Computer History 的主线只有三个阶段：用户先开启功能并划定观察范围；系统再把获准活动整理成 History；最后，用户从 History 找回工作、回顾一周或复用流程。
-
-这也解释了它与 [Record & Replay](https://learn.chatgpt.com/docs/extend/record-and-replay) 的差别：Record & Replay 让用户主动演示一次任务，再把方法写成可复用的 Skill；Computer History 则持续整理获准范围内的活动，帮助用户找回上下文，并发现值得回顾或复用的工作。
+这种持续积累线索的方式，也解释了它与 [Record & Replay](https://learn.chatgpt.com/docs/extend/record-and-replay) 的差别：Record & Replay 让用户主动演示一次任务，再把方法写成可复用的 Skill；Computer History 则持续整理获准范围内的活动，帮助用户找回上下文，并发现值得回顾或复用的工作。
 
 接下来按这三个阶段展开，先看这项功能怎样开启。
 

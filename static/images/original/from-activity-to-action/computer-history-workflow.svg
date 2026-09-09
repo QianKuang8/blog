@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Computer History：平时积累线索，使用时继续工作</title>
+  <desc id="desc">上层表示平时的整理过程：获准的电脑活动由临时 Codex 会话概括成本地 History Memory，并在 History Timeline 中按时间展示。下层表示用户发起的任务：ChatGPT 或 Codex 中的 Agent 读取相关 History，定位并核对当前的原始来源，帮助用户继续工作、回顾工作或创建 Skill 与 Automation。生成摘要和执行用户任务是两个阶段。</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-20%" width="120%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.045"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .text { font-family: "Avenir Next", "PingFang SC", "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .title { font-size: 44px; font-weight: 750; letter-spacing: -.025em; }
+      .subtitle { font-size: 24px; fill: #475569; }
+      .section { font-size: 27px; font-weight: 700; }
+      .number { font-size: 20px; font-weight: 750; }
+      .node-title { font-size: 30px; font-weight: 700; }
+      .body { font-size: 23px; fill: #334155; }
+      .label { font-size: 22px; font-weight: 600; fill: #475569; }
+      .flow { fill: none; stroke: #64748b; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); }
+      .both { marker-start: url(#arrow); }
+      .node { stroke-width: 2; filter: url(#shadow); }
+    </style>
+  </defs>
+
+  <rect width="1440" height="1080" fill="#f8fafc"/>
+  <text class="text title" x="720" y="70" text-anchor="middle">Computer History 怎样把活动接到下一步？</text>
+  <text class="text subtitle" x="720" y="113" text-anchor="middle">平时积累可回看的线索，使用时由用户发起任务</text>
+
+  <!-- Two distinct stages: summarization and a user-initiated task. -->
+  <rect x="48" y="157" width="46" height="36" rx="10" fill="#ffedd5"/>
+  <text class="text number" x="71" y="182" text-anchor="middle" style="fill:#b45309">01</text>
+  <text class="text section" x="111" y="184">平时 · 积累线索</text>
+
+  <!-- Activity to local history. -->
+  <g data-node="activity">
+    <rect class="node" x="48" y="217" width="384" height="158" rx="20" fill="#fff" stroke="#dbe2ea"/>
+    <text class="text node-title" x="240" y="264" text-anchor="middle">获准电脑活动</text>
+    <text class="text body" x="240" y="307" text-anchor="middle">用户允许的 app 与网站</text>
+    <text class="text body" x="240" y="344" text-anchor="middle">文档 · 消息 · 表格中的交互</text>
+  </g>
+  <path class="flow" d="M444 296 H510"/>
+  <g data-node="summarize">
+    <rect class="node" x="528" y="217" width="384" height="158" rx="20" fill="#fff7ed" stroke="#fed7aa"/>
+    <text class="text node-title" x="720" y="264" text-anchor="middle">系统整理</text>
+    <text class="text body" x="720" y="307" text-anchor="middle">临时 Codex 会话</text>
+    <text class="text body" x="720" y="344" text-anchor="middle">把活动概括成摘要</text>
+  </g>
+  <path class="flow" d="M924 296 H990"/>
+  <g data-node="memory">
+    <rect class="node" x="1008" y="217" width="384" height="158" rx="20" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text class="text node-title" x="1200" y="264" text-anchor="middle">History Memory</text>
+    <text class="text body" x="1200" y="307" text-anchor="middle">本地 Markdown 文件</text>
+    <text class="text body" x="1200" y="344" text-anchor="middle">保存活动摘要与线索</text>
+  </g>
+
+  <!-- Timeline is a presentation of history, not a prerequisite for retrieval. -->
+  <path class="flow" d="M1200 387 V443"/>
+  <rect x="1120" y="397" width="160" height="30" rx="5" fill="#f8fafc"/>
+  <text class="text label" x="1200" y="420" text-anchor="middle">按时间展示</text>
+  <g data-node="timeline">
+    <rect class="node" x="1008" y="461" width="384" height="102" rx="18" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text class="text node-title" x="1200" y="504" text-anchor="middle">History Timeline</text>
+    <text class="text body" x="1200" y="541" text-anchor="middle">用户按时间浏览摘要</text>
+  </g>
+
+  <!-- History supplies context; the separate user request initiates the task. -->
+  <path class="flow" d="M996 348 H960 V490 H720 V628"/>
+  <text class="text label" x="696" y="538" text-anchor="end">读取相关 History</text>
+
+  <rect x="48" y="585" width="46" height="36" rx="10" fill="#d1fae5"/>
+  <text class="text number" x="71" y="610" text-anchor="middle" style="fill:#047857">02</text>
+  <text class="text section" x="111" y="612">使用时 · 发起任务</text>
+
+  <g data-node="request">
+    <rect class="node" x="48" y="646" width="384" height="158" rx="20" fill="#fff" stroke="#dbe2ea"/>
+    <text class="text node-title" x="240" y="694" text-anchor="middle">用户提出任务</text>
+    <text class="text body" x="240" y="738" text-anchor="middle">“我午饭前在做什么？”</text>
+    <text class="text body" x="240" y="775" text-anchor="middle">“现在应该从哪里继续？”</text>
+  </g>
+  <path class="flow" d="M444 725 H510"/>
+  <g data-node="agent">
+    <rect class="node" x="528" y="646" width="384" height="158" rx="20" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text class="text node-title" x="720" y="694" text-anchor="middle">任务 Agent</text>
+    <text class="text body" x="720" y="738" text-anchor="middle">ChatGPT / Codex</text>
+    <text class="text body" x="720" y="775" text-anchor="middle">读取线索，按用户请求处理</text>
+  </g>
+  <path class="flow" d="M924 725 H990"/>
+  <g data-node="outcome">
+    <rect class="node" x="1008" y="646" width="384" height="158" rx="20" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text class="text node-title" x="1200" y="694" text-anchor="middle">下一步</text>
+    <text class="text body" x="1200" y="738" text-anchor="middle">继续工作 · 回顾工作</text>
+    <text class="text body" x="1200" y="775" text-anchor="middle">创建 Skill / Automation</text>
+  </g>
+
+  <!-- Original sources supply current facts when resuming work. -->
+  <path class="flow both" d="M720 822 V914"/>
+  <rect x="572" y="849" width="296" height="34" rx="5" fill="#f8fafc"/>
+  <text class="text label" x="720" y="874" text-anchor="middle">定位并核对当前状态</text>
+  <g data-node="source">
+    <rect class="node" x="528" y="932" width="384" height="112" rx="18" fill="#fff" stroke="#dbe2ea"/>
+    <text class="text node-title" x="720" y="976" text-anchor="middle">原始来源</text>
+    <text class="text body" x="720" y="1014" text-anchor="middle">当前文档 · 对话 · 表格</text>
+  </g>
+</svg>
