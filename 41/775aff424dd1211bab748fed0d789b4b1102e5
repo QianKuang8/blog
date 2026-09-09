@@ -1,0 +1,23 @@
+content/posts/from-activity-to-action.md
+  s_781c7a384cd5c1::t_d31e8ec228703e 3,22,24,26,28,30,32,34
+static/images/original/from-activity-to-action/computer-history-workflow.svg
+  s_781c7a384cd5c1::t_81466e214626cd 1-3,5-10,13-17,19-22,26-28,30-33,35-55,57-65,67-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "41775aff424dd1211bab748fed0d789b4b1102e5",
+  "prompts": {},
+  "sessions": {
+    "s_781c7a384cd5c1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a079f8-0803-7122-8e57-a285e9b494d6",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
