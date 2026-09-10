@@ -1,0 +1,33 @@
+content/posts/from-compaction-to-context-recovery.md
+  s_226418f96a018e::t_acaf4fbf0d24ee 1-168
+static/images/original/from-compaction-to-context-recovery/00-session-and-limit.svg
+  s_226418f96a018e::t_2a1eca194d4f0f 1-91
+static/images/original/from-compaction-to-context-recovery/01-three-paths.svg
+  s_226418f96a018e::t_54b296928fbc3d 1-96
+static/images/original/from-compaction-to-context-recovery/02b-legacy-context-after.svg
+  s_226418f96a018e::t_a02b5636c99c9d 1-71
+static/images/original/from-compaction-to-context-recovery/03-state-boundaries.svg
+  s_226418f96a018e::t_32f46f6eaa1d19 1-61
+static/images/original/from-compaction-to-context-recovery/05b-new-context-after.svg
+  s_226418f96a018e::t_c8b1a9078a1110 1-88
+static/images/original/from-compaction-to-context-recovery/06-checkpoint-references.svg
+  s_226418f96a018e::t_ebdf3756d800ab 1-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f4bebdc475ad50ee5cbbb5850da3a6414494c07a",
+  "prompts": {},
+  "sessions": {
+    "s_226418f96a018e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08a59-d9e1-72a2-851e-afb27009e2ed",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
