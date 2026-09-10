@@ -1,0 +1,25 @@
+content/posts/harness-engineering-behavioral-evaluations.md
+  s_a373925f697189::t_9fd28828cee6aa 1-74
+content/topics/harness-engineering.md
+  s_a373925f697189::t_900f051fb510e0 28
+sources/orig/harness-engineering-behavioral-evaluations.md
+  s_a373925f697189::t_13e36521c9c508 1-113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bdc0224a4ebe26cd4132b58eb6d3476131b3d892",
+  "prompts": {},
+  "sessions": {
+    "s_a373925f697189": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08a72-75f8-7f30-8b68-ad3ac6e741dc",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
