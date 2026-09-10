@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="773" viewBox="0 0 1200 773" role="img" aria-labelledby="title desc">
+<title id="title">笔记告诉你下一步，引用带你回到原文</title><desc id="desc">简短进度和历史证据各有用途：先接上任务，再核对需要的细节。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#526479"/></marker></defs>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif;fill:#17283c}</style>
+<rect width="1200" height="773" rx="24" fill="#f8fafc"/>
+<text x="44" y="38" font-size="18" font-weight="650" text-anchor="start" style="fill:#526479">图 06</text>
+<text x="44" y="85" font-size="32" font-weight="700" text-anchor="start" style="fill:#17283c">笔记告诉你下一步，引用带你回到原文</text>
+<text x="44" y="124" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">简短进度和历史证据各有用途：先接上任务，再核对需要的细节。</text>
+<rect x="44" y="184" width="497" height="449" rx="18" fill="#eaf7f0" stroke="#cbd5e1"/>
+<text x="68" y="225" font-size="24" font-weight="650" text-anchor="start" style="fill:#23775b">进度笔记</text>
+<text x="68" y="268" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">目标：取消操作应终止上传</text>
+<text x="68" y="304" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">约束：保持公开 API 不变</text>
+<text x="68" y="340" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">已做：补传取消信号</text>
+<text x="68" y="376" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">已验：单元测试通过</text>
+<text x="68" y="412" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">待做：验证网络请求真正终止</text>
+<text x="68" y="506" font-size="22" font-weight="650" text-anchor="start" style="fill:#23775b">原要求的线索</text>
+<text x="68" y="575" font-size="22" font-weight="650" text-anchor="start" style="fill:#23775b">测试记录的线索</text>
+<rect x="674" y="184" width="482" height="186" rx="18" fill="#f2edff" stroke="#cbd5e1"/>
+<text x="698" y="225" font-size="24" font-weight="650" text-anchor="start" style="fill:#7050a1">原始用户要求</text>
+<text x="698" y="268" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">“修复取消后仍然上传的问题，</text>
+<text x="698" y="304" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">保持公开 API 不变。”</text>
+<rect x="674" y="447" width="482" height="186" rx="18" fill="#f2edff" stroke="#cbd5e1"/>
+<text x="698" y="488" font-size="24" font-weight="650" text-anchor="start" style="fill:#7050a1">当时的测试记录</text>
+<text x="698" y="531" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">运行了哪条测试命令？</text>
+<text x="698" y="567" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">输出具体证明了什么？</text>
+<path d="M288 499 H588 V277 H664" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M310 568 H623 V541 H664" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="44" y="675" width="1112" height="62" rx="18" fill="#f1f5f9" stroke="#cbd5e1"/>
+<text x="68" y="715" font-size="24" font-weight="600" text-anchor="start" style="fill:#17283c">不必重读全部排查记录，也能回到与下一步有关的原始材料。</text>
+</svg>
