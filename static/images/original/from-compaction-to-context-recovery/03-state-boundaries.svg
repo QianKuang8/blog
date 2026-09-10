@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1070" viewBox="0 0 1200 1070" role="img" aria-labelledby="title desc">
+<title id="title">新方法依赖什么？看清本地与远端</title><desc id="desc">客户端负责切换当前输入；跨窗口恢复，还需要远端 Notes / History 服务。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#526479"/></marker></defs>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif;fill:#17283c}</style>
+<rect width="1200" height="1070" rx="24" fill="#f8fafc"/>
+<text x="44" y="38" font-size="18" font-weight="650" text-anchor="start" style="fill:#526479">图 04</text>
+<text x="44" y="85" font-size="32" font-weight="700" text-anchor="start" style="fill:#17283c">新方法依赖什么？看清本地与远端</text>
+<text x="44" y="124" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">客户端负责切换当前输入；跨窗口恢复，还需要远端 Notes / History 服务。</text>
+<rect x="44" y="180" width="444" height="768" rx="18" fill="#edf4ff" stroke="#cbd5e1"/>
+<text x="68" y="222" font-size="25" font-weight="700" text-anchor="start" style="fill:#3263ab">本地（以桌面使用为例）</text>
+<text x="68" y="261" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">Codex 客户端组织当前输入</text>
+<rect x="68" y="293" width="396" height="196" rx="18" fill="white" stroke="#cbd5e1"/>
+<text x="90" y="332" font-size="24" font-weight="650" text-anchor="start" style="fill:#3263ab">窗口 A · 正在处理任务</text>
+<text x="90" y="376" font-size="22" font-weight="400" text-anchor="start" style="fill:#17283c">随工作进展更新笔记</text>
+<text x="90" y="454" font-size="21" font-weight="400" text-anchor="start" style="fill:#17283c">普通请求带历史记录标记</text>
+<path d="M252 500 L252 584" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="278" y="548" font-size="21" font-weight="600" text-anchor="start" style="fill:#3263ab">切换当前输入</text>
+<rect x="68" y="597" width="396" height="238" rx="18" fill="#eaf7f0" stroke="#cbd5e1"/>
+<text x="90" y="637" font-size="23" font-weight="650" text-anchor="start" style="fill:#23775b">窗口 B · 同一 Session 继续</text>
+<text x="90" y="695" font-size="22" font-weight="400" text-anchor="start" style="fill:#17283c">接上目标、约束与进度</text>
+<text x="90" y="798" font-size="22" font-weight="400" text-anchor="start" style="fill:#17283c">按需补入相关历史片段</text>
+<rect x="68" y="858" width="396" height="64" rx="18" fill="white" stroke="#cbd5e1"/>
+<text x="90" y="899" font-size="22" font-weight="600" text-anchor="start" style="fill:#17283c">项目文件：保留代码修改</text>
+<rect x="756" y="180" width="400" height="768" rx="18" fill="#f2edff" stroke="#cbd5e1"/>
+<text x="780" y="222" font-size="27" font-weight="700" text-anchor="start" style="fill:#7050a1">OpenAI 远端服务</text>
+<text x="780" y="261" font-size="21" font-weight="400" text-anchor="start" style="fill:#526479">笔记与历史在这里跨窗口保留</text>
+<rect x="780" y="293" width="352" height="135" rx="18" fill="white" stroke="#cbd5e1"/>
+<text x="802" y="334" font-size="23" font-weight="650" text-anchor="start" style="fill:#23775b">Notes · 保存进度笔记</text>
+<text x="802" y="381" font-size="21" font-weight="400" text-anchor="start" style="fill:#17283c">目标、约束、已做与待做</text>
+<rect x="780" y="449" width="352" height="110" rx="18" fill="white" stroke="#cbd5e1"/>
+<text x="802" y="490" font-size="23" font-weight="650" text-anchor="start" style="fill:#7050a1">History · 接收记录请求</text>
+<text x="802" y="530" font-size="21" font-weight="400" text-anchor="start" style="fill:#17283c">保存可供以后查询的历史</text>
+<rect x="780" y="597" width="352" height="119" rx="18" fill="white" stroke="#cbd5e1"/>
+<text x="802" y="638" font-size="23" font-weight="650" text-anchor="start" style="fill:#23775b">Notes · 读取已存笔记</text>
+<text x="802" y="683" font-size="21" font-weight="400" text-anchor="start" style="fill:#17283c">返回任务目标与当前进度</text>
+<rect x="780" y="739" width="352" height="112" rx="18" fill="white" stroke="#cbd5e1"/>
+<text x="802" y="780" font-size="23" font-weight="650" text-anchor="start" style="fill:#7050a1">History · 按需查询原文</text>
+<text x="802" y="824" font-size="21" font-weight="400" text-anchor="start" style="fill:#17283c">返回与当前问题有关的片段</text>
+<path d="M622 268 L622 929" fill="none" stroke="#526479" stroke-width="2.5" stroke-dasharray="7 6"/>
+<text x="622" y="221" font-size="22" font-weight="650" text-anchor="middle" style="fill:#526479">网络边界</text>
+<path d="M474 376 L770 376" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M474 490 L770 490" fill="none" stroke="#526479" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+<path d="M474 651 L770 651" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M770 683 L474 683" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M474 770 L770 770" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M770 802 L474 802" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="515" y="324" width="214" height="36" rx="7" fill="#f8fafc"/>
+<text x="622" y="350" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">写笔记</text>
+<rect x="515" y="438" width="214" height="36" rx="7" fill="#f8fafc"/>
+<text x="622" y="464" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">随请求记录历史</text>
+<rect x="515" y="604" width="214" height="36" rx="7" fill="#f8fafc"/>
+<text x="622" y="630" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">读笔记</text>
+<rect x="515" y="684" width="214" height="36" rx="7" fill="#f8fafc"/>
+<text x="622" y="710" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">返回进度</text>
+<rect x="515" y="724" width="214" height="36" rx="7" fill="#f8fafc"/>
+<text x="622" y="750" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">查历史</text>
+<rect x="515" y="805" width="214" height="36" rx="7" fill="#f8fafc"/>
+<text x="622" y="831" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">返回相关片段</text>
+<text x="44" y="979" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">实线：工具请求或返回。虚线：请求记录历史。</text>
+<text x="44" y="1042" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">模型接口不自动包含 Notes / History；这套恢复还需要配套服务。</text>
+</svg>

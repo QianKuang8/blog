@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1152" viewBox="0 0 1200 1152" role="img" aria-labelledby="title desc">
+<title id="title">为什么要压缩？任务不断推进，上下文逐渐装满</title><desc id="desc">Session 是一次持续任务；模型每次工作，都要在有限的上下文窗口内读取输入。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#526479"/></marker></defs>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif;fill:#17283c}</style>
+<rect width="1200" height="1152" rx="24" fill="#f8fafc"/>
+<text x="44" y="38" font-size="18" font-weight="650" text-anchor="start" style="fill:#526479">图 01</text>
+<text x="44" y="85" font-size="32" font-weight="700" text-anchor="start" style="fill:#17283c">为什么要压缩？任务不断推进，上下文逐渐装满</text>
+<text x="44" y="124" font-size="22" font-weight="400" text-anchor="start" style="fill:#526479">Session 是一次持续任务；模型每次工作，都要在有限的上下文窗口内读取输入。</text>
+<rect x="52" y="158" width="19" height="19" rx="5" fill="#e9eef4" stroke="#516275"/>
+<text x="80" y="175" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">System prompt 基础指令</text>
+<rect x="460" y="158" width="19" height="19" rx="5" fill="#e8f1ff" stroke="#3263ab"/>
+<text x="488" y="175" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">User 用户要求</text>
+<rect x="790" y="158" width="19" height="19" rx="5" fill="#e9f6ed" stroke="#23775b"/>
+<text x="818" y="175" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">Assistant 模型回复</text>
+<rect x="52" y="200" width="19" height="19" rx="5" fill="#fff0df" stroke="#a75d20"/>
+<text x="80" y="217" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">Tool call 工具调用</text>
+<rect x="460" y="200" width="19" height="19" rx="5" fill="#f2ebff" stroke="#7050a1"/>
+<text x="488" y="217" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">Tool result 工具返回</text>
+<path d="M794 210 L839 210" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="852" y="217" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">任务推进 / Next</text>
+<rect x="44" y="264" width="1112" height="780" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+<text x="68" y="306" font-size="25" font-weight="700" text-anchor="start" style="fill:#17283c">同一 Session（一次持续任务）：修复上传取消问题</text>
+<text x="66" y="347" font-size="23" font-weight="650" text-anchor="start" style="fill:#17283c">① 刚开始任务</text>
+<text x="66" y="373" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">模型当前可读上下文</text>
+<rect x="66" y="388" width="310" height="560" rx="18" fill="#fcfdff" stroke="#cbd5e1"/>
+<path d="M67 886 H375 V930 Q375 947 358 947 H84 Q67 947 67 930 Z" fill="#fff5e6"/>
+<text x="81" y="911" font-size="20" font-weight="400" text-anchor="start" style="fill:#986020">预留生成空间</text>
+<path d="M67 948 H375" fill="none" stroke="#986020" stroke-width="3"/>
+<text x="362" y="936" font-size="20" font-weight="400" text-anchor="end" style="fill:#986020">容量上限 / Limit</text>
+<rect x="78" y="401" width="286" height="38" rx="18" fill="#e9eef4" stroke="#cbd5e1"/>
+<text x="91" y="427" font-size="20" font-weight="600" text-anchor="start" style="fill:#516275">System prompt 基础指令</text>
+<rect x="78" y="446" width="286" height="38" rx="18" fill="#e8f1ff" stroke="#cbd5e1"/>
+<text x="91" y="472" font-size="20" font-weight="600" text-anchor="start" style="fill:#3263ab">User 用户要求</text>
+<rect x="78" y="499" width="286" height="375" rx="14" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 7"/>
+<text x="221.0" y="693.5" font-size="22" font-weight="400" text-anchor="middle" style="fill:#6f8193">供后续工作使用</text>
+<text x="445" y="347" font-size="23" font-weight="650" text-anchor="start" style="fill:#17283c">② 读代码、查问题</text>
+<text x="445" y="373" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">模型当前可读上下文</text>
+<rect x="445" y="388" width="310" height="560" rx="18" fill="#fcfdff" stroke="#cbd5e1"/>
+<path d="M446 886 H754 V930 Q754 947 737 947 H463 Q446 947 446 930 Z" fill="#fff5e6"/>
+<text x="460" y="911" font-size="20" font-weight="400" text-anchor="start" style="fill:#986020">预留生成空间</text>
+<path d="M446 948 H754" fill="none" stroke="#986020" stroke-width="3"/>
+<text x="741" y="936" font-size="20" font-weight="400" text-anchor="end" style="fill:#986020">容量上限 / Limit</text>
+<rect x="457" y="401" width="286" height="38" rx="18" fill="#e9eef4" stroke="#cbd5e1"/>
+<text x="470" y="427" font-size="20" font-weight="600" text-anchor="start" style="fill:#516275">System prompt 基础指令</text>
+<rect x="457" y="446" width="286" height="38" rx="18" fill="#e8f1ff" stroke="#cbd5e1"/>
+<text x="470" y="472" font-size="20" font-weight="600" text-anchor="start" style="fill:#3263ab">User 用户要求</text>
+<rect x="457" y="491" width="286" height="38" rx="18" fill="#e9f6ed" stroke="#cbd5e1"/>
+<text x="470" y="517" font-size="20" font-weight="600" text-anchor="start" style="fill:#23775b">Assistant 模型回复</text>
+<rect x="457" y="536" width="286" height="38" rx="18" fill="#fff0df" stroke="#cbd5e1"/>
+<text x="470" y="562" font-size="20" font-weight="600" text-anchor="start" style="fill:#a75d20">Tool call 工具调用</text>
+<rect x="457" y="581" width="286" height="112" rx="18" fill="#f2ebff" stroke="#cbd5e1"/>
+<text x="470" y="607" font-size="20" font-weight="600" text-anchor="start" style="fill:#7050a1">Tool result 工具返回</text>
+<text x="470" y="634" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">代码内容与排查日志</text>
+<text x="470" y="661" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">……</text>
+<rect x="457" y="708" width="286" height="166" rx="14" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 7"/>
+<text x="600.0" y="798.0" font-size="22" font-weight="400" text-anchor="middle" style="fill:#6f8193">供后续工作使用</text>
+<text x="824" y="347" font-size="23" font-weight="650" text-anchor="start" style="fill:#17283c">③ 多轮排查后</text>
+<text x="824" y="373" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">模型当前可读上下文</text>
+<rect x="824" y="388" width="310" height="560" rx="18" fill="#fcfdff" stroke="#cbd5e1"/>
+<path d="M825 886 H1133 V930 Q1133 947 1116 947 H842 Q825 947 825 930 Z" fill="#fff5e6"/>
+<text x="839" y="911" font-size="20" font-weight="400" text-anchor="start" style="fill:#986020">预留生成空间</text>
+<path d="M825 948 H1133" fill="none" stroke="#986020" stroke-width="3"/>
+<text x="1120" y="936" font-size="20" font-weight="400" text-anchor="end" style="fill:#986020">容量上限 / Limit</text>
+<rect x="836" y="401" width="286" height="38" rx="18" fill="#e9eef4" stroke="#cbd5e1"/>
+<text x="849" y="427" font-size="20" font-weight="600" text-anchor="start" style="fill:#516275">System prompt 基础指令</text>
+<rect x="836" y="446" width="286" height="38" rx="18" fill="#e8f1ff" stroke="#cbd5e1"/>
+<text x="849" y="472" font-size="20" font-weight="600" text-anchor="start" style="fill:#3263ab">User 用户要求</text>
+<rect x="836" y="491" width="286" height="38" rx="18" fill="#e9f6ed" stroke="#cbd5e1"/>
+<text x="849" y="517" font-size="20" font-weight="600" text-anchor="start" style="fill:#23775b">Assistant 模型回复</text>
+<rect x="836" y="536" width="286" height="38" rx="18" fill="#fff0df" stroke="#cbd5e1"/>
+<text x="849" y="562" font-size="20" font-weight="600" text-anchor="start" style="fill:#a75d20">Tool call 工具调用</text>
+<rect x="836" y="581" width="286" height="112" rx="18" fill="#f2ebff" stroke="#cbd5e1"/>
+<text x="849" y="607" font-size="20" font-weight="600" text-anchor="start" style="fill:#7050a1">Tool result 工具返回</text>
+<text x="849" y="634" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">多次读入的大段代码</text>
+<text x="849" y="661" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">与排查日志……</text>
+<rect x="836" y="700" width="286" height="38" rx="18" fill="#e9f6ed" stroke="#cbd5e1"/>
+<text x="849" y="726" font-size="20" font-weight="600" text-anchor="start" style="fill:#23775b">Assistant 模型回复</text>
+<rect x="836" y="745" width="286" height="38" rx="18" fill="#fff0df" stroke="#cbd5e1"/>
+<text x="849" y="771" font-size="20" font-weight="600" text-anchor="start" style="fill:#a75d20">Tool call 工具调用</text>
+<rect x="836" y="790" width="286" height="75" rx="18" fill="#f2ebff" stroke="#cbd5e1"/>
+<text x="849" y="816" font-size="20" font-weight="600" text-anchor="start" style="fill:#7050a1">Tool result 工具返回</text>
+<text x="849" y="843" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">测试输出与更多日志……</text>
+<path d="M386 650 L435 650" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M765 650 L814 650" fill="none" stroke="#526479" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="221" y="986" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">先装入指令与任务</text>
+<text x="600" y="986" font-size="21" font-weight="400" text-anchor="middle" style="fill:#526479">回复和工具结果不断累积</text>
+<text x="979" y="986" font-size="21" font-weight="650" text-anchor="middle" style="fill:#986020">接近上限，需整理输入</text>
+<text x="68" y="1020" font-size="21" font-weight="400" text-anchor="start" style="fill:#526479">任务还没有完成，但当前窗口已经没有多少空间容纳下一轮工作。</text>
+<text x="44" y="1094" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">系统可以在接近预算阈值时触发压缩，为后续工作留出空间。</text>
+<text x="44" y="1124" font-size="20" font-weight="400" text-anchor="start" style="fill:#526479">缩小下一次输入后，仍在同一个 Session 中接着完成任务；窗口容量本身没有变化。</text>
+</svg>
