@@ -4,7 +4,7 @@ lastmod: '2026-09-08T15:38:17+08:00'
 title: 'Uber 软件工厂：围绕有效交付优化 Agent 成本'
 summary: "Uber 把 Agent 成本拆到模型选择、工具调用和上下文路径，再用任务质量与交付成本检验优化。值得借鉴的是这套测量和改进方法，以及托管 Agent 如何让它持续运转。"
 description: "解读 Uber 软件工厂如何通过真实任务评测、Code-mode 和上下文工程降低 Agent 成本，并分析这些做法的适用条件。"
-tags: ["agent", "harness-engineering", "context-engineering"]
+tags: ["agent", "harness-engineering", "context-engineering", "uber"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
