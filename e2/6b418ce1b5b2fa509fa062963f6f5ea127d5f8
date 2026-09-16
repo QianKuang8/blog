@@ -1,0 +1,139 @@
+AGENTS.md
+  s_cbc438207f545a::t_c41b4aa48df11f 66-68
+BLOG_PROMPTS.md
+  s_cbc438207f545a::t_dec848518bc9bc 119
+WORKFLOW.md
+  s_cbc438207f545a::t_1d959927e85dc9 51,61,77,90-94,97-105
+assets/css/extended/tags.css
+  s_cbc438207f545a::t_c9e7f97b65e444 1-167
+content/posts/agent-era-design.md
+  s_cbc438207f545a::t_425d26d5c1e537 7
+content/posts/agentic-coding-boundary.md
+  s_cbc438207f545a::t_3972ca23c04692 7
+content/posts/ai-native-software-engineering-observability-control.md
+  s_cbc438207f545a::t_ab367c52e57f48 7
+content/posts/building-high-talent-density-teams.md
+  s_cbc438207f545a::t_8742fe80acf354 7
+content/posts/claude-code-anthropic-agent-terminal.md
+  s_cbc438207f545a::t_cf7013e1bc62d2 7
+content/posts/communication-strategy-direct-narrative.md
+  s_cbc438207f545a::t_2fed9fb9dd6632 7
+content/posts/five-agent-skills-i-use-every-day.md
+  s_cbc438207f545a::t_66206dbaf18953 7
+content/posts/how-claude-code-team-uses-claude-code.md
+  s_cbc438207f545a::t_bf61d4b3672604 7
+content/posts/introduction-to-agentic-coding.md
+  s_cbc438207f545a::t_dd42d5781eff91 7
+content/posts/prompt-engineering-guide.md
+  s_cbc438207f545a::t_26a73275a369ca 7
+content/posts/stanford-mse435-week-01-generative-ai-economics.md
+  s_cbc438207f545a::t_99ad599a10265e 7
+content/posts/stanford-mse435-week-02-gpu-economics.md
+  s_cbc438207f545a::t_13ede33f20b633 7
+content/posts/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure.md
+  s_cbc438207f545a::t_da91e4307518f2 7
+content/posts/stanford-mse435-week-04-enterprise-ai-saas.md
+  s_cbc438207f545a::t_1d96590e9661f8 7
+content/posts/stanford-mse435-week-05-ai-infrastructure-frontier-labs.md
+  s_cbc438207f545a::t_11ec23e6b263fc 7
+content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md
+  s_cbc438207f545a::t_555f6b264805d6 7
+content/posts/stanford-mse435-week-07-inference-cloud-ai-commercialization.md
+  s_cbc438207f545a::t_606cc5437443ae 7
+content/posts/stanford-mse435-week-08-ai-coding-software-future.md
+  s_cbc438207f545a::t_05085088b77f8b 7
+content/posts/stanford-mse435-week-09-ai-life-sciences.md
+  s_cbc438207f545a::t_9e87c47f510213 7
+content/posts/the-8-levels-of-agentic-engineering.md
+  s_cbc438207f545a::t_b25c5e0d328f32 7
+content/posts/understanding-next-ai-wave.md
+  s_cbc438207f545a::t_7f92be05b56faf 7
+content/posts/we-completely-rebuilt-the-kilo-vs-code-extension.md
+  s_cbc438207f545a::t_9cb8e039ab43a3 7
+content/tags/_index.md
+  s_cbc438207f545a::t_965c73de2b1f40 3
+content/tags/agent/_index.md
+  s_cbc438207f545a::t_aba6f3e7e4fb04 1-4
+content/tags/agentic-coding/_index.md
+  s_cbc438207f545a::t_3798ec81679974 1-4
+content/tags/anthropic/_index.md
+  s_cbc438207f545a::t_126aa8dc9a0e53 2
+content/tags/apply/_index.md
+  s_cbc438207f545a::t_318c66c3fba945 1-4
+content/tags/arm/_index.md
+  s_cbc438207f545a::t_15ac226085c2ab 1-4
+content/tags/blog/_index.md
+  s_cbc438207f545a::t_608bb8758ec596 1-4
+content/tags/code-editing/_index.md
+  s_cbc438207f545a::t_e8b60ac68d2351 1-4
+content/tags/context-engineering/_index.md
+  s_cbc438207f545a::t_84a4e79fd6ba19 1-4
+content/tags/cursor/_index.md
+  s_cbc438207f545a::t_162e087ed9ab66 2
+content/tags/github/_index.md
+  s_cbc438207f545a::t_b839f8d694b7f3 2
+content/tags/harness-engineering/_index.md
+  s_cbc438207f545a::t_081020d5a482cc 1-4
+content/tags/init/_index.md
+  s_cbc438207f545a::t_3d069ce3cb3370 1-4
+content/tags/langchain/_index.md
+  s_cbc438207f545a::t_fd38486b5ebdf6 2
+content/tags/latent-space/_index.md
+  s_cbc438207f545a::t_fab1553dfff6fc 2
+content/tags/model-engineering/_index.md
+  s_cbc438207f545a::t_1413201829b3f2 1-4
+content/tags/next-edit/_index.md
+  s_cbc438207f545a::t_d8b2b6ca1044d7 1-4
+content/tags/openai/_index.md
+  s_cbc438207f545a::t_97ccf7bfbf31e9 2
+content/tags/prompt-engineering/_index.md
+  s_cbc438207f545a::t_03963ba7ecb411 1-4
+content/tags/speculative-edit/_index.md
+  s_cbc438207f545a::t_1158cf99189f0f 1-4
+content/tags/uber/_index.md
+  s_cbc438207f545a::t_4c8f19125321bb 2
+content/tags/博客推荐/_index.md
+  s_cbc438207f545a::t_92eae401915c86 1-12
+content/tags/架构迁移/_index.md
+  s_cbc438207f545a::t_b67b6de8b07098 1-4
+content/tags/行业动向/_index.md
+  s_cbc438207f545a::t_0265f2c4d915f3 1-4
+content/tags/视频笔记/_index.md
+  s_cbc438207f545a::t_f557b13bd2cd93 1-6
+data/tag_groups.json
+  s_cbc438207f545a::t_4bd57bb1e83502 1-10
+layouts/_default/single.html
+  s_cbc438207f545a::t_4bce495c975743 1-60
+layouts/partials/post_tags.html
+  s_cbc438207f545a::t_71a1f1594e3b3c 1-22
+layouts/partials/tag_archive_pages.html
+  s_cbc438207f545a::t_727522d1782b08 1-11
+layouts/partials/tag_chips.html
+  s_cbc438207f545a::t_9c98a341741d3f 1-11
+layouts/tags/legacy-video.html
+  s_cbc438207f545a::t_9661f4a79b69bd 1-18
+layouts/tags/rss.xml
+  s_cbc438207f545a::t_8458c02d53a9eb 1-26
+layouts/tags/terms.html
+  s_cbc438207f545a::t_90ce76e47a932f 1-47
+scripts/check_site.py
+  s_cbc438207f545a::t_ce586733ed5d5a 43-44,69-72,404-498,774
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e26b418ce1b5b2fa509fa062963f6f5ea127d5f8",
+  "prompts": {},
+  "sessions": {
+    "s_cbc438207f545a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a834-3269-75e0-98ed-442732e5ed6f",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
