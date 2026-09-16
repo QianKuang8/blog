@@ -4,7 +4,7 @@ lastmod: '2026-06-05T21:20:00+08:00'
 title: 'Prompt Engineering 不是咒语，而是把意图说清楚的工程接口'
 summary: "解读 Claude 官方的 prompt engineering 最佳实践：这篇文章真正有价值的地方，是把提示词从技巧清单拉回到“清晰表达意图、约束和验收标准”的工程问题。"
 description: "从 Claude 官方指南看 prompt engineering 在 context engineering 和 agentic workflow 中的基础作用"
-tags: ["prompt-engineering", "context-engineering"]
+tags: ["prompt-engineering", "context-engineering", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

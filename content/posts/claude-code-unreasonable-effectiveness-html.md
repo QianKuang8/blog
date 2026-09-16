@@ -4,7 +4,7 @@ lastmod: '2026-08-31T15:30:00+08:00'
 title: '用 HTML 替代 Markdown：Coding Agent 的输出格式该升级了'
 summary: "Claude Code 团队提出用 HTML 替代 Markdown 作为 agent 输出格式。核心不是技术炫技，而是信息密度、可读性和双向交互三个维度上，Markdown 已经跟不上 agent 的能力增长。"
 description: "从 Claude Code 团队的 HTML 实践看 coding agent 输出格式的演进方向"
-tags: ["agentic-coding", "context-engineering"]
+tags: ["agentic-coding", "context-engineering", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
