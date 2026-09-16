@@ -26,7 +26,7 @@
 | **多 tag 处理** | Hugo 多 tag 机制 | frontmatter 里写多个 tags |
 | **积累文章** | 分批处理 | 按主题分批，慢慢清空 inbox.md |
 | **categories 管理** | 3 个栏目，单选 | `好文分享`、`原创文章`、`视频笔记` |
-| **tags 管理** | 主题标签 + 按需维护的来源标签 | 来源优先覆盖 OpenAI、Anthropic，见下方 tag 体系表 |
+| **tags 管理** | 主题标签 + 按需维护的来源标签 | 已维护 7 个机构或媒体来源，见下方 tag 体系表 |
 
 ---
 
@@ -96,18 +96,24 @@ categories: ["原创文章"]
 
 ### 来源标签
 
-来源标签与主题标签共用 `tags`，统一使用小写机构名，优先维护以下两项：
+来源标签与主题标签共用 `tags`，统一使用小写机构或媒体名，多词用连字符连接。目前维护以下来源：
 
 | Tag | 判定依据 |
 |-----|----------|
 | `openai` | 原文发布于 `openai.com` 或已确认属于 OpenAI 的官方发布渠道 |
 | `anthropic` | 原文发布于 `anthropic.com`、`claude.com` 或已确认属于 Anthropic 的官方发布渠道 |
+| `langchain` | 原文发布于 `blog.langchain.com` 或已确认属于 LangChain 的官方发布渠道 |
+| `cursor` | 原文发布于 `cursor.com`（含 `www.cursor.com`）或已确认属于 Cursor 的官方发布渠道 |
+| `github` | 原文发布于 `github.blog`、`githubnext.com` 或已确认属于 GitHub 自身的官方发布渠道；托管在 `github.com` 的其他组织仓库不据此归入 |
+| `uber` | 原文发布于 `uber.com`（含 `www.uber.com`）的官方博客或其他已确认的 Uber 官方发布渠道 |
+| `latent-space` | 原文由 Latent Space 发布，例如 `latent.space`（含 `www.latent.space`）上的文章或访谈 |
 
 - 以 `sources/orig/<slug>.md` 的 `source_url` 和文章实际主要来源为准；历史文章没有归档时，核对正文的原文链接。
-- 外部文章明确来自上述官方渠道时必须添加对应标签。只是引用官方文档、讨论某家公司或产品，不构成来源归属；第三方转载优先核对原始出处。
-- 员工个人博客、个人社交账号与第三方媒体不自动视为公司官方渠道；来源不明确时先不添加。其他机构暂不要求补齐，后续按检索需要扩展。
+- 外部文章明确来自上述发布者时必须添加对应标签。只是引用官方文档、讨论某家公司或产品，不构成来源归属；第三方转载优先核对原始出处。
+- 员工个人博客、个人社交账号与第三方媒体不自动视为被报道公司的官方渠道；媒体原创文章与访谈按媒体自身归属，例如 Latent Space 的 Claude Code 访谈标 `latent-space`。来源不明确时先不添加，其他来源按检索需要扩展。
+- 微信公众号、X、YouTube 和 GitHub 等平台不直接代表原始发布者，应核对具体账号或仓库所属组织；例如 Lex Fridman 的 Cursor 团队访谈不标 `cursor`。
 - 原创文章、工具清单不因使用某家公司产品或引用其资料而添加来源标签；视频来源按 `sources/video/` 的官方发布渠道核对，不按讲者任职公司推断。
-- 补历史来源标签时保留原有 `date` 与 `lastmod`。来源入口为 `/tags/openai/`、`/tags/anthropic/`，页面说明位于 `content/tags/<tag>/_index.md`。
+- 补历史来源标签时保留原有 `date` 与 `lastmod`。来源入口为 `/tags/<tag>/`，页面说明位于 `content/tags/<tag>/_index.md`。
 
 示例：`tags: ["context-engineering", "prompt-engineering", "anthropic"]`。
 

@@ -4,7 +4,7 @@ lastmod: '2026-04-09T20:21:36+08:00'
 title: 'GitHub Copilot Next Edit Suggestions：从快照补全到时序编辑'
 summary: "解读 GitHub Copilot NES：它真正想解决的不是“补全更长一点”，而是把 IDE 从光标附近的生成工具，升级成能理解编辑轨迹、帮助传播修改意图的编辑系统。"
 description: "从 GitHub Copilot NES 看代码补全如何走向时序编辑"
-tags: ["code-editing", "next-edit"]
+tags: ["code-editing", "next-edit", "github"]
 categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"
