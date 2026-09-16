@@ -1,0 +1,63 @@
+AGENTS.md
+  s_cbc438207f545a::t_7b1754f485ef14 67
+BLOG_PROMPTS.md
+  s_cbc438207f545a::t_cf8910ad4fd194 57
+WORKFLOW.md
+  s_cbc438207f545a::t_8daedf9a4d259b 29,99,105-109,112-114,116
+content/posts/agent-engineering-new-discipline.md
+  s_cbc438207f545a::t_433eeec21eb3e4 7
+content/posts/claude-code-anthropic-agent-terminal.md
+  s_cbc438207f545a::t_a850a3688ca028 7
+content/posts/continuous-ai.md
+  s_cbc438207f545a::t_bc7bb3cd02c349 7
+content/posts/copilot-next-edit-suggestions.md
+  s_cbc438207f545a::t_b2da69b689b2d7 7
+content/posts/cursor-instant-apply.md
+  s_cbc438207f545a::t_13f922acca69a0 7
+content/posts/cursorbench.md
+  s_cbc438207f545a::t_edb64212a73f24 7
+content/posts/dynamic-context-discovery.md
+  s_cbc438207f545a::t_0c50a0f29d41cb 7
+content/posts/filesystems-for-context-engineering.md
+  s_cbc438207f545a::t_595d7359d826dd 7
+content/posts/how-to-kill-the-code-review.md
+  s_cbc438207f545a::t_ab62f71f553e3a 7
+content/posts/improving-deep-agents-with-harness-engineering.md
+  s_cbc438207f545a::t_0e41e039f1a7d9 7
+content/posts/the-rise-of-context-engineering.md
+  s_cbc438207f545a::t_bc53b15666d946 7
+content/posts/uber-arm-migration.md
+  s_cbc438207f545a::t_aa7c4891bbf50d 7
+content/posts/uber-efficient-software-factory.md
+  s_cbc438207f545a::t_524007d4768727 7
+content/tags/_index.md
+  s_cbc438207f545a::t_862d0b8d89cef9 3
+content/tags/cursor/_index.md
+  s_cbc438207f545a::t_4e33703067069c 1-8
+content/tags/github/_index.md
+  s_cbc438207f545a::t_f9ae777e8eed47 1-8
+content/tags/langchain/_index.md
+  s_cbc438207f545a::t_6d975d04ee52de 1-8
+content/tags/latent-space/_index.md
+  s_cbc438207f545a::t_48aa0675b8c130 1-8
+content/tags/uber/_index.md
+  s_cbc438207f545a::t_ed125a02070c15 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e4d251336392cd48eed54b55d0d561b590b1a077",
+  "prompts": {},
+  "sessions": {
+    "s_cbc438207f545a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a834-3269-75e0-98ed-442732e5ed6f",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
