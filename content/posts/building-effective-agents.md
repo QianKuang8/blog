@@ -4,7 +4,7 @@ lastmod: '2026-04-09T20:21:36+08:00'
 title: 'Building Effective Agents：Agent 系统的架构模式与设计原则'
 summary: "解读 Anthropic《Building Effective Agents》：这篇文章真正重要的不是那 7 种模式清单，而是它把 Agent 工程从框架崇拜拉回到可组合、可验证、可迭代的工程方法。"
 description: "从 Anthropic 的 Agent 架构文章看生产级 Agent 的真正方法论"
-tags: ["agent"]
+tags: ["agent", "anthropic"]
 categories: ["好文分享"]
 origStatus: "available"
 author: "Qian"

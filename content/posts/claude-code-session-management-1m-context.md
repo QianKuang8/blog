@@ -4,7 +4,7 @@ lastmod: '2026-08-31T15:45:00+08:00'
 title: 'Claude Code 的上下文管理：1M Context 不是银弹，会用才是'
 summary: "Claude Code 团队详细拆解了 context rot、compaction、rewind 和 subagent 四种上下文管理机制，核心信息是：大窗口解决了容量问题，但没有解决质量问题。"
 description: "从 Claude Code 的上下文管理实践看 1M context window 下的 session 策略和 compaction 陷阱"
-tags: ["agentic-coding", "context-engineering"]
+tags: ["agentic-coding", "context-engineering", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

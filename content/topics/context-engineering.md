@@ -25,6 +25,7 @@ isCJKLanguage: true
 
 - [Harrison Chase 谈长程 Agent：核心仍是上下文和 Harness]({{< relref "/posts/context-engineering-long-horizon-agents-langchain-harrison-chase.md" >}})：把 context、planning、traces 和人类评估放在一起看。
 - [Prompt Caching 是 Claude Code Harness 的隐形地基]({{< relref "/posts/claude-code-prompt-caching-is-everything.md" >}})：理解缓存约束如何反过来塑造上下文布局。
+- [Claude Platform 成本优化：缓存、指令与 effort 如何配合]({{< relref "/posts/reducing-cost-and-improving-performance-with-claude-platform.md" >}})：把缓存用量、执行轨迹与任务质量放在一起评估。
 - [Uber 软件工厂：围绕有效交付优化 Agent 成本]({{< relref "/posts/uber-efficient-software-factory.md" >}})：看工具发现、关系查询与缓存怎样影响真实任务的搜索开销和完成成本。
 
 ## 继续探索
