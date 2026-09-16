@@ -1,0 +1,47 @@
+{{- define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  <div class="post-description">{{ .Description }}</div>
+</header>
+{{- $groups := hugo.Data.tag_groups }}
+{{- $known := union $groups.sources (union $groups.other $groups.retired) }}
+<section class="tag-section" aria-labelledby="topic-tags-heading">
+  <h2 id="topic-tags-heading">按主题</h2>
+  {{- range $groups.topics }}
+  {{- $group := . }}
+  {{- $known = union $known .tags }}
+  {{- $known = union $known (.details | default slice) }}
+  <div class="tag-topic-group" data-tag-group="{{ .id }}">
+    <h3>{{ .title }}</h3>
+    <div>
+      {{ partial "tag_chips.html" (dict "tags" .tags "kind" "topic") }}
+      {{- with .details }}
+      <div class="tag-subtopics">
+        <p>{{ $group.detailTitle }}</p>
+        {{ partial "tag_chips.html" (dict "tags" . "kind" "topic") }}
+      </div>
+      {{- end }}
+    </div>
+  </div>
+  {{- end }}
+  {{- $otherTopics := slice }}
+  {{- range .Data.Terms.Alphabetical }}
+    {{- if not (in $known .Name) }}{{ $otherTopics = $otherTopics | append .Name }}{{ end }}
+  {{- end }}
+  {{- with $otherTopics }}
+  <div class="tag-topic-group" data-tag-group="ungrouped">
+    <h3>其他主题</h3>
+    {{ partial "tag_chips.html" (dict "tags" . "kind" "topic") }}
+  </div>
+  {{- end }}
+</section>
+<section class="tag-section" aria-labelledby="source-tags-heading" data-tag-group="sources">
+  <h2 id="source-tags-heading">按来源</h2>
+  {{ partial "tag_chips.html" (dict "tags" $groups.sources "kind" "source") }}
+</section>
+<details class="tag-section tag-other" data-tag-group="other">
+  <summary>工程与个人记录</summary>
+  {{ partial "tag_chips.html" (dict "tags" $groups.other "kind" "topic") }}
+</details>
+<div class="tag-category-link">分类浏览：<a href="{{ (site.GetPage "/categories/视频笔记").RelPermalink }}">视频笔记</a></div>
+{{- end }}

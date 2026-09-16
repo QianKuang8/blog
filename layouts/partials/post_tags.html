@@ -1,0 +1,22 @@
+{{- $topics := slice }}
+{{- $sources := slice }}
+{{- range .GetTerms "tags" }}
+  {{- if in hugo.Data.tag_groups.sources .Data.Term }}
+    {{- $sources = $sources | append . }}
+  {{- else if not (in hugo.Data.tag_groups.retired .Data.Term) }}
+    {{- $topics = $topics | append . }}
+  {{- end }}
+{{- end }}
+{{- range slice (dict "label" "主题" "kind" "topic" "terms" $topics) (dict "label" "来源" "kind" "source" "terms" $sources) }}
+{{- if .terms }}
+<div class="post-tag-row">
+  <span class="post-tag-label">{{ .label }}</span>
+  <ul class="post-tags" aria-label="{{ .label }}">
+    {{- $kind := .kind }}
+    {{- range .terms }}
+    <li><a href="{{ .RelPermalink }}" data-tag="{{ .Data.Term }}" data-tag-kind="{{ $kind }}">{{ .LinkTitle }}</a></li>
+    {{- end }}
+  </ul>
+</div>
+{{- end }}
+{{- end }}

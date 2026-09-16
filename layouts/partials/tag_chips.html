@@ -1,0 +1,11 @@
+<ul class="tag-chips">
+  {{- $kind := .kind }}
+  {{- range .tags }}
+  {{- $slug := . }}
+  {{- with site.GetPage (printf "/tags/%s" $slug) }}
+  {{- if gt (len .RegularPages) 0 }}
+  <li><a href="{{ .RelPermalink }}" data-tag="{{ $slug }}" data-tag-kind="{{ $kind }}" data-count="{{ len .RegularPages }}" aria-label="{{ .LinkTitle }}，{{ len .RegularPages }} 篇文章"><span>{{ .LinkTitle }}</span><span class="tag-count" aria-hidden="true">{{ len .RegularPages }}</span></a></li>
+  {{- end }}
+  {{- end }}
+  {{- end }}
+</ul>

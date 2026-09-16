@@ -1,5 +1,5 @@
 ---
-title: "latent-space"
+title: "Latent Space"
 description: "原始来源为 Latent Space 的文章与访谈解读。"
 summary: "按 Latent Space 媒体来源浏览文章。"
 hideMeta: true

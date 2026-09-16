@@ -1,0 +1,167 @@
+.tag-section {
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+
+.tag-section h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.tag-topic-group {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.tag-topic-group:last-child {
+  margin-bottom: 0;
+}
+
+.tag-topic-group h3 {
+  margin: 6px 0 0;
+  color: var(--secondary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-chips a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 11px;
+  border-radius: var(--radius);
+  background: var(--border);
+  background: color-mix(in srgb, var(--code-bg) 65%, var(--tertiary));
+  color: var(--primary);
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.tag-chips a:hover {
+  background: var(--tertiary);
+}
+
+.tag-count {
+  color: var(--secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-subtopics {
+  margin-top: 14px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+}
+
+.tag-subtopics p {
+  margin: 0 0 6px;
+  color: var(--secondary);
+  font-size: 12px;
+}
+
+.tag-subtopics .tag-chips {
+  column-gap: 20px;
+}
+
+.tag-subtopics .tag-chips a {
+  padding: 2px 0;
+  background: transparent;
+}
+
+.tag-subtopics .tag-chips a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.tag-other summary {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.tag-other .tag-chips {
+  margin-top: 16px;
+}
+
+.tag-category-link {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--secondary);
+  font-size: 14px;
+}
+
+.tag-category-link a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.post-tag-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+.post-tag-label {
+  flex: 0 0 auto;
+  color: var(--secondary);
+  font-size: 14px;
+}
+
+.post-tag-row .post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.post-tag-row .post-tags li {
+  margin: 0;
+}
+
+.post-tag-row .post-tags a {
+  height: auto;
+  line-height: 1.5;
+  padding: 6px 12px;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 600px) {
+  .tag-topic-group {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin: 22px 0;
+  }
+
+  .tag-topic-group h3 {
+    margin: 0;
+  }
+}
+
+@media (pointer: coarse) {
+  .tag-chips a,
+  .post-tag-row .post-tags a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .tag-other summary {
+    min-height: 44px;
+    line-height: 44px;
+  }
+}

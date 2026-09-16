@@ -1,5 +1,5 @@
 ---
-title: "cursor"
+title: "Cursor"
 description: "原始来源为 Cursor 官方渠道的文章解读。"
 summary: "按 Cursor 官方来源浏览文章。"
 hideMeta: true

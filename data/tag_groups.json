@@ -1,0 +1,10 @@
+{
+  "topics": [
+    {"id": "agent", "title": "Agent 系统", "tags": ["agent", "harness-engineering", "context-engineering", "prompt-engineering"]},
+    {"id": "coding", "title": "AI 编程", "tags": ["agentic-coding", "code-editing"], "detailTitle": "代码编辑 · 细分技术", "details": ["next-edit", "apply", "speculative-edit"]},
+    {"id": "models", "title": "模型与产业", "tags": ["model-engineering", "行业动向"]}
+  ],
+  "sources": ["anthropic", "openai", "langchain", "cursor", "github", "uber", "latent-space"],
+  "other": ["blog", "init", "arm", "架构迁移"],
+  "retired": ["视频笔记", "博客推荐"]
+}
