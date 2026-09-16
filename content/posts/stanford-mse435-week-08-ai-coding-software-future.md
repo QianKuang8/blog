@@ -4,7 +4,7 @@ lastmod: '2026-09-08T15:38:17+08:00'
 title: '当代码生成越来越容易：智能体软件的价值转向可靠运行'
 summary: "Guillermo Rauch 从部署、沙箱、可组合接口与运维出发，解释代码生成成本下降后，软件经济的稀缺性为何会迁移到可靠运行与可信治理。"
 description: "解读 Stanford MS&E 435 Week 8 关于 AI coding、智能体基础设施、SaaS 分层与软件未来的课堂访谈"
-tags: ["视频笔记", "agentic-coding", "行业动向"]
+tags: ["agentic-coding", "行业动向"]
 categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true

@@ -4,7 +4,7 @@ lastmod: '2026-09-08T15:42:08+08:00'
 title: 'Claude Code 团队如何工作：目标委派、动态工作流与验证反馈'
 summary: "Claude Code 团队把协作单位从函数和工具调用提升到目标，但没有因此省略验证。上下文、可执行环境、动态工作流和真实反馈，共同接住了更长、更自主的任务。"
 description: "解读 Claude Code 团队如何使用 Claude Tag、远端执行、动态工作流与反馈闭环完成日常开发"
-tags: ["视频笔记", "agentic-coding", "agent"]
+tags: ["agentic-coding"]
 categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true

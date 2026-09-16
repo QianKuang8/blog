@@ -1,0 +1,11 @@
+{{- $pages := .RegularPages }}
+{{- with .Params.legacyCategory }}
+  {{- $pages = (site.GetPage (printf "/categories/%s" .)).RegularPages }}
+{{- end }}
+{{- with .Params.legacyPosts }}
+  {{- $pages = slice }}
+  {{- range . }}
+    {{- with site.GetPage (printf "/posts/%s" .) }}{{ $pages = $pages | append . }}{{ end }}
+  {{- end }}
+{{- end }}
+{{- return (sort $pages "Date" "desc") }}

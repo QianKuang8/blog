@@ -1,5 +1,5 @@
 ---
-title: "openai"
+title: "OpenAI"
 description: "原始来源为 OpenAI 官方渠道的文章解读。"
 summary: "按 OpenAI 官方来源浏览文章。"
 hideMeta: true

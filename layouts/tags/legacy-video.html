@@ -1,0 +1,18 @@
+{{- $pages := partial "tag_archive_pages.html" . }}
+{{- $paginator := .Paginate $pages }}
+{{- $target := (site.GetPage (printf "/categories/%s" .Params.legacyCategory)).Permalink }}
+{{- if gt $paginator.PageNumber 1 }}
+  {{- $target = printf "%spage/%d/" $target $paginator.PageNumber }}
+{{- end }}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }}</title>
+  <link rel="canonical" href="{{ $target }}">
+  <meta http-equiv="refresh" content="0; url={{ $target }}">
+  <meta name="robots" content="noindex, follow">
+</head>
+<body><p>视频笔记已统一到栏目：<a href="{{ $target }}">继续浏览视频笔记</a>。</p></body>
+</html>

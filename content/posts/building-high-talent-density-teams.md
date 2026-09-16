@@ -4,7 +4,7 @@ lastmod: '2026-08-31T16:40:00+08:00'
 title: '高人才密度不是更宽的漏斗：从样本偏差到以人为原子单位的招聘系统'
 summary: "传统招聘漏斗的根本缺陷不是转化率太低，而是进入评估的人一开始就偏了。Cursor 人才主管 Adam Ward 用岗位界定、人才地图、持续激活的三步框架，加上 recruiter 作为信心引擎、Offer 作为全程积累结果的组织设计，重新定义高人才密度的实现路径。"
 description: "解读 Adam Ward 的招聘方法论：末日漏斗失败机制、三步框架、双向评估、成交与人才密度组织设计"
-tags: ["视频笔记"]
+tags: []
 categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true

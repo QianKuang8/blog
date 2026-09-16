@@ -40,6 +40,8 @@ class PageParser(HTMLParser):
         self.meta: list[dict[str, str | None]] = []
         self.headings: list[tuple[str, str]] = []
         self.class_counts: dict[str, int] = {}
+        self.post_tag_labels: list[str | None] = []
+        self.tag_groups: list[str] = []
         self.home_category_shelves: list[dict[str, object]] = []
         self._json_ld_parts: list[str] | None = None
         self._link_attrs: dict[str, str | None] | None = None
@@ -64,6 +66,10 @@ class PageParser(HTMLParser):
         classes = class_names(attributes)
         for class_name in classes:
             self.class_counts[class_name] = self.class_counts.get(class_name, 0) + 1
+        if attributes.get("data-tag-group"):
+            self.tag_groups.append(attributes["data-tag-group"])
+        if tag == "ul" and "post-tags" in classes:
+            self.post_tag_labels.append(attributes.get("aria-label"))
 
         for attribute in ("href", "src"):
             if attributes.get(attribute) and tag != "base":
@@ -395,6 +401,101 @@ def rss_items(
     return items
 
 
+def validate_tag_navigation(failures: list[str]) -> None:
+    """Check browse coverage, source attribution, and retired URL compatibility."""
+    repo = Path(__file__).resolve().parent.parent
+    groups = json.loads((repo / "data/tag_groups.json").read_text(encoding="utf-8"))
+    sources = set(groups["sources"])
+    retired = set(groups["retired"])
+    registered = list(groups["sources"]) + list(groups["other"])
+    for group in groups["topics"]:
+        registered.extend(group["tags"])
+        registered.extend(group.get("details", []))
+    assert_true(len(registered) == len(set(registered)), "tag groups should not repeat tags", failures)
+
+    expected: dict[str, set[str]] = {}
+    for source in sorted((repo / "content/posts").glob("*.md")):
+        frontmatter = source.read_text(encoding="utf-8").split("---", 2)[1]
+        match = re.search(r"^tags:\s*(\[.*\])$", frontmatter, re.MULTILINE)
+        if not match:
+            failures.append(f"{source.name}: tags should be an array")
+            continue
+        tags = json.loads(match.group(1))
+        assert_true(not retired.intersection(tags), f"{source.name}: retired tag is still assigned", failures)
+        assert_true(set(tags) <= set(registered), f"{source.name}: tag is not registered in a group", failures)
+        post_path = f"posts/{source.stem}/index.html"
+        # Validate draft/future metadata, but only inspect pages in this build.
+        if not (SITE_DIR / post_path).is_file():
+            continue
+        page = parse_html(post_path)
+        actual = [attrs for attrs, _ in page.links if attrs.get("data-tag")]
+        assert_true(
+            sorted(attrs["data-tag"] for attrs in actual) == sorted(tags),
+            f"{post_path}: footer should show each assigned tag exactly once",
+            failures,
+        )
+        for attrs in actual:
+            tag = attrs["data-tag"]
+            kind = "source" if tag in sources else "topic"
+            assert_true(attrs.get("data-tag-kind") == kind, f"{post_path}: {tag} has wrong tag role", failures)
+            assert_true(url_path_ends_with(attrs.get("href"), f"tags/{tag}"), f"{post_path}: {tag} URL changed", failures)
+        labels = (["主题"] if set(tags) - sources else []) + (["来源"] if set(tags) & sources else [])
+        assert_true(page.post_tag_labels == labels, f"{post_path}: topic and source rows should be separate", failures)
+        for tag in tags:
+            expected.setdefault(tag, set()).add(normalized_url_path(page.canonical_url))
+
+    page = parse_html("tags/index.html")
+    expected_groups = [group["id"] for group in groups["topics"]] + ["sources", "other"]
+    assert_true(page.tag_groups == expected_groups, "tag directory groups should have a stable order and no ungrouped tags", failures)
+    chips = [attrs for attrs, _ in page.links if attrs.get("data-tag")]
+    assert_true(
+        sorted(attrs["data-tag"] for attrs in chips) == sorted(expected),
+        "tag directory should list every active tag exactly once and hide retired tags",
+        failures,
+    )
+    assert_true(set(expected) <= set(registered), "all active tags should be registered in tag groups", failures)
+    for attrs in chips:
+        tag = attrs["data-tag"]
+        kind = "source" if tag in sources else "topic"
+        assert_true(attrs.get("data-tag-kind") == kind, f"tag directory: {tag} has wrong tag role", failures)
+        assert_true(attrs.get("data-count") == str(len(expected[tag])), f"tag directory: {tag} count differs from its articles", failures)
+        feed = rss_items(f"tags/{tag}/index.xml", failures)
+        if feed is not None:
+            assert_true(
+                {normalized_url_path(item.get("link")) for item in feed} == expected[tag],
+                f"tags/{tag}: archive feed should match assigned articles",
+                failures,
+            )
+
+    for legacy_path, target in (
+        ("tags/视频笔记/index.html", "categories/视频笔记"),
+        ("tags/视频笔记/page/1/index.html", "tags/视频笔记"),
+        ("tags/视频笔记/page/2/index.html", "categories/视频笔记/page/2"),
+        ("tags/博客推荐/page/1/index.html", "tags/博客推荐"),
+    ):
+        legacy = parse_html(legacy_path)
+        assert_true(url_path_ends_with(legacy.canonical_url, target), f"{legacy_path}: canonical should point to the replacement", failures)
+        assert_true(
+            any(item.get("http-equiv", "").lower() == "refresh" and legacy.canonical_url in (item.get("content") or "") for item in legacy.meta) if legacy.canonical_url else False,
+            f"{legacy_path}: should redirect to its canonical URL",
+            failures,
+        )
+    old_feed = rss_items("tags/视频笔记/index.xml", failures)
+    category_feed = rss_items("categories/视频笔记/index.xml", failures)
+    if old_feed is not None and category_feed is not None:
+        assert_true(
+            [item.get("link") for item in old_feed] == [item.get("link") for item in category_feed],
+            "retired video tag RSS should continue to follow the video category",
+            failures,
+        )
+    old_blog = parse_html("tags/博客推荐/index.html")
+    old_blog_feed = rss_items("tags/博客推荐/index.xml", failures)
+    for slug in ("five-agent-skills-i-use-every-day", "prompt-engineering-guide"):
+        assert_true(any(url_path_ends_with(attrs.get("href"), f"posts/{slug}") for attrs, _ in old_blog.links), f"retired recommendation page should keep {slug}", failures)
+        if old_blog_feed is not None:
+            assert_true(any(url_path_ends_with(item.get("link"), f"posts/{slug}") for item in old_blog_feed), f"retired recommendation RSS should keep {slug}", failures)
+
+
 def main() -> int:
     failures: list[str] = []
 
@@ -670,6 +771,7 @@ def main() -> int:
             )
 
     assert_true(post_count > 0, "at least one post page should be generated", failures)
+    validate_tag_navigation(failures)
     validate_local_references(failures)
 
     search_page = parse_html("search/index.html")
