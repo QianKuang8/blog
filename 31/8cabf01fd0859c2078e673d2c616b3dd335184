@@ -1,0 +1,59 @@
+AGENTS.md
+  s_cbc438207f545a::t_09f6a17e369668 66-67
+BLOG_PROMPTS.md
+  s_cbc438207f545a::t_ab13c2f79a6771 57
+WORKFLOW.md
+  s_cbc438207f545a::t_fab928b12332fc 3,17,29,35,61,92,97-113
+content/posts/building-effective-agents.md
+  s_cbc438207f545a::t_baab9ae96eb9a0 7
+content/posts/claude-code-auto-mode.md
+  s_cbc438207f545a::t_6c0ba9e5d3f32c 7
+content/posts/claude-code-session-management-1m-context.md
+  s_cbc438207f545a::t_a8ff1b783338a5 7
+content/posts/claude-code-unreasonable-effectiveness-html.md
+  s_cbc438207f545a::t_13b813d9b62beb 7
+content/posts/harness-design-long-running-apps.md
+  s_cbc438207f545a::t_6527d87f4ff430 7
+content/posts/harness-engineering-leveraging-codex-in-an-agent-first-world.md
+  s_cbc438207f545a::t_c38726a2d85480 7
+content/posts/introduction-to-agentic-coding.md
+  s_cbc438207f545a::t_4f26a4d93720d5 7
+content/posts/prompt-engineering-best-practices.md
+  s_cbc438207f545a::t_d65051c0ea390f 7
+content/posts/reducing-cost-and-improving-performance-with-claude-platform.md
+  s_cbc438207f545a::t_00a3e5a102ca3b 1-87
+content/posts/subagents-in-claude-code.md
+  s_cbc438207f545a::t_3ecb5ac720fe12 7
+content/posts/unrolling-codex-agent-loop.md
+  s_cbc438207f545a::t_45f211a9fd46a5 7
+content/posts/why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities.md
+  s_cbc438207f545a::t_f38e71a93fb35b 7
+content/tags/_index.md
+  s_cbc438207f545a::t_b3adb84526427f 3-4
+content/tags/anthropic/_index.md
+  s_cbc438207f545a::t_db8c117e040eae 1-8
+content/tags/openai/_index.md
+  s_cbc438207f545a::t_e7adf597c03e34 1-8
+content/topics/context-engineering.md
+  s_cbc438207f545a::t_b0c570e6fc85ad 28
+sources/orig/reducing-cost-and-improving-performance-with-claude-platform.md
+  s_cbc438207f545a::t_718f690e519e07 1-146
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "318cabf01fd0859c2078e673d2c616b3dd335184",
+  "prompts": {},
+  "sessions": {
+    "s_cbc438207f545a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a834-3269-75e0-98ed-442732e5ed6f",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
