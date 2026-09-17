@@ -1,0 +1,21 @@
+WORKFLOW.md
+  s_70771e938edeac::t_13baf1aa9072a4 3,33-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7663ff31538c9ab3f2eed9b0e54ec286d9a195a1",
+  "prompts": {},
+  "sessions": {
+    "s_70771e938edeac": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ae3d-1b98-7e91-a0a3-b32e16a0f7b2",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
