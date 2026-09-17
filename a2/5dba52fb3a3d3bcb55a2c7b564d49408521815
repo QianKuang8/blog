@@ -1,0 +1,27 @@
+content/posts/cognition-local-fusion.md
+  s_dfe7773ff65012::t_f7ac530ddc5b19 1-79
+content/topics/harness-engineering.md
+  s_dfe7773ff65012::t_1fbebeffac5dd9 30
+sources/orig/cognition-local-fusion.md
+  s_dfe7773ff65012::t_b56dfa6bd3bb93 1-110
+static/images/cognition-local-fusion/lead-sidekick.svg
+  s_dfe7773ff65012::t_5e5d31d29d92c1 1-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a25dba52fb3a3d3bcb55a2c7b564d49408521815",
+  "prompts": {},
+  "sessions": {
+    "s_dfe7773ff65012": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ae8d-4b8d-7161-9905-7de1c5d02663",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
