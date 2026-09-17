@@ -1,0 +1,25 @@
+content/posts/how-warp-builds-self-improving-agents-on-claude.md
+  s_70771e938edeac::t_27e5fe363338cc 1-70
+content/topics/agent-memory-and-skills.md
+  s_70771e938edeac::t_7c826e03850df2 25
+sources/orig/how-warp-builds-self-improving-agents-on-claude.md
+  s_70771e938edeac::t_d53a9928e78ee9 1-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "70539d60e58d3855bc901cae53f5387f91c95865",
+  "prompts": {},
+  "sessions": {
+    "s_70771e938edeac": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ae3d-1b98-7e91-a0a3-b32e16a0f7b2",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
