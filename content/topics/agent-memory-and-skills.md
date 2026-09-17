@@ -22,6 +22,7 @@ isCJKLanguage: true
 ## 最后检查方法是否有效
 
 - [skill-creator 的真正变化：从脚手架变成评估闭环]({{< relref "/posts/anthropic-skill-creator-breakdown.md" >}})：继续追问 Skill 该触发时能否触发、执行后是否改善结果，以及怎样根据失败改进它。
+- [Warp 如何把团队反馈变成 Agent 的 Skill 改进]({{< relref "/posts/how-warp-builds-self-improving-agents-on-claude.md" >}})：看 Issue 与 PR 中的反馈如何转成可审查的 Skill 修改，以及合并后还需要验证什么。
 
 ## 继续探索
 
