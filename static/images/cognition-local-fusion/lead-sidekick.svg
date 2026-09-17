@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="540" viewBox="0 0 1000 540" role="img" aria-labelledby="title desc">
+  <title id="title">Fusion 的 Lead 与 Sidekick 分工</title>
+  <desc id="desc">用户与 Lead 交互。Lead 负责任务规划和审查，将任务说明、约束和成功标准交给 Sidekick；Sidekick 探索、实现和测试并返回结果。双方维护各自的持久上下文，Lead 可以反馈或接管。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="540" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="42" y="48" font-size="24" font-weight="700" fill="#182b40">Fusion：围绕交接组织工作</text>
+    <text x="42" y="81" font-size="18" fill="#526478">职责与信息流示意 · 各自维护上下文</text>
+    <rect x="42" y="213" width="116" height="70" rx="12" fill="#fff" stroke="#c8d2de"/>
+    <text x="100" y="256" text-anchor="middle" font-size="22" font-weight="600" fill="#182b40">用户</text>
+    <path d="M169 237 H227" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M227 260 H169" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="240" y="129" width="260" height="305" rx="16" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="264" y="169" font-size="25" font-weight="700" fill="#254d7a">Lead · 负责人</text>
+    <text x="264" y="204" font-size="18" fill="#254d7a">前沿模型</text>
+    <text x="264" y="254" font-size="21" fill="#182b40">规划 · 解释歧义</text>
+    <text x="264" y="291" font-size="21" fill="#182b40">审查 · 必要时接管</text>
+    <rect x="261" y="329" width="218" height="82" rx="10" fill="#fff"/>
+    <text x="370" y="361" text-anchor="middle" font-size="19" fill="#254d7a">持久上下文 A</text>
+    <text x="370" y="389" text-anchor="middle" font-size="17" fill="#526478">自己的工具与历史</text>
+    <rect x="700" y="129" width="260" height="305" rx="16" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="724" y="169" font-size="25" font-weight="700" fill="#21624a">Sidekick · 执行者</text>
+    <text x="724" y="204" font-size="18" fill="#21624a">成本更低的模型</text>
+    <text x="724" y="254" font-size="21" fill="#182b40">探索 · 实现 · 测试</text>
+    <text x="724" y="291" font-size="21" fill="#182b40">向 Lead 汇报结果</text>
+    <rect x="721" y="329" width="218" height="82" rx="10" fill="#fff"/>
+    <text x="830" y="361" text-anchor="middle" font-size="19" fill="#21624a">持久上下文 B</text>
+    <text x="830" y="389" text-anchor="middle" font-size="17" fill="#526478">自己的工具与历史</text>
+    <text x="600" y="224" text-anchor="middle" font-size="18" fill="#344d68">任务 · 约束 · 标准</text>
+    <path d="M514 239 H685" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="600" y="283" text-anchor="middle" font-size="18" fill="#344d68">执行结果</text>
+    <path d="M685 298 H514" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="600" y="342" text-anchor="middle" font-size="18" fill="#344d68">审查反馈</text>
+    <path d="M514 357 H685" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="500" y="483" text-anchor="middle" font-size="20" fill="#344d68">交接任务、结果与反馈，各自维护持久上下文</text>
+    <text x="500" y="514" text-anchor="middle" font-size="16" fill="#64758a">根据 Cognition 的架构说明整理；不表示底层调度时序</text>
+  </g>
+</svg>

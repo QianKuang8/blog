@@ -27,6 +27,7 @@ isCJKLanguage: true
 - [Deep Agents 提分：Harness Engineering 的价值在反馈回路]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：理解失败分析和评估闭环。
 - [Harness Engineering：用行为评估守住 Agent 的关键动作]({{< relref "/posts/harness-engineering-behavioral-evaluations.md" >}})：理解行为断言能证明什么，以及它怎样与端到端评测共同检查回归。
 - [Uber 软件工厂：围绕有效交付优化 Agent 成本]({{< relref "/posts/uber-efficient-software-factory.md" >}})：看模型分工与工具流程的改进，怎样用同一组真实任务检查质量和成本。
+- [Devin Fusion：双 Agent 的分工与成本]({{< relref "/posts/cognition-local-fusion.md" >}})：聚焦规划与执行的交接，理解上下文分工、审查证据和任务成本之间的关系。
 
 ## 继续探索
 
