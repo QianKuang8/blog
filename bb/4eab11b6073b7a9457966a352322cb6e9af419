@@ -1,0 +1,25 @@
+content/posts/rethinking-skills-and-prompts-for-gpt-6-astra.md
+  s_b1ac23548e4620::t_75a9dafc848cb8 1-69
+content/topics/agent-memory-and-skills.md
+  s_b1ac23548e4620::t_43a191d7111f48 24
+sources/orig/rethinking-skills-and-prompts-for-gpt-6-astra.md
+  s_b1ac23548e4620::t_3a1c57bc8b99fd 1-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bb4eab11b6073b7a9457966a352322cb6e9af419",
+  "prompts": {},
+  "sessions": {
+    "s_b1ac23548e4620": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b225-93b9-7381-80e7-ca8acb7880c3",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
