@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">Infra Agent 的密集反馈循环</title>
+  <desc id="desc">工程师定义目标、约束和审查边界。Infra Agent 提出假设和修改，实验环境提供数值对照、执行时间线和性能测试。局部证据反馈给 Agent，候选修改进入端到端验收，回归和收益也反馈给 Agent。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="960" height="620" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="48" font-size="26" font-weight="700" fill="#182b40">让反馈指导下一次实验</text>
+    <text x="40" y="81" font-size="19" fill="#526478">局部、及时、可验证 · 按当前假设选择观察方法</text>
+    <rect x="40" y="112" width="880" height="74" rx="12" fill="#fff" stroke="#c8d2de"/>
+    <text x="64" y="157" font-size="23" font-weight="600" fill="#182b40">工程师</text>
+    <text x="200" y="157" font-size="21" fill="#344d68">定义目标与约束 · 建设实验环境 · 审查关键改动</text>
+    <path d="M205 186 V220" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M720 186 V220" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="40" y="235" width="320" height="176" rx="14" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="64" y="275" font-size="25" font-weight="700" fill="#254d7a">Infra Agent</text>
+    <text x="64" y="316" font-size="21" fill="#182b40">提出假设 · 修改代码</text>
+    <text x="64" y="351" font-size="21" fill="#182b40">选择并执行验证</text>
+    <text x="64" y="386" font-size="19" fill="#526478">保留、修订或推翻当前方案</text>
+    <rect x="560" y="235" width="360" height="176" rx="14" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="584" y="275" font-size="25" font-weight="700" fill="#21624a">实验环境</text>
+    <text x="584" y="316" font-size="21" fill="#182b40">数值对照：计算是否正确</text>
+    <text x="584" y="351" font-size="21" fill="#182b40">执行时间线：时间花在哪里</text>
+    <text x="584" y="386" font-size="21" fill="#182b40">性能测试：何时更快</text>
+    <text x="460" y="285" text-anchor="middle" font-size="20" fill="#344d68">假设与修改</text>
+    <path d="M374 301 H546" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="460" y="350" text-anchor="middle" font-size="20" fill="#344d68">可归因的证据</text>
+    <path d="M546 366 H374" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M740 411 V480" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="764" y="453" font-size="19" fill="#526478">候选修改</text>
+    <rect x="350" y="492" width="570" height="82" rx="12" fill="#fff4df" stroke="#d9c397"/>
+    <text x="374" y="526" font-size="23" font-weight="600" fill="#725025">端到端验收</text>
+    <text x="374" y="557" font-size="20" fill="#725025">正确性 · 稳定性 · 真实负载下的服务性能</text>
+    <path d="M350 533 H200 V425" fill="none" stroke="#50647a" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="58" y="481" font-size="19" fill="#526478">收益与回归</text>
+    <text x="480" y="603" text-anchor="middle" font-size="17" fill="#64758a">根据 Z.ai 原文整理；表示职责与反馈关系，不表示固定测试顺序</text>
+  </g>
+</svg>
