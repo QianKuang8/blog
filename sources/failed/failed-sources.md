@@ -1,5 +1,11 @@
 ## 失败记录
 
+### [2026-09-20] GLM 推理基础设施文章
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://z.ai/blog/glm-built-its-inference-infrastructure | defuddle 无法提取正文（No content could be extracted）；使用 `npx --yes defuddle parse <URL> --md` 执行 | 用户授权改用浏览器，从渲染后的原文正文补档至 `sources/orig/glm-built-its-inference-infrastructure.md` | 已解决，原文已补档 |
+
 ### [2026-08-31] Inbox 清理批次
 
 | URL | 失败原因 | 补档来源 | 状态 |
