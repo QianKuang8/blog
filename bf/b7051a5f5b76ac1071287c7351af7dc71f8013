@@ -1,0 +1,27 @@
+content/posts/glm-built-its-inference-infrastructure.md
+  s_4578fc6c76c408::t_10664bce0aca41 1-83
+sources/failed/failed-sources.md
+  s_4578fc6c76c408::t_8d779f7c109576 3-8
+sources/orig/glm-built-its-inference-infrastructure.md
+  s_4578fc6c76c408::t_82ea97728d7df9 1-151
+static/images/glm-built-its-inference-infrastructure/dense-feedback-loop.svg
+  s_4578fc6c76c408::t_09959ac35bf80a 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bfb7051a5f5b76ac1071287c7351af7dc71f8013",
+  "prompts": {},
+  "sessions": {
+    "s_4578fc6c76c408": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0be39-6be8-7c51-9fec-0f054043868d",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
