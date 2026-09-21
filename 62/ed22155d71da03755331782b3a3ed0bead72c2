@@ -1,0 +1,35 @@
+layouts/_default/baseof.html
+  s_e808a9d1c52a3c::t_f03bfbb27ac82c 1-32
+layouts/partials/style-prototype.html
+  s_e808a9d1c52a3c::t_5be9f01c6f9d79 1-18
+static/style-prototype/c.js
+  s_de059ae37b03f0::t_a8087e53b3b955 1-31
+static/style-prototype/shared.js
+  s_e808a9d1c52a3c::t_430cc018f67bb3 1-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "62ed22155d71da03755331782b3a3ed0bead72c2",
+  "prompts": {},
+  "sessions": {
+    "s_de059ae37b03f0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1f7-506f-7573-be5d-c38197ade765",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_e808a9d1c52a3c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1f4-413d-77f1-b550-93c5a13924e3",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
