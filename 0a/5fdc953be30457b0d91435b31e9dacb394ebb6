@@ -1,0 +1,27 @@
+content/posts/scaling-storage-one-billion-users-part-one.md
+  s_88073e727ed7ed::t_a24a15dda5835e 1-72
+sources/failed/failed-sources.md
+  s_88073e727ed7ed::t_6a643a36f96334 3-8
+sources/orig/scaling-storage-one-billion-users-part-one.md
+  s_88073e727ed7ed::t_1cb67466ba85ad 1-129
+static/images/scaling-storage-one-billion-users-part-one/request-timeline.svg
+  s_88073e727ed7ed::t_de3b04e78dd39a 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0a5fdc953be30457b0d91435b31e9dacb394ebb6",
+  "prompts": {},
+  "sessions": {
+    "s_88073e727ed7ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c317-c718-7233-b814-15ddc046e18c",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
