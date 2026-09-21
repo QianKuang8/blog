@@ -1,0 +1,111 @@
+assets/js/theme-init.js
+  s_e808a9d1c52a3c::t_7ee7b32103f952 1-8
+assets/js/vendor/Fuse-LICENSE
+  s_31c13e2b095600::t_dcdc88205806b7 1-201
+assets/js/vendor/PaperMod-LICENSE
+  s_31c13e2b095600::t_948f2bfd2f1fc4 1-22
+assets/js/vendor/README.md
+  s_31c13e2b095600::t_c7a1c154514c0c 1-14
+assets/js/vendor/fuse.basic.min.js
+  s_31c13e2b095600::t_6591d632864f50 1-9
+layouts/404.html
+  s_de059ae37b03f0::t_cf7cd24d8d4223 1-12
+layouts/_default/_markup/render-heading.html
+  s_31c13e2b095600::t_8f6a7c22615b2c 1
+layouts/_default/_markup/render-image.html
+  s_de059ae37b03f0::t_536a70c49c3b98 1-10
+layouts/_default/baseof.html
+  s_e808a9d1c52a3c::t_dae0a54eb596ee 1-16
+layouts/_default/list.html
+  s_de059ae37b03f0::t_c02b7bdfd9115f 1-31
+layouts/_default/single.html
+  s_e245d88d84b52e::t_54ca422f754633 1-8,10-24,26-29,31-37,39-40
+layouts/_default/terms.html
+  s_de059ae37b03f0::t_640d0d1f654491 1-29
+layouts/index.html
+  s_de059ae37b03f0::t_ec4eabddbe04d4 1-12,14-24,26-28
+layouts/partials/author.html
+  s_e245d88d84b52e::t_6f20127c96079f 1-7
+layouts/partials/canonical_url.html
+  s_de059ae37b03f0::t_9e1be8e63287e2 2-5
+layouts/partials/category_tabs.html
+  s_de059ae37b03f0::t_d860f7624c110e 1-12
+layouts/partials/footer.html
+  s_e808a9d1c52a3c::t_353d52ccdef415 1-4
+layouts/partials/head.html
+  s_e808a9d1c52a3c::t_475e2e1649ef87 2-8,10,12-29
+layouts/partials/list_pages.html
+  s_de059ae37b03f0::t_85d7b5d4409754 1-9
+layouts/partials/pagination.html
+  s_de059ae37b03f0::t_075f4646aac88f 1-11
+layouts/partials/post_meta.html
+  s_e245d88d84b52e::t_ecc6d3ebf7ce1b 2,30,33-34,53
+layouts/partials/post_row.html
+  s_de059ae37b03f0::t_acc62ce8c3b81e 1-26
+layouts/partials/reading_paths.html
+  s_e245d88d84b52e::t_50a17a67bb54d4 23,27-28,35-36,39
+layouts/partials/share_image.html
+  s_de059ae37b03f0::t_a9b80180d58e26 1-8
+layouts/partials/sidebar.html
+  s_e808a9d1c52a3c::t_316257713145fe 1-37
+layouts/partials/templates/opengraph.html
+  s_de059ae37b03f0::t_b33e03ab0b8856 1-11
+layouts/partials/templates/schema_json.html
+  s_de059ae37b03f0::t_9d26cedcb023ce 1-17
+layouts/partials/templates/twitter_cards.html
+  s_de059ae37b03f0::t_f6793e9538915a 2,4
+layouts/partials/topic_links.html
+  s_de059ae37b03f0::t_d9b00aeb6f33b3 1-15
+layouts/robots.txt
+  s_de059ae37b03f0::t_6a6dac28a8cb56 1-4
+layouts/shortcodes/reading_path.html
+  s_e245d88d84b52e::t_c1fb011064c846 1,7,9-29,31-33,36
+layouts/topics/list.html
+  s_e245d88d84b52e::t_11db35d67d12ec 1-4,6-27,29
+layouts/topics/single.html
+  s_e245d88d84b52e::t_16e30a80455b1b 1-19
+tests/test_site.py
+  s_31c13e2b095600::t_6d65df786086dd 41-44,59-153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e6505774f3c2df6d5f32800cac57d4000328279a",
+  "prompts": {},
+  "sessions": {
+    "s_31c13e2b095600": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c20e-98bc-77e3-9c75-4764fe3287a7",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_de059ae37b03f0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1f7-506f-7573-be5d-c38197ade765",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_e245d88d84b52e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1f7-1234-7311-8644-01c296fb35ef",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_e808a9d1c52a3c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1f4-413d-77f1-b550-93c5a13924e3",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
