@@ -1,0 +1,288 @@
+{
+  "paths": [
+    {
+      "topic": "/topics/coding-agent",
+      "groups": [
+        {
+          "title": "先建立全局地图",
+          "entries": [
+            {
+              "post": "/posts/introduction-to-agentic-coding",
+              "reason": "先理解目标、上下文、跨文件修改与测试反馈怎样组成执行循环。"
+            },
+            {
+              "post": "/posts/the-8-levels-of-agentic-engineering",
+              "reason": "用八级经验框架检查上下文、反馈与协作的短板，并理解它为何不能作为统一的成熟度标准。"
+            },
+            {
+              "post": "/posts/every-cli-coding-agent-compared",
+              "reason": "从历史功能表提炼模型接入、上下文、执行隔离与协作的选型维度，再用真实任务验证。"
+            }
+          ]
+        },
+        {
+          "title": "再看产品和工作流",
+          "entries": [
+            {
+              "post": "/posts/claude-code-anthropic-agent-terminal",
+              "reason": "看薄 Harness 怎样借助 CLI 接入现有工具链，以及执行、权限与人工验收怎样分工。"
+            },
+            {
+              "post": "/posts/cursor-team-interview",
+              "reason": "转到编辑器内循环，理解预测编辑、应用修改与审查反馈怎样衔接。"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-08-ai-coding-software-future",
+              "reason": "接着看生成代码之后的部署、状态管理与可靠交付。"
+            }
+          ]
+        },
+        {
+          "title": "最后看评测和边界",
+          "entries": [
+            {
+              "post": "/posts/cursorbench",
+              "reason": "看真实开发会话怎样成为评测任务，以及离线分数怎样与线上体验相互校验。"
+            },
+            {
+              "post": "/posts/why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities",
+              "reason": "从测试错配和数据污染理解公开评测的误差，并检查审计结论的样本边界。"
+            },
+            {
+              "post": "/posts/agentic-coding-boundary",
+              "reason": "把注意力转向复杂度、领域知识与审查带宽，理解验收标准怎样影响交付。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "/topics/context-engineering",
+      "groups": [
+        {
+          "title": "先理解核心问题",
+          "entries": [
+            {
+              "post": "/posts/why-context-engineering-needed",
+              "reason": "从写入、选择、压缩与隔离入手，理解各类动作怎样改变任务中的信息流。"
+            },
+            {
+              "post": "/posts/context-engineering-for-agents",
+              "reason": "把四类方法接成信息流，继续检查检索、压缩和委派分别保留与丢失了什么。"
+            },
+            {
+              "post": "/posts/from-activity-to-action",
+              "reason": "通过接续桌面工作的场景，分清历史线索、当前来源与行动授权。"
+            }
+          ]
+        },
+        {
+          "title": "再看具体机制",
+          "entries": [
+            {
+              "post": "/posts/dynamic-context-discovery",
+              "reason": "看长输出、会话历史和工具说明怎样留在文件中，让 Agent 按需找回细节。"
+            },
+            {
+              "post": "/posts/filesystems-for-context-engineering",
+              "reason": "看文件怎样承接长输出、工作状态与按需读取，以及为何保存信息仍不能替代检索和验证。"
+            },
+            {
+              "post": "/posts/subagents-in-claude-code",
+              "reason": "从独立上下文出发，检查哪些任务可以并行，以及返回什么材料才足以完成交接。"
+            }
+          ]
+        },
+        {
+          "title": "最后看长程任务与成本",
+          "entries": [
+            {
+              "post": "/posts/context-engineering-long-horizon-agents-langchain-harrison-chase",
+              "reason": "把 context、planning、traces 和人类评估放在一起看。"
+            },
+            {
+              "post": "/posts/claude-code-prompt-caching-is-everything",
+              "reason": "理解缓存约束如何反过来塑造上下文布局。"
+            },
+            {
+              "post": "/posts/reducing-cost-and-improving-performance-with-claude-platform",
+              "reason": "把缓存用量、执行轨迹与任务质量放在一起评估。"
+            },
+            {
+              "post": "/posts/uber-efficient-software-factory",
+              "reason": "看工具发现、关系查询与缓存怎样影响真实任务的搜索开销和完成成本。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "/topics/harness-engineering",
+      "groups": [
+        {
+          "title": "先理解 Harness 为什么重要",
+          "entries": [
+            {
+              "post": "/posts/harness-design-long-running-apps",
+              "reason": "从评价器、任务契约与返工循环理解长任务控制，并检查预算和评价器的边界。"
+            },
+            {
+              "post": "/posts/harness-engineering-leveraging-codex-in-an-agent-first-world",
+              "reason": "看仓库知识、运行反馈和架构约束怎样进入 Agent 可访问的环境。"
+            },
+            {
+              "post": "/posts/harness-engineering-vs-sdd",
+              "reason": "区分工具与反馈、意图与验收依据，并看规范怎样被发现、执行和持续维护。"
+            }
+          ]
+        },
+        {
+          "title": "再看工具和权限",
+          "entries": [
+            {
+              "post": "/posts/claude-code-seeing-like-an-agent",
+              "reason": "用提问、任务管理和搜索接口的演进，理解工具边界怎样随模型的实际行为调整。"
+            },
+            {
+              "post": "/posts/claude-code-auto-mode",
+              "reason": "从动作分类与权限分层看如何判断授权，并保留拒绝恢复和评测结果的适用边界。"
+            },
+            {
+              "post": "/posts/from-demonstration-to-skill",
+              "reason": "看录制证据怎样写成方法，以及 Skill、当前任务、工具与权限怎样共同决定执行。"
+            }
+          ]
+        },
+        {
+          "title": "最后看反馈、观测与成本",
+          "entries": [
+            {
+              "post": "/posts/ai-native-software-engineering-observability-control",
+              "reason": "把规约、执行过程与验收结果连起来，判断哪些度量能够指向流程改进。"
+            },
+            {
+              "post": "/posts/improving-deep-agents-with-harness-engineering",
+              "reason": "沿失败轨迹检查验证机会、环境信息和推理预算的调整，以及提分的归因边界。"
+            },
+            {
+              "post": "/posts/harness-engineering-behavioral-evaluations",
+              "reason": "理解行为断言能证明什么，以及它怎样与端到端评测共同检查回归。"
+            },
+            {
+              "post": "/posts/uber-efficient-software-factory",
+              "reason": "看模型分工与工具流程的改进，怎样用同一组真实任务检查质量和成本。"
+            },
+            {
+              "post": "/posts/cognition-local-fusion",
+              "reason": "聚焦规划与执行的交接，理解上下文分工、审查证据和任务成本之间的关系。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "/topics/agent-memory-and-skills",
+      "groups": [
+        {
+          "title": "先看工作线索怎样找回",
+          "entries": [
+            {
+              "post": "/posts/from-activity-to-action",
+              "reason": "看获准活动怎样整理成 History，以及 Agent 为什么还要回到原始来源核对当前状态。"
+            },
+            {
+              "post": "/posts/filesystems-for-context-engineering",
+              "reason": "补上存储与读取机制，理解计划、材料和中间结果怎样留在文件中供 Agent 按需读取。"
+            }
+          ]
+        },
+        {
+          "title": "再看方法怎样保存和复用",
+          "entries": [
+            {
+              "post": "/posts/from-demonstration-to-skill",
+              "reason": "用一次填报演示，理解录制证据、固定方法与每次变化的数据怎样分开。"
+            },
+            {
+              "post": "/posts/claude-code-how-we-use-skills",
+              "reason": "从团队使用经验看 Skill 的任务边界、按需加载与分发方式。"
+            }
+          ]
+        },
+        {
+          "title": "最后检查方法是否有效",
+          "entries": [
+            {
+              "post": "/posts/rethinking-skills-and-prompts-for-gpt-6-astra",
+              "reason": "看模型升级后如何重新检查触发范围、材料加载时机与完成标准。"
+            },
+            {
+              "post": "/posts/anthropic-skill-creator-breakdown",
+              "reason": "继续追问 Skill 该触发时能否触发、执行后是否改善结果，以及怎样根据失败改进它。"
+            },
+            {
+              "post": "/posts/how-warp-builds-self-improving-agents-on-claude",
+              "reason": "看 Issue 与 PR 中的反馈如何转成可审查的 Skill 修改，以及合并后还需要验证什么。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "/topics/stanford-mse435",
+      "groups": [
+        {
+          "title": "按周阅读",
+          "format": "table",
+          "entries": [
+            {
+              "post": "/posts/stanford-mse435-week-01-generative-ai-economics",
+              "label": "Week 1",
+              "reason": "为什么收入与利润先集中在底层，应用层要满足什么条件才能获取更多价值？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-02-gpu-economics",
+              "label": "Week 2",
+              "reason": "芯片、系统和 Agent 工作流怎样共同影响推理成本与任务价值？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure",
+              "label": "Week 3",
+              "reason": "从电力到 token，要经过哪些物理环节，又由谁承担建设与运营风险？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-04-enterprise-ai-saas",
+              "label": "Week 4",
+              "reason": "为什么局部提效难以变成企业收益，端到端流程需要怎样重构？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-05-ai-infrastructure-frontier-labs",
+              "label": "Week 5",
+              "reason": "怎样把名义算力变成按时上线、稳定运行的有效算力？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence",
+              "label": "Week 6",
+              "reason": "企业怎样用自己的评测、上下文和生产反馈改善任务结果？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-07-inference-cloud-ai-commercialization",
+              "label": "Week 7",
+              "reason": "前沿 API、定制模型与推理平台之间，成本和控制权怎样取舍？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-08-ai-coding-software-future",
+              "label": "Week 8",
+              "reason": "代码更容易生成后，部署、状态、权限与可靠运行为什么更重要？"
+            },
+            {
+              "post": "/posts/stanford-mse435-week-09-ai-life-sciences",
+              "label": "Week 9",
+              "reason": "分子设计与通用 Agent 怎样参与研发，又有哪些实验与验证环节必须保留？"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # 博客发布流程
 
-> 生成时间：2026-03-20，更新：2026-09-17
+> 生成时间：2026-03-20，更新：2026-09-21
 
 ## 核心目标
 
@@ -34,7 +34,11 @@
 
 本站面向桌面阅读，不要求手机适配。新增或修改文章、图表和页面样式时，只检查桌面显示效果；除非用户明确要求，否则不做窄屏或手机视口验证，也不为移动端调整排版。
 
-发布时仍需完成 Hugo 构建、`scripts/check_site.py` 站点检查，以及适用的链接、资源和线上部署核验。
+发布时使用 `scripts/build_site.py` 完成源文件校验、干净 Hugo 构建和站点检查，再完成适用的外部链接及线上部署核验。首次使用时按 README 建立 Python 虚拟环境并安装 `requirements.txt`。
+
+构建入口先检查文章和来源记录，在新的临时目录中构建并检查 PDF 字节与站点产物；全部通过后才替换 `public/`。构建失败时保留上次通过验证的产物。直接运行 `hugo` 仍可用于调试，但不作为发布检查结果，因为旧输出可能残留。
+
+`scripts/check_content.py` 使用 YAML 解析器检查发布态文章的必需元数据、显式时区、`lastmod >= date`、单一合法栏目，以及对应的原文或视频来源记录。`draft: true` 的文章可以尚未完成；未来日期但未标草稿的文章也必须完整。当前存量已具备全部来源记录，不设置历史豁免。视频还检查来源字段、原视频链接、PDF 路径、submodule、站点与固定 GitHub 链接，以及构建前后的文件字节。该检查不联网，也不能代替文章事实审校或线上链接检查。
 
 ---
 
@@ -46,7 +50,7 @@
 
 | 栏目 | 适用范围 | 来源要求 |
 |------|----------|----------|
-| `好文分享` | 基于外部网页文章整理的中文解读 | 必须有 `sources/orig/<slug>.md`；历史存量除外 |
+| `好文分享` | 基于外部网页文章整理的中文解读 | 必须有 `sources/orig/<slug>.md` |
 | `原创文章` | 个人实践、研究、观点或工具清单 | 没有强制来源文件 |
 | `视频笔记` | 基于课程、访谈或演讲整理的主题式笔记 | 必须有 `sources/video/<slug>.md` 和对应 PDF |
 
@@ -109,7 +113,8 @@ categories: ["原创文章"]
 - `视频笔记` 标签已停用：`/tags/视频笔记/` 及旧分页转向对应栏目页；旧 RSS 从当前视频栏目生成。
 - `博客推荐` 标签已停用：`/tags/博客推荐/` 保留两篇历史文章链接，旧分页入口与 RSS 继续可用。新文章使用具体主题，不再添加该标签。
 - 停用标签不出现在标签导航或文章标签中。历史入口通过 `legacyCategory` 或 `legacyPosts` 指定兼容内容，不再依赖文章携带旧标签。
-- `layouts/_default/single.html` 仅替换 PaperMod 的标签 footer 为 `post_tags.html`；更新主题时检查此覆盖模板与上游的差异。
+- `layouts/_default/single.html` 覆盖 PaperMod 的文章模板，调用 `post_tags.html` 展示标签并补充阅读路径；更新主题时检查此覆盖模板与上游的差异。
+- `layouts/partials/head.html` 覆盖主题头部以调用 `canonical_url.html`，为常规分页输出指向自身的 canonical；升级主题时同时比较这份覆盖模板。
 
 ### 来源标签
 
@@ -138,6 +143,7 @@ categories: ["原创文章"]
 
 专题保存在 `content/topics/`，用于课程目录、问题索引和精选阅读路径；沿用现有页面模板，通过 `content/topics/_index.md` 提供入口。
 
+- 精选文章的顺序、分组和推荐理由统一维护在 `data/reading_paths.json`，对应专题使用 `reading_path` shortcode 展示；标题从 Hugo 文章页面获取。文章末尾根据同一关系表自动显示所属阅读路径和下一篇，避免两端手工维护失配。
 - 课程目录按周次或内容顺序列出文章，说明每篇回答什么问题；系列文章链接回目录。
 - 问题型专题说明适合谁、从哪里开始，以及条目之间的关系。它可以同时收录原创文章、视频笔记和好文分享。
 - 重点文章可补 1-3 个确有帮助的站内链接，并说明用于补背景、看机制或理解边界。使用 Hugo `relref` 引用已有文章与专题。
@@ -278,7 +284,9 @@ git submodule update --init --recursive
 git submodule update --init --depth 1 static/pdfs
 ```
 
-未初始化 `static/pdfs` 时，本地 Hugo 仍可编译文章，但 PDF 链接在本地预览中不可用。GitHub Pages workflow 必须在运行 Hugo 前检出 submodule。
+未初始化 `static/pdfs` 时，本地 Hugo 仍可编译文章，但 PDF 链接在本地预览中不可用，正式构建会报错。GitHub Pages workflow 必须在构建前检出 submodule。
+
+正式校验需要解析文章固定 GitHub 链接的 PDF 提交。短 SHA 在本地唯一可解析时仍有效；链接可以固定在旧提交，只要该路径的文件字节与当前 submodule 中的 PDF 相同。若更新了 PDF 字节，必须同步更新固定链接。浅克隆可能缺少旧提交，此时先手动运行 `git -C static/pdfs fetch --unshallow`；校验器不会自动获取历史或请求远端。
 
 ### 发布、更新与回滚
 
@@ -292,7 +300,7 @@ git submodule update --init --depth 1 static/pdfs
 5. 在 blog-pdfs 提交并推送 PDF commit
 6. 在博客仓库更新 static/pdfs submodule 指针
 7. 创建或更新 content/posts/<slug>.md，并同步更新 lastmod
-8. 运行 Hugo 构建并检查 PDF 产物与文章链接
+8. 运行 scripts/build_site.py 构建并检查 PDF 产物与文章链接
 9. 提交并推送博客仓库
 ```
 
@@ -304,9 +312,7 @@ git submodule update --init --depth 1 static/pdfs
 
 ```bash
 git submodule status --recursive
-hugo
-test -f public/pdfs/<pdf-path>
-cmp static/pdfs/<pdf-path> public/pdfs/<pdf-path>
+.venv/bin/python scripts/build_site.py
 ```
 
 文章还必须确认原视频链接、站点 PDF 链接和 GitHub 源文件链接与当前发布版本一致。
@@ -329,7 +335,7 @@ cmp static/pdfs/<pdf-path> public/pdfs/<pdf-path>
 3. 发布
    ├─ 创建 content/posts/<slug>.md
    ├─ hugo server -D 预览
-   ├─ hugo && python3 scripts/check_site.py public
+   ├─ .venv/bin/python scripts/build_site.py
    └─ git commit & push
 
 4. 清理
@@ -358,8 +364,7 @@ defuddle parse "https://..." --md -o sources/orig/<slug>.md
 hugo server -D
 
 # 构建并检查生成站点
-hugo
-python3 scripts/check_site.py public
+.venv/bin/python scripts/build_site.py
 
 # 确认 OK 后，从 inbox.md 移除对应条目
 

@@ -42,6 +42,8 @@
   </div>
   {{- end }}
 
+  {{- partial "reading_paths.html" . }}
+
   <footer class="post-footer">
     {{- partial "post_tags.html" . }}
     {{- if (.Param "ShowPostNavLinks") }}

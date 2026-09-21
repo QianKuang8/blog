@@ -1,160 +1,201 @@
 import * as params from '@params';
 
-// PaperMod override: announce no matches without adding a navigable result.
-let fuse; // holds our search engine
-let resList = document.getElementById('searchResults');
-let sInput = document.getElementById('searchInput');
-let searchStatus = document.createElement('div');
-searchStatus.id = 'searchStatus';
-searchStatus.setAttribute('role', 'status');
-resList.before(searchStatus);
-let first, last, current_elem = null
-let resultsAvailable = false;
+// PaperMod override: input-driven search, readable results and native focus.
+const searchBox = document.getElementById('searchbox');
+const input = document.getElementById('searchInput');
+const resultsList = document.getElementById('searchResults');
+const status = document.getElementById('searchStatus');
+const retry = document.getElementById('searchRetry');
+let fuse;
+let indexState = 'idle';
+let composing = false;
 
-// load our search index
-window.onload = function () {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                let data = JSON.parse(xhr.responseText);
-                if (data) {
-                    // fuse.js options; check fuse.js website for details
-                    let options = {
-                        distance: 100,
-                        threshold: 0.4,
-                        ignoreLocation: true,
-                        keys: [
-                            'title',
-                            'permalink',
-                            'summary',
-                            'content'
-                        ]
-                    };
-                    if (params.fuseOpts) {
-                        options = {
-                            isCaseSensitive: params.fuseOpts.iscasesensitive ?? false,
-                            includeScore: params.fuseOpts.includescore ?? false,
-                            includeMatches: params.fuseOpts.includematches ?? false,
-                            minMatchCharLength: params.fuseOpts.minmatchcharlength ?? 1,
-                            shouldSort: params.fuseOpts.shouldsort ?? true,
-                            findAllMatches: params.fuseOpts.findallmatches ?? false,
-                            keys: params.fuseOpts.keys ?? ['title', 'permalink', 'summary', 'content'],
-                            location: params.fuseOpts.location ?? 0,
-                            threshold: params.fuseOpts.threshold ?? 0.4,
-                            distance: params.fuseOpts.distance ?? 100,
-                            ignoreLocation: params.fuseOpts.ignorelocation ?? true
-                        }
-                    }
-                    fuse = new Fuse(data, options); // build the index from the json file
-                }
-            } else {
-                console.log(xhr.responseText);
-            }
-        }
+function queryPattern(query) {
+    const terms = [...new Set([query, ...query.split(/\s+/)].filter(Boolean))];
+    return new RegExp(terms.sort((a, b) => b.length - a.length)
+        .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'giu');
+}
+
+function appendHighlighted(element, text, query) {
+    let offset = 0;
+    for (const match of text.matchAll(queryPattern(query))) {
+        element.append(document.createTextNode(text.slice(offset, match.index)));
+        const mark = document.createElement('mark');
+        mark.textContent = match[0];
+        element.append(mark);
+        offset = match.index + match[0].length;
+    }
+    element.append(document.createTextNode(text.slice(offset)));
+}
+
+function resultSnippet(item, query) {
+    const sources = [
+        { text: item.summary, label: '摘要' },
+        { text: item.content, label: '正文命中' }
+    ].map(source => ({ ...source, text: (source.text || '').replace(/\s+/g, ' ').trim() }));
+    const matched = sources.find(source => queryPattern(query).test(source.text));
+    const source = matched || sources.find(source => source.text);
+    if (!source) return null;
+    const match = matched && queryPattern(query).exec(source.text);
+    let start = match ? Math.max(0, match.index - 38) : 0;
+    // Keep a UTF-16 surrogate pair intact when an excerpt starts near an emoji.
+    if (start && /[\uDC00-\uDFFF]/.test(source.text[start])) start -= 1;
+    const excerpt = [...source.text.slice(start)].slice(0, 150).join('');
+    return {
+        // Fuzzy matches may have no literal keyword; their text is only a summary.
+        label: matched ? source.label : '摘要',
+        text: (start ? '…' : '') + excerpt + (start + excerpt.length < source.text.length ? '…' : '')
     };
-    xhr.open('GET', "../index.json");
-    xhr.send();
 }
 
-function activeToggle(ae) {
-    document.querySelectorAll('.focus').forEach(function (element) {
-        // rm focus class
-        element.classList.remove("focus")
-    });
-    if (ae) {
-        ae.focus()
-        document.activeElement = current_elem = ae;
-        ae.parentElement.classList.add("focus")
-    } else {
-        document.activeElement.parentElement.classList.add("focus")
+function createResult(item, query) {
+    let url;
+    try {
+        url = new URL(item.permalink, window.location.href);
+    } catch {
+        return null;
+    }
+    if (!['http:', 'https:'].includes(url.protocol)) return null;
+    const li = document.createElement('li');
+    li.className = 'search-result';
+    const link = document.createElement('a');
+    link.className = 'search-result-link';
+    link.href = url.href;
+    const heading = document.createElement('h2');
+    appendHighlighted(heading, item.title, query);
+    link.append(heading);
+
+    const meta = document.createElement('div');
+    meta.className = 'search-result-meta';
+    if (item.category) {
+        const category = document.createElement('span');
+        category.textContent = item.category;
+        meta.append(category);
+    }
+    if (item.date) {
+        const date = document.createElement('time');
+        date.dateTime = item.date;
+        date.textContent = item.date;
+        meta.append(date);
+    }
+    link.append(meta);
+
+    const snippet = resultSnippet(item, query);
+    if (snippet) {
+        const excerpt = document.createElement('p');
+        excerpt.className = 'search-result-snippet';
+        const label = document.createElement('span');
+        label.className = 'search-snippet-label';
+        label.textContent = `${snippet.label} · `;
+        excerpt.append(label);
+        appendHighlighted(excerpt, snippet.text, query);
+        link.append(excerpt);
+    }
+    li.append(link);
+    return li;
+}
+
+function search() {
+    resultsList.replaceChildren();
+    if (indexState !== 'ready') return;
+    const query = input.value.trim();
+    if (!query) {
+        status.textContent = '输入关键词，搜索标题、摘要和全文。';
+        return;
+    }
+    const fragment = document.createDocumentFragment();
+    let count = 0;
+    for (const result of fuse.search(query)) {
+        const card = createResult(result.item, query);
+        if (card) {
+            fragment.append(card);
+            count += 1;
+        }
+    }
+    resultsList.append(fragment);
+    status.textContent = count ? `找到 ${count} 条结果` : '未找到相关文章，试试更短的关键词。';
+}
+
+async function loadIndex() {
+    if (indexState === 'loading') return;
+    indexState = 'loading';
+    status.textContent = '正在加载搜索…';
+    resultsList.setAttribute('aria-busy', 'true');
+    retry.hidden = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    try {
+        const response = await fetch(searchBox.dataset.indexUrl, { signal: controller.signal });
+        if (!response.ok) throw new Error('Search index unavailable');
+        const data = await response.json();
+        if (!Array.isArray(data) || data.some(item => !item ||
+            typeof item.title !== 'string' || typeof item.permalink !== 'string' ||
+            typeof item.summary !== 'string' || typeof item.content !== 'string')) {
+            throw new Error('Invalid search index');
+        }
+        const options = params.fuseOpts || {};
+        fuse = new Fuse(data, {
+            isCaseSensitive: options.iscasesensitive ?? false,
+            minMatchCharLength: options.minmatchcharlength ?? 1,
+            shouldSort: true,
+            ignoreLocation: true,
+            threshold: options.threshold ?? 0.3,
+            keys: options.keys ?? [
+                { name: 'title', weight: 0.55 },
+                { name: 'summary', weight: 0.3 },
+                { name: 'content', weight: 0.15 }
+            ]
+        });
+        indexState = 'ready';
+        // A reader can type before the request finishes, or while retrying it.
+        if (!composing) search();
+        else status.textContent = '输入关键词，搜索标题、摘要和全文。';
+    } catch {
+        indexState = 'error';
+        resultsList.replaceChildren();
+        status.textContent = '暂时无法搜索，请重试。';
+        retry.hidden = false;
+    } finally {
+        clearTimeout(timeout);
+        resultsList.setAttribute('aria-busy', 'false');
     }
 }
 
-function reset() {
-    resultsAvailable = false;
-    resList.innerHTML = sInput.value = ''; // clear inputbox and searchResults
-    searchStatus.textContent = '';
-    sInput.focus(); // shift focus to input box
-}
+input.addEventListener('compositionstart', () => { composing = true; });
+input.addEventListener('compositionend', () => {
+    composing = false;
+    search();
+});
+input.addEventListener('input', event => {
+    if (!composing && !event.isComposing) search();
+});
+// Safari's native clear button also emits a search event.
+input.addEventListener('search', () => { if (!composing) search(); });
+retry.addEventListener('click', () => {
+    input.focus();
+    loadIndex();
+});
 
-// execute search as each character is typed
-sInput.onkeyup = function (e) {
-    // run a search query (for "term") every time a letter is typed
-    // in the search box
-    if (fuse) {
-        let results;
-        if (params.fuseOpts) {
-            results = fuse.search(this.value.trim(), {limit: params.fuseOpts.limit}); // the actual query being run using fuse.js along with options
-        } else {
-            results = fuse.search(this.value.trim()); // the actual query being run using fuse.js
-        }
-        if (results.length !== 0) {
-            // build our html if result exists
-            let resultSet = ''; // our results bucket
-
-            for (let item in results) {
-                resultSet += `<li class="post-entry"><header class="entry-header">${results[item].item.title}&nbsp;»</header>` +
-                    `<a href="${results[item].item.permalink}" aria-label="${results[item].item.title}"></a></li>`
-            }
-
-            resList.innerHTML = resultSet;
-            searchStatus.textContent = '';
-            resultsAvailable = true;
-            first = resList.firstChild;
-            last = resList.lastChild;
-        } else {
-            resultsAvailable = false;
-            resList.innerHTML = '';
-            searchStatus.textContent = this.value.trim() ? '未找到相关文章' : '';
-        }
+searchBox.addEventListener('keydown', event => {
+    if (composing || event.isComposing || event.altKey || event.ctrlKey || event.metaKey) return;
+    const active = document.activeElement;
+    if (event.key === 'Escape') {
+        event.preventDefault();
+        input.value = '';
+        search();
+        input.focus();
+        return;
     }
-}
+    if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+    const links = [...resultsList.querySelectorAll('.search-result-link')];
+    const current = links.indexOf(active);
+    if (active !== input && current === -1) return;
+    if (!links.length) return;
+    event.preventDefault();
+    if (event.key === 'ArrowDown') links[Math.min(current + 1, links.length - 1)].focus();
+    else if (current <= 0) input.focus();
+    else links[current - 1].focus();
+});
 
-sInput.addEventListener('search', function (e) {
-    // clicked on x
-    if (!this.value) reset()
-})
-
-// kb bindings
-document.onkeydown = function (e) {
-    let key = e.key;
-    let ae = document.activeElement;
-
-    let inbox = document.getElementById("searchbox").contains(ae)
-
-    if (ae === sInput) {
-        let elements = document.getElementsByClassName('focus');
-        while (elements.length > 0) {
-            elements[0].classList.remove('focus');
-        }
-    } else if (current_elem) ae = current_elem;
-
-    if (key === "Escape") {
-        reset()
-    } else if (!resultsAvailable || !inbox) {
-        return
-    } else if (key === "ArrowDown") {
-        e.preventDefault();
-        if (ae == sInput) {
-            // if the currently focused element is the search input, focus the <a> of first <li>
-            activeToggle(resList.firstChild.lastChild);
-        } else if (ae.parentElement != last) {
-            // if the currently focused element's parent is last, do nothing
-            // otherwise select the next search result
-            activeToggle(ae.parentElement.nextSibling.lastChild);
-        }
-    } else if (key === "ArrowUp") {
-        e.preventDefault();
-        if (ae.parentElement == first) {
-            // if the currently focused element is first item, go to input box
-            activeToggle(sInput);
-        } else if (ae != sInput) {
-            // if the currently focused element is input box, do nothing
-            // otherwise select the previous search result
-            activeToggle(ae.parentElement.previousSibling.lastChild);
-        }
-    } else if (key === "ArrowRight") {
-        ae.click(); // click on active link
-    }
-}
+// This script is deferred: the DOM is ready without waiting for images/onload.
+loadIndex();

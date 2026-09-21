@@ -1,0 +1,29 @@
+{{- /* Use the same ordered entries for topic directories and article navigation. */ -}}
+{{- $page := .Page -}}
+{{- $paths := where hugo.Data.reading_paths.paths "topic" $page.Path -}}
+{{- if ne (len $paths) 1 -}}
+  {{- errorf "reading_path: expected one path for %s, found %d" $page.Path (len $paths) -}}
+{{- end -}}
+{{- range $paths -}}
+  {{- range .groups -}}
+    {{- $isTable := eq (.format | default "list") "table" -}}
+    {{- printf "\n## %s\n\n" .title -}}
+    {{- if $isTable -}}
+      {{- printf "| 周次 | 文章 | 这一篇回答什么 |\n| --- | --- | --- |\n" -}}
+    {{- end -}}
+    {{- range .entries -}}
+      {{- $entry := . -}}
+      {{- with site.GetPage .post -}}
+        {{- $link := printf "<a href=%q data-reading-path-post=%q>%s</a>" .RelPermalink .File.ContentBaseName (.Title | htmlEscape) -}}
+        {{- if $isTable -}}
+          {{- printf "| %s | %s | %s |\n" $entry.label $link ($entry.reason | htmlEscape) | safeHTML -}}
+        {{- else -}}
+          {{- printf "- %s：%s\n" $link ($entry.reason | htmlEscape) | safeHTML -}}
+        {{- end -}}
+      {{- else -}}
+        {{- errorf "reading_path: %s refers to missing post %s" $page.Path .post -}}
+      {{- end -}}
+    {{- end -}}
+    {{- printf "\n" -}}
+  {{- end -}}
+{{- end -}}

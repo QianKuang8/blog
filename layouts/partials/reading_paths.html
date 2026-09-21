@@ -1,0 +1,45 @@
+{{- if eq .Section "posts" -}}
+  {{- $page := . -}}
+  {{- $memberships := slice -}}
+  {{- range hugo.Data.reading_paths.paths -}}
+    {{- $path := . -}}
+    {{- $entries := slice -}}
+    {{- range .groups -}}
+      {{- range .entries -}}
+        {{- $entries = $entries | append . -}}
+      {{- end -}}
+    {{- end -}}
+    {{- range $index, $entry := $entries -}}
+      {{- if eq $entry.post $page.Path -}}
+        {{- $next := false -}}
+        {{- if lt (add $index 1) (len $entries) -}}
+          {{- $next = index $entries (add $index 1) -}}
+        {{- end -}}
+        {{- $memberships = $memberships | append (dict "topic" (site.GetPage $path.topic) "position" (add $index 1) "total" (len $entries) "next" $next) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $memberships }}
+  <nav class="reading-paths" aria-labelledby="reading-paths-heading">
+    <h2 id="reading-paths-heading">沿专题继续阅读</h2>
+    {{- range . }}
+      {{- $membership := . }}
+    <div class="reading-path" data-reading-path="{{ .topic.File.ContentBaseName }}">
+      <div class="reading-path-header">
+        <a href="{{ .topic.RelPermalink }}" data-reading-path-home="{{ .topic.File.ContentBaseName }}">{{ .topic.Title }}</a>
+        <span class="reading-path-position">第 {{ .position }} / {{ .total }} 篇</span>
+      </div>
+      {{- with .next }}
+        {{- $next := . }}
+        {{- with site.GetPage .post }}
+      <p class="reading-path-next"><span>下一篇</span><a href="{{ .RelPermalink }}" data-reading-path-next="{{ $membership.topic.File.ContentBaseName }}">{{ .Title }}</a></p>
+      <p class="reading-path-reason">{{ $next.reason }}</p>
+        {{- end }}
+      {{- else }}
+      <p class="reading-path-reason">这是本路径的最后一篇，可返回专题目录按问题选读。</p>
+      {{- end }}
+    </div>
+    {{- end }}
+  </nav>
+  {{- end -}}
+{{- end -}}

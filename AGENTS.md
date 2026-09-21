@@ -20,11 +20,16 @@ hugo new content content/posts/my-post.md
 # 本地预览（包含草稿）
 hugo server -D
 
-# 构建静态文件到 public/
-hugo
+# 首次安装校验依赖（Python 3.10+）
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 
-# 检查生成的站点
-python3 scripts/check_site.py public
+# 正式构建并校验；通过后才替换 public/
+.venv/bin/python scripts/build_site.py
+
+# 单独检查源文件与已生成站点
+.venv/bin/python scripts/check_content.py
+.venv/bin/python scripts/check_site.py public
 
 # 初始化所有 submodule（主题与 PDF）
 git submodule update --init --recursive
@@ -73,5 +78,7 @@ showToc: true
 - 不要把 PDF 作为博客主仓库的普通文件提交，也不要用 `git add .` 代替对主仓库和 submodule 的分别检查。
 - 更新 PDF 时，先提交并推送 PDF 仓库，再更新博客 submodule 指针、文章链接和 `lastmod`。
 - 发布视频笔记前必须确认 Hugo 产物中存在对应 PDF，并检查原视频、站点 PDF 和 GitHub 源文件链接。
+- 正式构建统一使用 `scripts/build_site.py`，避免旧 `public/` 文件干扰校验；校验器只豁免明确标记 `draft: true` 的未完成文章。固定 PDF 链接可以指向旧提交，但该提交中的文件必须与当前 PDF 字节一致；浅克隆缺少历史时先手动补齐，校验器不自动联网。
+- 专题阅读顺序和推荐理由统一维护在 `data/reading_paths.json`，专题通过 `reading_path` shortcode 展示，文章末尾自动回链和推荐下一篇。仅修改关系数据或模板时保留文章 `lastmod`；修改文章正文或专题文字时按既有规则更新。
 - 提交时只使用单行 git commit 信息。
 - 更新博文后，应主动提交；如果当前任务不适合直接提交，至少先询问用户是否需要提交。
