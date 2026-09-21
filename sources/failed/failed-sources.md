@@ -1,5 +1,11 @@
 ## 失败记录
 
+### [2026-09-21] OpenAI Habitat 存储扩展文章
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://openai.com/index/scaling-storage-one-billion-users-part-one/ | `npx --yes defuddle parse <URL> --md` 返回 `403 Forbidden`；对浏览器 HTML 的提取又遗漏末尾章节 | 经用户授权，从浏览器完整 DOM 正文补档至 `sources/orig/scaling-storage-one-billion-users-part-one.md`，已核对全部正文章节 | 已解决，原文已补档 |
+
 ### [2026-09-20] GLM 推理基础设施文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
