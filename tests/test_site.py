@@ -38,6 +38,10 @@ class PaginationCanonicalTests(SiteFixture):
         self.write("posts/page/2/index.html", '<link rel="canonical" href="https://example.org/blog/posts/">')
         self.assertEqual(len(self.failures()), 1)
 
+    def test_home_pager_must_describe_its_own_page(self):
+        self.write("page/2/index.html", '<link rel="canonical" href="https://example.org/blog/">')
+        self.assertEqual(len(self.failures()), 1)
+
     def test_self_canonical_with_encoded_chinese_path(self):
         self.write("tags/主题/page/2/index.html", '<link rel="canonical" href="https://example.org/blog/tags/%E4%B8%BB%E9%A2%98/page/2/">')
         self.assertEqual(self.failures(), [])
@@ -50,6 +54,101 @@ class PaginationCanonicalTests(SiteFixture):
     def test_legacy_redirect_preserves_replacement(self):
         self.write("tags/视频笔记/page/2/index.html", '<meta http-equiv="refresh" content="0; url=/blog/categories/视频笔记/page/2/"><link rel="canonical" href="https://example.org/blog/categories/视频笔记/page/2/">')
         self.assertEqual(self.failures(), [])
+
+
+class HomeNavigationTests(SiteFixture):
+    def setUp(self):
+        super().setUp()
+        source_patch = patch.object(check_site, "__file__", str(self.root / "scripts/check_site.py"))
+        source_patch.start()
+        self.addCleanup(source_patch.stop)
+        names = check_site.HOME_CATEGORY_ORDER
+        for number in range(1, 13):
+            self.write(f"content/posts/post-{number}.md", (
+                f"---\ndate: '2026-09-{number:02}T12:00:00+08:00'\n"
+                f"categories: ['{names[(number - 1) % 3]}']\n---\nArticle\n"
+            ))
+            self.write(f"posts/post-{number}/index.html", "Article")
+        self.write("content/posts/hidden.md", (
+            "---\ndate: '2026-09-20T12:00:00+08:00'\n"
+            "categories: ['原创文章']\nhiddenInHomeList: true\n---\nHidden\n"
+        ))
+        self.write("posts/hidden/index.html", "Hidden article")
+        self.write("content/posts/draft.md", (
+            "---\ndate: '2026-09-21T12:00:00+08:00'\n"
+            "categories: ['原创文章']\ndraft: true\n---\nDraft\n"
+        ))
+        self.slugs = [f"post-{number}" for number in range(12, 0, -1)]
+        self.render_pages()
+
+    def row(self, slug):
+        return (f'<article data-post-entry="{slug}"><h2>'
+                f'<a data-post-link="{slug}" href="/blog/posts/{slug}/">{slug}</a>'
+                '</h2></article>')
+
+    def render_pages(self, slugs=None, counts=(5, 4, 4)):
+        slugs = self.slugs if slugs is None else slugs
+        categories = ''.join(
+            f'<a data-home-category="{name}" data-count="{count}" href="/blog/categories/{name}/">{name}</a>'
+            for name, count in zip(check_site.HOME_CATEGORY_ORDER, counts)
+        )
+        self.write("index.html", '<link rel="canonical" href="https://example.org/blog/">'
+                   + categories + ''.join(map(self.row, slugs[:10]))
+                   + '<a href="/blog/page/2/">下一页</a>')
+        self.write("page/2/index.html", '<link rel="canonical" href="https://example.org/blog/page/2/">'
+                   + ''.join(map(self.row, slugs[10:])))
+
+    def failures(self):
+        check_site.parse_html.cache_clear()
+        failures = []
+        check_site.validate_home_navigation(failures)
+        return failures
+
+    def test_latest_posts_mix_categories_with_full_pagination(self):
+        self.assertEqual(self.failures(), [])
+
+    def test_reversed_dates_are_rejected(self):
+        changed = self.slugs.copy()
+        changed[0], changed[1] = changed[1], changed[0]
+        self.render_pages(changed)
+        self.assertTrue(any("publication order" in failure for failure in self.failures()))
+
+    def test_missing_latest_post_is_rejected(self):
+        self.render_pages(self.slugs[1:])
+        self.assertTrue(any("exactly once" in failure for failure in self.failures()))
+
+    def test_duplicate_article_on_different_pages_is_rejected(self):
+        self.render_pages(self.slugs[:-1] + [self.slugs[0]])
+        self.assertTrue(any("exactly once" in failure for failure in self.failures()))
+
+    def test_hidden_home_article_remains_in_category_count_but_not_home_list(self):
+        self.assertEqual(self.failures(), [])
+        self.render_pages(["hidden"] + self.slugs[1:])
+        self.assertTrue(any("visible articles" in failure for failure in self.failures()))
+
+    def test_category_count_uses_all_published_members(self):
+        self.render_pages(counts=(4, 4, 4))
+        self.assertTrue(any("data-count" in failure for failure in self.failures()))
+
+    def test_category_link_must_use_this_site_and_its_deployment_path(self):
+        path = self.root / "index.html"
+        self.write("index.html", path.read_text().replace(
+            'href="/blog/categories/原创文章/"', 'href="https://other.test/blog/categories/原创文章/"'
+        ))
+        self.assertTrue(any("target its category" in failure for failure in self.failures()))
+
+    def test_title_link_cannot_target_a_different_article(self):
+        path = self.root / "index.html"
+        self.write("index.html", path.read_text().replace('href="/blog/posts/post-12/"', 'href="/blog/posts/post-11/"'))
+        self.assertTrue(any("target its article" in failure for failure in self.failures()))
+
+    def test_missing_pagination_page_or_next_link_is_rejected(self):
+        (self.root / "page/2/index.html").unlink()
+        self.assertTrue(any("every expected page" in failure for failure in self.failures()))
+        self.render_pages()
+        path = self.root / "index.html"
+        self.write("index.html", path.read_text().replace('<a href="/blog/page/2/">下一页</a>', ''))
+        self.assertTrue(any("link to its next page" in failure for failure in self.failures()))
 
 
 class ReadingPathTests(SiteFixture):

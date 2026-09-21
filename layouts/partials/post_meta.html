@@ -1,4 +1,5 @@
 {{- $scratch := newScratch }}
+{{- $showWordCount := and (.Param "ShowWordCount") (not (.Param "hideWordCount")) -}}
 
 {{- if and .IsPage (eq .Section "posts") -}}
 {{- $categories := .GetTerms "categories" -}}
@@ -26,11 +27,11 @@
 {{- end }}
 
 {{- if (.Param "ShowReadingTime") -}}
-{{- $scratch.Add "meta" (slice (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime))) }}
+{{- $scratch.Add "meta" (slice (printf "%d 分钟" .ReadingTime)) }}
 {{- end }}
 
-{{- if (.Param "ShowWordCount") -}}
-{{- $scratch.Add "meta" (slice (i18n "words" .WordCount | default (printf "%d words" .WordCount))) }}
+{{- if $showWordCount -}}
+{{- $scratch.Add "meta" (slice (printf "%d 字" .WordCount)) }}
 {{- end }}
 
 {{- if not (.Param "hideAuthor") -}}
@@ -49,7 +50,7 @@
 {{- if (.Param "ShowReadingTime") -}}
 {{- $scratch.Add "fields" (slice "reading-time") }}
 {{- end }}
-{{- if (.Param "ShowWordCount") -}}
+{{- if $showWordCount -}}
 {{- $scratch.Add "fields" (slice "word-count") }}
 {{- end }}
 {{- if and (not (.Param "hideAuthor")) (partial "author.html" .) -}}

@@ -1,56 +1,28 @@
-{{- define "main" }}
-
-{{- $home := site.Params.homeInfoParams -}}
-<header class="home-category-hero">
-  <h1>{{ $home.Title | markdownify }}</h1>
-  {{- with $home.Content }}
-  <div class="home-category-intro">{{ . | markdownify }}</div>
-  {{- end }}
+{{- define "main" -}}
+{{- $pages := partial "list_pages.html" . -}}
+{{- $paginator := .Paginate $pages -}}
+<header class="bc-home-heading">
+  <div>
+    <h1>文章与笔记</h1>
+    {{- with site.Params.homeInfoParams.Content }}<p>{{ . | plainify }}</p>{{ end }}
+  </div>
+  <form class="bc-search" action="{{ (site.GetPage "/search").RelPermalink }}" method="get" role="search">
+    <input type="search" name="q" placeholder="搜索文章、标签…" aria-label="搜索文章、标签">
+    <button type="submit">搜索</button>
+  </form>
 </header>
-
-{{- $categoryDefinitions := slice
-  (dict "term" "原创文章" "class" "original")
-  (dict "term" "视频笔记" "class" "video")
-  (dict "term" "好文分享" "class" "shared")
--}}
-<div class="home-category-shelves" aria-label="文章栏目">
-  {{- range $categoryDefinitions }}
-  {{- $termPage := site.GetPage (printf "/categories/%s" .term) -}}
-  {{- if not $termPage -}}
-    {{- errorf "homepage category %q does not exist" .term -}}
-  {{- end -}}
-  {{- $allPages := $termPage.RegularPages -}}
-  {{- $previewPages := where $allPages "Params.hiddenInHomeList" "!=" true -}}
-  <section class="home-category-shelf home-category-shelf--{{ .class }}" data-category="{{ .term }}" data-count="{{ len $allPages }}">
-    <header class="home-category-heading">
-      <div>
-        <h2>
-          <span class="home-category-dot" aria-hidden="true"></span>
-          {{ .term }}
-          <span class="home-category-count">· {{ len $allPages }}</span>
-        </h2>
-        {{- with $termPage.Params.summary }}
-        <p>{{ . }}</p>
-        {{- end }}
-      </div>
-      <a class="home-category-all" href="{{ $termPage.RelPermalink }}" aria-label="查看全部{{ .term }}">查看全部 <span aria-hidden="true">→</span></a>
-    </header>
-
-    <div class="home-category-stories">
-      {{- range first 2 $previewPages.ByDate.Reverse }}
-      <a class="home-category-story home-category-preview" href="{{ .RelPermalink }}">
-        <article>
-          <h3>{{ .Title }}</h3>
-          {{- if ne (.Param "hideSummary") true }}
-          <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}…{{ end }}</p>
-          {{- end }}
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (default "2006-01-02" site.Params.DateFormat) }}</time>
-        </article>
-      </a>
-      {{- end }}
-    </div>
-  </section>
+<section class="bc-topic-strip" aria-label="阅读专题">
+  <span>阅读专题</span>
+  {{ partial "topic_links.html" . }}
+</section>
+<section class="bc-posts" aria-label="最近的文章">
+  <div class="bc-list-heading">
+    {{ partial "category_tabs.html" . }}
+    <span>{{ len $pages }} 篇</span>
+  </div>
+  {{- range $paginator.Pages }}
+    {{ partial "post_row.html" (dict "page" .) }}
   {{- end }}
-</div>
-
-{{- end }}
+</section>
+{{ partial "pagination.html" $paginator }}
+{{- end -}}

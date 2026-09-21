@@ -13,7 +13,14 @@
         {{- if not .Date.IsZero -}}
             {{- $date = .Date.Format "2006-01-02" -}}
         {{- end -}}
-        {{- $index = $index | append (dict "title" .Title "content" (.Plain | htmlUnescape) "permalink" .Permalink "summary" (.Summary | plainify | htmlUnescape) "category" $category "date" $date) -}}
+        {{- $tags := slice -}}
+        {{- range .Params.tags -}}
+            {{- $tags = $tags | append . -}}
+            {{- with site.GetPage (printf "/tags/%s" .) -}}
+                {{- $tags = $tags | append .LinkTitle -}}
+            {{- end -}}
+        {{- end -}}
+        {{- $index = $index | append (dict "title" .Title "content" (.Plain | htmlUnescape) "permalink" .Permalink "summary" (.Summary | plainify | htmlUnescape) "category" $category "date" $date "tags" (uniq $tags)) -}}
     {{- end -}}
 {{- end -}}
 {{- $index | jsonify -}}

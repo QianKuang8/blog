@@ -1,8 +1,8 @@
 {{- $url := .Permalink -}}
-{{- /* These pages use PaperMod's list template. Initialize the same collection
-      as that template: a bare .Paginator here would cache a different list. */ -}}
-{{- if or (eq .Kind "term") (and .IsSection (eq .Section "posts")) -}}
-  {{- $pager := .Paginate (union .RegularPages .Sections) -}}
+{{- /* Use the exact same collection as the list renderer before pagination is cached. */ -}}
+{{- if or .IsHome (eq .Kind "term") (and .IsSection (eq .Section "posts")) -}}
+  {{- $pages := partial "list_pages.html" . -}}
+  {{- $pager := .Paginate $pages -}}
   {{- if gt $pager.PageNumber 1 -}}
     {{- $url = $pager.URL | absURL -}}
   {{- end -}}

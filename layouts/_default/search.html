@@ -1,5 +1,5 @@
 {{- define "main" }}
-<header class="page-header">
+<header class="page-header bc-page-header">
     <h1>{{ .Title }}</h1>
     {{- with .Description }}
     <div class="post-description">{{ . }}</div>
@@ -7,10 +7,10 @@
 </header>
 
 <div id="searchbox" data-index-url="{{ "index.json" | relLangURL }}">
-    <input id="searchInput" autofocus placeholder="{{ .Params.placeholder | default "请输入关键词" }}"
+    <input id="searchInput" name="q" autofocus placeholder="{{ .Params.placeholder | default "请输入关键词" }}"
         aria-label="搜索文章" aria-describedby="searchHelp" aria-controls="searchResults"
         type="search" autocomplete="off" maxlength="64">
-    <p id="searchHelp">支持标题、摘要和全文搜索。用 ↑ ↓ 或 Tab 浏览结果，Enter 打开，Esc 清空。</p>
+    <p id="searchHelp">支持标题、标签、摘要和全文搜索。用 ↑ ↓ 或 Tab 浏览结果，Enter 打开，Esc 清空。</p>
     <div class="search-feedback">
         <p id="searchStatus" role="status" aria-live="polite" aria-atomic="true"></p>
         <button id="searchRetry" type="button" hidden>重试</button>

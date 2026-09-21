@@ -1,0 +1,9 @@
+{{- /* One collection for both the list renderer and canonical pagination. */ -}}
+{{- $pages := union .RegularPages .Sections -}}
+{{- if .IsHome -}}
+  {{- $pages = where site.RegularPages "Section" "posts" -}}
+  {{- $pages = where $pages "Params.hiddenInHomeList" "!=" true -}}
+{{- else if and (eq .Kind "term") (eq .Type "tags") -}}
+  {{- $pages = partial "tag_archive_pages.html" . -}}
+{{- end -}}
+{{- return (sort $pages "Date" "desc") -}}

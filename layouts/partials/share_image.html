@@ -1,0 +1,8 @@
+{{- $image := "site-card.png" -}}
+{{- with site.Params.images }}{{ $image = index . 0 }}{{ end -}}
+{{- with .Params.images }}{{ $image = index . 0 }}{{ end -}}
+{{- with .Params.cover.image -}}
+  {{- $image = . -}}
+  {{- if $.Params.cover.relative }}{{ $image = printf "%s%s" $.RelPermalink . }}{{ end -}}
+{{- end -}}
+{{- return ($image | absURL) -}}

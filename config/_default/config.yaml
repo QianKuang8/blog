@@ -2,7 +2,6 @@ baseURL: https://qiankuang8.github.io/blog/
 defaultContentLanguage: zh
 copyright: "© [Qian](https://github.com/QianKuang8) 2024"
 title: Qian's blog
-theme: ["PaperMod"]
 pagination:
   pagerSize: 10
 
@@ -57,7 +56,6 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Qian's blog
   description: "Qian 的个人博客，记录 AI 工程、Coding Agent、Context Engineering 和软件工程实践。"
-  # keywords: [Blog, Portfolio, PaperMod]
   author: Qian
   images: ["site-card.png"]
   DateFormat: "2006-01-02"
@@ -67,7 +65,7 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: false
   ShowCodeCopyButtons: true
-  ShowWordCount: true
+  ShowWordCount: false
   ShowRssButtonInSectionTermList: false
   UseHugoToc: true
   disableSpecial1stPost: false
@@ -83,10 +81,12 @@ params:
     minMatchCharLength: 1
     keys:
       - name: title
-        weight: 0.55
+        weight: 0.45
       - name: summary
-        weight: 0.3
+        weight: 0.25
       - name: content
+        weight: 0.15
+      - name: tags
         weight: 0.15
 
   homeInfoParams:
@@ -97,8 +97,3 @@ params:
     publisherType: Person
     sameAs:
       - "https://github.com/QianKuang8"
-
-  # socialIcons:
-  #   - name: github
-  #     title: View Source on Github
-  #     url: "https://github.com/adityatelange/hugo-PaperMod"

@@ -1,6 +1,6 @@
 # Qian's Blog
 
-这是一个基于 Hugo 和 PaperMod 的个人静态博客，通过 GitHub Pages 部署。
+这是一个使用 Hugo 和自建展示层的个人静态博客，通过 GitHub Pages 部署。页面模板位于 `layouts/`，统一样式位于 `assets/css/site.css`，正文导航、专注阅读、主题切换和代码复制位于 `assets/js/site.js`。
 
 常用命令：
 

@@ -1,29 +1,36 @@
-{{- /* Use the same ordered entries for topic directories and article navigation. */ -}}
+{{- /* Topic directories and article continuations use the same ordered data. */ -}}
 {{- $page := .Page -}}
 {{- $paths := where hugo.Data.reading_paths.paths "topic" $page.Path -}}
 {{- if ne (len $paths) 1 -}}
   {{- errorf "reading_path: expected one path for %s, found %d" $page.Path (len $paths) -}}
 {{- end -}}
+<div class="bc-topic-stages">
 {{- range $paths -}}
-  {{- range .groups -}}
-    {{- $isTable := eq (.format | default "list") "table" -}}
-    {{- printf "\n## %s\n\n" .title -}}
-    {{- if $isTable -}}
-      {{- printf "| 周次 | 文章 | 这一篇回答什么 |\n| --- | --- | --- |\n" -}}
-    {{- end -}}
-    {{- range .entries -}}
-      {{- $entry := . -}}
-      {{- with site.GetPage .post -}}
-        {{- $link := printf "<a href=%q data-reading-path-post=%q>%s</a>" .RelPermalink .File.ContentBaseName (.Title | htmlEscape) -}}
-        {{- if $isTable -}}
-          {{- printf "| %s | %s | %s |\n" $entry.label $link ($entry.reason | htmlEscape) | safeHTML -}}
-        {{- else -}}
-          {{- printf "- %s：%s\n" $link ($entry.reason | htmlEscape) | safeHTML -}}
+  {{- range $index, $group := .groups -}}
+  <section class="bc-stage" aria-labelledby="{{ .title | anchorize }}">
+    <div class="bc-stage-index"><span>{{ printf "%02d" (add $index 1) }}</span></div>
+    <div class="bc-stage-body">
+      <h2 id="{{ .title | anchorize }}">{{ .title }}</h2>
+      <ol>
+        {{- range .entries -}}
+          {{- $entry := . -}}
+          {{- with site.GetPage .post -}}
+        <li>
+          {{- with $entry.label }}<span class="bc-course-label">{{ . }}</span>{{ end -}}
+          <a href="{{ .RelPermalink }}" data-reading-path-post="{{ .File.ContentBaseName }}"><h3>{{ .Title }}</h3><span aria-hidden="true">↗</span></a>
+          <p>{{ $entry.reason }}</p>
+          <div class="bc-post-meta">
+            {{- range .GetTerms "categories" }}<span>{{ .LinkTitle }}</span>{{ end -}}
+            {{- if .Param "ShowReadingTime" }}<span>{{ .ReadingTime }} 分钟</span>{{ end -}}
+          </div>
+        </li>
+          {{- else -}}
+            {{- errorf "reading_path: %s refers to missing post %s" $page.Path .post -}}
+          {{- end -}}
         {{- end -}}
-      {{- else -}}
-        {{- errorf "reading_path: %s refers to missing post %s" $page.Path .post -}}
-      {{- end -}}
-    {{- end -}}
-    {{- printf "\n" -}}
+      </ol>
+    </div>
+  </section>
   {{- end -}}
 {{- end -}}
+</div>

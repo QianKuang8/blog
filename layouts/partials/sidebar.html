@@ -1,0 +1,37 @@
+{{ $page := . }}
+{{ $posts := where site.RegularPages "Section" "posts" }}
+<aside class="bc-sidebar" aria-label="站点导航">
+  <a class="bc-brand" href="{{ site.Home.RelPermalink }}">Qian's Blog<span>文章与笔记</span></a>
+  <nav class="bc-primary-nav" id="menu" aria-label="主导航">
+    {{ range slice (dict "name" "全部文章" "path" "/") (dict "name" "专题阅读" "path" "/topics") (dict "name" "标签" "path" "/tags") (dict "name" "归档" "path" "/archives") (dict "name" "搜索" "path" "/search") }}
+      {{ $target := site.GetPage .path }}
+      {{ $active := or (eq $page.RelPermalink $target.RelPermalink) (and (eq .path "/topics") (eq $page.Section "topics")) }}
+      <a href="{{ $target.RelPermalink }}"{{ if $active }} aria-current="page"{{ end }}>{{ .name }}</a>
+    {{ end }}
+  </nav>
+  <div class="bc-side-section">
+    <p>阅读线索</p>
+    <nav aria-label="阅读专题">
+      {{ range hugo.Data.reading_paths.paths }}
+        {{ with site.GetPage .topic }}
+        <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}>{{ .Title | replaceRE " 阅读路径$" "" | replaceRE "：.*$" "" }}</a>
+        {{ end }}
+      {{ end }}
+    </nav>
+  </div>
+  <div class="bc-side-section">
+    <p>按栏目浏览</p>
+    <nav aria-label="文章栏目">
+      {{ range slice "原创文章" "好文分享" "视频笔记" }}
+        {{ with site.GetPage (printf "/categories/%s" .) }}
+        <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}>{{ .Title }}<span>{{ len .RegularPages }}</span></a>
+        {{ end }}
+      {{ end }}
+    </nav>
+  </div>
+  <div class="bc-side-bottom">
+    <span>{{ len $posts }} 篇记录 · {{ len hugo.Data.reading_paths.paths }} 个专题</span>
+    <div><a href="https://github.com/QianKuang8" rel="me">GitHub ↗</a><a href="{{ "index.xml" | relURL }}">RSS ↗</a></div>
+    <button type="button" id="theme-toggle" data-theme-toggle hidden aria-label="切换深浅主题">切换深浅主题</button>
+  </div>
+</aside>
