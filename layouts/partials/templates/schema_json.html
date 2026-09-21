@@ -54,7 +54,7 @@
       "@type": "ListItem",
       "position": {{len $bc_list}},
       "name": {{ .Name }},
-      "item": {{ .Permalink | safeHTML }}
+      "item": {{ partial "canonical_url.html" . | safeHTML }}
     }
   ]
 }

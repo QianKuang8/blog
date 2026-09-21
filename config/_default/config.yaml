@@ -78,6 +78,17 @@ params:
   showtoc: false
   tocopen: false
 
+  fuseOpts:
+    threshold: 0.3
+    minMatchCharLength: 1
+    keys:
+      - name: title
+        weight: 0.55
+      - name: summary
+        weight: 0.3
+      - name: content
+        weight: 0.15
+
   homeInfoParams:
     Title: "Qian's Blog"
     Content: "记录 AI 工程、Coding Agent、Context Engineering 和一些个人折腾。"

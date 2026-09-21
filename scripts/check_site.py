@@ -13,6 +13,10 @@ from pathlib import Path
 from urllib.parse import quote, unquote, urljoin, urlsplit
 from xml.etree import ElementTree
 
+import yaml
+
+from check_content import read_markdown
+
 
 SITE_DIR = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("public")
 ARTICLE_CATEGORIES = {
@@ -34,6 +38,7 @@ class PageParser(HTMLParser):
         self.links: list[tuple[dict[str, str | None], str]] = []
         self.references: list[tuple[str, str, str]] = []
         self.canonical_url: str | None = None
+        self.canonical_urls: list[str] = []
         self.post_meta: list[str] = []
         self.post_meta_fields: set[str] = set()
         self.main_menu_links: list[tuple[dict[str, str | None], str]] = []
@@ -76,6 +81,7 @@ class PageParser(HTMLParser):
                 self.references.append((tag, attribute, attributes[attribute]))
         if tag == "link" and "canonical" in (attributes.get("rel") or "").split():
             self.canonical_url = attributes.get("href")
+            self.canonical_urls.append(attributes.get("href") or "")
         if tag == "div":
             if self._post_meta_depth:
                 self._post_meta_depth += 1
@@ -372,6 +378,86 @@ def validate_local_references(failures: list[str]) -> None:
             )
 
 
+def validate_pagination_canonicals(failures: list[str]) -> None:
+    """Each real pager describes itself; alias and retired-tag redirects do not."""
+    home_url = parse_html("index.html").canonical_url or ""
+    for html_path in sorted(SITE_DIR.rglob("index.html")):
+        relative_path = html_path.relative_to(SITE_DIR).as_posix()
+        if not re.search(r"(?:^|/)page/[0-9]+/index\.html$", relative_path):
+            continue
+        page = parse_html(relative_path)
+        if any(item.get("http-equiv", "").lower() == "refresh" for item in page.meta):
+            continue
+        expected = urljoin(home_url, quote(relative_path.removesuffix("index.html")))
+        assert_true(
+            len(page.canonical_urls) == 1
+            and unquote(page.canonical_urls[0]) == unquote(expected),
+            f"{relative_path}: pagination canonical should be {expected}",
+            failures,
+        )
+
+
+def validate_reading_paths(failures: list[str]) -> None:
+    """The topic directory, backlinks and next reads share one ordered list."""
+    repo = Path(__file__).resolve().parent.parent
+    definitions = json.loads((repo / "data/reading_paths.json").read_text(encoding="utf-8"))
+    expected: dict[str, list[str]] = {}
+    for definition in definitions["paths"]:
+        topic = definition["topic"].strip("/")
+        topic_slug = topic.rsplit("/", 1)[-1]
+        posts = [
+            entry["post"].strip("/")
+            for group in definition["groups"]
+            for entry in group["entries"]
+        ]
+        topic_page = parse_html(f"{topic}/index.html")
+        directory = [
+            attrs for attrs, _ in topic_page.links
+            if "data-reading-path-post" in attrs
+        ]
+        assert_true(
+            [attrs.get("data-reading-path-post") for attrs in directory]
+            == [post.rsplit("/", 1)[-1] for post in posts],
+            f"{topic}: directory should preserve its reading order",
+            failures,
+        )
+        for index, post in enumerate(posts):
+            expected.setdefault(post, []).append(topic_slug)
+            page = parse_html(f"{post}/index.html")
+            home_links = [
+                attrs for attrs, _ in page.links
+                if attrs.get("data-reading-path-home") == topic_slug
+            ]
+            next_links = [
+                attrs for attrs, _ in page.links
+                if attrs.get("data-reading-path-next") == topic_slug
+            ]
+            assert_true(
+                len(home_links) == 1
+                and url_path_ends_with(home_links[0].get("href"), topic),
+                f"{post}: should link back to {topic} once in reading navigation",
+                failures,
+            )
+            if index + 1 < len(posts):
+                assert_true(
+                    len(next_links) == 1
+                    and url_path_ends_with(next_links[0].get("href"), posts[index + 1]),
+                    f"{post}: next read in {topic} should be {posts[index + 1]}",
+                    failures,
+                )
+            else:
+                assert_true(not next_links, f"{post}: final entry in {topic} should not invent a next read", failures)
+    for path in (SITE_DIR / "posts").glob("*/index.html"):
+        post = path.parent.relative_to(SITE_DIR).as_posix()
+        page = parse_html(f"{post}/index.html")
+        actual = [attrs["data-reading-path-home"] for attrs, _ in page.links if "data-reading-path-home" in attrs]
+        assert_true(
+            sorted(actual) == sorted(expected.get(post, [])),
+            f"{post}: reading navigation should match its topic memberships",
+            failures,
+        )
+
+
 def rss_items(
     relative_path: str, failures: list[str]
 ) -> list[dict[str, str]] | None:
@@ -415,12 +501,17 @@ def validate_tag_navigation(failures: list[str]) -> None:
 
     expected: dict[str, set[str]] = {}
     for source in sorted((repo / "content/posts").glob("*.md")):
-        frontmatter = source.read_text(encoding="utf-8").split("---", 2)[1]
-        match = re.search(r"^tags:\s*(\[.*\])$", frontmatter, re.MULTILINE)
-        if not match:
-            failures.append(f"{source.name}: tags should be an array")
+        try:
+            metadata, _ = read_markdown(source)
+        except (OSError, ValueError, TypeError, yaml.YAMLError) as error:
+            failures.append(f"{source.name}: invalid frontmatter: {error}")
             continue
-        tags = json.loads(match.group(1))
+        tags = metadata.get("tags")
+        if metadata.get("draft") is True and not (SITE_DIR / f"posts/{source.stem}/index.html").is_file():
+            continue
+        if not isinstance(tags, list) or any(not isinstance(tag, str) for tag in tags):
+            failures.append(f"{source.name}: tags should be a YAML array of strings")
+            continue
         assert_true(not retired.intersection(tags), f"{source.name}: retired tag is still assigned", failures)
         assert_true(set(tags) <= set(registered), f"{source.name}: tag is not registered in a group", failures)
         post_path = f"posts/{source.stem}/index.html"
@@ -587,6 +678,27 @@ def main() -> int:
                 failures,
             )
             if isinstance(home_index, list):
+                search_urls: list[str] = []
+                for index, item in enumerate(home_index):
+                    if not isinstance(item, dict):
+                        failures.append(f"index.json item {index}: should be an object")
+                        continue
+                    for field in ("title", "content", "summary", "permalink", "category", "date"):
+                        assert_true(
+                            isinstance(item.get(field), str),
+                            f"index.json item {index}: {field} should be a string",
+                            failures,
+                        )
+                    category = item.get("category")
+                    assert_true(category in (*ARTICLE_CATEGORIES, "专题"), f"index.json item {index}: should identify its category", failures)
+                    if category != "专题":
+                        try:
+                            date.fromisoformat(str(item.get("date")))
+                        except ValueError:
+                            failures.append(f"index.json item {index}: should include the article's publication date")
+                    if isinstance(item.get("permalink"), str):
+                        search_urls.append(item["permalink"])
+                assert_true(len(search_urls) == len(set(search_urls)), "index.json should not repeat search URLs", failures)
                 assert_true(
                     any(
                         isinstance(item, dict)
@@ -773,6 +885,8 @@ def main() -> int:
     assert_true(post_count > 0, "at least one post page should be generated", failures)
     validate_tag_navigation(failures)
     validate_local_references(failures)
+    validate_pagination_canonicals(failures)
+    validate_reading_paths(failures)
 
     search_page = parse_html("search/index.html")
     assert_true(

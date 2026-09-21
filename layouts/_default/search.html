@@ -1,0 +1,21 @@
+{{- define "main" }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+</header>
+
+<div id="searchbox" data-index-url="{{ "index.json" | relLangURL }}">
+    <input id="searchInput" autofocus placeholder="{{ .Params.placeholder | default "请输入关键词" }}"
+        aria-label="搜索文章" aria-describedby="searchHelp" aria-controls="searchResults"
+        type="search" autocomplete="off" maxlength="64">
+    <p id="searchHelp">支持标题、摘要和全文搜索。用 ↑ ↓ 或 Tab 浏览结果，Enter 打开，Esc 清空。</p>
+    <div class="search-feedback">
+        <p id="searchStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+        <button id="searchRetry" type="button" hidden>重试</button>
+    </div>
+    <ul id="searchResults" aria-label="搜索结果" aria-busy="false"></ul>
+    <noscript><p>搜索需要 JavaScript。也可以从<a href="{{ "archives/" | relLangURL }}">归档</a>浏览全部文章。</p></noscript>
+</div>
+{{- end }}

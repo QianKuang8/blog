@@ -1,0 +1,19 @@
+{{- $index := slice -}}
+{{- range site.RegularPages -}}
+    {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) -}}
+        {{- $category := "" -}}
+        {{- if eq .Section "topics" -}}
+            {{- $category = "专题" -}}
+        {{- else -}}
+            {{- with .Params.categories -}}
+                {{- $category = delimit . " · " -}}
+            {{- end -}}
+        {{- end -}}
+        {{- $date := "" -}}
+        {{- if not .Date.IsZero -}}
+            {{- $date = .Date.Format "2006-01-02" -}}
+        {{- end -}}
+        {{- $index = $index | append (dict "title" .Title "content" (.Plain | htmlUnescape) "permalink" .Permalink "summary" (.Summary | plainify | htmlUnescape) "category" $category "date" $date) -}}
+    {{- end -}}
+{{- end -}}
+{{- $index | jsonify -}}
