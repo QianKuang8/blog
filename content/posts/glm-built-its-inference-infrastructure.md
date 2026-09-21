@@ -1,6 +1,6 @@
 ---
 date: '2026-09-20T17:58:16+08:00'
-lastmod: '2026-09-20T18:01:55+08:00'
+lastmod: '2026-09-21T10:32:28+08:00'
 title: 'GLM 的 Infra Agent：用密集反馈优化推理基础设施'
 summary: "Z.ai 用三个推理系统案例说明，Agent 如何把数值偏差、并发异常和性能瓶颈变成可验证的假设。关键在于组织局部对照、执行时间线与端到端验收，让每轮实验都能指导下一步。"
 description: "解读 GLM Infra Agent 的密集反馈机制，以及 KDA 精度修复、KV Transfer 并发排障和 Kernel 优化背后的验证方法与适用边界。"
@@ -75,7 +75,7 @@ Z.ai 的 [《How GLM Built Its Own Inference Infrastructure》](https://z.ai/blo
 
 ## 相关阅读
 
-- [Coding Agent Serving 的 Scaling Pain：质量问题也可能是系统一致性问题]({{< relref "/posts/scaling-pain-coding-agent-serving.md" >}})：继续看 KV Cache 生命周期和同步问题怎样表现为模型输出异常。
+- [Coding Agent 推理排障：两种 KV Cache 竞态如何污染输出]({{< relref "/posts/scaling-pain-coding-agent-serving.md" >}})：继续看 KV Cache 生命周期和同步问题怎样表现为模型输出异常。
 - [Harness Engineering 阅读路径]({{< relref "/topics/harness-engineering.md" >}})：从工具、反馈与可观测性理解 Agent 的工程环境。
 
 ## 原文

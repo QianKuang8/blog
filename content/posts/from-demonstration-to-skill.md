@@ -1,6 +1,6 @@
 ---
 date: '2026-09-03T16:49:48+08:00'
-lastmod: '2026-09-08T15:38:17+08:00'
+lastmod: '2026-09-21T10:32:28+08:00'
 title: '从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill'
 summary: "比较 Codex Record & Replay 与 Claude Record a Skill 如何把一次桌面演示变成可复用 Skill，以及两种证据形态、执行机制和安全边界的差异。"
 description: "从录制证据、Skill 生成、再次执行和安全边界四个方面，比较 Codex Record & Replay 与 Claude Record a Skill。"
@@ -16,6 +16,8 @@ showToc: true
 你当然可以把步骤写成操作手册。不过，Codex Record & Replay 和 Claude Record a Skill 提供了另一种办法：你亲自做一遍，Agent 观察过程，再把其中的方法整理成可复用的 Skill。
 
 这两项功能几乎同期出现。OpenAI 在 2026 年 6 月为 macOS 上的 ChatGPT / Codex 发布了 [Record & Replay](https://learn.chatgpt.com/codex/extend/record-and-replay)，让用户演示一次工作流，再由 Agent 把操作写成可复用的 Skill。Anthropic 在 2026 年 7 月为 Claude for Mac 的 Cowork 推出了 [Record a Skill](https://x.com/claudeai/status/2079595988998554047)，同样录制屏幕、点击、键入和语音，再由 Claude 生成 Skill。两者解决的问题相似，但内部机制明显不同——这正是本文要展开的内容。
+
+本文记录的是 2026 年 9 月初的产品流程与实现观察。录制格式、交接工具和权限行为可能随版本变化，以下比较不作为后续版本的完整功能清单。
 
 本文所说的 Agent，是能理解任务并使用浏览器、外部服务接口或桌面工具的 AI。Skill 是给 Agent 看的工作说明，写明它适用于什么任务、需要哪些输入、应该怎样操作，以及如何检查结果。在这两项功能中，Agent 根据用户的演示起草这份说明。
 
@@ -187,7 +189,7 @@ Codex 的键盘事件也可能保留实际输入，并记录当时是否处于 S
 
 **屏幕画面。** Claude 会从鼠标所在显示器挑选关键帧。只要机密文件出现在关键帧中，文件标题、客户名称、金额和正文片段就都可能随图片进入 Cowork。
 
-当前已核验的 Codex 录制证据不包含截图。因此，文件只是出现在屏幕上时，不会作为图片进入材料。用户切换到该文件、点击控件或选择文字后，窗口标题、选中的文字和界面字段值仍可能写入事件。AX 快照中的 `fullTree` 还可能捕获前台窗口中任务范围之外的控件值，即使用户没有直接操作这些控件。
+本文所查路径中的 Codex 录制证据不包含截图。因此，文件只是出现在屏幕上时，不会作为图片进入材料。用户切换到该文件、点击控件或选择文字后，窗口标题、选中的文字和界面字段值仍可能写入事件。AX 快照中的 `fullTree` 还可能捕获前台窗口中任务范围之外的控件值，即使用户没有直接操作这些控件。
 
 **语音旁白。** Claude 开启语音后，会把整段录音转成独立的旁白文字。录制时说出的客户名称、内部地址、账号或密码也可能出现在这段文字中；Secure Input 只影响键盘输入，不会处理语音。
 
@@ -206,7 +208,7 @@ Codex Record & Replay 和 Claude Record a Skill 都先把一次桌面演示变�
 ## 相关阅读
 
 - [从电脑活动到下一步行动：Computer History]({{< relref "/posts/from-activity-to-action.md" >}})：比较另一种工作线索来源，了解持续活动记录如何帮助用户接续任务。
-- [skill-creator 的真正变化：从脚手架变成评估闭环]({{< relref "/posts/anthropic-skill-creator-breakdown.md" >}})：继续看 Skill 写好之后，怎样检验触发条件与执行效果。
+- [拆解 skill-creator：分别验证触发、产物与改进效果]({{< relref "/posts/anthropic-skill-creator-breakdown.md" >}})：继续看 Skill 写好之后，怎样检验触发条件与执行效果。
 - [Agent 记忆与 Skill 阅读路径]({{< relref "/topics/agent-memory-and-skills.md" >}})：把桌面演示放回工作线索、文件上下文与方法复用的阅读路径。
 
 ## 官方来源

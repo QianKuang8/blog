@@ -1,8 +1,8 @@
 ---
 date: '2026-08-31T15:45:00+08:00'
-lastmod: '2026-08-31T15:45:00+08:00'
-title: 'Claude Code 的上下文管理：1M Context 不是银弹，会用才是'
-summary: "Claude Code 团队详细拆解了 context rot、compaction、rewind 和 subagent 四种上下文管理机制，核心信息是：大窗口解决了容量问题，但没有解决质量问题。"
+lastmod: '2026-09-21T10:23:48+08:00'
+title: "Claude Code 会话管理：继续、回退、压缩与委派怎样选择"
+summary: "围绕任务连续性比较五种上下文操作，解释压缩的信息取舍、回退与外部状态的区别，以及子代理报告需要保留的验证依据。"
 description: "从 Claude Code 的上下文管理实践看 1M context window 下的 session 策略和 compaction 陷阱"
 tags: ["agentic-coding", "context-engineering", "anthropic"]
 categories: ["好文分享"]
@@ -11,91 +11,56 @@ isCJKLanguage: true
 showToc: true
 ---
 
-Claude Code 团队的 Thariq Shihipar 发了一篇 [Using Claude Code: session management and 1M context](https://claude.com/blog/using-claude-code-session-management-and-1m-context)，系统梳理了 Claude Code 在 1M context window 下的上下文管理策略。这篇文章最有价值的地方不是介绍新功能，而是把"context rot"这个平时被模糊带过的问题讲透了，并给出了一套实操决策框架。
+长任务会留下文件内容、搜索结果、失败尝试和新的约束。窗口还能容纳这些信息，不代表下一步仍需要全部携带。Thariq Shihipar 在 [《Session management and 1M context》](https://claude.com/blog/using-claude-code-session-management-and-1m-context) 中，把每轮结束后的上下文管理整理成五种选择：继续、回退、清空、压缩和委派。
 
-## Context Rot：大窗口解决了容量，但没解决质量
+本文依据 2026 年 8 月归档的文章讨论这些取舍。原文中的百万 token 窗口及命令属于当时介绍的 Claude Code 环境，不能据此推断所有模型、套餐和版本都采用同一配置。
 
-Claude Code 的 context window 现在有 100 万 token，理论上足够跑很长的任务。但文章开篇就点明了一个关键矛盾：**context 越大，模型表现不一定越好**。
+## 先判断已有材料是否仍与任务相关
 
-这就是 context rot——随着 context 增长，attention 被分散到更多 token 上，早期的无关内容开始干扰当前任务的推理质量。换句话说，1M context 意味着你*可以*塞进更多信息，但不意味着你*应该*。
+原文用 context rot 描述上下文增长时可能出现的性能退化，并将其与无关内容干扰当前任务联系起来。这是对现象的解释，不是一个按 token 数必然发生的固定衰减公式。
 
-这个观察对所有使用长轨迹 agent 的人都很重要。很多人拿到大 context window 后的第一反应是"不用管上下文了"，但实际上大窗口只是把"context 不够用"的硬约束换成了"context 质量下降"的软约束。后者更隐蔽，也更难调试。
+如果刚实现一个功能，下一步是为它写文档，已有代码和设计讨论可能仍然有用。直接清空会让模型重新查找这些材料。反过来，切换到另一个独立任务时，保留上一项工作的调试过程，可能只增加输入和干扰。
 
-## 每个 Turn 都是一个分叉点
+因此，继续当前会话也可以是合理选择。需要判断的是信息是否仍在支撑下一步，而不是因为窗口变大就一直继续，或因为会话变长就立即清空。
 
-文章最有用的框架是把每个 agent turn 结束后的状态定义为一个**分叉点**，你有五种选择：
+## 回退保留调查基础，移除错误分支
 
-1. **Continue** —— 继续当前 session，不做任何上下文管理
-2. **Rewind** —— 回退到之前的某个消息，从那里重新开始
-3. **Clear** —— 清空 session，手动写一个 brief 带入新 session
-4. **Compact** —— 让模型总结当前 session，在摘要基础上继续
-5. **Subagent** —— 把下一段工作交给一个独立 context 的子 agent
+作者给出的例子是：Claude 先读了五个文件，随后尝试一个不可行的方法。可以回到读完文件的节点，保留调查基础，再把新发现写进提示：“A 方法依赖的接口不存在，改用 B。”
 
-大多数人默认选 1，但文章的核心论点是：**主动选择其他四种，往往能带来更好的结果**。
+按原文描述，`/rewind` 或双击 Esc 可以回到先前消息，之后的消息退出当前上下文。这样能减少继续纠正时重复携带的失败过程。“summarize from here”则用于把后续尝试中的教训整理成交接内容。
 
-## Rewind 比纠正更高效
+这类取舍的目标不是删除所有失败信息。失败原因、已排除的路径和用户约束，仍可能决定下一步。需要移除的是不再有用的过程细节，同时保留能防止重犯的结论。
 
-这是文章中我认为最反直觉的建议。当 Claude 走了一条错误路径时，多数人的本能反应是发一条"那个不对，试试 X"。但作者建议用 `/rewind`（或双击 Esc）回退到错误发生前的状态，然后用你学到的信息重新 prompt。
+上下文回退也不能直接等同于外部状态回滚。文件、进程和外部操作是否恢复，需要按具体工具能力另行检查；仅凭对话变短，不能判断工作区已经回到原状。
 
-为什么这比纠正更好？因为纠正会在 context 里留下错误尝试的全部痕迹——错误的 tool call、错误的输出、你的纠正指令——这些都是噪音，会加剧 context rot。而 rewind 直接从 context 里移除了这些内容。
+## 压缩的难点是预测后续需要什么
 
-更有意思的是 rewind 还支持 "summarize from here"，让 Claude 先总结失败尝试中学到的教训，生成一条"来自未来自己的消息"，然后在回退后的干净 context 上重新开始。这本质上是用信息压缩来保留有价值的认知，同时丢弃无价值的执行细节。
+`/compact` 让模型总结已有会话，后续在较短的材料上继续。摘要必须取舍，而未来任务方向未必已知。原文的例子是：长时间调试以后触发自动压缩，用户紧接着要求修复之前在 `bar.ts` 见到的另一个 warning；摘要集中保存了调试主线，可能已经遗漏那条 warning。
 
-## Compact 的陷阱：模型最笨的时候在做最重要的事
+这说明丢失信息不一定能只用窗口大小解释。接下来要做什么是否明确，也会影响摘要应该保留什么。原文同时提醒，长上下文中的表现退化可能使这项取舍更困难，但没有证明每次压缩失败都来自同一个原因。
 
-Compact（`/compact`）让模型总结当前 session，然后用摘要替换原始历史继续工作。听起来很合理，但文章指出了一个重要的隐患：**autocompact 发生时，模型正处于 context rot 最严重的状态**。
+主动压缩可以提供方向。例如原文给出 `/compact focus on the auth refactor, drop the test debugging`，明确保留认证重构、舍弃测试调试。更完整的交接还应保住任务目标、不可改变的约束、已确认结果和未完成验证；这是根据压缩用途提出的工程检查项。
 
-作者举了一个典型场景：你在一个长 session 里做了大量调试，autocompact 触发时模型总结了调试过程，但你接下来的指令是"修一下我们在 bar.ts 里看到的那个 warning"。因为 session 焦点一直在调试上，那个 warning 很可能已经被摘要丢掉了。
+## 清空和子代理，把信息选择放到不同位置
 
-这解释了为什么很多人反馈 compact 后 agent 会"忘记"一些重要信息。不是 compact 机制有 bug，而是模型在做信息压缩时的能力受到了 context rot 的影响。
+`/clear` 与压缩的差别，在于用户需要自己整理要带入新会话的 brief。它适合任务转向较大、旧轨迹大多不再相关的情形，但也要求手动保留必要条件。新会话减少了旧过程的影响，并不会自动保证输入完整或后续结果正确。
 
-作者的建议是：在 1M context 的条件下，你有更多时间在 context 还不太长的时候**主动** compact，而不是等 autocompact 被动触发。主动 compact 时还可以加指令引导摘要方向：`/compact focus on the auth refactor, drop the test debugging`。
+子代理则把预计会膨胀的工作放到独立上下文。例如调查另一套代码库、按 spec 验证实现，或者根据差异写文档。主会话不必带回全部中间读取结果，而是接收整理后的报告。
 
-## Clear vs Compact：谁控制信息选择很重要
+原文提出的判断问题是：后面还需要工具输出本身，还是只需要结论？实践中还可以再补一层：结论能否被核查。验证任务返回“通过”通常不够，最好同时给出检查对象、关键证据和仍未确认的范围。上下文隔离减少了传输，也把报告质量变成了交接条件。
 
-文章把 `/clear`（清空 session）和 `/compact` 做了明确对比，核心差异是**信息选择权**：
+## 用任务连续性选择动作
 
-- **Compact**：模型决定什么重要，自动生成摘要。省力，但你无法完全控制保留什么。
-- **Clear**：你自己写 brief，手动描述关键约束、相关文件和已排除的方案。更费力，但 context 完全由你决定。
+| 当前状态 | 可考虑的动作 | 需要保住什么 |
+| --- | --- | --- |
+| 同一任务，材料仍相关 | 继续 | 现有调查与约束 |
+| 某条尝试已走错 | 回退后重新说明 | 失败教训与正确起点 |
+| 同一任务积累了大量旧过程 | 带方向的压缩 | 目标、进度和待验证项 |
+| 转向独立任务 | 清空并写 brief | 新任务所需前提 |
+| 下一步产生大量局部调查 | 子代理 | 可核查的结果与依据 |
 
-这个区分在实践中非常有用。如果你只是在一个任务中间需要减负，compact 就够了。但如果你要切换到一个新方向，或者之前的探索大部分都不再相关，clear + 手写 brief 是更干净的选择。
-
-## Subagent：只要结论，不要过程
-
-Subagent 的使用场景很清晰：当你知道某段工作会产生大量中间输出，但你只需要最终结论时，用 subagent 在独立 context 里完成，只把结果带回主 session。
-
-文章给的心理测试很实用：**"我还需要这个 tool output 本身，还是只需要它的结论？"** 如果是后者，就适合用 subagent。
-
-典型场景包括：
-
-- 让 subagent 遍历另一个 codebase，总结它的 auth 实现方式
-- 让 subagent 根据 spec 验证当前实现
-- 让 subagent 基于 git changes 写文档
-
-这些任务的共同特点是中间过程（大量文件读取、搜索、比对）产生的 token 远多于最终有价值的输出。
-
-## 决策框架
-
-文章最后给了一个简洁的决策表：
-
-| 场景 | 选择 | 原因 |
-|------|------|------|
-| 同一任务，context 仍然相关 | Continue | context 里的信息还有用，不值得重建 |
-| Claude 走错了路 | Rewind | 保留有用的文件读取，丢弃失败尝试 |
-| 任务中段但 session 膨胀 | Compact + 引导 | 省力，但要主动引导摘要方向 |
-| 开始全新任务 | Clear | 零 rot，你控制带入什么 |
-| 下一步会产生大量中间输出 | Subagent | 中间噪音留在子 context，只要结论 |
-
-## 我的看法
-
-这篇文章让我意识到，context management 不是一个可以忽略的实现细节，而是使用 coding agent 的核心技能。
-
-以前我用 agent 时基本是"一路 continue 到底"，遇到问题就发纠正指令。看完这篇才明白，这种方式在短 session 里问题不大，但一旦任务变长，context rot 会让 agent 表现持续下降，而你很难意识到是 context 质量的问题。
-
-最让我有启发的是 rewind 的使用方式。把错误尝试从 context 里完全移除，而不是在上面叠加纠正，这个思路改变了我对"如何与 agent 协作"的理解。纠正是人类对话的自然方式，但对 agent 来说，干净的 context 比详细的纠正历史更有价值。
-
-另外，compact 的陷阱也值得所有用长 session 的人注意。autocompact 在模型最弱的时候做最关键的信息压缩，这几乎是一个系统设计层面的 trade-off。在 agent infra 层面，这可能意味着 compaction 需要独立的、不受 context rot 影响的总结能力。
+这张表依据原文整理，并补充了每种选择的交接重点。几种操作都在调整下一轮模型看到的材料，最终仍应检查同一个结果：它是否理解当前目标，保留必要约束，并继续完成尚未完成的工作。
 
 ## 原文
 
-- [Using Claude Code: session management and 1M context](https://claude.com/blog/using-claude-code-session-management-and-1m-context)
+- [Using Claude Code: session management and 1M context — Thariq Shihipar](https://claude.com/blog/using-claude-code-session-management-and-1m-context)

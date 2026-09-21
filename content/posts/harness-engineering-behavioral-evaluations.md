@@ -1,6 +1,6 @@
 ---
 date: '2026-09-10T16:36:54+08:00'
-lastmod: '2026-09-10T16:39:43+08:00'
+lastmod: '2026-09-21T10:32:28+08:00'
 title: 'Harness Engineering：用行为评估守住 Agent 的关键动作'
 summary: "一次工具调用能证明 Agent 尝试过什么，却未必能证明任务已经完成。由 Google 的行为评估文章出发，梳理怎样为关键动作设计断言、处理运行波动，并与端到端评测形成互补。"
 description: "解读 coding agent 的行为评估思路，讨论执行证据、断言边界与回归检查的工程取舍。"
@@ -66,7 +66,7 @@ Taylor Mullen 和 Christian Gunderman 在 2026 年 9 月 9 日发表于 Google D
 
 ## 继续阅读
 
-- [Deep Agents 提分：Harness Engineering 的价值在反馈回路]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：看执行轨迹中的失败怎样转化为验证机制与 harness 改进。
+- [Deep Agents 提分：从失败轨迹调整 Harness]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：看执行轨迹中的失败怎样转化为验证机制与 harness 改进。
 - [Harness Engineering 阅读路径]({{< relref "/topics/harness-engineering.md" >}})：继续了解工具、权限、反馈和成本之间的关系。
 
 ## 原文

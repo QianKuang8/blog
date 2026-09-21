@@ -1,0 +1,1941 @@
+{
+  "review_date": "2026-09-21",
+  "baseline_commit": "bfb7051a5f5b76ac1071287c7351af7dc71f8013",
+  "counts": {
+    "重写": 66,
+    "修订": 11,
+    "导航更新": 4,
+    "元数据": 1,
+    "保留": 5
+  },
+  "scope": "全部87篇；6月及以前60篇全部重写，8–9月27篇逐篇审查后按问题处理。",
+  "articles": [
+    {
+      "slug": "build-blog-tips",
+      "title": "维护这个 Hugo 博客：从本地写作到 GitHub Pages 发布",
+      "first_published": "2024-12-08T00:00:00+08:00",
+      "action": "重写",
+      "original_issues": "仅有零散命令，缺首次初始化、构建和上线验收。",
+      "changes": "按本站实际流程重组，解释日期、子模块、预览与正式产物。",
+      "source_checks": "仓库AGENTS/WORKFLOW/config和Pages workflow。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "build-blog-tips",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "仓库AGENTS.md/WORKFLOW.md/BLOG_PROMPTS.md",
+          ".github/workflows/hugo.yaml: push main、递归子模块、Hugo构建/check_site/Pages部署",
+          ".gitmodules: themes/PaperMod和static/pdfs路径"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "init-mac",
+      "title": "初始化 Mac 开发环境：安装顺序与恢复检查",
+      "first_published": "2024-12-10T17:22:55+08:00",
+      "action": "重写",
+      "original_issues": "软件逐项堆叠，缺使用顺序；非官方安装入口与固定版本易过期。",
+      "changes": "按准备、工具、语言、项目验证重组；改官方入口，保留未实测范围。",
+      "source_checks": "原清单、Homebrew/nvm/Go官方入口；没有重装机器。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "init-mac",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "HEAD原始清单：保留主要应用、nvm/gvm等历史选择",
+          "Homebrew官方Installation复核默认前缀；nvm官方README复核LTS命令",
+          "当前稿明确未在全新系统安装，版本与架构未知未被伪造"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "uber-arm-migration",
+      "title": "Uber 的 Arm 迁移：先打通构建，再推广到多架构运行",
+      "first_published": "2025-04-13T13:58:21+08:00",
+      "action": "重写",
+      "original_issues": "两段摘要未解释迁移机制，缺历史原文归档。",
+      "changes": "补两份defuddle归档，解释构建依赖、双架构验证与渐进回退。",
+      "source_checks": "两篇Uber官方原文；2800个无状态Go服务的历史范围。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "uber-arm-migration",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "sources/orig/uber-arm-migration.md: Makisu→Buildkite→Odin→host agents循环、Bazel引导和双原生构建manifest",
+          "sources/orig/uber-arm-migration-transition.md:双架构CI浮点差异、tier/环境/zone推进、告警或SLA回退、2800无状态Go服务"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "useful-skills",
+      "title": "按任务选择 Skill：创建、开发、设计追问与仓库索引",
+      "first_published": "2026-03-12T23:30:00+08:00",
+      "action": "重写",
+      "original_issues": "只列名称与功能，缺选择依据；Grill Me路径失效。",
+      "changes": "按任务和预期产物组织，修复Grill Me路径，原样保留历史KB需求。",
+      "source_checks": "公开skill文件与仓库README；未安装运行这些技能。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "useful-skills",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [
+          "个人KB触发范围过大已作为建议保留，未冒充已验收工具。"
+        ],
+        "evidence": [
+          "HEAD原始文的GitHub KB创建prompt逐条比对保留",
+          "公开anthropics/skills、obra/superpowers官方README与skill文件",
+          "2026-09-21检查mattpocock/skills/productivity/grill-me/SKILL.md内容为Call Skill grilling"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "ai-coding-tools",
+      "title": "ccstatusline 配置笔记：在 Claude Code 中查看模型、上下文与 Git 状态",
+      "first_published": "2026-03-21T23:00:00+08:00",
+      "action": "重写",
+      "original_issues": "功能宣传多于恢复步骤；上下文长度与窗口上限混淆。",
+      "changes": "围绕四项指标、TUI启动、接入及恢复验收组织；保留JSON。",
+      "source_checks": "官方README；JSON与基线一致；未启动/修改个人状态栏。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "ai-coding-tools",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "HEAD原JSON与现文JSON一致",
+          "ccstatusline官方README保留npx -y ccstatusline@latest、TUI和widget说明",
+          "文中明确未重新运行、旧版本未记录，没有把显示检查写成实际完成"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "zed-edit-prediction",
+      "title": "Zed Edit Prediction：用局部重写预测下一次编辑",
+      "first_published": "2026-04-05T10:00:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文重复使用真正/核心和第一人称赞赏；把局部重写泛化为编辑范式胜负，延迟与训练过程不完整。",
+      "changes": "围绕输入输出、保留契约、训练、延迟和交互重构；补清历史范围与模型裁判边界。",
+      "source_checks": "核对 7B 基座、约 50/400/150 样本、p50/p90 目标、n-gram、快捷键。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "zed-edit-prediction",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文对照orig全文：Qwen2.5-Coder-7B/32B、50→400样本、150 DPO、p50<200ms/p90<500ms、n-gram推测解码、Claude裁判、option/alt/tab及Linux alt-l全部有依据；历史版本限定充分。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "continue-instinct",
+      "title": "Continue Instinct：从编辑轨迹训练 Next Edit 模型",
+      "first_published": "2026-04-05T11:00:00+08:00",
+      "action": "重写",
+      "original_issues": "反复拔高开源意义，未解释样本与梯度机制；速度和本地部署边界不清。",
+      "changes": "以样本构建、训练、质量和速度口径重组，去除代写个人态度。",
+      "source_checks": "核对4000多真实编辑、最近5次、光标前1后5行、SeleKT 5%、3.877/3.735、8×H100与6.4倍估算。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "continue-instinct",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整对照 orig：4,000+真实编辑、五次历史、光标上1下5区域、Qwen3-Coder-30B多语言合成、SeleKT稠密梯度/5%/5epoch、3.877与3.735、90WPM及8H100口径均一致。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "copilot-next-edit-suggestions",
+      "title": "Copilot Next Edit Suggestions：把一次修改接成后续编辑",
+      "first_published": "2026-04-05T11:30:00+08:00",
+      "action": "重写",
+      "original_issues": "套话和代写用户观点较多；将原型跨文件愿景、具体交互和研究方向混为稳定产品能力。",
+      "changes": "按编辑历史、建议粒度、序列体验与延迟重组，补足案例并划清原型边界。",
+      "source_checks": "核对 dataclass、remoteName、方法参数三个案例；保留删除后重加案例和 Workspace 探索；VS Code 链接仅作延伸阅读。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "copilot-next-edit-suggestions",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [
+          "未来如更新当前能力，应另核产品文档；目前历史边界清楚。"
+        ],
+        "evidence": [
+          "同名orig: dataclass/remoteName/新增参数3案例、粒度与中途删后再增的顺序问题",
+          "同名orig: Workspace结合是设想、原型与VSCode/VS更新分开"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "augment-next-edit",
+      "title": "Augment Next Edit：从编辑意图到跨文件修改",
+      "first_published": "2026-04-05T11:40:00+08:00",
+      "action": "重写",
+      "original_issues": "将合成编辑数据误概括为“不是 commit history”；未经归档支持的 session_id 案例；无依据断言定位层决定竞争胜负。",
+      "changes": "解释三层输入输出、两种检索职责和 diff 应用约束；删除未支撑案例与个人态度，保留发布时未来计划边界。",
+      "source_checks": "核对 GitHub commit/PR 合成、diff 粒度、undo 行为、光标候选优先、延迟为作者报告且无协议。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "augment-next-edit",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文对照orig全文：commit/PR合成交互而非真实日志、粒度与撤销问题、定位retriever、cursor候选优先、RAG用法上下文、紧凑diff、数秒到数百毫秒定性报告；bulk多文件仍为方向。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "cursor-instant-apply",
+      "title": "Cursor Instant Apply：用原文件加速完整重写",
+      "first_published": "2026-04-05T14:00:00+08:00",
+      "action": "重写",
+      "original_issues": "大量真正/我觉得句式，diff假设写得过实，缺数据构造及评估范围。",
+      "changes": "按输入输出、训练、推理与评估解释完整链路，保留历史原文链接。",
+      "source_checks": "核对约450样本/400行、80/20、70B、1000tokens/s、13倍与9倍基线；2500行是未来方向。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "cursor-instant-apply",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整对照 orig：两阶段输入、450例且<400行、80/20数据、选区丢弃、13x与9x不同基线、1000tokens/s、2500行未来训练、judge偏差都准确。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "aider-unified-diffs",
+      "title": "Aider Unified Diff：编辑格式与补丁容错如何减少代码省略",
+      "first_published": "2026-04-05T14:30:00+08:00",
+      "action": "重写",
+      "original_issues": "反复拔高格式价值却遗漏关键实验；把格式选择写成通用因果结论。",
+      "changes": "补入无行号 hunk 机制、基准设计和量化结果，明确两套基准、组合方案及行为等价边界。",
+      "source_checks": "核对 89 任务、20%/61%、12/4、30%–50% 编辑错误、Exercism 9 倍；所有数字注明范围。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "aider-unified-diffs",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig: 89任务来自9仓库、20%→61%、省略12→4、AST近似检查",
+          "同名orig:30–50%编辑错误与Exercism9倍分别对应不同实验，当前稿明确区分",
+          "同名orig:高层diff/去行号/相对缩进/规范化/拆分容错机制"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "huggingface-assisted-generation",
+      "title": "Assisted Generation：小模型草拟，大模型批量验证",
+      "first_published": "2026-04-05T15:00:00+08:00",
+      "action": "重写",
+      "original_issues": "把内存瓶颈写成所有场景定律；反复拔高“可变计算”，且暗示 token 不再经过大模型；历史限制未标明。",
+      "changes": "改为候选验证机制、长度调整与性能条件；澄清大模型仍验证全部接受位置，区分吞吐和单请求延迟。",
+      "source_checks": "核对 2023 年、5/+2/-1、tokenizer 与 batch=1 旧限制、2/3/10 倍及温度条件。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "huggingface-assisted-generation",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig算法与性能段核对：相同tokenizer、batch1历史限制、候选初始5/全匹配+2/否则-1、首失配截断、INT8最高3倍/其他2倍/offload10倍、采样温度与辅助开销。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "code-surgery-edit-tools",
+      "title": "Code Surgery：模型生成的修改怎样落到文件里",
+      "first_published": "2026-04-05T15:30:00+08:00",
+      "action": "重写",
+      "original_issues": "将不同工具归为单一演化轴，重复抽象handoff口号，缺部分成功与缩进机制。",
+      "changes": "按协议、定位、恢复、模型合并组织，说明方案非互斥并保留历史观察边界。",
+      "source_checks": "核对patch上下文匹配、Aider错误反馈、RooCode middle-out/相对缩进、OpenHands可选性质。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "code-surgery-edit-tools",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "对照 orig 编辑协议、Codex匹配152行、Aider部分成功报告、OpenHands384–408行可选draft editor、RooCode412–427行middle-out及缩进；历史实现范围明确。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "building-effective-agents",
+      "title": "Building Effective Agents：按任务的不确定性选择编排方式",
+      "first_published": "2026-04-05T18:00:00+08:00",
+      "action": "重写",
+      "original_issues": "将模式清单写成固定升级路径，反复重复方法论，缺少模式适用条件和具体输入输出。",
+      "changes": "围绕控制流、动态拆解、反馈循环与 ACI 重写；纠正必须逐级升级的含义。",
+      "source_checks": "逐一核对 chaining、routing、parallelization、orchestrator-workers、evaluator-optimizer 定义；保留绝对路径案例及测试与人工审查边界。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "building-effective-agents",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig: workflow/agent控制流区别、routing/chaining/parallel/orchestrator/evaluator条件",
+          "同名orig:环境反馈、人类节点和max iterations；SWE-bench绝对路径工具修正例子"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "2025-ai-product-architecture-evolution",
+      "title": "2025 年 Agent 产品与架构：从交互辅助到持续执行",
+      "first_published": "2026-04-06T10:00:00+08:00",
+      "action": "重写",
+      "original_issues": "把二手综述的行业判断直接写成事实；宣称 Copilot/ReAct 失效；名词堆叠和泛化个人判断。",
+      "changes": "按任务交付链组织；保留规划验证、编排、时序记忆与计费机制，明确统计示例假设和二手来源边界。",
+      "source_checks": "完整阅读 693 行；未复用原文未核验的市场增长、框架发布日期和图谱性能数字。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "2025-ai-product-architecture-evolution",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig影子模式、ReAct级联、planner/executor/verifier、MCP/A2A、Graphiti双时序和结果计费段核对；0.95^10约60%带独立/无重试假设，宏观行业判断明确为二手综述。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "原始综述包含广泛行业断言；本次不做全面独立事实调查，正文明确按问题地图解读。"
+    },
+    {
+      "slug": "agent-engineering-new-discipline",
+      "title": "Agent Engineering：把生产轨迹接回评估与迭代",
+      "first_published": "2026-04-06T10:10:00+08:00",
+      "action": "重写",
+      "original_issues": "以旧方法失灵制造对立，反复定义新学科，trace被写成直接解释内部决策。",
+      "changes": "围绕执行轨迹、分工、回归材料和上线范围重写。",
+      "source_checks": "核对build/test/ship/observe/refine、三类能力、HITL与durable execution；区分轨迹证据与内部原因推断。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "agent-engineering-new-discipline",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整对照 orig 三技能组、build/test/ship/observe/refine/repeat、trace输入与工具记录、确定性workflow及生产案例回归；推论与原文事实已分开。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "manus-context-engineering",
+      "title": "Manus 上下文工程：缓存、外部记忆与长任务反馈",
+      "first_published": "2026-04-06T10:20:00+08:00",
+      "action": "重写",
+      "original_issues": "缓存指标被绝对化，重复宏大论断；未说明工具约束接口条件、可恢复记忆条件及缓存与多样性关系。",
+      "changes": "按多轮输入成本、动作约束、可恢复压缩和下一轮反馈重组，保留历史时点。",
+      "source_checks": "核对 100:1、平均 50 次调用、状态机/logit masking/prefill、todo.md、错误保留与受控多样性；恢复入口条件明确为推导。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "manus-context-engineering",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [
+          "缓存与新增内容变化已分清，无需把此历史实现推广到所有API。"
+        ],
+        "evidence": [
+          "同名orig: 2025-07-18、100:1输入输出、典型50次工具调用",
+          "稳定前缀/追加历史/确定性序列化、工具logit masking和browser_前缀、todo.md与失败记录、受控变化"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "unrolling-codex-agent-loop",
+      "title": "Codex Agent Loop：工具结果如何进入下一轮推理",
+      "first_published": "2026-04-06T10:30:00+08:00",
+      "action": "重写",
+      "original_issues": "大篇幅赞赏 runtime 而缺调用对象说明；混淆手工摘要与后续 compact；“终止即完成”边界不清。",
+      "changes": "沿数据流重写；说明 call_id、SSE、无状态语义、缓存不缩窗口、压缩演进及产物验收。",
+      "source_checks": "核对 input/tools/instructions、encrypted_content、MCP 枚举 bug、追加配置、compact；全部标原文版本。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "unrolling-codex-agent-loop",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig请求结构、call_id关联、SSE、previous_response_id与ZDR、encrypted_content、MCP顺序缓存失效、追加环境变更、两代compact和外部MCP不受shell沙盒覆盖核对；均有历史限定。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "introduction-to-agentic-coding",
+      "title": "Agentic Coding：把目标、代码修改与验证接成循环",
+      "first_published": "2026-04-06T10:40:00+08:00",
+      "action": "重写",
+      "original_issues": "存在归档未提及的CLAUDE.md归因；终端与IDE对立过度；Rakuten被宣称普遍闭环证明。",
+      "changes": "删除无源归因，以API认证示例解释执行链，细分权限与验证，收窄案例结论。",
+      "source_checks": "核对MCP、认证流程、Rakuten七小时/99.9%数值口径与少量人工指导；没有新增当前安装步骤。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "introduction-to-agentic-coding",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig46–54认证场景与跨文件链路、78–92环境权限/MCP、96–113 Rakuten七小时/少量指导/99.9%数值精度；未把案例当一般成功率。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "agent-year-review-claude-code-to-deep-agent",
+      "title": "从 Claude Code 到 Deep Agent：业务知识如何进入长任务",
+      "first_published": "2026-04-06T11:00:00+08:00",
+      "action": "重写",
+      "original_issues": "原标题把作者判断写成事实；代写个人认同；缺少产品示例和经验数据的证据限定。",
+      "changes": "聚焦专业验收、技能渐进加载、上下文分工和工具分层；标清行业收敛及触发率为作者观察。",
+      "source_checks": "核对作者 2025 年复盘时点、招聘/营销示例、三层技能披露、四类长任务机制与工具分层；不沿用未经系统验证的模型百分比。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "agent-year-review-claude-code-to-deep-agent",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig: 周星星2025复盘、招聘营销例子、forms.md渐进读取、四支柱、三层工具和80%压缩示例",
+          "正文明确架构终局及98%/80%触发判断缺比较实验，未照搬为普遍事实"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "the-rise-of-context-engineering",
+      "title": "Context Engineering：检查模型每一步实际看到了什么",
+      "first_published": "2026-04-09T22:10:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文凭空定位为 2026 工程现实；不断宣称“真正改写失败归因”，把作者经验写成通用结论。",
+      "changes": "用失败时输入复原串起动态上下文、三类故障和可观测性；给出明确标为应用说明的诊断例子。",
+      "source_checks": "核对定义、prompt 为子集、短/长期记忆例、LangGraph/LangSmith 职责；无量化失败率。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "the-rise-of-context-engineering",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig定义、信息/工具/格式、prompt子集、LangGraph输入控制和LangSmith跟踪段核对；新增项目文档/错误字段案例明确为应用说明而非原文事故。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "context-engineering-for-agents",
+      "title": "Context Engineering：管理 Agent 每一步能看到的信息",
+      "first_published": "2026-04-09T22:11:00+08:00",
+      "action": "重写",
+      "original_issues": "分类复述与内存隐喻重复，缺少write/select关系和隔离信息成本。",
+      "changes": "用保存取回、检索、压缩和交接解释完整信息流，区分正确性与相关性。",
+      "source_checks": "核对四分类、三种记忆、CodeAgent变量隔离、状态字段与多Agent成本；未复述可能变化的自动压缩阈值。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "context-engineering-for-agents",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig四分法、scratchpad/state、episodic/procedural/semantic、Windsurf AST及rerank、位置记忆误召回、CodeAgent变量隔离；没有误泛化95%旧compact阈值。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "filesystems-for-context-engineering",
+      "title": "文件系统与 Agent 上下文：保存、检索和重新读取",
+      "first_published": "2026-04-09T22:12:00+08:00",
+      "action": "重写",
+      "original_issues": "过度宣称文件系统最便宜最稳定和默认内存；把检索优势绝对化，遗漏自更新尚未解决。",
+      "changes": "按三种信息集合和保存/检索/使用链条重写，解释互补检索及工作记忆边界。",
+      "source_checks": "核对 red/green/blue 关系、10k token 示例、glob/grep/read_file、共享产物、skills 和反馈写回；新增实现条件明确为推导。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "filesystems-for-context-engineering",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig全文: 可用/必要/检索信息集合、10k搜索结果卸载、ls/glob/grep局部读取、共享文件和按需指令",
+          "原文明确semantic search可结合、指令自更新尚未完全解决"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "dynamic-context-discovery",
+      "title": "Cursor 动态上下文发现：把完整资料留在可检索文件里",
+      "first_published": "2026-04-09T22:13:00+08:00",
+      "action": "重写",
+      "original_issues": "把少给上下文泛化为模型升级规律；46.9% 被用于推导质量提高；目录与工具发现的具体机制较浅。",
+      "changes": "逐场景解释静态索引到文件读取；保留摘要恢复条件、认证状态与统计口径。",
+      "source_checks": "核对五机制、tail、服务器分组、46.9% 仅会调用 MCP 的运行、随 MCP 数量波动。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "dynamic-context-discovery",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文对照orig全文：长输出/历史/Skills/MCP/终端五场景，46.9%仅调用MCP运行的总token A/B结果及服务器数量波动，未扩大为质量提升证明。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "cursorbench",
+      "title": "CursorBench：把真实开发会话变成评测任务",
+      "first_published": "2026-04-09T23:12:00+08:00",
+      "action": "重写",
+      "original_issues": "标题绝对化真实会话与公开benchmark优劣，未区分内部任务分布、参考解与唯一答案。",
+      "changes": "按采样、评分、线上消融和复现解释，明确公开指标范围。",
+      "source_checks": "核对团队会话、Blame配对、每数月更新、CursorBench-3单会话、语义搜索消融。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "cursorbench",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整核对 orig：Cursor Blame来源、每数月更新、CursorBench-3范围约翻倍、agentic grader、正确性/效率/交互维度、语义搜索消融、单会话及外部服务复现问题。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "every-cli-coding-agent-compared",
+      "title": "CLI Coding Agent 选型：从功能表读出运行边界",
+      "first_published": "2026-04-09T23:16:00+08:00",
+      "action": "重写",
+      "original_issues": "把历史清单写成当前行业结论，未说明核验范围；IDE/CLI 二分过度，缺少选型操作性。",
+      "changes": "加归档时点与未实测说明，改为功能到任务环节的比较方法，区分隔离/审批/恢复和 Agent/编排层。",
+      "source_checks": "原文 36 项盘点、功能表、记忆文件及编排类别已核对；不复述时效性额度和排名，不作当前购买推荐。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "every-cli-coding-agent-compared",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig: 36项目、模型/许可/功能矩阵、Agent orchestrators、sandboxes和project memory分开",
+          "正文保存2026-04-09快照范围，未保留未经重测的购买推荐/热度排名"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "the-8-levels-of-agentic-engineering",
+      "title": "Agentic Engineering 的八个层级：从上下文到后台协作",
+      "first_published": "2026-04-09T23:20:00+08:00",
+      "action": "重写",
+      "original_issues": "把作者经验阶梯写成必经工程体系；弱化 Level 8 实验性与成本；第一人称认同重复。",
+      "changes": "用表格给完整八级地图，重点解释 codify、converse 验证、独立审查和后台交接成本。",
+      "source_checks": "核对八级、plan/delegate/assess/codify、converse、Dispatch 和 Level 8 作者保留意见；不复述未核验厂商项目数字。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "the-8-levels-of-agentic-engineering",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig八级列表、plan/delegate/assess/codify、converse CLI、独立review、Dispatch、本地/云对比和第8级限制核对；框架明确非严格成熟度标准。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "how-to-kill-the-code-review",
+      "title": "减少人工读 diff，需要先建立哪些验证",
+      "first_published": "2026-04-09T23:24:00+08:00",
+      "action": "重写",
+      "original_issues": "把作者激进主张写成确定趋势，未标客座立场与编辑异议；分层验证条件不足。",
+      "changes": "以spec产物、验证证据、权限与共同盲点组织，收窄取消审查结论。",
+      "source_checks": "核对5层方案、验收先于实现、验证者不能改实现、编辑声明；没有把相关性统计当因果证据。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "how-to-kill-the-code-review",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig编辑按语未认同、四类确定性验证、Money例、先规范后测试、权限分层、独立验证不可改代码、第三Agent及瑞士奶酪；正文将主张与证据分开。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "we-completely-rebuilt-the-kilo-vs-code-extension",
+      "title": "Kilo 扩展重构：共享执行核心与并行任务管理",
+      "first_published": "2026-04-09T23:28:00+08:00",
+      "action": "重写",
+      "original_issues": "预发布状态与迁移限制被省略；将子 Agent 和独立 worktree 会话混为自动编排；泛化行业未来。",
+      "changes": "按共享核心、三种并行、worktree、行级反馈展开，补 provider UI 与迁移限制。",
+      "source_checks": "核对 OpenCode server、CLI 共核、三类并行、Send all to chat 携带定位信息，以及 pre-release 尚未迁移项目。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "we-completely-rebuilt-the-kilo-vs-code-extension",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig全文: OpenCode server共核、parallel tool/subagent/independent tabs、worktree和shared worktree",
+          "diff行级反馈、cross-platform sessions、pre-release provider UI缺失与CLI配置继承、迁移/GA为后续"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities",
+      "title": "SWE-bench Verified：测试错配与数据污染如何影响分数",
+      "first_published": "2026-05-07T21:10:00+08:00",
+      "action": "重写",
+      "original_issues": "标题“失效”过于笼统；审计样本限制和污染实验方法不充分；将更换基准泛化为整个范式退场。",
+      "changes": "围绕评分契约重构，明确 138 子集分母、两类测试案例、污染证据与意图边界及 Pro 的局限。",
+      "source_checks": "核对 500/138/27.6%/59.4%、35.5/18.8/5.1、64 次、至少六位评审、15 轮及 Pro 非零污染。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig审计核对：138/500、64运行、每题至少6工程师、59.4%与35.5/18.8/5.1均限定子集；pylint get_annotation、SymPy nthroot_mod、edit_only、15轮探测和SWE-Pro边界一致。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "improving-deep-agents-with-harness-engineering",
+      "title": "Deep Agents 提分：从失败轨迹调整 Harness",
+      "first_published": "2026-05-07T21:12:00+08:00",
+      "action": "重写",
+      "original_issues": "已有机制较多但我觉得/核心重复，退出hook被称强制验证，预算优势归因不足。",
+      "changes": "按重复失败映射各中间件，区分提醒与验收，保留实验条件和完整数值。",
+      "source_checks": "核对89任务、52.8→66.5、53.9/63.6、xhigh-high-xhigh、不同预算差异小、Opus非同等优化条件。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "improving-deep-agents-with-harness-engineering",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig固定gpt-5.2-codex、52.8→66.5/13.7pp、89任务/Harbor/Daytona、三middleware、xhigh53.9/high63.6及预算差异不大、Claude未同等优化。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "harness-engineering-leveraging-codex-in-an-agent-first-world",
+      "title": "Harness Engineering：让 Agent 读取约束并验证运行结果",
+      "first_published": "2026-05-07T21:14:00+08:00",
+      "action": "重写",
+      "original_issues": "叙述偏宏观，“人工直接出手视为失败”过度推演；百万行口径与局部性能目标需更明确。",
+      "changes": "围绕任务受阻、运行反馈、知识地图、可执行约束和持续清理重组，限定吞吐策略。",
+      "source_checks": "核对五个月/1500 PR/百万行包含文档等、3到7人、CDP、worktree、LogQL/PromQL、800ms 目标示例、架构层与可泛化限制。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "harness-engineering-leveraging-codex-in-an-agent-first-world",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig: 五个月/约100万行/1500PR/3→7工程师，800ms为目标示例",
+          "worktree启动、CDP、LogQL/PromQL、约100行AGENTS入口、Types→UI依赖、自定义linter与清理机制",
+          "原文结尾对长期维护和仓库投入的限制已保留"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "claude-code-anthropic-agent-terminal",
+      "title": "Claude Code 早期访谈：薄 Harness 怎样接入开发流程",
+      "first_published": "2026-05-08T09:36:20+08:00",
+      "action": "重写",
+      "original_issues": "历史访谈未标明阶段，部分 RAG/安全和薄 harness 结论过强；删略了经验性质和模型失败例。",
+      "changes": "围绕分层、semantic lint、授权、搜索、验收重构；保留时间戳，区分估算、内部体验与实证。",
+      "source_checks": "完整阅读 508 行访谈；核对 80–90% 为估算、有人工审查、agentic search 主要内部体验、写测试示例、早期非交互权限。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "claude-code-anthropic-agent-terminal",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文对照orig带时间段：08:10三层/compact、09:36 CLAUDE.md、20:05语义lint链路、24:25权限、29:55非交互、45:30搜索对比、16:52 80–90%及人工review、55:11状态文件；当前稿未将早期经验泛化。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "continuous-ai",
+      "title": "Continuous AI：让仓库事件触发协作任务",
+      "first_published": "2026-05-08T09:36:20+08:00",
+      "action": "重写",
+      "original_issues": "概念重复与平台愿景过多，缺触发到产物的机制及团队成本。",
+      "changes": "围绕工作流输入输出、平台分工、触发频率和可检查收益重写。",
+      "source_checks": "核对分类非产品、Actions/Models、原文列举工具、监督和触发频率；示例方案明确为整理。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "continuous-ai",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig24–69列举场景、事件触发频率、团队生产力、Actions/Models/工具清单、监督式工作流、Agentic Workflows；未将示意流程写成官方协议。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "cursor-team-interview",
+      "title": "Cursor 团队访谈：预测编辑、应用修改与验证结果",
+      "first_published": "2026-05-08T09:36:20+08:00",
+      "action": "重写",
+      "original_issues": "长文细节散而重复；将 Shadow Workspace 完整沙箱、跨文件等方向与既有能力混在一起。",
+      "changes": "完整阅读 14 万字符访谈后围绕预测/应用/验证三环重组，解释 cache warming 与 speculative edits，明确隐藏窗口不保存条件。",
+      "source_checks": "核对 Tab 低信息量、MoE/KV、预热和预生成、Apply 草图、speculative edits、diff 研究方向、Shadow Workspace 内部原型、明确任务和探索任务差别。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "cursor-team-interview",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig:139低entropy动作讲者Aman；143小模型和稀疏MoE；249–251 speculative edits；369/383预热与预测接受",
+          "209 verification problem；415/429 Shadow Workspace内部实验和不保存条件；441远程环境研究；575数据库分支设想"
+        ],
+        "direct_changes": [],
+        "resolved_findings": [
+          "初审发现把low-entropy观点归给Sualeh；writer已改为Aman，复查当前正文22行与orig139行一致。"
+        ],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "prompt-engineering-best-practices",
+      "title": "写清任务、边界与输出：Claude 提示工程指南解读",
+      "first_published": "2026-06-05T21:20:00+08:00",
+      "action": "重写",
+      "original_issues": "模板判断和 API 比喻代替具体用法；将 prefill 引导说成格式保证；部分模型技巧未标历史版本。",
+      "changes": "以指标提取串起结果契约、示例、缺失值、链式拆分和验证；保留未实测及接口版本边界。",
+      "source_checks": "核对核心五原则、one-shot 优先、chaining 延迟代价、XML/角色按需；示意提示明确作者整理。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "prompt-engineering-best-practices",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig明确指令/动机/示例从一条开始/不确定性/null/预填/链式/格式章节核对；示意prompt保留单位、缺失值与未实测限定，无接口命令未经运行宣称。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "subagents-in-claude-code",
+      "title": "Claude Code Subagents：怎样拆分任务与交接结果",
+      "first_published": "2026-06-05T21:20:00+08:00",
+      "action": "重写",
+      "original_issues": "独立上下文被等同客观、并行耗时表述过满，Hooks与subagent边界模糊。",
+      "changes": "重写任务契约、依赖、证据和自动化职责；补Stop hook一次阻止后放行的实际代码边界。",
+      "source_checks": "核对独立context、结果回传、配置路径、same-file风险、Stop脚本stop_hook_active条件。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "subagents-in-claude-code",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig独立上下文/权限、项目与用户配置目录、并行独立文件、顺序pipeline、只读reviewer、Stop hook实际guard放行；没有照抄错误的无限测试门禁解读。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "claude-code-auto-mode",
+      "title": "Claude Code Auto Mode：如何判断动作是否越过授权",
+      "first_published": "2026-06-05T21:20:00+08:00",
+      "action": "重写",
+      "original_issues": "基本机制准确但偏赞同式复述；缺少 reasoning-blind 的信息损失、多 Agent 交接与样本量限制。",
+      "changes": "按输入/输出检查、权限分层、两阶段指标、交接与恢复重组；保留具体残余风险。",
+      "source_checks": "核对 93%、Sonnet 4.6、三级规则、52/10000/1000 样本及两阶段全部指标、3/20 拒绝阈值、外发可拒/返回警告。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "claude-code-auto-mode",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig:93%人工接受、两层probe/classifier、Sonnet4.6、工具结果剥离、tier1/2/3",
+          "三组样本10000/52/1000与8.5→0.4 FPR、6.6→17及1.8→5.7 FNR逐项一致",
+          "外发可拒/返回警告、3连续或20累计拒绝、headless终止均匹配"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "harness-design-long-running-apps",
+      "title": "长任务 Harness：把生成、验收与返工连成循环",
+      "first_published": "2026-06-05T21:20:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文漏掉评价器校准与中间版本偏好，容易让高分等同质量；6h/200 与单 Agent 比较未解释范围及预算混杂。",
+      "changes": "补四维评分条件、QA 调校、具体缺陷、代际 reset 演进和逐项消融；完整应用后 QA 可多轮返工。",
+      "source_checks": "核对 5–15 轮、四小时、16 功能/10 sprint、9/200 美元、DAW 三轮与 124.70、无法听音乐边界。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "harness-design-long-running-apps",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig前端5–15轮/最长4h、博物馆第10轮、contract文件交接与三个bug、Opus4.5 20min9美元vs6h200美元、16功能10sprint、Sonnet reset→Opus compact→移除sprint、DAW3h50m124.70美元均核对；预算与范围混杂交代清楚。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "big-llm-architecture-comparison",
+      "title": "读懂 LLM 架构差异：缓存、专家与长上下文的取舍",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文仅术语清单，未解释多数机制，也据此预言架构趋势。",
+      "changes": "完整阅读长原文后按缓存、历史状态、专家、训练稳定性重组，增加具体数字和比较条件。",
+      "source_checks": "核对GQA/MLA、Gemma3 5:1和1024、Qwen3-Next3:1、DeepSeek671B/37B、OLMo双变量、MTP训练推理区别。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "big-llm-architecture-comparison",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig更新日期2026-04-02、GQA/MLA、Gemma3 5:1/1024、Qwen3-Next 3:1、KDA通道门控、671B/37B、OLMo2混合消融、NoPE大模型边界、Nemotron3 Super推理MTP。",
+        "直接修改": "将共享专家承担通用模式的归因改为原文对潜在收益的解释，避免把动机直接写成已证明功能。",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "原文部分段落将稀疏注意力与线性注意力混用，重写未沿用该混淆；未更新为2026年9月型号清单。"
+    },
+    {
+      "slug": "llm-open-source-development",
+      "title": "LLM 开源生态图 2.0：先看筛选口径，再看项目变化",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "直接将移出名单等同生态筛选，遗漏统计门槛变化；基础设施稳定性与行业趋势断言过强。",
+      "changes": "从方法论变化起笔，补 1.0/2.0 采样与门槛，再解释三层职责、指标与开放边界。",
+      "source_checks": "核对 114/39/60/减少21、月均≥10 与当月>50、全域抽样变化、三板块；不照搬原文有疑点的项目许可证或未披露参数判断。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "llm-open-source-development",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig:114/39/60/少21算术一致；1.0月均OpenRank>=10，2.0当月>50且全域采样",
+          "AI Agent/AI Infra/AI Data三分及其子类；稿件区分采样改变、热度和工程价值，许可不作为当前判断"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "harness-engineering-visual-control",
+      "title": "Harness 可视化：把仓库规则接回交付流程",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "原文短但旧解读多口号，混同看到配置与约束已经生效，结尾“控制面”无细化。",
+      "changes": "按反馈阶段和触发关系解释；增加明确标为本文分析的存在/接入/执行三层证据。",
+      "source_checks": "核对 Lifecycle 三层、治理对象、Review Trigger；不宣称 Routa 实现了文章未披露的状态判定。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "harness-engineering-visual-control",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文对照orig全文；Lifecycle三阶段反馈、Spec/Hook/Review Trigger/CODEOWNERS/CI对象、风险/复杂度/证据结构化有依据；配置/接入/执行三层明确为本文分析，未冒充产品状态模型。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "harness-engineering-vs-sdd",
+      "title": "Harness 与 SDD：让任务约束能被找到、执行和验证",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "短文重复放大器比喻，遗漏原文跨服务案例与漂移机制，绝对化Spec必要性。",
+      "changes": "从错误码、导航、验证和规范漂移重组，区分作者实践与通用结论。",
+      "source_checks": "核对跨服务错误码案例、地图组织、Draft/Active/Deprecated、主动检测为方向；不将所有缺陷归结Spec。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "harness-engineering-vs-sdd",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对 orig作者何艺萍、服务A/B错误码契约案例、AGENTS导航、Spec地图、Draft/Active/Deprecated、漂移检测属于建议；正文未泛化每个bug都是Spec缺口。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "agentic-coding-boundary",
+      "title": "Agentic Coding 的边界：验收标准与审查带宽",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文过度抽象且漏掉 DRY/TDD 反论和具体登录例子；把作者训练数据判断当普遍事实。",
+      "changes": "加入语义复用、行为/回归测试、OTP 模拟实现与隐性知识实例，围绕交付总工作量组织。",
+      "source_checks": "核对原文过度抽象、第三次复用个人准则、测试批评、登录示例、Rust/论文经验及 review 观点；不复制未经验证的模型厂商动机。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "agentic-coding-boundary",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig: 作者对过度DRY与第三次再抽象的个人准则、行为/回归测试、OTP mock例子、同事Rust库论文知识案例",
+          "稿件明确实践观点范围，未把作者经验变成模型普遍定量结论"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "llm-open-source-2-landscape",
+      "title": "2025 大模型开源生态快照：如何读懂项目热度变化",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文将热度变化升级为不可替代性/生死判断；忽略 2025 观察窗口和 OpenRank 入选门槛；扩展了归档未重点支持的生态链。",
+      "changes": "重组为方法口径、应用需求、基础设施依赖与使用边界；显式历史快照，去未核验收购新闻与性能夸张。；独立审校后明确归档标题与正文版本不一致，仅解释135项目正文快照，不采用标题出入榜数量。",
+      "source_checks": "核对 135 项目/19 领域/2025 1–4 月均 >=10；向量数据发现与协议长任务需求；未复述二手高风险数字。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "llm-open-source-2-landscape",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig正文核对135项目/19领域、PyTorch/LangChain/vLLM种子、2025年1–4月OpenRank月均≥10、低代码与SDK趋势、向量数据库训练数据发现。",
+        "direct_edits": [],
+        "resolved_findings": [
+          "初审发现orig标题2.0/60出局39上桌与135项目首版正文错配；writer已明确按归档正文解读，删除不支持的同次名单变化推论，改中性来源标签；复查通过。"
+        ],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "来源归档标题和正文主题不一致，正文已显式说明并限制解读范围。"
+    },
+    {
+      "slug": "context-engineering-long-horizon-agents-langchain-harrison-chase",
+      "title": "Harrison Chase 谈长程 Agent：上下文、交接与可审查结果",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文省略具体交接失败与来源时间点，将口头可靠性数值和趋势讲得过实。",
+      "changes": "基于完整转录围绕初稿、状态、交接、trace和同步异步工作重写，加关键时间链接。",
+      "source_checks": "核对3:25初稿、5:14分层、11:13见上文失败、17:09文件、20:19trace、27:43judge、31:06改进、34:37UI。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "context-engineering-long-horizon-agents-langchain-harrison-chase",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对转录3:25初稿、5:14框架区别、11:13见上文交接失败、17:09文件系统、20:19第14步上下文、27:43/29:18人工校准、31:06 trace修复、32:16 nightly为未来计划、34:37同步异步，时间戳均吻合。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "历史好文分享以带时间戳视频转录为来源；本次保留栏目，未做video来源记录/PDF迁移。"
+    },
+    {
+      "slug": "domain-llm-pseudo-proposition",
+      "title": "唐杰谈领域大模型：通用能力、记忆与应用反馈",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文用 RAG/tools 等系统路线替换作者实际论点，并擅自预测专用模型减少，遗漏 AGI 未实现时领域模型长期存在的限定。",
+      "changes": "恢复作者领域数据进入主模型的长期主张与现实限定，区分记忆/学习/自评估，移除自创未来预测。",
+      "source_checks": "核对第 3/4/5/8 点，明确为量子位整理的唐杰观点；未把未经验证的长期预测写成事实。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "domain-llm-pseudo-proposition",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig全文: 唐杰八点观点、领域模型长期存在但时长未知、domain数据进入主模型是预期",
+          "Agent环境泛化、context/RAG/参数记忆设想、自我评价难点、两种软件应用路径"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "ai-native-software-engineering-observability-control",
+      "title": "AI 研发度量：把规约、执行过程与验收结果连起来",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "原文若干指标倡议被当统一事实；“无人干预越长越好”的有效产出前提不够；规约格式和真实质量混同。",
+      "changes": "用问题-过程-结果映射解释指标，补规约/测试有效性、文字指令/可执行控制的层次。",
+      "source_checks": "核对作者定义、GEARS、三种流程、自主时长有效产出前提、双 Agent 数小时仅自报经验。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "ai-native-software-engineering-observability-control",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig系统输入输出、GEARS规约、代码当量、有效产出前提下连续自主时长、规约状态机双Agent实践核对；未把规模/时长等同业务价值，新增表格误区明示为分析。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "prompt-engineering-guide",
+      "title": "Prompt Engineering Guide：从具体问题查找提示工程资料",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "材料仅首页但旧文泛化成长周期指南结论，并代写个人判断。",
+      "changes": "改成短资源导读，写明实际归档范围，以问题驱动阅读作为明确建议。",
+      "source_checks": "完整核对首页定义与资源形式，未声称读过全站或验证更新频率。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "prompt-engineering-guide",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "篇幅短于一般机制文，但源材料仅首页导言，保留短资源介绍是合适选择。",
+        "核对依据": "完整核对短orig首页导言；正文准确限制为2026-06-05首页归档，学习步骤标为本文建议，没有编造全站章节或实测。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "来源为首页导言，故保持短文；未作当前站点全面复核。"
+    },
+    {
+      "slug": "llm-oss-landscape",
+      "title": "Agentic AI Landscape：用三层地图定位项目",
+      "first_published": "2026-06-05T21:28:00+08:00",
+      "action": "重写",
+      "original_issues": "来源是短 README，旧文据此过度推导项目生存风险和基础链路优越性。",
+      "changes": "保持短文，补归档范围、代表性/适用性区别与 CSV/动态资料/issue 的阅读路径。",
+      "source_checks": "核对三层定义、代表项目而非全量、CSV、InclusionAI、OpenDigger 与社区补充；不从图推断排名/兼容。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "llm-oss-landscape",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig README全文: Agent Infra/Model Infra/Large Models三层、代表性非穷举",
+          "data/agentic-ai-projects.csv、issue、InclusionAI网站入口与Ant Open Source/InclusionAI发起"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "five-agent-skills-i-use-every-day",
+      "title": "五个 Agent Skills：从需求澄清到可测试的实现",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文主要概括流程闭环，缺少“代码能回答就先查”与深模块细节，作者实践被写为普遍效果。",
+      "changes": "按产物交接解释五技能；补纵向切片、依赖、单行为测试和深模块；明示未安装实测。",
+      "source_checks": "核对五命令、PRD 可跳已完成步骤、纵向切片、blocking、red-green-refactor 与深模块。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "five-agent-skills-i-use-every-day",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig五个skills核对：grill先查库、PRD做GitHub issue、to-issues纵向切片/依赖、TDD逐一红绿重构、deep module/纯函数测试风险；作者体验和未实测边界保留。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "prompt-auto-caching-with-claude",
+      "title": "Claude Auto-Caching：怎样复用 Agent 的稳定上下文",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "仅谈经济价值，未解释自动断点与历史状态区别；10%易被读成总成本折扣。",
+      "changes": "补充prefill/decode、断点前缀示例、自动化范围与费用口径，去除规模化必然论。",
+      "source_checks": "核对无状态、cache_control前缀、最后可缓存块、块级共存；10%明确历史缓存读取价格。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "prompt-auto-caching-with-claude",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整核对orig：Messages无状态、prefill/decode、块级前缀断点、向前查找、请求级cache_control移到最后可缓存块、兼容块级、10%仅历史命中输入价格；未当总价折扣。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "claude-code-how-we-use-skills",
+      "title": "Claude Code 团队的 Skills 实践：把反复踩坑的经验变成任务包",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "泛称最值得读和最小单位，九类堆列却缺少具体机制；把 measuring 推导成原文已有完备效果评估。",
+      "changes": "以验证、runbook 和库参考解释边界，补配置/历史/升级数据风险和依赖管理限制，区分使用记录与质量证据。",
+      "source_checks": "核对九类、支付发票状态、gotchas、description、渐进加载、稳定数据目录、按需 hook、市场分发、无原生依赖管理和 PreToolUse 使用统计。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "claude-code-how-we-use-skills",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig:九类技能、支付invoice状态、description触发、gotchas、config.json和稳定数据位置",
+          "按需hooks生命周期、市场试用与分发、依赖未原生管理、PreToolUse只观察使用情况"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "claude-code-seeing-like-an-agent",
+      "title": "Seeing Like an Agent：工具如何随模型能力调整",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "仅解读 AskUserQuestion，遗漏原文过半的 Todo/Tasks、搜索与 Guide；抽象“认知负担”未对应案例。",
+      "changes": "恢复四组实质案例并连接模型能力演进；明确提问等待、任务依赖与 Guide 上下文隔离。",
+      "source_checks": "核对三次提问尝试、每五轮提醒、TodoWrite→Task、Grep/Skills、Guide 仍会困惑。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "claude-code-seeing-like-an-agent",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文对照orig全文：三次AskUserQuestion设计、每5turn提醒、TodoWrite→Tasks依赖共享、Grep、skills渐进披露、Guide子agent隔离及仍会困惑；未伪称最终方案。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "components-of-a-coding-agent",
+      "title": "Coding Agent 的六个组件怎样接成执行循环",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "用引擎类比代替机制，六组件缺输入输出，猜想暗示为模型可替代结论。",
+      "changes": "按执行链串联6组件，重点区分存储/输入、校验/语义正确、同步示例/并行收益。",
+      "source_checks": "核对6组件、工具校验顺序、full transcript与working memory、Mini Agent同步子任务、模型替代为作者猜想。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "components-of-a-coding-agent",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "核对orig六组件、workspace facts、stable prefix、tool校验与路径权限、clip/去重、full transcript与working memory、子agent同步/只读可选/深度约束；没有把mini示例当并行效果。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "anthropic-skill-creator-breakdown",
+      "title": "拆解 skill-creator：分别验证触发、产物与改进效果",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "将评估流程拔高为自动自改进系统，触发与效果评估区别不够；test 用于选优仍被写成防过拟合保证。",
+      "changes": "分开任务基线/产物断言/比较分析/入口优化，增加示例数据非真实成绩和留出集参与选优的统计边界。",
+      "source_checks": "完整核对 2026-02-25 更新描述、Grader/Comparator/Analyzer、with_skill/baseline、60/40、流式触发检测、test 选优与人工反馈。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "anthropic-skill-creator-breakdown",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig:2026-02-25更新/02-26文章、with_skill与without或旧版基线、Grader实际产物/声明检查",
+          "Comparator盲评、Analyzer聚合、reviewer页面、触发检测与产物评估分开",
+          "orig520–594:60/40分层，改进只看train，最终按test选择；稿件验证集分析明确为推断"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "effective-agent-design",
+      "title": "长程 Agent 的上下文设计：存储、发现、缓存与交接",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文泛化环境为产品更强原因；offload/cache/isolate 概念合并过度；经验更新未解释不改权重与再评估。",
+      "changes": "按四个资源问题组织，明确三策略不同作用及交接代价，补 GEPA 与 context learning。",
+      "source_checks": "核对多层 action space、CLI help/Skills、Manus/Cursor 外置、缓存前缀、Ralph 文件历史、GEPA 与日记。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "effective-agent-design",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig计算环境/分层action space、工具发现、Manus先offload再summary、缓存、isolate、GEPA、日记→CLAUDE.md、skills经验和协作冲突段核对；所有推导边界清楚。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "claude-code-prompt-caching-is-everything",
+      "title": "Claude Code 如何围绕稳定前缀设计缓存",
+      "first_published": "2026-06-05T21:30:00+08:00",
+      "action": "重写",
+      "original_issues": "重复隐形地基口号，将不换模型写成普遍规则，未区分压缩调用与压缩后会话。",
+      "changes": "围绕前缀布局、状态更新、工具搜索、fork和整次成本重写，补权限与缓存分层。",
+      "source_checks": "核对prefix、工具顺序、PlanMode、defer_loading、cache-safe fork与buffer、模型缓存独立；未新增当前价格。",
+      "writer": "b",
+      "independent_review": {
+        "slug": "claude-code-prompt-caching-is-everything",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整核对orig：稳定prefix排序、时间戳/工具顺序、messages更新、plan工具状态、defer_loading、cache-safe fork与buffer、100k换模型例、告警；清楚区分缓存与权限。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": "无"
+    },
+    {
+      "slug": "scaling-pain-coding-agent-serving",
+      "title": "Coding Agent 推理排障：两种 KV Cache 竞态如何污染输出",
+      "first_published": "2026-06-05T21:34:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文基本事实正确但指标相关性与根因略混，LayerSplit 只有数字没有机制，多个异常率口径未充分分开。",
+      "changes": "重写完整时序链和两种同步约束，补 LayerSplit 所有权/广播/重叠机制，限定监控阈值与修复范围。",
+      "source_checks": "核对离线3–5/10000、128/1.4/0.96、0.1%到<0.03%、safe-to-reclaim 两条件、Indexer 同步、70K、90%与40K–120K及10%–132%。",
+      "writer": "c",
+      "independent_review": {
+        "slug": "scaling-pain-coding-agent-serving",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "evidence": [
+          "同名orig全文:离线3–5/10000与修复0.1%→<0.03%分开",
+          "PD abort→safe-to-reclaim→复用，HiCache Indexer前等待Load同步均准确",
+          "接受长度分支128且<1.4，或接受率>.96；GLM-5.1+LayerSplit，90%命中、40K–120K、10–132%"
+        ],
+        "direct_changes": [],
+        "resolved_findings": [
+          "writer已将在线条件改为两条清晰分支，避免128阈值误施加到接受率分支；性能段补GLM-5.1配置。复查正文32/62行通过。"
+        ],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "why-context-engineering-needed",
+      "title": "上下文工程的四个动作：写入、选择、压缩与隔离",
+      "first_published": "2026-06-05T21:34:00+08:00",
+      "action": "重写",
+      "original_issues": "旧文把 2024 Kimi 个人经验写得像通用长度限制；不加条件重复 judge 不需要搜索证据；末尾多 Agent 预测被认同为路线。",
+      "changes": "按状态生命周期重构四动作，明确历史实验限制和评估器证据需求；区分存储、筛选、压缩和交接。",
+      "source_checks": "核对四分法、long-term/scratchpad/state、date 参数例、原作者 2024 Kimi 体验；删除历史 compact 固定阈值。",
+      "writer": "a",
+      "independent_review": {
+        "slug": "why-context-engineering-needed",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文及orig四分法、Kimi2024 32K/100K局部经验、todo/state、date格式混淆、compact、judge隔离与广度子agent结论核对；对judge应具备事实资料的补充条件合理且已标清。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "understanding-next-ai-wave",
+      "title": "下一波 AI 的分水岭：组织能否兑现模型能力",
+      "first_published": "2026-08-31T14:45:00+08:00",
+      "action": "修订",
+      "original_issues": "重复表面/真正句式，结尾引入未定义系统兑现率。",
+      "changes": "简化为产品、端到端任务与交付的观察问题，保留三张图。",
+      "source_checks": "来源记录与23页PDF；产品合流、速度和递归改进仍属方向。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "understanding-next-ai-wave",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "对照 sources/video 与PDF：Tibo身份不扩写、LMChat回忆、构件负担、ChatGPT/Codex合流为愿景、跨层递归归纳、暂停治理证据不足、ultra-fast缺口径均保留；3张图明确重绘；实际23页且固定GitHub版字节一致。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "claude-code-unreasonable-effectiveness-html",
+      "title": "用 HTML 承接 Agent 输出：阅读、交互与结果回传",
+      "first_published": "2026-08-31T15:30:00+08:00",
+      "action": "重写",
+      "original_issues": "虚构第一人称体验；把个人格式偏好写成普遍升级方向。",
+      "changes": "解释呈现、交互导出与产物衔接，保留生成时间和diff代价。",
+      "source_checks": "orig全文；2–4倍为作者体验；未复现性能。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "claude-code-unreasonable-effectiveness-html",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整对照 orig：超过100行属作者体验、六种onboarding、30Linear拖拽与导出、动画/提示编辑、新session与验证读取文件、2–4倍与Opus4.7/1M为历史口径、HTML diff噪声；推论明确。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "claude-code-session-management-1m-context",
+      "title": "Claude Code 会话管理：继续、回退、压缩与委派怎样选择",
+      "first_published": "2026-08-31T15:45:00+08:00",
+      "action": "重写",
+      "original_issues": "虚构个人使用经历；压缩失败原因与回退收益绝对化。",
+      "changes": "按任务连续性比较五种操作；区分上下文回退与外部状态。",
+      "source_checks": "orig全文；注明历史环境和压缩有损边界。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "claude-code-session-management-1m-context",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整对照 orig：五动作、五文件后回退、summarize from here、bar.ts丢warning、定向compact、clear需brief、子agent返回报告；没有把上下文回退等同文件回滚。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-08-ai-coding-software-future",
+      "title": "当代码生成越来越容易：智能体软件的价值转向可靠运行",
+      "first_published": "2026-08-31T16:00:00+08:00",
+      "action": "修订",
+      "original_issues": "开头与结尾重复拔高，自驾驶云设想容易被当现状。",
+      "changes": "精炼交付检查和主张边界，明确自驾驶云为设想。",
+      "source_checks": "来源记录与PDF：Page→Agent、三角、SaaS分层、动态容量均保留。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-08-ai-coding-software-future",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §4.2 Gateway、§4.4自驾驶云、§5.2销售工作台复用Salesforce、§7.2局部推理、§8.4 no-more-rate-limits挑衅及控制条件。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [
+          "将“自驾驶云”明确写成Rauch设想，避免描述为现有完整产品能力。"
+        ],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "meituan-agent-ai-coding-refactor",
+      "title": "美团 31 万行代码库重构：规范、迁移 SOP 与分层验收",
+      "first_published": "2026-08-31T16:00:00+08:00",
+      "action": "重写",
+      "original_issues": "把AI看全、零排期和AI预审写成普遍保证，遗漏测试分工。",
+      "changes": "保留风险定向、分层契约、迁移SOP、预审和人工主导测试链。",
+      "source_checks": "orig全文；3个P0/2个P1/10隐患/2样例/十余包均归作者报告。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "meituan-agent-ai-coding-refactor",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "完整对照 orig：31万行/90%背景、3P0/2P1/10隐患、always Rule与渐进Skill、四层架构/两个复杂包打样/十余包迁移、零专项排期非零投入、Pre-PR和人工主导五步测试；没有照搬看全零成本等夸张归因。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "agent-era-design",
+      "title": "代理时代的设计：执行更便宜，判断更昂贵",
+      "first_published": "2026-08-31T16:00:00+08:00",
+      "action": "修订",
+      "original_issues": "开头和结论套话；瓶颈迁移被称作固定规律。",
+      "changes": "改成具体评审任务和完整迭代检查，保留三个设计案例。",
+      "source_checks": "来源记录与32页PDF；HTML/CSS优势无统一benchmark。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "agent-era-design",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "对照 sources/video 与PDF：HTML/CSS共享表示、colors.css、Snapshot、Legion三方向及选区/重叠失败、Sytex和Moreta案例、核心代码多人审查都有时间范围支持；实际32页且固定GitHub版字节一致。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "building-high-talent-density-teams",
+      "title": "高人才密度团队怎样招聘：岗位定义、人才地图与双向评估",
+      "first_published": "2026-08-31T16:40:00+08:00",
+      "action": "修订",
+      "original_issues": "标题与总结过强；经验框架被写成通用因果定律。",
+      "changes": "重写开头与结尾，解释样本和职责，增加推荐网络自身偏差。",
+      "source_checks": "来源记录与19页PDF；50人和六周为示例。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "building-high-talent-density-teams",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "对照 sources/video 与PDF文本：100联系/20回复为假设，三步 scoping/mapping/activation、约50人、六周隔周、confidence engine、双向评估及人才密度互补均有对应时间段；PDF实际19页，固定GitHub版本字节与当前PDF相同。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-06-enterprise-knowledge-intelligence",
+      "title": "企业专用化如何形成反馈闭环：Eval、上下文与运行框架",
+      "first_published": "2026-08-31T16:40:00+08:00",
+      "action": "修订",
+      "original_issues": "标题与开头人为对立，六步结尾重复，产品在线更新像实现认证。",
+      "changes": "保留eval/reward/verifier和三层系统，强化讲者归因与更新验证。",
+      "source_checks": "来源记录与PDF：DoorDash、Cursor隐式反馈、三类更新；自动字幕不确定保留。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-06-enterprise-knowledge-intelligence",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §4.3菜单人工纠错、§4.6 Cognition/Windsurf专用模型、§4.7三层系统、§5.2 Composer反馈和§5.4经验context完整段落核对；姓名/自动字幕不确定边界保留。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "communication-strategy-direct-narrative",
+      "title": "沟通战略怎样落地：理解受众、直接触达与可信叙事",
+      "first_published": "2026-08-31T16:40:00+08:00",
+      "action": "修订",
+      "original_issues": "开头套话，结尾重复六点；文学转述被写成心理学证明。",
+      "changes": "围绕受众/主张/证据收束，明确小说属受访者复述。",
+      "source_checks": "来源记录与23页PDF；渠道、宣言均属情境经验。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "communication-strategy-direct-narrative",
+        "status": "PASS",
+        "阻塞": "无",
+        "建议": "无",
+        "核对依据": "对照 sources/video 与PDF：跨文化经历、under/below the belt、兔子服、200目标/50万阅读的假设、Go Direct、Jetsons、AI使用、Nabokov仅转述均吻合；实际23页且固定GitHub版字节一致。",
+        "直接修改": "无",
+        "reviewer": "a"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-02-gpu-economics",
+      "title": "GPU 经济：把推理硬件、任务成本与用户价值放在一起看",
+      "first_published": "2026-08-31T17:10:00+08:00",
+      "action": "修订",
+      "original_issues": "后半时间戳整体偏早，100x/芯片设计/社会契约归因混淆，市场数字缺依据。",
+      "changes": "重写后半与索引、同步来源记录；区分Madra与Gerstner并去掉无源数字。",
+      "source_checks": "PDF20–27页；100x36:12、芯片36:58、外溢37:30、社会契约38:00。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-02-gpu-economics",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video、PDF §6.1–6.4及§7.1–7.7核对；确认25:37起行动经济、31:16–33:51 Madra harness、36:12 100倍目标、36:58 AI芯片设计、38:00社会契约。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [
+          "初审NEEDS_REVISION：100倍和社会契约时间锚点偏早，AI芯片设计/外溢归因混写；writer已全面返修并同步来源记录，独立复查通过。",
+          "移除无充足依据的30–35万亿美元数字；保留负毛利为示意而非公司财务。"
+        ],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-01-generative-ai-economics",
+      "title": "生成式 AI 的价值分布：怎样理解收入与利润的倒三角",
+      "first_published": "2026-08-31T17:10:00+08:00",
+      "action": "修订",
+      "original_issues": "口述估算被摘要写成现状；结尾重复态度。",
+      "changes": "改问题与收束，注明历史估计及口述75%与图表重算不一致。",
+      "source_checks": "来源记录与PDF；产业收入和利润是课堂估计。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-01-generative-ai-economics",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF 第2、6、9、14页附近完整段落核对三层收入、75%口述、95%免费、用户规模和ARPU；时间锚点与来源表一致。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [
+          "在新增收入段补充75%口述与课件分项重算不完全一致，防止作为同一可复算数据使用。"
+        ],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-03-ai-factories-gigawatt-infrastructure",
+      "title": "从电子到 Token：吉瓦级 AI 工厂的物理约束与经济回报",
+      "first_published": "2026-08-31T17:10:00+08:00",
+      "action": "修订",
+      "original_issues": "以能源过剩推导工作负载灵活性，把token服务当风险对冲；成本差异未说明。",
+      "changes": "重写边界分析，区分机房与IT成本、收入回收与利润。",
+      "source_checks": "PDF核对19.2M/MW、4.7M劳务、40M/41M差异及2/4年收入口径。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-03-ai-factories-gigawatt-infrastructure",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §5.1/5.2核对19.2M/MW、4.7M劳务；§6.1核对40/41M内部差异；§7.2/7.3核对四年与极乐观两年按收入回收口径。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-04-enterprise-ai-saas",
+      "title": "企业 AI 怎样形成交付收益：Databricks 连接器的流程重构",
+      "first_published": "2026-08-31T17:30:00+08:00",
+      "action": "重写",
+      "original_issues": "两天原型与九个月交付混比，三项流程改造误写，示例比例未标假设。",
+      "changes": "按输入缺口、原型/交付、三约束与三重构组织，补全结果及限制。",
+      "source_checks": "PDF10–11页：需求一周、外包环境并行、7人共享7项目；1.43倍是教学假设。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-04-enterprise-ai-saas",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §5.1–5.5完整核对九个月生产交付/两天原型/七个半月旧流程估计，三项重构为需求1周、专业方并行环境、7人共享7项目，结果1季度7 Connector；Amdahl比例明确为教学假设。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-05-ai-infrastructure-frontier-labs",
+      "title": "AI 基础设施的竞争单位：从名义算力到可交付智能的端到端系统",
+      "first_published": "2026-08-31T17:30:00+08:00",
+      "action": "修订",
+      "original_issues": "100GW被误标思想实验；推理与瓶颈规律表述过强。",
+      "changes": "校正愿景/即席估算/思想实验，按任务路径收束。",
+      "source_checks": "PDF：30GW愿景、100GW即席估算、7TW思想实验；80%以上为预测。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-05-ai-infrastructure-frontier-labs",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §1.3/1.4核对推理含RL采样/合成数据及80%以上为预测；§2.4全文确认30GW愿景、100GW美国hyperscaler规划即席估计、7TW人均GPU思想实验；非当前部署量。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-09-ai-life-sciences",
+      "title": "AI 生命科学的两层循环：分子设计如何连接实验验证",
+      "first_published": "2026-08-31T17:30:00+08:00",
+      "action": "重写",
+      "original_issues": "single-person pipeline归因错误，临床前四年像可整体省去，杰文斯推论过强。",
+      "changes": "按两层循环、设计迭代、实验需求、两类物理接口重写。",
+      "source_checks": "PDF：Eric单人管线38:31、CRO37:19、仪器40:18；zero-shot为候选设计愿景。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-09-ai-life-sciences",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §8.3–9.1完整核对CRO通信当前能力与仪器控制多年愿景；Eric提出pipeline-in-a-person，而非Joshua或已验证组织模板；zero-shot候选设计与临床阶段边界保留。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "stanford-mse435-week-07-inference-cloud-ai-commercialization",
+      "title": "从前沿 API 到定制模型：推理成本、质量与控制权的取舍",
+      "first_published": "2026-08-31T17:30:00+08:00",
+      "action": "重写",
+      "original_issues": "反方问题讲者错误，成本幅度和体验改进过强，API共享被等同可复制。",
+      "changes": "按质量/总成本/数据控制/推理平台重写，补讲者无内部数据边界。",
+      "source_checks": "PDF8–10页：主持人反问、70–90%直接推理成本估计、13:58无内部数据。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "stanford-mse435-week-07-inference-cloud-ai-commercialization",
+        "status": "PASS",
+        "blockers": [],
+        "suggestions": [],
+        "source_checks": "全文与 sources/video 核对；PDF §3.1–3.4完整核对主持人自动升级反问、Tuhin的70%–90%直接推理成本估计、总成本未包含项目，以及13:58明确无内部体验数据；并核对平台/数据控制论点为供应商观点。 对应静态PDF存在，站点PDF与固定GitHub源链接均与来源记录匹配；线上链接有效性由主agent统一验证。",
+        "direct_edits": [],
+        "resolved_findings": [],
+        "reviewer": "c"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "from-demonstration-to-skill",
+      "title": "从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill",
+      "first_published": "2026-09-03T16:49:48+08:00",
+      "action": "修订",
+      "original_issues": "实现比较没有固定客户端build号，当前措辞容易被当作新版能力保证。",
+      "changes": "增加2026年9月初观察范围，保留原有结构、示例和图。",
+      "source_checks": "官方指南核对工作流；本次没有重新实测或追溯两客户端内部实现。",
+      "writer": "main",
+      "independent_review": {
+        "slug": "from-demonstration-to-skill",
+        "conclusion": "PASS",
+        "blockers": [],
+        "suggestions": [
+          "历史内部实现比较未固定客户端build号；本次PASS仅确认时间边界修订，不代表重新实测或复核全部实现。",
+          "相关阅读仍使用skill-creator旧标题，主agent整理内链文字时可同步改成新标题。"
+        ],
+        "evidence": [
+          "仅审相对HEAD的本次差异：新增2026年9月初产品/实现观察范围，当前已核验改为本文所查路径，更新lastmod",
+          "其余正文、示例和11张SVG引用与HEAD保持一致；本次未重新比较或运行两客户端"
+        ],
+        "direct_changes": [],
+        "metadata_check": "字段完整；保留原date；date与lastmod均带时区。",
+        "reviewer": "b"
+      },
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "from-activity-to-action",
+      "title": "从电脑活动到下一步行动：Computer History",
+      "first_published": "2026-09-07T11:51:10+08:00",
+      "action": "导航更新",
+      "original_issues": "问题场景、三阶段机制、授权与数据边界清楚。",
+      "changes": "保留成熟解释与图示；仅按改名结果同步相关阅读标签。",
+      "source_checks": "官方Computer History文档核对48小时、无截图音频、临时会话、清理与数据使用边界；未重跑UI。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "uber-efficient-software-factory",
+      "title": "Uber 软件工厂：围绕有效交付优化 Agent 成本",
+      "first_published": "2026-09-08T15:13:00+08:00",
+      "action": "导航更新",
+      "original_issues": "成本拆解、模型评测、工具轮询与上下文机制完整。",
+      "changes": "保留具体案例及统计口径，按文章改名同步相关阅读。",
+      "source_checks": "orig核对7x/9.4x、34%/52%、903→402、38秒/20分钟、400K及TTL。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "how-claude-code-team-uses-claude-code",
+      "title": "Claude Code 团队如何工作：目标委派、动态工作流与验证反馈",
+      "first_published": "2026-09-08T15:33:34+08:00",
+      "action": "元数据",
+      "original_issues": "正文结构和证据边界成熟；缺官方发布者来源标签。",
+      "changes": "正文保留，补anthropic来源标签并保留lastmod。",
+      "source_checks": "来源记录和14页PDF；个人70–80%、三个复核视角、团队实践范围一致。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "from-compaction-to-context-recovery",
+      "title": "从压缩历史到按需恢复：Codex 上下文压缩的新实验",
+      "first_published": "2026-09-10T16:07:27+08:00",
+      "action": "保留",
+      "original_issues": "固定源码commit和CLI版本，传统压缩/远端恢复/服务依赖分层清楚。",
+      "changes": "保留正文与全部图示。",
+      "source_checks": "按文内d648947与CLI0.153.0范围审查论证和引用完整性；未重新执行该实验。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "harness-engineering-behavioral-evaluations",
+      "title": "Harness Engineering：用行为评估守住 Agent 的关键动作",
+      "first_published": "2026-09-10T16:36:54+08:00",
+      "action": "导航更新",
+      "original_issues": "假设案例明确，行为断言与最终验收的证据层次清楚。",
+      "changes": "保留正文，按文章改名同步相关阅读。",
+      "source_checks": "orig核对行为eval、灵活断言、批量稳定性和端到端互补。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "reducing-cost-and-improving-performance-with-claude-platform",
+      "title": "Claude Platform 成本优化：缓存、指令与 effort 如何配合",
+      "first_published": "2026-09-16T11:17:00+08:00",
+      "action": "保留",
+      "original_issues": "请求与任务成本分开，官方行为标了文档日期，假设案例明确。",
+      "changes": "保留正文，按文章改名同步相关阅读。",
+      "source_checks": "orig核对14.6%/5.3%、六类旧指令、effort与缓存条件；未调用收费API重跑实验。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "how-warp-builds-self-improving-agents-on-claude",
+      "title": "Warp 如何把团队反馈变成 Agent 的 Skill 改进",
+      "first_published": "2026-09-17T15:22:26+08:00",
+      "action": "保留",
+      "original_issues": "任务Skill、改进Skill、反馈和合并生效分得清楚。",
+      "changes": "保留正文与检验建议。",
+      "source_checks": "orig核对ready to spec、定时运行、人工合并及缺乏量化结果。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "cognition-local-fusion",
+      "title": "Devin Fusion：双 Agent 的分工与成本",
+      "first_published": "2026-09-17T16:53:20+08:00",
+      "action": "保留",
+      "original_issues": "角色、上下文、假设委派与评测成本/分数范围清楚。",
+      "changes": "作为近期表达参考保留。",
+      "source_checks": "orig核对Lead/Sidekick、DeepSWE与Terminal-Bench数值，假设案例与建议有明确归属。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "rethinking-skills-and-prompts-for-gpt-6-astra",
+      "title": "GPT-6 Astra 的指令整理：Skill 触发、上下文与完成边界",
+      "first_published": "2026-09-18T09:36:25+08:00",
+      "action": "保留",
+      "original_issues": "原文建议与月报假设案例分开，触发/加载/验收解释连贯。",
+      "changes": "作为近期表达参考保留。",
+      "source_checks": "orig核对描述截短、按需披露、跨模型与完成边界。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    },
+    {
+      "slug": "glm-built-its-inference-infrastructure",
+      "title": "GLM 的 Infra Agent：用密集反馈优化推理基础设施",
+      "first_published": "2026-09-20T17:58:16+08:00",
+      "action": "导航更新",
+      "original_issues": "通过具体实验解释dense feedback，局部结果与端到端结果分开。",
+      "changes": "作为近期表达参考保留。",
+      "source_checks": "orig核对tf32x3、DeepEP1.2.1/GIL、20%→1%、9.6%/1.71x/3x的不同基线。",
+      "writer": "main",
+      "independent_review": null,
+      "root_review": "PASS",
+      "remaining_notes": ""
+    }
+  ],
+  "desktop_validation": {
+    "viewport": "1440x1100",
+    "pages_checked": 87,
+    "horizontal_overflows": 0,
+    "broken_images": 0,
+    "visual_spot_checks": 8
+  },
+  "evidence_limits": [
+    "未重新运行原文benchmark、商业客户实验或收费模型API。",
+    "视频依据仓库来源记录与既有PDF核对，没有重做全部字幕或重新生成PDF。",
+    "Record & Replay内部实现没有固定客户端build号，本次补历史观察范围，未重新实测两客户端。",
+    "Harrison长程Agent等历史网页归档包含视频转录，保留既有栏目，未伪造PDF或新增视频发布。"
+  ],
+  "validation": {
+    "hugo": "0.165.0 extended, production --gc --minify",
+    "site_check": "PASS",
+    "git_diff_check": "PASS",
+    "first_dates_preserved": 87,
+    "old_articles_rewritten": 60,
+    "pdf_source_vs_fixed_commit_vs_public": 14,
+    "pdf_submodule_modified": false,
+    "desktop_browser": "Chrome via Playwright; 1440x1100; lazy images decoded before failure checks"
+  }
+}
