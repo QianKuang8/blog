@@ -1,0 +1,21 @@
+STYLE_PROTOTYPE_REVIEW.md
+  s_e808a9d1c52a3c::t_b4b55af7685741 5-6,15,44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2cae3a0aca4e6f873135cddd13dcc30e5fc5ac3b",
+  "prompts": {},
+  "sessions": {
+    "s_e808a9d1c52a3c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1f4-413d-77f1-b550-93c5a13924e3",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
