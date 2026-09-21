@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="580" viewBox="0 0 960 580" role="img" aria-labelledby="title desc">
+  <title id="title">围绕可编辑场景组织反馈与交付</title>
+  <desc id="desc">设计目标进入可编辑场景，生成预览后审阅，发现的问题回到场景继续修改。交付分为渲染成片与实时漫游，各自需要画面或交互检查。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5c746a"/></marker>
+  </defs>
+  <rect width="960" height="580" rx="18" fill="#f6f8f5"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif" fill="#203a30">
+    <text x="40" y="52" font-size="27" font-weight="650">让每一轮反馈都有修改对象</text>
+    <text x="40" y="86" font-size="18" fill="#596b62">设计意图 → 可编辑产物 → 可观察结果 → 下一次修改</text>
+
+    <g stroke="#ccd7ce" stroke-width="1.5">
+      <rect x="40" y="125" width="182" height="126" rx="12" fill="#fff"/>
+      <rect x="268" y="125" width="208" height="126" rx="12" fill="#e5eee5" stroke="#7f9f89"/>
+      <rect x="522" y="125" width="174" height="126" rx="12" fill="#fff"/>
+      <rect x="742" y="125" width="178" height="126" rx="12" fill="#fff"/>
+    </g>
+    <text x="60" y="160" font-size="22" font-weight="600">设计目标</text>
+    <text x="60" y="198" font-size="18" fill="#596b62">用途、氛围</text>
+    <text x="60" y="225" font-size="18" fill="#596b62">需要保留的约束</text>
+    <text x="289" y="160" font-size="22" font-weight="600">可编辑场景</text>
+    <text x="289" y="198" font-size="18" fill="#596b62">几何、材质、灯光</text>
+    <text x="289" y="225" font-size="18" fill="#596b62">对象关系与相机</text>
+    <text x="542" y="160" font-size="22" font-weight="600">生成预览</text>
+    <text x="542" y="198" font-size="18" fill="#596b62">整体 / 局部</text>
+    <text x="542" y="225" font-size="18" fill="#596b62">匹配当前问题</text>
+    <text x="762" y="160" font-size="22" font-weight="600">审阅结果</text>
+    <text x="762" y="198" font-size="18" fill="#596b62">定位具体问题</text>
+    <text x="762" y="225" font-size="18" fill="#596b62">决定下一步</text>
+
+    <g fill="none" stroke="#5c746a" stroke-width="2.5" marker-end="url(#arrow)">
+      <path d="M222 184H262"/>
+      <path d="M476 184H516"/>
+      <path d="M696 184H736"/>
+      <path d="M831 251V294H372V257"/>
+    </g>
+    <rect x="484" y="279" width="236" height="29" fill="#f6f8f5"/>
+    <text x="602" y="300" text-anchor="middle" font-size="18" fill="#4a6756">把问题定位回场景对象</text>
+
+    <path d="M40 335H920" stroke="#d3ddd3"/>
+    <text x="40" y="375" font-size="21" font-weight="600">交付形式不同，检查也要分别完成</text>
+    <rect x="40" y="398" width="425" height="112" rx="12" fill="#fff" stroke="#ccd7ce"/>
+    <rect x="495" y="398" width="425" height="112" rx="12" fill="#fff" stroke="#ccd7ce"/>
+    <text x="62" y="436" font-size="22" font-weight="600">渲染成片</text>
+    <text x="62" y="477" font-size="19" fill="#596b62">检查指定视角的画面与镜头运动</text>
+    <text x="517" y="436" font-size="22" font-weight="600">实时漫游</text>
+    <text x="517" y="477" font-size="19" fill="#596b62">检查自由移动、碰撞与操作行为</text>
+    <text x="40" y="550" font-size="16" fill="#6b786e">根据 Astra 建筑可视化案例整理 · 工作模型，不表示精确执行时序</text>
+  </g>
+</svg>
