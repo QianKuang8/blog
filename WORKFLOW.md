@@ -13,7 +13,7 @@
 | 环节 | 决策 | 说明 |
 |------|------|------|
 | **发布目标** | 知识管理型，个人网站 | 方便自己回查，也帮助读者按问题阅读 |
-| **技术栈** | Hugo + PaperMod 主题 | 博文位于 `content/posts/` |
+| **技术栈** | Hugo + 自建模板与样式 | 博文位于 `content/posts/`，展示层位于 `layouts/` 与 `assets/` |
 | **内容组织** | 单篇文章 + categories + tags | 栏目区分文章类型，tags 表达主题与来源，topics 提供阅读路径 |
 | **视频笔记** | 单篇解读 + 视频来源记录 | 来源记录保存到 `sources/video/<slug>.md` |
 | **PDF 资产** | 独立公开仓库 + submodule | 源 PDF 不压缩，挂载到 `static/pdfs` |
@@ -62,7 +62,7 @@ categories: ["原创文章"]
 
 新建文章时设置 `date` 和 `lastmod`，修订已有文章保留首次发布的 `date`。纯栏目、标签或格式整理不修改 `lastmod`；只有标题、摘要、description 或正文发生变化时才更新内容时间。`视频笔记` 不再写入 tags，历史标签入口转向同名栏目，原分页与 RSS 继续可用。
 
-首页不再展示全部文章的混合时间流。它按 `原创文章`、`视频笔记`、`好文分享` 的顺序分别展示最近 2 篇；每个栏目的“查看全部”链接进入对应 taxonomy 页面继续分页浏览。栏目入口已经在首页完整呈现，因此顶部导航不再重复显示“栏目”。
+首页按时间倒序展示文章，每页 10 篇；专题入口提供阅读路径，`原创文章`、`好文分享`、`视频笔记` 栏目链接进入对应 taxonomy 页面继续分页浏览。首页、栏目、标签详情共用文章条目和分页模板，并为每个分页生成指向自身的 canonical。左侧导航提供专题、标签、归档和搜索；文章页可切换专注阅读。
 
 ---
 
@@ -113,8 +113,8 @@ categories: ["原创文章"]
 - `视频笔记` 标签已停用：`/tags/视频笔记/` 及旧分页转向对应栏目页；旧 RSS 从当前视频栏目生成。
 - `博客推荐` 标签已停用：`/tags/博客推荐/` 保留两篇历史文章链接，旧分页入口与 RSS 继续可用。新文章使用具体主题，不再添加该标签。
 - 停用标签不出现在标签导航或文章标签中。历史入口通过 `legacyCategory` 或 `legacyPosts` 指定兼容内容，不再依赖文章携带旧标签。
-- `layouts/_default/single.html` 覆盖 PaperMod 的文章模板，调用 `post_tags.html` 展示标签并补充阅读路径；更新主题时检查此覆盖模板与上游的差异。
-- `layouts/partials/head.html` 覆盖主题头部以调用 `canonical_url.html`，为常规分页输出指向自身的 canonical；升级主题时同时比较这份覆盖模板。
+- `layouts/_default/single.html` 是自建文章模板，调用 `post_tags.html` 展示标签并补充阅读路径；正文、目录、专注阅读沿用全站排版变量。
+- `layouts/partials/head.html` 管理样式、脚本、RSS 和 SEO；`canonical_url.html` 与列表共用 `list_pages.html` 的分页集合。搜索使用独立保存的 Fuse 依赖，许可位于 `assets/js/vendor/`，发布副本位于 `static/licenses/`。
 
 ### 来源标签
 

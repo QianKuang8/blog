@@ -15,7 +15,7 @@ from xml.etree import ElementTree
 
 import yaml
 
-from check_content import read_markdown
+from check_content import aware_datetime, read_markdown
 
 
 SITE_DIR = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("public")
@@ -24,7 +24,7 @@ ARTICLE_CATEGORIES = {
     "原创文章": "categories/原创文章/index.html",
     "视频笔记": "categories/视频笔记/index.html",
 }
-HOME_CATEGORY_ORDER = ("原创文章", "视频笔记", "好文分享")
+HOME_CATEGORY_ORDER = ("原创文章", "好文分享", "视频笔记")
 
 
 def class_names(attributes: dict[str, str | None]) -> set[str]:
@@ -47,22 +47,19 @@ class PageParser(HTMLParser):
         self.class_counts: dict[str, int] = {}
         self.post_tag_labels: list[str | None] = []
         self.tag_groups: list[str] = []
-        self.home_category_shelves: list[dict[str, object]] = []
+        self.post_entries: list[dict[str, object]] = []
         self._json_ld_parts: list[str] | None = None
         self._link_attrs: dict[str, str | None] | None = None
         self._link_parts: list[str] = []
         self._link_in_main_menu = False
-        self._link_shelf: dict[str, object] | None = None
-        self._link_is_category_all = False
-        self._link_is_category_preview = False
-        self._link_preview_datetime: str | None = None
+        self._link_post_entry: dict[str, object] | None = None
         self._heading_tag: str | None = None
         self._heading_parts: list[str] = []
         self._main_menu_depth = 0
         self._post_meta_depth = 0
         self._post_meta_parts: list[str] = []
-        self._section_depth = 0
-        self._shelf_contexts: list[tuple[int, dict[str, object]]] = []
+        self._article_depth = 0
+        self._post_entry_contexts: list[tuple[int, dict[str, object]]] = []
 
     def handle_starttag(
         self, tag: str, attrs: list[tuple[str, str | None]]
@@ -99,19 +96,15 @@ class PageParser(HTMLParser):
             elif attributes.get("id") == "menu":
                 self._main_menu_depth = 1
 
-        if tag == "section":
-            self._section_depth += 1
-            if "home-category-shelf" in classes:
-                shelf: dict[str, object] = {
-                    "category": attributes.get("data-category"),
-                    "data_count": attributes.get("data-count"),
-                    "previews": [],
-                    "all_links": [],
+        if tag == "article":
+            self._article_depth += 1
+            if "data-post-entry" in attributes:
+                entry: dict[str, object] = {
+                    "slug": attributes.get("data-post-entry"),
+                    "links": [],
                 }
-                self.home_category_shelves.append(shelf)
-                self._shelf_contexts.append((self._section_depth, shelf))
-
-        active_shelf = self._shelf_contexts[-1][1] if self._shelf_contexts else None
+                self.post_entries.append(entry)
+                self._post_entry_contexts.append((self._article_depth, entry))
 
         if tag == "script" and attributes.get("type") == "application/ld+json":
             self._json_ld_parts = []
@@ -119,18 +112,12 @@ class PageParser(HTMLParser):
             self._link_attrs = attributes
             self._link_parts = []
             self._link_in_main_menu = self._main_menu_depth > 0
-            self._link_shelf = active_shelf
-            self._link_is_category_all = "home-category-all" in classes
-            self._link_is_category_preview = "home-category-preview" in classes
-            self._link_preview_datetime = None
+            self._link_post_entry = self._post_entry_contexts[-1][1] if self._post_entry_contexts else None
         elif tag == "meta":
             self.meta.append(attributes)
         elif tag in {"h1", "h2", "h3", "h4", "h5", "h6"}:
             self._heading_tag = tag
             self._heading_parts = []
-
-        if tag == "time" and self._link_is_category_preview:
-            self._link_preview_datetime = attributes.get("datetime")
 
     def handle_data(self, data: str) -> None:
         if self._post_meta_depth:
@@ -155,26 +142,14 @@ class PageParser(HTMLParser):
             self.links.append(link)
             if self._link_in_main_menu:
                 self.main_menu_links.append(link)
-            if self._link_shelf is not None and self._link_is_category_all:
-                all_links = self._link_shelf["all_links"]
-                assert isinstance(all_links, list)
-                all_links.append(link)
-            if self._link_shelf is not None and self._link_is_category_preview:
-                previews = self._link_shelf["previews"]
-                assert isinstance(previews, list)
-                previews.append(
-                    {
-                        "href": self._link_attrs.get("href"),
-                        "datetime": self._link_preview_datetime,
-                    }
-                )
+            if self._link_post_entry is not None and "data-post-link" in self._link_attrs:
+                links = self._link_post_entry["links"]
+                assert isinstance(links, list)
+                links.append(link)
             self._link_attrs = None
             self._link_parts = []
             self._link_in_main_menu = False
-            self._link_shelf = None
-            self._link_is_category_all = False
-            self._link_is_category_preview = False
-            self._link_preview_datetime = None
+            self._link_post_entry = None
         elif tag == self._heading_tag:
             self.headings.append(
                 (self._heading_tag, "".join(self._heading_parts).strip())
@@ -182,13 +157,13 @@ class PageParser(HTMLParser):
             self._heading_tag = None
             self._heading_parts = []
 
-        if tag == "section":
+        if tag == "article":
             if (
-                self._shelf_contexts
-                and self._shelf_contexts[-1][0] == self._section_depth
+                self._post_entry_contexts
+                and self._post_entry_contexts[-1][0] == self._article_depth
             ):
-                self._shelf_contexts.pop()
-            self._section_depth = max(0, self._section_depth - 1)
+                self._post_entry_contexts.pop()
+            self._article_depth = max(0, self._article_depth - 1)
         elif tag == "ul" and self._main_menu_depth:
             self._main_menu_depth -= 1
 
@@ -265,7 +240,7 @@ def validate_post_meta(
     modified: datetime | None,
     failures: list[str],
 ) -> None:
-    # PaperMod omits the container entirely when hideMeta is enabled.
+    # The article template omits the container when hideMeta is enabled.
     if not page.post_meta:
         return
     text = " ".join(page.post_meta)
@@ -395,6 +370,123 @@ def validate_pagination_canonicals(failures: list[str]) -> None:
             f"{relative_path}: pagination canonical should be {expected}",
             failures,
         )
+
+
+def validate_home_navigation(failures: list[str]) -> None:
+    """Validate the complete dated home list against published source articles."""
+    repo = Path(__file__).resolve().parent.parent
+    home = parse_html("index.html")
+    home_url = home.canonical_url or ""
+    posts: dict[str, dict] = {}
+    categories: dict[str, set[str]] = {name: set() for name in ARTICLE_CATEGORIES}
+    for source in sorted((repo / "content/posts").glob("*.md")):
+        if source.stem == "_index":
+            continue
+        try:
+            metadata, _ = read_markdown(source)
+            metadata = {key.lower(): value for key, value in metadata.items()}
+            slug = metadata.get("slug") or source.stem
+            # Drafts, future and expired articles are not necessarily in this build.
+            if not (SITE_DIR / f"posts/{slug}/index.html").is_file():
+                continue
+            published = aware_datetime(metadata.get("date"))
+        except (OSError, ValueError, TypeError, yaml.YAMLError) as error:
+            failures.append(f"{source.name}: cannot validate home entry: {error}")
+            continue
+        for name in metadata.get("categories", []):
+            if name in categories:
+                categories[name].add(slug)
+        if metadata.get("hiddeninhomelist") is not True:
+            posts[slug] = {"date": published}
+
+    category_links = [attrs for attrs, _ in home.links if "data-home-category" in attrs]
+    assert_true(
+        [attrs.get("data-home-category") for attrs in category_links] == list(HOME_CATEGORY_ORDER),
+        "home page should have exactly one category entry in this order: " + " / ".join(HOME_CATEGORY_ORDER),
+        failures,
+    )
+    for attrs in category_links:
+        name = attrs.get("data-home-category")
+        if name not in categories:
+            continue
+        expected_url = urljoin(home_url, f"categories/{quote(name)}/")
+        assert_true(
+            unquote(urljoin(home_url, attrs.get("href") or "")) == unquote(expected_url),
+            f"home page {name} entry should target its category page",
+            failures,
+        )
+        try:
+            count = int(attrs.get("data-count"))
+        except (TypeError, ValueError):
+            count = -1
+        assert_true(
+            count == len(categories[name]),
+            f"home page {name} data-count should match its published article count ({len(categories[name])})",
+            failures,
+        )
+
+    # Compare dates rather than an arbitrary order among articles with equal dates.
+    # Full coverage below still rejects repeated or missing articles across pages.
+    page_size = 10
+    expected_dates = sorted((post["date"] for post in posts.values()), reverse=True)
+    page_count = max(1, (len(posts) + page_size - 1) // page_size)
+    expected_pagers = {f"page/{number}/index.html" for number in range(2, page_count + 1)}
+    actual_pagers = {
+        path.relative_to(SITE_DIR).as_posix()
+        for path in (SITE_DIR / "page").glob("*/index.html")
+        if path.parent.name != "1"
+    }
+    assert_true(actual_pagers == expected_pagers, "home pagination should contain every expected page and no extra pages", failures)
+    actual_slugs: list[str | None] = []
+    for number in range(1, page_count + 1):
+        relative_path = "index.html" if number == 1 else f"page/{number}/index.html"
+        page = parse_html(relative_path)
+        offset = (number - 1) * page_size
+        expected_page_dates = expected_dates[offset:offset + page_size]
+        slugs = [entry.get("slug") for entry in page.post_entries]
+        actual_slugs.extend(slugs)
+        assert_true(
+            len(slugs) == len(expected_page_dates),
+            f"{relative_path}: home list should contain {len(expected_page_dates)} articles",
+            failures,
+        )
+        assert_true(
+            all(slug in posts for slug in slugs),
+            f"{relative_path}: home list should contain only published, visible articles",
+            failures,
+        )
+        if all(slug in posts for slug in slugs):
+            assert_true(
+                [posts[slug]["date"] for slug in slugs] == expected_page_dates,
+                f"{relative_path}: home list should show the expected newest articles in publication order",
+                failures,
+            )
+        for entry in page.post_entries:
+            links = entry["links"]
+            slug = entry["slug"]
+            assert_true(len(links) == 1, f"{relative_path}: {slug} should have one article title link", failures)
+            if len(links) != 1:
+                continue
+            attrs, title = links[0]
+            expected_url = urljoin(home_url, f"posts/{quote(str(slug))}/")
+            assert_true(
+                attrs.get("data-post-link") == slug and bool(title.strip())
+                and unquote(urljoin(home_url, attrs.get("href") or "")) == unquote(expected_url),
+                f"{relative_path}: {slug} title link should identify and target its article",
+                failures,
+            )
+        if number < page_count:
+            expected_next = urljoin(home_url, f"page/{number + 1}/")
+            assert_true(
+                any(urljoin(home_url, attrs.get("href") or "") == expected_next for attrs, _ in page.links),
+                f"{relative_path}: home list should link to its next page",
+                failures,
+            )
+    assert_true(
+        len(actual_slugs) == len(set(actual_slugs)) and set(actual_slugs) == set(posts),
+        "home pagination should show every visible article exactly once",
+        failures,
+    )
 
 
 def validate_reading_paths(failures: list[str]) -> None:
@@ -629,26 +721,9 @@ def main() -> int:
         "main menu should not contain a categories link",
         failures,
     )
-    assert_true(
-        home_page.class_counts.get("post-entry", 0) == 0,
-        "home page should not contain post-entry cards",
-        failures,
-    )
-    assert_true(
-        home_page.class_counts.get("pagination", 0) == 0,
-        "home page should not contain pagination",
-        failures,
-    )
-
-    shelf_categories = [
-        shelf.get("category") for shelf in home_page.home_category_shelves
-    ]
-    assert_true(
-        shelf_categories == list(HOME_CATEGORY_ORDER),
-        "home page category shelves should appear in this order: "
-        + " / ".join(HOME_CATEGORY_ORDER),
-        failures,
-    )
+    validate_home_navigation(failures)
+    for relative_path in ("robots.txt", "sitemap.xml"):
+        assert_true(bool(read_html(relative_path)), f"{relative_path} should be generated", failures)
 
     home_feed_items = rss_items("index.xml", failures)
     if home_feed_items is not None:
@@ -689,6 +764,12 @@ def main() -> int:
                             f"index.json item {index}: {field} should be a string",
                             failures,
                         )
+                    tags = item.get("tags")
+                    assert_true(
+                        isinstance(tags, list) and all(isinstance(tag, str) and tag.strip() for tag in tags),
+                        f"index.json item {index}: tags should be an array of non-empty strings",
+                        failures,
+                    )
                     category = item.get("category")
                     assert_true(category in (*ARTICLE_CATEGORIES, "专题"), f"index.json item {index}: should identify its category", failures)
                     if category != "专题":
@@ -725,105 +806,15 @@ def main() -> int:
 
         category_rss_path = category_path.removesuffix("index.html") + "index.xml"
         feed_items = rss_items(category_rss_path, failures)
-        matching_shelves = [
-            shelf
-            for shelf in home_page.home_category_shelves
-            if shelf.get("category") == category_name
-        ]
-        assert_true(
-            len(matching_shelves) == 1,
-            f"home page should contain exactly one {category_name} shelf",
-            failures,
-        )
-        if not matching_shelves:
-            continue
-
-        shelf = matching_shelves[0]
-        previews = shelf.get("previews")
-        assert isinstance(previews, list)
-        assert_true(
-            len(previews) == 2,
-            f"the {category_name} shelf should contain exactly two previews",
-            failures,
-        )
-        data_count = shelf.get("data_count")
-        try:
-            parsed_data_count = int(data_count)  # type: ignore[arg-type]
-        except (TypeError, ValueError):
-            failures.append(
-                f"the {category_name} shelf should have an integer data-count"
-            )
-        else:
-            if feed_items is not None:
-                assert_true(
-                    parsed_data_count == len(feed_items),
-                    f"the {category_name} shelf data-count should match its RSS item count",
-                    failures,
-                )
-
         if feed_items is not None:
-            feed_paths = {
-                normalized_url_path(item.get("link")) for item in feed_items
-            }
-            preview_dates: list[date] = []
-            preview_paths: list[str] = []
-            for preview in previews:
-                assert isinstance(preview, dict)
-                href = preview.get("href")
-                preview_path = normalized_url_path(
-                    href if isinstance(href, str) else None
-                )
-                preview_paths.append(preview_path)
+            for attrs, _ in home_page.links:
+                if attrs.get("data-home-category") != category_name:
+                    continue
                 assert_true(
-                    bool(preview_path) and preview_path in feed_paths,
-                    f"the {category_name} shelf preview should belong to its RSS feed",
+                    attrs.get("data-count") == str(len(feed_items)),
+                    f"home page {category_name} data-count should match its RSS item count",
                     failures,
                 )
-
-                datetime_value = preview.get("datetime")
-                try:
-                    preview_dates.append(date.fromisoformat(str(datetime_value)))
-                except ValueError:
-                    failures.append(
-                        f"the {category_name} shelf preview should have an ISO date"
-                    )
-
-            assert_true(
-                len(preview_paths) == len(set(preview_paths)),
-                f"the {category_name} shelf previews should link to distinct posts",
-                failures,
-            )
-            if len(preview_dates) == len(previews):
-                assert_true(
-                    preview_dates == sorted(preview_dates, reverse=True),
-                    f"the {category_name} shelf previews should be newest first",
-                    failures,
-                )
-
-        all_links = shelf.get("all_links")
-        assert isinstance(all_links, list)
-        assert_true(
-            len(all_links) == 1,
-            f"the {category_name} shelf should contain exactly one view-all link",
-            failures,
-        )
-        if len(all_links) == 1:
-            attrs, text = all_links[0]
-            assert_true(
-                " ".join(text.split()).startswith("查看全部"),
-                f"the {category_name} shelf view-all link should be labeled 查看全部",
-                failures,
-            )
-            assert_true(
-                attrs.get("aria-label") == f"查看全部{category_name}",
-                f"the {category_name} shelf view-all link should have a category-specific aria-label",
-                failures,
-            )
-            assert_true(
-                url_path_ends_with(attrs.get("href"), f"categories/{category_name}"),
-                f"the {category_name} shelf view-all link should target its category page",
-                failures,
-            )
 
     tags_page = parse_html("tags/index.html")
     assert_true(

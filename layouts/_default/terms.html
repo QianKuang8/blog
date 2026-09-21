@@ -1,0 +1,29 @@
+{{- define "main" -}}
+<header class="bc-home-heading">
+  <div>
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}<p>{{ . | plainify }}</p>{{ end }}
+  </div>
+</header>
+{{- $terms := .Data.Terms.Alphabetical -}}
+{{- if eq .Type "categories" -}}
+  {{- $terms = slice -}}
+  {{- range slice "原创文章" "好文分享" "视频笔记" -}}
+    {{- with site.GetPage (printf "/categories/%s" .) -}}
+      {{- $terms = $terms | append (dict "Page" . "Count" (len .RegularPages)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<div class="bc-term-list">
+  {{- range $terms }}
+  <section class="bc-term-row">
+    <div class="bc-list-heading">
+      <h2><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h2>
+      <span>{{ .Count }} 篇</span>
+    </div>
+    {{- with .Page.Description }}<p>{{ . }}</p>{{ end }}
+    <a class="bc-text-link" href="{{ .Page.RelPermalink }}">浏览文章 →</a>
+  </section>
+  {{- end }}
+</div>
+{{- end -}}

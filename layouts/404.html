@@ -1,0 +1,12 @@
+{{- define "main" -}}
+<section class="bc-not-found">
+  <p>404</p>
+  <h1>没有找到这个页面</h1>
+  <p>可以回到文章列表，或搜索你想找的内容。</p>
+  <a class="bc-text-link" href="{{ site.Home.RelPermalink }}">返回全部文章 →</a>
+  <form class="bc-search" action="{{ (site.GetPage "/search").RelPermalink }}" method="get" role="search">
+    <input type="search" name="q" placeholder="搜索文章、标签…" aria-label="搜索文章、标签">
+    <button type="submit">搜索</button>
+  </form>
+</section>
+{{- end -}}

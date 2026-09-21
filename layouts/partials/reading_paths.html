@@ -20,23 +20,23 @@
     {{- end -}}
   {{- end -}}
   {{- with $memberships }}
-  <nav class="reading-paths" aria-labelledby="reading-paths-heading">
+  <nav class="reading-paths bc-reading-paths" aria-labelledby="reading-paths-heading">
     <h2 id="reading-paths-heading">沿专题继续阅读</h2>
     {{- range . }}
       {{- $membership := . }}
-    <div class="reading-path" data-reading-path="{{ .topic.File.ContentBaseName }}">
-      <div class="reading-path-header">
+    <div class="reading-path bc-reading-path" data-reading-path="{{ .topic.File.ContentBaseName }}">
+      <div class="reading-path-header bc-reading-path-heading">
         <a href="{{ .topic.RelPermalink }}" data-reading-path-home="{{ .topic.File.ContentBaseName }}">{{ .topic.Title }}</a>
         <span class="reading-path-position">第 {{ .position }} / {{ .total }} 篇</span>
       </div>
       {{- with .next }}
         {{- $next := . }}
         {{- with site.GetPage .post }}
-      <p class="reading-path-next"><span>下一篇</span><a href="{{ .RelPermalink }}" data-reading-path-next="{{ $membership.topic.File.ContentBaseName }}">{{ .Title }}</a></p>
-      <p class="reading-path-reason">{{ $next.reason }}</p>
+      <a class="reading-path-next bc-next" href="{{ .RelPermalink }}" data-reading-path-next="{{ $membership.topic.File.ContentBaseName }}"><span>专题下一篇</span><strong>{{ .Title }}</strong><b aria-hidden="true">→</b></a>
+      <p class="reading-path-reason bc-reading-path-reason">{{ $next.reason }}</p>
         {{- end }}
       {{- else }}
-      <p class="reading-path-reason">这是本路径的最后一篇，可返回专题目录按问题选读。</p>
+      <p class="reading-path-reason bc-reading-path-reason">这是本路径的最后一篇，可返回专题目录按问题选读。</p>
       {{- end }}
     </div>
     {{- end }}

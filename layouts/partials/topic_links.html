@@ -1,0 +1,15 @@
+{{- $current := .RelPermalink -}}
+<nav class="bc-topic-links" aria-label="选择阅读专题">
+  {{- range hugo.Data.reading_paths.paths -}}
+    {{- $path := . -}}
+    {{- $count := 0 -}}
+    {{- range .groups -}}{{- $count = add $count (len .entries) -}}{{- end -}}
+    {{- with site.GetPage .topic }}
+    <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $current }} aria-current="page"{{ end }}>
+      {{- replaceRE "：.*$| 阅读路径$" "" .Title -}}<span>{{ $count }}</span>
+    </a>
+    {{- else -}}
+      {{- errorf "reading path topic %q does not exist" $path.topic -}}
+    {{- end -}}
+  {{- end }}
+</nav>

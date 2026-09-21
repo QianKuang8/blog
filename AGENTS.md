@@ -5,7 +5,7 @@
 ## 项目概述
 
 - 这是一个 Hugo 静态博客仓库。
-- 主题使用 PaperMod。
+- 展示层使用仓库内自建 Hugo 模板与样式，不依赖外部主题。
 - 站点通过 GitHub Pages 部署。
 - 日常修改直接提交到主分支 `main`，推送后由现有 workflow 构建部署；不要求 PR。
 
@@ -31,7 +31,7 @@ python3 -m venv .venv
 .venv/bin/python scripts/check_content.py
 .venv/bin/python scripts/check_site.py public
 
-# 初始化所有 submodule（主题与 PDF）
+# 初始化 PDF submodule
 git submodule update --init --recursive
 
 # static/pdfs submodule 建立后，只按需下载 PDF

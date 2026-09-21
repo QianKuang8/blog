@@ -1,0 +1,37 @@
+{{- define "main" -}}
+{{- $pages := (where site.RegularPages "Section" "posts").ByDate.Reverse -}}
+<header class="bc-home-heading">
+  <div>
+    <h1>{{ .Title }}</h1>
+    <p>按时间浏览全部 {{ len $pages }} 篇文章。</p>
+  </div>
+  <form class="bc-search" action="{{ (site.GetPage "/search").RelPermalink }}" method="get" role="search">
+    <input type="search" name="q" placeholder="搜索文章、标签…" aria-label="搜索文章、标签">
+    <button type="submit">搜索</button>
+  </form>
+</header>
+<nav class="bc-archive-years" aria-label="按年份跳转">
+  {{- range $pages.GroupByDate "2006" }}
+    <a href="#year-{{ .Key }}">{{ .Key }}<span>{{ len .Pages }}</span></a>
+  {{- end }}
+</nav>
+{{- range $pages.GroupByDate "2006" }}
+{{- $year := .Key -}}
+<section class="bc-archive-year" id="{{ $year }}" aria-labelledby="year-{{ $year }}">
+  <div class="bc-list-heading">
+    <h2 id="year-{{ .Key }}">{{ .Key }}</h2>
+    <span>{{ len .Pages }} 篇</span>
+  </div>
+  {{- $previousMonth := "" -}}
+  {{- range .Pages }}
+    {{- $month := .Date.Format "January" -}}
+    {{- if ne $month $previousMonth }}
+      {{- /* Preserve PaperMod archive links without restoring its month headings. */ -}}
+      <span id="{{ $year }}-{{ $month }}" aria-hidden="true" style="display: block"></span>
+      {{- $previousMonth = $month -}}
+    {{- end }}
+    {{ partial "post_row.html" (dict "page" . "compact" true) }}
+  {{- end }}
+</section>
+{{- end -}}
+{{- end -}}

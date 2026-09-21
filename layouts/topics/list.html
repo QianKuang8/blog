@@ -1,23 +1,29 @@
-{{- define "main" }}
-
-{{- if .Title }}
-<header class="page-header">
-  {{- partial "breadcrumbs.html" . }}
-  <h1>{{ .Title }}</h1>
-  {{- if .Description }}
-  <div class="post-description">
-    {{ .Description | markdownify }}
-  </div>
-  {{- end }}
+{{- define "main" -}}
+<header class="page-header bc-topics-heading">
+  <h1>{{ .Title }}阅读</h1>
+  {{- with .Description }}<p>{{ . }}</p>{{ end }}
 </header>
-{{- end }}
-
-{{- if .Content }}
-<div class="post-content">
-  {{- if not (.Param "disableAnchoredHeadings") }}
-  {{- partial "anchored_headings.html" .Content -}}
-  {{- else }}{{ .Content }}{{ end }}
+{{ partial "topic_links.html" . }}
+<div class="bc-topic-overview">
+  {{- range $index, $path := hugo.Data.reading_paths.paths }}
+    {{- with site.GetPage $path.topic }}
+      {{- $count := 0 }}
+      {{- range $path.groups }}{{ $count = add $count (len .entries) }}{{ end }}
+  <article class="bc-stage bc-topic-overview-item">
+    <div class="bc-stage-index"><span>{{ printf "%02d" (add $index 1) }}</span></div>
+    <div class="bc-stage-body">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      <p>{{ .Params.summary | default .Description }}</p>
+      <div class="bc-post-meta"><span>{{ len $path.groups }} 个阅读阶段</span><span>{{ $count }} 篇文章</span></div>
+      <ol class="bc-topic-stage-preview" aria-label="阅读顺序">
+        {{- range $path.groups }}<li>{{ .title }}</li>{{ end }}
+      </ol>
+      <a class="bc-topic-start" href="{{ .RelPermalink }}">开始阅读 →</a>
+    </div>
+  </article>
+    {{- else }}
+      {{- errorf "topics: missing topic page %s" $path.topic }}
+    {{- end }}
+  {{- end }}
 </div>
-{{- end }}
-
-{{- end }}
+{{- end -}}

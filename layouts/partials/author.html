@@ -1,0 +1,7 @@
+{{- with .Params.author | default site.Params.author -}}
+  {{- if or (eq (printf "%T" .) "[]string") (eq (printf "%T" .) "[]interface {}") -}}
+    {{- delimit . ", " -}}
+  {{- else -}}
+    {{- . -}}
+  {{- end -}}
+{{- end -}}

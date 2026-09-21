@@ -1,0 +1,10 @@
+{{- $src := .Destination -}}
+{{- $url := urls.Parse $src -}}
+{{- if not $url.IsAbs -}}
+  {{- with .Page.Resources.Get (strings.TrimPrefix "./" $url.Path) -}}
+    {{- $src = .RelPermalink -}}
+    {{- with $url.RawQuery }}{{ $src = printf "%s?%s" $src . }}{{ end -}}
+    {{- with $url.Fragment }}{{ $src = printf "%s#%s" $src . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">

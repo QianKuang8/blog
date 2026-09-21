@@ -1,0 +1,12 @@
+{{- $page := . -}}
+<nav class="bc-category-tabs" aria-label="筛选文章栏目">
+  <a href="{{ site.Home.RelPermalink }}"{{ if or .IsHome (and .IsSection (eq .Section "posts")) }} aria-current="page"{{ end }}>全部</a>
+  {{- range slice "原创文章" "好文分享" "视频笔记" -}}
+    {{- $term := . -}}
+    {{- with site.GetPage (printf "/categories/%s" $term) }}
+    <a href="{{ .RelPermalink }}" data-home-category="{{ $term }}" data-count="{{ len .RegularPages }}"{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+    {{- else -}}
+      {{- errorf "article category %q does not exist" $term -}}
+    {{- end -}}
+  {{- end }}
+</nav>

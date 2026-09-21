@@ -1,6 +1,6 @@
 import * as params from '@params';
 
-// PaperMod override: input-driven search, readable results and native focus.
+// Input-driven search, readable results and native focus.
 const searchBox = document.getElementById('searchbox');
 const input = document.getElementById('searchInput');
 const resultsList = document.getElementById('searchResults');
@@ -9,6 +9,16 @@ const retry = document.getElementById('searchRetry');
 let fuse;
 let indexState = 'idle';
 let composing = false;
+
+// A query submitted from the site navigation is also a shareable search URL.
+input.value = (new URL(window.location.href).searchParams.get('q') || '').slice(0, 64);
+
+function retainQuery(query) {
+    const url = new URL(window.location.href);
+    if (query) url.searchParams.set('q', query);
+    else url.searchParams.delete('q');
+    if (url.href !== window.location.href) window.history.replaceState(null, '', url.href);
+}
 
 function queryPattern(query) {
     const terms = [...new Set([query, ...query.split(/\s+/)].filter(Boolean))];
@@ -97,10 +107,11 @@ function createResult(item, query) {
 
 function search() {
     resultsList.replaceChildren();
-    if (indexState !== 'ready') return;
     const query = input.value.trim();
+    retainQuery(query);
+    if (indexState !== 'ready') return;
     if (!query) {
-        status.textContent = '输入关键词，搜索标题、摘要和全文。';
+        status.textContent = '输入关键词，搜索标题、标签、摘要和全文。';
         return;
     }
     const fragment = document.createDocumentFragment();
@@ -130,7 +141,8 @@ async function loadIndex() {
         const data = await response.json();
         if (!Array.isArray(data) || data.some(item => !item ||
             typeof item.title !== 'string' || typeof item.permalink !== 'string' ||
-            typeof item.summary !== 'string' || typeof item.content !== 'string')) {
+            typeof item.summary !== 'string' || typeof item.content !== 'string' ||
+            !Array.isArray(item.tags) || item.tags.some(tag => typeof tag !== 'string'))) {
             throw new Error('Invalid search index');
         }
         const options = params.fuseOpts || {};
@@ -141,15 +153,16 @@ async function loadIndex() {
             ignoreLocation: true,
             threshold: options.threshold ?? 0.3,
             keys: options.keys ?? [
-                { name: 'title', weight: 0.55 },
-                { name: 'summary', weight: 0.3 },
-                { name: 'content', weight: 0.15 }
+                { name: 'title', weight: 0.45 },
+                { name: 'summary', weight: 0.25 },
+                { name: 'content', weight: 0.15 },
+                { name: 'tags', weight: 0.15 }
             ]
         });
         indexState = 'ready';
         // A reader can type before the request finishes, or while retrying it.
         if (!composing) search();
-        else status.textContent = '输入关键词，搜索标题、摘要和全文。';
+        else status.textContent = '输入关键词，搜索标题、标签、摘要和全文。';
     } catch {
         indexState = 'error';
         resultsList.replaceChildren();

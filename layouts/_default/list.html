@@ -1,27 +1,30 @@
 {{- define "main" -}}
 {{- $pages := partial "list_pages.html" . -}}
 {{- $paginator := .Paginate $pages -}}
-<header class="bc-home-heading">
+<header class="bc-home-heading bc-list-page-heading">
   <div>
-    <h1>文章与笔记</h1>
-    {{- with site.Params.homeInfoParams.Content }}<p>{{ . | plainify }}</p>{{ end }}
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}<p>{{ . | plainify }}</p>{{ end }}
   </div>
   <form class="bc-search" action="{{ (site.GetPage "/search").RelPermalink }}" method="get" role="search">
     <input type="search" name="q" placeholder="搜索文章、标签…" aria-label="搜索文章、标签">
     <button type="submit">搜索</button>
   </form>
 </header>
-<section class="bc-topic-strip" aria-label="阅读专题">
-  <span>阅读专题</span>
-  {{ partial "topic_links.html" . }}
-</section>
-<section class="bc-posts" aria-label="最近的文章">
+{{- with .Content }}<div class="prose bc-list-intro">{{ . }}</div>{{ end }}
+<section class="bc-posts" aria-label="文章列表">
   <div class="bc-list-heading">
-    {{ partial "category_tabs.html" . }}
+    {{- if or (eq .Type "categories") (eq .Section "posts") }}
+      {{ partial "category_tabs.html" . }}
+    {{- else }}
+      <a class="bc-back" href="{{ (site.GetPage "/tags").RelPermalink }}">← 全部标签</a>
+    {{- end }}
     <span>{{ len $pages }} 篇</span>
   </div>
   {{- range $paginator.Pages }}
     {{ partial "post_row.html" (dict "page" .) }}
+  {{- else }}
+    <p class="bc-empty">这个分类下还没有文章。</p>
   {{- end }}
 </section>
 {{ partial "pagination.html" $paginator }}

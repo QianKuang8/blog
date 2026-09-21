@@ -1,0 +1,19 @@
+{{- define "main" -}}
+{{- $paths := where hugo.Data.reading_paths.paths "topic" .Path -}}
+<div class="bc-reading-actions">
+  {{- with site.GetPage "/topics" }}<a href="{{ .RelPermalink }}">← 全部专题</a>{{ end }}
+</div>
+<header class="page-header bc-topics-heading">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}<p>{{ . }}</p>{{ end }}
+</header>
+{{ partial "topic_links.html" . }}
+<article class="bc-topic-outline">
+  {{- range $paths }}
+    {{- $count := 0 }}
+    {{- range .groups }}{{ $count = add $count (len .entries) }}{{ end }}
+  <div class="bc-outline-heading"><span>{{ len .groups }} 个阅读阶段 · {{ $count }} 篇文章</span></div>
+  {{- end }}
+  <div class="post-content prose bc-topic-content">{{ .Content }}</div>
+</article>
+{{- end -}}
