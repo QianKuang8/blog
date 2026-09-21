@@ -1,0 +1,25 @@
+content/posts/architectural-visualization-with-astra.md
+  s_96364774377823::t_e8207cb9212477 1-78
+sources/orig/architectural-visualization-with-astra.md
+  s_96364774377823::t_13fdbc1ce13b1d 1-238
+static/images/architectural-visualization-with-astra/editable-scene-loop.svg
+  s_96364774377823::t_406f31f7567cea 1-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0a4ddfbde367b29788c1d536d25d7b27dfc6e632",
+  "prompts": {},
+  "sessions": {
+    "s_96364774377823": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c2cc-ac42-7d51-80f9-a654eb805a5e",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
