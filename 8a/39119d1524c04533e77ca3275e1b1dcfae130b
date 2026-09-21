@@ -1,0 +1,111 @@
+content/posts/agent-engineering-new-discipline.md
+  s_0d5dc9e82d7afe::t_52bd97c5d14cf2 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,53
+content/posts/agent-year-review-claude-code-to-deep-agent.md
+  s_cc4d7b1b3de192::t_cb8d3266dedf94 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,61
+content/posts/ai-coding-tools.md
+  s_fd0e474e17c352::t_cebb646e4a37d2 3-6,14,16,18,20,22-27,29,31,33,35-45,99,101-105,107-108
+content/posts/aider-unified-diffs.md
+  s_cc4d7b1b3de192::t_2cfd332aa843a1 3-6,15,17,19,21,23,25,27,29,31,33,35-40,42,44,46,48,50,52,54,56,58,60,64
+content/posts/build-blog-tips.md
+  s_fd0e474e17c352::t_fb33814ad2f582 3-6,14,16,18,20,22-67,70-73
+content/posts/building-effective-agents.md
+  s_cc4d7b1b3de192::t_874c1146c80852 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,57
+content/posts/claude-code-auto-mode.md
+  s_cc4d7b1b3de192::t_aa66ad13a0c8ba 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42-46,48,50,52,54,56,58,60,62,64,68
+content/posts/code-surgery-edit-tools.md
+  s_0d5dc9e82d7afe::t_21b1953474f4e3 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,53
+content/posts/context-engineering-for-agents.md
+  s_0d5dc9e82d7afe::t_79e2c8d4812ae5 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,53
+content/posts/context-engineering-long-horizon-agents-langchain-harrison-chase.md
+  s_0d5dc9e82d7afe::t_d05c4b679c400b 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42-56,60
+content/posts/continue-instinct.md
+  s_0d5dc9e82d7afe::t_904337d614d004 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,51
+content/posts/continuous-ai.md
+  s_0d5dc9e82d7afe::t_9091c158804e1b 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,52
+content/posts/copilot-next-edit-suggestions.md
+  s_cc4d7b1b3de192::t_f09ccaa276aed1 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55-56
+content/posts/cursor-instant-apply.md
+  s_0d5dc9e82d7afe::t_faf2bf959f1e9b 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,53
+content/posts/cursorbench.md
+  s_0d5dc9e82d7afe::t_bcca99b9d1c43d 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,53
+content/posts/every-cli-coding-agent-compared.md
+  s_cc4d7b1b3de192::t_433b447ad7e3f2 3-6,15,17,19,21,23,25,27,29,31-37,39,41,43,45,47,49,51,53,55,57,59,61,65
+content/posts/filesystems-for-context-engineering.md
+  s_cc4d7b1b3de192::t_f15f6e115d8dd0 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,59
+content/posts/harness-engineering-leveraging-codex-in-an-agent-first-world.md
+  s_cc4d7b1b3de192::t_f3ca8a0e815adf 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,64
+content/posts/harness-engineering-vs-sdd.md
+  s_0d5dc9e82d7afe::t_e87c121ff9bc28 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42-52,56
+content/posts/how-to-kill-the-code-review.md
+  s_0d5dc9e82d7afe::t_a203cd74c60e57 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,53
+content/posts/improving-deep-agents-with-harness-engineering.md
+  s_0d5dc9e82d7afe::t_ac20f9128fef80 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,58
+content/posts/init-mac.md
+  s_fd0e474e17c352::t_d5ea15624b1fd0 3-6,14,16,18,20,22-25,27,29,31-35,37,39,41,43,45,47-53,55,57,59,63-64,67,70-71,74,76,78,80-90,92,94,96
+content/posts/introduction-to-agentic-coding.md
+  s_0d5dc9e82d7afe::t_2d963ab5902747 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,55
+content/posts/llm-open-source-development.md
+  s_cc4d7b1b3de192::t_091b11e63d6b7c 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44-52,56
+content/posts/manus-context-engineering.md
+  s_cc4d7b1b3de192::t_511589ed878181 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,55
+content/posts/prompt-engineering-guide.md
+  s_0d5dc9e82d7afe::t_a1d065e7eb1487 3-6,14,16,18,20,22,24,26,28,30
+content/posts/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure.md
+  s_fd0e474e17c352::t_3d2d26e63ff166 3,14,38,44,56,58,60
+content/posts/stanford-mse435-week-04-enterprise-ai-saas.md
+  s_fd0e474e17c352::t_d417462fcccf58 3-5,14,16,18,20,22,24,26,28,30,32,34,36,38,40-44,46,48,50,52,54,56,58
+content/posts/stanford-mse435-week-05-ai-infrastructure-frontier-labs.md
+  s_fd0e474e17c352::t_a4876a9d315d9f 3,5,14,21,23,31,37,39,47,55,57,59
+content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md
+  s_fd0e474e17c352::t_8dd4f7a58de242 3-4,14,34,52,58,64,66,68
+content/posts/stanford-mse435-week-07-inference-cloud-ai-commercialization.md
+  s_fd0e474e17c352::t_767778ad702c9e 3-5,14,16,18,20,22,24,26,28,30,32-37,39,41,43,45,47,49,51,53,55
+content/posts/stanford-mse435-week-09-ai-life-sciences.md
+  s_fd0e474e17c352::t_7b6a855e023c4c 3-5,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56
+content/posts/subagents-in-claude-code.md
+  s_0d5dc9e82d7afe::t_53468400519a60 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,54
+content/posts/uber-arm-migration.md
+  s_fd0e474e17c352::t_407bbc1ea452b0 3-6,14,16,18,20,22,24-37
+content/posts/useful-skills.md
+  s_fd0e474e17c352::t_92d4bce3b3d313 3-6,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,53-56,59-62
+content/posts/we-completely-rebuilt-the-kilo-vs-code-extension.md
+  s_cc4d7b1b3de192::t_db7d16d5b2b8ec 3-6,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,61
+sources/orig/uber-arm-migration-transition.md
+  s_fd0e474e17c352::t_ed7a0c0cbd4e84 1-118
+sources/orig/uber-arm-migration.md
+  s_fd0e474e17c352::t_8cbcf51f25d4dd 1-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8a39119d1524c04533e77ca3275e1b1dcfae130b",
+  "prompts": {},
+  "sessions": {
+    "s_0d5dc9e82d7afe": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1b7-768b-7c52-8c6b-5af7c1a1818f",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_cc4d7b1b3de192": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1b7-b3ad-7263-9169-ea3b5710e7d6",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_fd0e474e17c352": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1b5-33d6-7971-a106-e097a09a28af",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
