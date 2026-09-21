@@ -1,0 +1,43 @@
+.github/workflows/hugo.yaml
+  s_d38696d9a649bd::t_267377f68aaf2d 49-57,63
+.gitignore
+  s_d38696d9a649bd::t_797152e2cb8b65 8-10
+AGENTS.md
+  s_d38696d9a649bd::t_b6eb918c2e693d 23-25,27-32,81-82
+README.md
+  s_d38696d9a649bd::t_73e302a3653b05 8-12,14-21,24,28,46-47
+WORKFLOW.md
+  s_d38696d9a649bd::t_cc343faae8bfe9 3,37-41,53,116-117,146,287-289,303,315,338,367
+layouts/_default/index.json
+  s_d38696d9a649bd::t_66a3e787f8c492 1-19
+requirements.txt
+  s_d38696d9a649bd::t_650033c028f291 1
+scripts/build_site.py
+  s_d38696d9a649bd::t_7d49884d2da1db 1-61
+scripts/check_content.py
+  s_d38696d9a649bd::t_9871687bbf2556 1-327
+scripts/check_site.py
+  s_d38696d9a649bd::t_3d320045b386ab 16-19,41,84,381-460,504-513,681-701,888-889
+tests/test_build.py
+  s_d38696d9a649bd::t_6538df40f4e1ad 1-80
+tests/test_content.py
+  s_d38696d9a649bd::t_fb64628cc5ab0f 1-258
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a37db98c4f4e99c68c7eb52cce540f9844f99edb",
+  "prompts": {},
+  "sessions": {
+    "s_d38696d9a649bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c1e3-8804-76f1-9e34-fe54aee603b7",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
