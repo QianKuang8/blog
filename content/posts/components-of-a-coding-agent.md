@@ -1,9 +1,9 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: '2026-06-05T21:30:00+08:00'
-title: 'Coding Agent 的六个组件：模型之外的系统才是关键'
-summary: "解读 Sebastian Raschka 的 coding agent 组件文章：Claude Code、Codex 这类工具的能力不只来自模型，而来自 repo context、prompt shape、工具、上下文压缩、session memory 和 bounded subagents 的组合。"
-description: "从 Components of A Coding Agent 看 coding harness 的上下文、工具、记忆、缓存和子代理设计"
+lastmod: "2026-09-21T10:22:33+08:00"
+title: "Coding Agent 的六个组件怎样接成执行循环"
+summary: "仓库上下文、稳定提示、工具校验、输出压缩、会话记忆与子任务委派共同决定 Agent 怎样继续工作。本文沿一次执行循环解释这些组件的输入输出，以及示例 Harness 能证明的范围。"
+description: "解读 Components of A Coding Agent 的上下文、工具、缓存、会话状态和有边界的委派。"
 tags: ["agentic-coding", "agent", "context-engineering"]
 categories: ["好文分享"]
 author: "Qian"
@@ -11,42 +11,50 @@ isCJKLanguage: true
 showToc: true
 ---
 
-Sebastian Raschka 这篇 [Components of A Coding Agent](https://magazine.sebastianraschka.com/p/components-of-a-coding-agent) 适合当作 coding agent 的系统导览。它最重要的价值，是把 Claude Code、Codex CLI 这类工具从“模型很强”这个模糊说法里拆出来，说明真正让它们变强的是周围的 harness。
+“修好测试”只描述了目标，没有说明仓库在哪、应跑哪条命令、现有修改是否属于用户。一个能持续工作的 coding agent，需要先取得这些事实，再执行、读取失败，并决定下一步。
 
-文章先区分 LLM、reasoning model、agent 和 harness。LLM 是核心模型，reasoning model 是更愿意花推理计算的模型，agent 是反复调用模型并在环境中行动的循环，harness 则是管理上下文、工具、prompt、状态和控制流的软件支架。Coding harness 是这个概念在软件工程里的特例。
+Sebastian Raschka 的 [《Components of A Coding Agent》](https://magazine.sebastianraschka.com/p/components-of-a-coding-agent) 用一个简化 Python Agent 解释六类组件：仓库上下文、提示与缓存、工具执行、上下文缩减、会话记忆和子任务委派。它是一份设计导览，不是对所有产品内部实现的统一描述。
 
-## 模型只是引擎，harness 才是驾驶系统
+## 从仓库事实构造下一次模型输入
 
-文章里有个判断很重要：coding 工作不只是 next-token generation。真实编码需要 repo navigation、搜索、函数查找、diff 应用、测试执行、错误检查和上下文维护。
+模型负责生成回答或动作，Agent 循环把它放进反复观察和执行的过程，Harness 则提供组织上下文、调用工具、保存状态和控制流程的软件。
 
-这解释了为什么同一个模型放在聊天界面和 coding agent 里表现会很不同。聊天界面主要依赖用户手工提供上下文；coding harness 会帮模型持续观察仓库、执行命令、读取错误、修改文件、再验证。
+第一类组件先收集工作区事实，例如仓库根目录、分支、Git 状态、项目说明和测试约定。这些材料帮助 Agent 找到正确入口，也能提醒它当前已有未提交变化。Live repo context 强调与实际工作区一致，并不要求一次性读完整仓库。
 
-我的理解是，coding agent 的能力来自模型和环境的耦合。没有 harness，模型会像一个只会口述代码的助手；有了 harness，它才进入可以执行、反馈和迭代的工作循环。
+第二类组件决定如何包装这些信息。稳定规则、工具说明和较稳定的工作区背景可以构成前缀，当前请求、近期历史与工作记忆随后进入输入。这样既给模型提供任务依据，也为重复调用保留缓存复用机会。事实收集和提示布局是不同工作：前者决定信息是否正确，后者决定如何高效传递。
 
-## 六个组件对应六个工程问题
+## 动作先经过校验，再成为环境变化
 
-文章列了六个组件：Live Repo Context、Prompt Shape and Cache Reuse、Tool Access and Use、Minimizing Context Bloat、Structured Session Memory、Delegation With Bounded Subagents。
+第三类组件是工具链。模型输出一个命名动作及参数，Harness 检查工具是否存在、参数是否合法、路径是否在允许范围内，以及是否需要批准，然后执行并把结果送回循环。
 
-Live repo context 解决的是“模型怎么知道当前代码库”。它不是一次性上传全部文件，而是通过搜索、读取、索引和局部上下文补全，让模型在需要时拿到相关信息。
+这些程序化检查可以拒绝部分无效操作，却不自动理解全部意图。参数合法的命令仍可能实现错误目标，允许执行的测试也可能没有覆盖问题。因此，工具反馈需要让下一轮看清实际发生了什么，而不能仅返回一句泛化的成功。
 
-Prompt shape and cache reuse 解决成本和延迟。稳定 prompt 前缀、可复用工具定义和项目记忆，会直接影响长会话体验。Tool access and use 解决行动能力，但工具不是越多越好；工具定义会占上下文，功能重叠也会干扰选择。
+原文示例将路径检查和权限处理放在执行层，说明它们应由可执行规则承担。自然语言要求可以指导模型选择动作，但对文件边界的程序化验证与提示遵守程度是两种不同保障。
 
-Minimizing context bloat 处理长会话污染。Structured session memory 则把会话经验和项目规则以更有结构的方式保存下来。Bounded subagents 用于研究、验证或并行任务，但强调 bounded，因为不受控的 delegation 会带来成本和协调问题。
+## 保留完整记录，不等于每轮全部重放
 
-## 这篇文章最好的地方，是把产品体验还原成系统细节
+第四类组件控制工具输出和历史的体积。一次搜索可能返回很多文件，一条命令也可能产生长日志。示例通过裁剪大段文本、减少重复文件读取和压缩历史，避免一个冗长结果占满提示预算，并为近期事件保留更多细节。
 
-很多人使用 Claude Code 或 Codex 时，会把体验差异归因于模型。文章提醒我们，harness 可能才是产品差异的重要来源。相同模型，如果 repo context 组织得不好、工具空间混乱、缓存命中率低、session memory 不稳定，表现就会差很多。
+第五类组件则解决存储与恢复。原文区分完整 transcript 和较小的 working memory：前者保留请求、模型回复和工具结果，后者维护当前任务、关键文件及重要笔记。压缩后的对话负责构造下一次输入，工作记忆负责延续任务状态，两者可以相关但不必完全相同。
 
-反过来，一个好的 harness 可以让非最强模型也显得更聪明。它把模型要处理的问题变小，把相关上下文放到正确位置，把验证反馈及时送回循环。
+这个区分很实用。屏幕或模型只看到截断日志，并不意味着原始结果应该被永久丢弃；会话从磁盘恢复，也不意味着当前文件还与保存时相同。可以据此推导出恢复时的检查要求：读取必要记录，同时重新确认变化敏感的工作区事实。
 
-## 我的判断：coding agent 会越来越像开发环境而不是聊天框
+## 子任务要有上下文，也要有边界
 
-这篇文章让我更确信，coding agent 的未来不只是“聊天框里写代码”。它更像一个开发环境：有文件系统视角，有工具链，有状态记忆，有成本优化，有上下文路由，有任务隔离。
+第六类组件用于把旁支问题交给另一个执行者，例如定位符号、解释配置或调查一个测试失败。主任务获得整理后的结果，而不用携带全部探索过程。
 
-这也意味着评估 coding agent 时，不能只看模型 benchmark。我们还要看它如何读取仓库、如何选择工具、如何缓存上下文、如何处理长会话、如何限制 subagent、如何把失败转成记忆。
+委派至少需要说明目标、相关材料、允许操作和返回内容。原文特别强调 bounded subagents：可以限制只读权限或递归深度，避免重复工作、冲突写入和无界扩展。不同产品采用的限制不同，不能把示例中的限制当成所有 subagent 的统一行为。
 
-如果说模型是引擎，coding harness 就是方向盘、仪表盘、刹车、导航和维修手册。没有这些，强引擎也很难稳定开到目的地。
+文章也明确指出，其 Mini Coding Agent 的子任务实现仍是同步运行。这个例子能够说明职责拆分和上下文边界，却不能作为并行加速的实测依据。是否并行、能否节省时间，还取决于调度实现与任务依赖。
+
+## 用整条执行链解释质量差异
+
+六个组件并非互相独立的功能列表。工具结果影响下一轮上下文，压缩决定哪些事实继续可见，记忆决定中断后怎样恢复，委派又引入新的信息交接。一个环节遗漏条件，后续模型即使推理正确，也可能基于错误输入行动。
+
+原文对更强 Harness 能否让不同模型达到类似能力提出了猜想，但没有给出同条件对照证明。更稳妥的评估方式，是固定任务和模型，观察每项系统改动是否减少具体失败，再在更换模型时重新检查配合效果。
+
+这份导览的用途，是让“Agent 表现不好”变成可调查的问题：是否没找到文件、错误没有反馈、摘要丢了约束，还是委派缺少依据。组件边界清楚，才能知道下一次应修改哪里。
 
 ## 原文
 
-- [Components of A Coding Agent](https://magazine.sebastianraschka.com/p/components-of-a-coding-agent)
+- [Components of A Coding Agent — Sebastian Raschka](https://magazine.sebastianraschka.com/p/components-of-a-coding-agent)

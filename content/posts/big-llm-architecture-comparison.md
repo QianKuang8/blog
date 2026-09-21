@@ -1,9 +1,9 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
-lastmod: '2026-06-05T21:48:35+08:00'
-title: 'LLM 架构比较：今天的创新更多是在效率边界上'
-summary: "解读 Sebastian Raschka 的大模型架构比较：从 DeepSeek V3 到 GLM-5，现代 LLM 仍延续 Transformer 主干，真正的变化集中在注意力、MoE、归一化、位置编码和推理效率。"
-description: "从 The Big LLM Architecture Comparison 看 MLA、MoE、GQA、滑动窗口注意力、QK-Norm、线性注意力和现代 LLM 架构演化"
+lastmod: '2026-09-21T10:31:48+08:00'
+title: "读懂 LLM 架构差异：缓存、专家与长上下文的取舍"
+summary: "GQA、MLA、MoE 和混合注意力优化的是不同资源。本文从 KV 缓存、激活计算和训练稳定性解释这些设计，并说明为什么结构图不能直接推出模型质量与服务速度。"
+description: "基于 Sebastian Raschka 的架构比较，解释注意力、MoE、归一化与多 token 预测的机制边界。"
 tags: ["model-engineering", "行业动向"]
 categories: ["好文分享"]
 author: "Qian"
@@ -11,32 +11,50 @@ isCJKLanguage: true
 showToc: true
 ---
 
-Sebastian Raschka 这篇 [The Big LLM Architecture Comparison](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison) 很长，也很适合作为现代 LLM 架构的参考索引。它的核心问题是：从 GPT-2 到 DeepSeek V3、Llama 4、Qwen3、GLM-5，这些模型到底在架构上发生了什么变化？
+两款模型都写着 Transformer、MoE 和长上下文，部署成本却可能相差很大。要理解这种差异，需要继续问：每个 token 缓存什么，计算时激活哪些参数，历史信息以什么形式保留，以及推理引擎怎样执行这些结构。
 
-文章开头的判断很克制：七年过去了，现代旗舰模型看起来仍然和原始 GPT 架构有很多相似之处。真正的变化不是推翻 Transformer，而是在多个局部做效率和稳定性改造。
+Sebastian Raschka 的 [《The Big LLM Architecture Comparison》](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison) 对比了多种开放权重模型。本文依据仓库中收录的、更新至 2026 年 4 月 2 日的版本，按资源问题重组其中的代表性设计。原文也提醒，数据、训练方法和超参数不同，不能只凭架构推断模型能力。
 
-## 架构创新主要围绕注意力和专家结构
+## 减少 KV 缓存，有两种不同的压缩位置
 
-文章讨论 DeepSeek V3/R1 时重点放在 MLA 和 MoE。MLA 解决的是 KV cache 和注意力计算效率问题；MoE 则通过稀疏激活扩大参数规模，同时控制每次推理的计算量。
+自回归生成会复用历史 token 的 key 和 value。序列增长时，这些缓存也会增长；模型权重能放进设备，并不意味着还留有足够空间处理长输入和多个请求。
 
-这也是今天 LLM 架构创新的主线之一：模型要更大、上下文要更长、推理要更便宜，不能只靠堆 dense 参数。于是 GQA、MLA、sliding window attention、linear attention、partial RoPE、multi-token prediction、MoE sparsity 等技术不断出现。
+Grouped-Query Attention（GQA）让多组 query head 共享较少的 key/value head。它减少要保存和读取的 K/V 表示，保留多组查询。Multi-Head Latent Attention（MLA）则将 K/V 信息压到较低维的 latent 表示中，再结合投影参与注意力计算。前者减少头的重复，后者改变历史信息的表示空间。
 
-它们共同回答的是一个问题：怎样在可承受的内存和延迟下，让模型拥有更强表达能力和更长上下文。
+原文以 DeepSeek V3 的 MLA 和多款模型的 GQA 展示这一区别。缓存更小可以降低内存压力，但 MLA 的投影与实现方式也会影响计算路径。因此，从缓存大小推导响应速度时，还要考虑具体算子和推理引擎，不能把节省的字节直接换算为加速倍数。
 
-## 很多变化不是能力炫技，而是推理工程
+## 局部窗口与递归状态保留不同的历史
 
-我读这篇文章最大的感受是，现代 LLM 架构越来越像模型研究和推理工程的合谋。比如 GQA 减少 key/value 头，降低 KV cache 压力；滑动窗口注意力牺牲全局注意力换效率；MoE 的 expert 数量和大小直接影响服务端调度；multi-token prediction 又和 speculative decoding 接上。
+Gemma 3 使用局部与全局注意力混合：原文介绍的比例为五层局部注意力配一层全局注意力，局部窗口为 1,024 token。局部层限制直接访问范围，降低历史缓存需求，全局层保留跨远距离位置建立联系的机会。
 
-这些设计不只是论文里的结构图，它们会直接影响部署成本、延迟、吞吐和长上下文可用性。对于应用开发者来说，理解这些概念，不是为了自己训练模型，而是为了理解为什么某些模型便宜、快、长上下文强，另一些模型在特定任务上更稳定。
+Qwen3-Next 展示另一条路径：以 3:1 比例混合 Gated DeltaNet 与 gated attention。DeltaNet 类模块用更新规则把过去信息积累进状态，避免每一步都以相同方式读取完整历史；保留的注意力层则补充较精确的内容检索能力。Kimi Linear 在相关思路上进一步使用逐通道门控的 KDA，并与 MLA 层混合。
 
-## 我的判断：基础架构仍稳定，优化空间还很大
+这两类设计不能简单归为“都减少上下文”。局部窗口明确限制某些层看哪些位置，递归状态则压缩历史表示，丢失信息的方式不同。它们还可以与 GQA、MLA 等机制组合。判断长上下文质量，需要用任务检查远处事实是否仍可被准确找回。
 
-这篇文章让我更不相信“下一代架构马上完全替代 Transformer”这种说法。现实更像是：Transformer 主干继续存在，但周围的效率结构不断演化。
+## MoE 降低激活计算，不等于只存激活参数
 
-未来一段时间，大模型架构的竞争可能仍然集中在几个方向：更高效的 attention、更好的 sparse expert 设计、更长上下文的可控外推、更贴近推理服务的训练目标，以及更强的推理时计算利用。
+Mixture-of-Experts 将前馈模块换成多个专家，由路由器为每个 token 选择其中一部分。原文以 DeepSeek V3 的 671B 总参数、约 37B 激活参数为例，说明模型容量和单 token 参与计算的参数量可以分离。
 
-所以这篇文章适合收藏。它不是一篇可以一口气完全消化的短评，而是一张现代 LLM 架构术语地图。读懂这些术语，会帮助我们更清楚地判断模型发布时哪些是营销话术，哪些是真正会改变成本和能力边界的结构变化。
+但未被这个 token 选中的专家，仍属于模型权重。总参数、激活参数、缓存和运行中的中间状态对应不同资源，不能拿 37B 激活量当成整套部署的权重规模。
+
+专家数量与大小也有取舍。更多小专家提供细粒度组合，较少大专家可能更适合某些执行方式；共享专家对每个 token 都参与计算；原文将其潜在收益解释为减少其他专家对通用模式的重复学习，而是否保留它取决于训练和部署收益。原文列举了采用和不采用共享专家的模型，并保留 Qwen 团队对收益与推理优化的权衡，没有给出通用最优答案。
+
+因此，两个激活参数接近的 MoE，速度仍可能不同。比较时还要看网络深度、每层专家规模、路由与硬件执行条件。
+
+## 归一化和预测目标影响的是另一组问题
+
+OLMo 2 的例子涉及 RMSNorm 的位置与 QK-Norm。前者改变注意力和前馈模块输出如何进入残差路径，后者在注意力内部归一化 query 和 key。原文引用的稳定性图同时改变了这两项，作者明确指出，无法据此分离归一化位置的单独贡献。
+
+位置编码同样有不同选择：partial RoPE 只旋转部分维度，NoPE 在某些层省略显式位置编码。它们涉及位置表达与长度外推，不宜仅根据名称判断长文本质量。原文对早期 NoPE 小模型实验能否推广到更大模型，也保留了疑问。
+
+Multi-Token Prediction（MTP）还需要区分训练和推理：训练时同时预测多个未来位置，可以提供额外监督；部署时是否使用这些预测提出草稿、再由主模型验证，则是另一项设计。原文中的 Nemotron 3 Super 明确把 MTP 用于原生 speculative decoding，不能由“MTP 训练”四个字自动推导所有模型都能多 token 加速。
+
+## 结构比较最终要回到可测的工作负载
+
+这份架构长文更适合用于建立问题清单：缓存压力大时看 K/V 表示与历史保留方式，单 token 计算贵时看专家激活和层数，训练不稳定时看归一化与相关实验。每个机制都应连着它改变的资源一起理解。
+
+架构图可以说明这些差异发生在哪里，却无法独立解释最终能力排名。选型或部署仍要在同一硬件、推理实现、输入长度和并发条件下测量，并分别检查生成质量、延迟、吞吐和内存。模型结构是分析起点，实际任务结果才是取舍依据。
 
 ## 原文
 
-- [The Big LLM Architecture Comparison](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison)
+- [The Big LLM Architecture Comparison — Sebastian Raschka](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison)

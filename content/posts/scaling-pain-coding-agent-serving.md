@@ -1,9 +1,9 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
-lastmod: '2026-06-05T21:48:35+08:00'
-title: 'Coding Agent Serving 的 Scaling Pain：质量问题也可能是系统一致性问题'
-summary: "解读 z.ai 关于 GLM-5 Coding Agent Serving 的排障文章：长上下文、高并发和 KV Cache 复用会把底层竞态条件表现成乱码、重复和罕见字符等模型质量问题。"
-description: "从 GLM-5 大规模 Coding Agent 推理实践看 PD 分离、KV Cache 竞态、HiCache 同步、Speculative Decoding 监控和 LayerSplit 优化"
+lastmod: "2026-09-21T10:24:32+08:00"
+title: "Coding Agent 推理排障：两种 KV Cache 竞态如何污染输出"
+summary: "GLM-5 的乱码、重复和罕见字符异常，在保留请求时序并施加负载后才得以复现。本文沿重现、检测、时序定位和修复验证，解释缓存回收与加载顺序如何影响生成结果。"
+description: "解读 Z.ai 的 GLM-5 Serving 排障：PD 分离缓存回收、HiCache 同步及 LayerSplit 的收益条件。"
 tags: ["model-engineering", "agentic-coding"]
 categories: ["好文分享"]
 author: "Qian"
@@ -11,48 +11,58 @@ isCJKLanguage: true
 showToc: true
 ---
 
-z.ai 这篇 [Scaling Pain of Coding Agent Serving](https://z.ai/blog/scaling-pain) 很值得读，因为它讲的不是模型评测，也不是 Agent 产品体验，而是大规模 Coding Agent 推理系统里最容易被忽略的一层：底层状态一致性。
+同一个请求离线重放几百次都正常，生产环境却偶尔输出乱码或反复重复，排障该从哪里继续？Z.ai 的 [Scaling Pain of Coding Agent Serving](https://z.ai/blog/scaling-pain)记录了一个负载相关的案例：团队最终定位到两种 KV Cache 竞态，而用户最初看到的是模型输出质量异常。
 
-文章的起点很具体。GLM-5 系列在复杂 Coding Agent 任务里出现了乱码、重复、罕见字符生成等异常输出。这些问题在标准推理设置下不会出现，只在高并发、长上下文的 Coding Agent 工作负载里暴露。也就是说，用户看到的是“模型质量问题”，工程上真正要查的却可能是请求调度、KV Cache、异步写入和缓存复用。
+本文按原文保留诊断与结果口径。不能由此推断所有重复或乱码都来自基础设施，关键在于怎样建立从异常到具体时序的证据链。
 
-## 异常输出不一定来自模型本体
+## 重放内容以后，还要重放运行条件
 
-文章先把问题拆成两类假设：如果是模型本身导致，异常通常会在特定输入上稳定复现；如果异常和系统压力、运行时状态相关，就更像推理基础设施的 bug。
+团队首先重复执行用户提供的 bad case，未能复现。随后对生产日志匿名化，尽量保留并发分布与请求时序；起初仍然正常，直到调整 Prefill/Decode 分离配置并提高负载，增加 Prefill 积压与 Decode 缓存压力，才复现每万次请求约 3–5 次异常。
 
-团队最初反复重放用户 bad case，没有复现问题。后来他们匿名化生产日志，尽量保留并发分布和请求时序，再通过调整 prefill-decode disaggregation 比例、增加 Prefill backlog 和 Decode 侧 KV Cache 压力，才在离线环境里复现出每 10000 个请求约 3 到 5 个异常输出。
+这组观察将排查重点转向推理状态管理。异常与压力相关，而不只与某段输入绑定，是系统问题的线索；它本身尚不能确定具体根因。原文也指出，离线异常率仍低于用户观察，说明检测方法或触发条件尚未完全覆盖。
 
-这个细节很重要。Coding Agent 的推理工作负载和普通聊天不同：输入更长、上下文复用更多、请求持续时间更长、并发压力也更复杂。模型没有变，系统状态一旦变复杂，质量问题就可能从基础设施层冒出来。
+自动识别异常同样困难。重复比较容易检测，罕见字符却可能合法；正则和字符集合会误报或漏报，模型分类又增加大规模实验成本。团队因此寻找推理过程中的辅助信号。
 
-## Speculative Decoding 变成了质量监控信号
+## 推测解码指标提供线索与止损手段
 
-文章里我最喜欢的部分，是他们把 speculative decoding 指标用于异常检测。Speculative decoding 原本是性能优化：draft model 先提出候选 token，target model 再验证接受哪些 token。
+推测解码由 draft model 提出候选 token，再由 target model 验证。原文观察到，乱码和罕见字符常伴随很低的 `spec_accept_length`，重复则常伴随很高的 `spec_accept_rate`。
 
-但团队发现，异常输出时这组指标会出现稳定模式：乱码和罕见字符通常伴随极低的 `spec_accept_length`，重复通常伴随极高的 `spec_accept_rate`。前者暗示 target model 和 draft model 的 KV Cache 状态严重不匹配，后者暗示被污染的 KV Cache 可能让注意力退化成高置信重复循环。
+作者将前者解释为 draft 与 target 的缓存状态可能失配，将后者解释为缓存污染可能形成高置信重复。这些是结合故障现象的诊断线索，单个指标不能独立证明缓存已经损坏。
 
-于是他们做了在线监控：生成超过 128 tokens 后，如果 `spec_accept_length` 持续低于 1.4，或 `spec_accept_rate` 超过 0.96，就主动终止当前生成并交给负载均衡重试。
+团队据此设置在线重试策略：生成长度超过 128 token 且接受长度持续低于 1.4 时，或接受率超过 0.96 时，终止当前生成并交回负载均衡重试。这些阈值服务于该系统的异常模式，没有在文章中证明可直接迁移到其他模型或负载。
 
-这让我想到一个更一般的工程原则：推理优化指标不只是优化指标，也可以是模型状态健康度信号。随着 Agent serving 越来越复杂，系统需要的不只是 latency、throughput、availability，还需要能捕捉“模型状态是否仍然可信”的指标。
+重试减少异常继续向用户输出，也让后续消融实验更容易检测问题；但它并没有修复竞态本身。
 
-## 真正的故障来自 KV Cache 生命周期错位
+## 第一种竞态：请求结束早于旧写入结束
 
-第一类 bug 发生在 PD disaggregation 下的 KV Cache 复用。为了控制尾延迟，系统会在 Prefill 阶段超时时让 Decode abort 请求并回收 KV Cache。问题是 abort 信号没有正确同步到 Prefill 侧。Decode 以为内存可以复用，Prefill 侧之前发出的 RDMA writes 却还在路上。
+Prefill/Decode 分离后，Prefill 侧通过 RDMA 把缓存写到 Decode 侧。为控制排队导致的尾延迟，Decode 会在等待超时后中止请求并回收缓存槽位。
 
-结果就是，新请求拿到了旧请求的 KV Cache 地址，而旧请求的写入随后覆盖了新请求的缓存。Decode 读到被污染的 KV Cache，自然可能生成乱码、重复或异常 token。
+故障发生在两个生命周期没有对齐：Decode 已经结束请求 Req1，并把原槽位分配给 Req2；Prefill 却没有正确收到中止信息，Req1 的计算或异步写入仍继续。等旧写入到达时，它覆盖了已经属于 Req2 的缓存，Req2 随后基于被污染的状态生成。
 
-修复方式也很典型：不能只看 Decode 侧是否 abort，还要建立 request termination 和 KV Cache write completion 之间的显式同步。Prefill 只有在没有发起 RDMA 写入，或所有写入都完成后，才返回 safe-to-reclaim 信号。文章说这个修复把异常输出率从约 0.1% 降到 0.03% 以下。
+修复增加了明确的回收确认。Decode 发出中止通知后，Prefill 必须确认尚未启动 RDMA 写入，或此前所有写入已经完成，才能返回 safe-to-reclaim；Decode 收到信号后再复用槽位。
 
-第二类 bug 是 HiCache 的 load-use ordering。Coding Agent 平均输入长度超过 70K tokens，前缀复用率又高，层级 KV 缓存非常关键。但如果 cache swap-in 和计算重叠，却没有保证数据加载完成再使用，就会出现 read-before-ready。团队通过在 Indexer kernel 前加入显式同步，消除了这类异常。
+这里保证的是旧请求的写入不会越过内存复用边界。作者报告，修复后异常率从约 0.1% 降到 0.03% 以下。这是修复阶段报告的结果，与前面的离线每万次 3–5 次复现率不是同一组对照，不能混算收益。
 
-## 我的判断：Agent 时代的推理系统要把 correctness 当一等指标
+## 第二种竞态：计算开始早于缓存就绪
 
-文章最后的 LayerSplit 优化也很有意思：在 90% cache hit rate、40K 到 120K 请求长度下，吞吐提升 10% 到 132%。但对我来说，这篇文章真正的价值不是某个优化数字，而是它展示了 Coding Agent serving 的新压力模型。
+原文报告，Coding Agent 平均输入超过 70K token，并有较高前缀复用。HiCache 将历史前缀保存在分层存储中，需要时从 CPU 内存异步载入，再与计算重叠以提高效率。
 
-普通聊天系统里，延迟、吞吐、成本已经很难；Coding Agent 又把问题推高一层。长上下文让 KV Cache 成为核心状态，prefix cache 让复用更复杂，高并发让竞态条件更容易暴露，而用户最终看到的不是“缓存错了”，而是“模型胡说了”。
+在 DSA 的相关实现中，Load Stream 负责加载 KV 与 Indexer cache，Forward Stream 先做索引计算，再做稀疏注意力。原实现没有在 Indexer kernel 启动前明确等待对应缓存就绪，因而可能读到不完整或未初始化的状态，并把错误传播到后续计算。
 
-所以我会把这篇文章读成一个提醒：未来 Agent 基础设施不能只追求更快、更便宜，还要证明每一次 generation 背后的模型状态是正确的。否则系统层面的微小竞态，会被包装成模型层面的质量退化，排障成本会非常高。
+修复是在 Indexer 前加入与加载流的同步点。作者报告，同样工作负载下，由这类执行顺序不一致导致的异常被消除。这个结论限定了异常类型和测试条件，不等于证明服务中所有质量问题都已消失。
 
-Coding Agent 的 Scaling Pain，本质上是模型能力扩张之后，基础设施假设开始被真实负载审判。
+两个故障都涉及异步，但约束不同：前者要求写入完成后才能回收复用，后者要求加载完成后才能消费。排查时需要分别找到生产者、消费者和状态所有权的边界。
+
+## LayerSplit 在正确性修复后减少缓存冗余
+
+团队随后回到 Prefill 吞吐瓶颈。在其上下文并行（CP）配置中，各 GPU 的 KV Cache 存储存在冗余。LayerSplit 按层划分缓存所有权，使每张 GPU 只保存一部分层；执行某层注意力前，由拥有该层缓存的 rank 广播给其他参与计算的 rank。
+
+这减少了单卡缓存占用，也增加通信。原文通过让 KV 广播与 Indexer 计算重叠，隐藏一部分传输延迟，因此收益取决于这类负载和并行条件。
+
+作者在 GLM-5.1 + LayerSplit 的评测中，以 90% 缓存命中率、40K–120K 请求长度报告吞吐提升 10%–132%。这是 LayerSplit 的性能结果，不能与前面修复竞态后的异常率下降合并为同一个指标，也不能脱离条件理解为固定加速。
+
+这次排障展示了一条完整路径：保留时序与压力来重现，利用内部指标缩小范围，再沿缓存的写入、回收、加载和消费关系定位问题。修复后既检查异常是否收敛，也重新测量性能。对于长上下文服务，状态正确性需要像吞吐和延迟一样有明确的验证证据。
 
 ## 原文
 
-- [Scaling Pain of Coding Agent Serving: Lessons from Debugging GLM-5 at Scale](https://z.ai/blog/scaling-pain)
+- [Scaling Pain of Coding Agent Serving: Lessons from Debugging GLM-5 at Scale — Z.ai](https://z.ai/blog/scaling-pain)

@@ -1,9 +1,9 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
-lastmod: '2026-06-05T21:20:00+08:00'
-title: 'Long-running Harness 的关键，不是多 Agent，而是把判断外置'
-summary: "解读 Anthropic 的 long-running application harness 实验：文章真正值得看的不是三 agent 架构本身，而是它如何把生成、评价、规划和上下文交接拆成可调试的工程系统。"
-description: "从 Anthropic 的 generator-evaluator harness 看长时间自主编码、前端设计评价和 agent QA 的工程取舍"
+lastmod: '2026-09-21T10:26:22+08:00'
+title: "长任务 Harness：把生成、验收与返工连成循环"
+summary: "Anthropic 用前端设计和全栈应用实验，展示独立 evaluator 如何提供可执行反馈，也展示模型升级后哪些编排可以移除。收益需要连同预算、任务范围和评价器盲点一起看。"
+description: "分析长时间应用开发中的 evaluator 校准、sprint contract、上下文交接与 Harness 简化实验。"
 tags: ["harness-engineering", "agentic-coding", "agent", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"
@@ -11,52 +11,57 @@ isCJKLanguage: true
 showToc: true
 ---
 
-Anthropic 这篇 [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) 很值得读，因为它讨论的不是“多 agent 是否更强”这种抽象问题，而是更具体的工程问题：当模型要连续几个小时构建完整应用时，哪些脚手架真的能提高质量，哪些又只是成本。
+应用能打开，不等于用户可以完成任务；设计看起来整齐，也不等于具有预期的视觉表达。长时间自主开发若只让生成者判断自己是否完成，往往会把这些差异藏在一份乐观总结里。
 
-文章作者从两个问题出发：让 Claude 生成更好的前端设计，以及让 Claude 在没有人类持续干预的情况下完成完整应用开发。最后形成的是一个 planner、generator、evaluator 组成的 harness。我的理解是，这套架构最核心的不是 agent 数量，而是把“做事”和“判断做得好不好”分开。
+Anthropic 的 [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps) 记录了 Prithvi Rajasekaran 的实验：用独立 evaluator 检查生成结果，再把具体问题交回 generator 迭代。它分别用于主观的前端设计和可操作验证的全栈应用。原文报告的是开发实验与案例，本文未复现，也不将其视为所有任务的架构对照结论。
 
-## 长任务的两个主要失败点
+## 先让评价器具备可重复的判断方式
 
-文章先指出 naive implementation 的两个问题。第一个是长任务里的上下文退化。随着上下文窗口被文件、分支探索和中间想法填满，模型会逐渐失去连贯性。有些模型还会出现作者称为 context anxiety 的现象，也就是接近自认为的上下文边界时过早收尾。
+前端实验把目标拆成四个维度：整体设计、原创性、实现细节和可用性。颜色、字体、布局是否协调，是否有针对任务的设计选择，以及用户能否找到主要动作，分别进入评价。
 
-Anthropic 早期 harness 用 context reset 来处理这个问题：清空上下文，启动新 agent，再通过结构化 handoff artifact 把状态和下一步传过去。它和 compaction 的区别在于，compaction 只是压缩原会话，仍然保留连续性和残留压力；reset 给模型一个干净起点，但要求 handoff 足够完整。
+作者更重视整体设计和原创性，因为当时模型已经比较容易生成基本工整、可用的页面，却经常采用相似的模板。为了减少评价漂移，他还给 evaluator 提供带详细分数说明的少量示例，使它接近自己的偏好。
 
-第二个问题是 self-evaluation。模型评价自己产物时经常过于宽容，尤其是前端设计这类没有二元测试结果的任务。文章的判断很直接：让生成者自己变得足够挑剔很难，但调一个独立 evaluator 变得更怀疑、更稳定，反而可行。
+运行时，generator 先生成 HTML/CSS/JS，evaluator 通过 Playwright MCP 打开页面、截图并操作，再返回评分和批评。generator 根据反馈决定继续改进当前方向，或换一种设计。原文每次运行进行 5–15 轮，长的可达四小时。
 
-## 把审美变成可评分标准
+博物馆页面在第十轮转成 CSS perspective 构建的三维展厅，是作者观察到的一个显著变化。但结果也显示评价指标会塑造风格：“museum quality”等措辞使不同设计趋向某种共同审美；后期实现更复杂，作者有时反而更喜欢中间版本。分数提高不能自动代表所有用户更喜欢，评价标准和版本选择仍需要人检查。
 
-前端设计实验是这篇文章最有意思的部分。作者把“好不好看”拆成四个评价维度：design quality、originality、craft、functionality。前两个权重更高，因为 Claude 默认已经能做出基本可用、工整的界面，但容易落进模板化、库默认和典型 AI slop。
+## 全栈任务用 contract 连接需求与验证
 
-这个设计很关键。审美当然不能完全被分数覆盖，但如果没有可评价语言，evaluator 只能说“看起来不错”。一旦标准里明确写出颜色、字体、布局、图像是否形成整体气质，是否有定制化决策，是否只是白卡片加紫色渐变，模型就有了可以反复优化的靶子。
+在全栈版本中，planner 将一到四句话扩成产品规格，generator 按功能阶段实现，evaluator 检查实际应用。planner 主要规定产品目标和高层设计，避免过早指定细节，把错误实现方案传给后续阶段。
 
-实际流程里，generator 先基于用户 prompt 生成 HTML/CSS/JS 前端，evaluator 通过 Playwright MCP 打开页面、截图、交互，然后按标准打分和写 critique。每次反馈再回到 generator，通常跑 5 到 15 轮，完整过程最长到 4 小时。文章提到一个荷兰艺术博物馆页面例子，第 10 轮从常规深色落地页转向一个 CSS perspective 渲染的 3D 房间体验，这说明外部评价有时确实能逼出单次生成看不到的方向变化。
+高层需求仍不足以直接验收，因此每个 sprint 前，generator 与 evaluator 先协商 contract：这段工作交付什么、怎样验证完成。generator 提出计划和检查方式，evaluator 确认它覆盖需求，双方通过文件交换意见，达成一致后才实现。
 
-## 全栈 harness 的价值在于可验收的迭代
+QA 随后通过界面、API 和数据库状态检查行为。原文列出的反馈很具体：矩形填充只在拖拽起终点放置图块，删除实体的条件判断要求了不会同时设置的状态，以及 FastAPI 路由顺序把 `/frames/reorder` 当成整数 `frame_id`，返回 422。
 
-迁移到全栈应用后，文章使用 planner、generator、evaluator 三类 agent。planner 把 1 到 4 句话的需求扩展成产品规格，generator 按 sprint 实现功能，evaluator 用 Playwright 点击 UI、测 API、看数据库状态。每个 sprint 前，generator 和 evaluator 会先协商 sprint contract，明确这个阶段完成的定义和可测试行为。
+这些反馈把“功能不对”缩到可修复的差异：期望是什么，实际做了什么，错误可能出现在哪里。它们比总分更直接地帮助下一轮执行。
 
-这个 contract 我觉得是重点。它把高层产品 spec 和具体实现之间的缝补上了。否则 generator 很容易按自己的理解开工，evaluator 事后也只能泛泛说“还不错”。有了 contract，QA 就能针对明确标准验收。
+独立 evaluator 也不是天然严谨。作者观察到，它会发现问题后说服自己“影响不大”，或者只做浅层测试。团队通过阅读日志、找出与人工判断不一致的案例、调整 QA 提示，迭代了数轮。分开生成与评价提供了校准入口，没有消除评价器本身的盲点。
 
-文章里的 retro game maker 对比很说明问题。单 agent 版本跑了 20 分钟，成本 9 美元；完整 harness 跑了 6 小时，成本 200 美元。后者贵了 20 多倍，但输出质量明显更高。solo 版本界面看起来符合预期，却存在空间浪费、流程僵硬、实体无法响应输入等核心问题。harness 版本由 planner 扩展成 16 个 feature、10 个 sprint，还包括 sprite animation、behavior templates、音效音乐、AI-assisted sprite generator 和分享导出等能力。它仍有交互直觉不足和物理细节问题，但 play mode 的核心链路是通的。
+## 案例收益同时包含更大范围与更高预算
 
-更重要的是，evaluator 不是只看表面。文章列出的失败包括矩形填充工具只在拖拽起止点放 tile、删除 entity spawn point 的条件判断错误、FastAPI 路由顺序导致 `/frames/reorder` 被当成 frame_id 解析。这些都是具体、可修的工程反馈。
+原文用同一个“二维复古游戏制作器”提示比较 Opus 4.5 的两种运行：
 
-## Harness 会随着模型能力重新洗牌
+| 运行方式 | 时长 | token 成本 |
+| --- | --- | --- |
+| 单 Agent | 20 分钟 | 9 美元 |
+| 完整 Harness | 6 小时 | 200 美元 |
 
-文章后半段对我最有启发：harness 不是一劳永逸的架构。作者在 Opus 4.6 发布后重新审视原有设计，因为新模型更擅长规划、长任务、代码审查和调试，于是开始移除 sprint construct，只保留 planner 和 evaluator，让 QA 不再按 sprint 逐段验收，而是在完整 build 之后集中检查。
+单 Agent 产物中，实体可以显示，却不能响应输入。完整 Harness 的 planner 则扩展出 16 项功能、10 个 sprint，加入动画、声音、AI 辅助生成和分享导出等内容；最终核心 play mode 可以运行，但仍有流程提示不清、物理表现和关卡可通行性问题。
 
-这不是说 evaluator 不重要了，而是它的价值边界移动了。对于模型已经能稳定独立完成的任务，evaluator 可能只是额外成本；对于仍处在模型能力边界之外的复杂应用，它还能抓住 stub feature、交互缺口和最后一公里问题。
+这个对比说明该配置在案例中产出了更完整的结果，却没有把多 Agent 分工、更多执行时间、更高费用和扩大需求范围的贡献分别隔离。不能据此宣布增加 evaluator 就能获得同样提升，更不能只比较是否“做出了应用”。它也提示产品目标要事先确定：自动扩充功能在本实验中是刻意要求，实际项目未必愿意承担对应范围和维护成本。
 
-DAW 例子里，更新后的 harness 仍然跑了 3 小时 50 分钟，成本 124.70 美元。QA 第一轮指出核心 DAW 功能有些只是展示而不可交互，例如 clip 不能拖动、没有 instrument UI panels、没有视觉化 effect editors。第二轮又指出录音仍是 stub、clip resize 和 split 没实现、effect visualization 只是数字滑杆。这些都说明，即使模型变强，外部评价仍然在能力边界附近有用。
+## 模型升级后逐个移除组件
 
-## 我的判断：harness 是对模型短板的可执行假设
+上下文处理体现了 Harness 随模型变化的过程。早期 Sonnet 4.5 在接近上下文边界时容易过早收尾，作者称之为 context anxiety。团队用清空窗口和结构化交接缓解，代价是额外编排、token 与延迟。到了 Opus 4.5，这种行为明显减轻，全栈实验便移除了 reset，改为连续会话配合 SDK 自动压缩。
 
-我读完最大的感受是，harness engineering 不是把流程搞复杂，而是把你对模型短板的判断写成可执行结构。你认为模型会低估需求，就加 planner。你认为模型会自我宽容，就加 evaluator。你认为长上下文会污染，就加 reset 和 handoff。你认为阶段目标不清，就加 contract。
+随后，Opus 4.6 使作者继续检查原有脚手架。一次大幅删减无法复现效果，也难以判断删掉了哪项有效机制；之后改为每次移除一个组件，观察结果。
 
-但这些结构都不是永久真理。模型升级后，某些短板会变轻，原本 load-bearing 的组件可能变成纯成本。好的 harness 需要经常拆开检查，而不是因为一次实验有效就固化成仪式。
+其中被移除的是 sprint 结构。planner 保留，因为没有它时实现范围容易偏小；evaluator 也保留，但检查从每个 sprint 后移到完整构建后。这里的“末尾检查”仍可以触发返工，再次接受 QA，不代表只允许一轮评价。
 
-所以这篇文章的价值不在于复制三 agent 架构，而在于它展示了一种思路：读模型在真实任务里的 trace，找到失败模式，把失败模式转成可评价、可交接、可迭代的工程机制。对长时间 autonomous coding 来说，这比“多开几个 agent”重要得多。
+浏览器 DAW 案例就经过了三轮构建与 QA，总计 3 小时 50 分钟、124.70 美元。评价器先后发现时间线片段不能拖动、缺少乐器面板、录音按钮只是状态切换而没有采集麦克风、片段缩放和分割未实现等问题。最终具备基本编曲、混音与播放能力，但远非专业 DAW；原文还指出模型无法实际听到音乐，限制了音乐品味方面的评价。
+
+这条实验路径给出一种具体的维护方法：从真实失败提出架构假设，为它增加可观察的反馈，再在模型或任务变化后逐项复查。某个 evaluator 在简单任务上可能只是额外开销，在能力边界附近却能发现关键遗漏。是否保留它，应由同一质量标准下的结果、成本和剩余缺陷共同决定。
 
 ## 原文
 
-- [Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
+- [Harness design for long-running application development — Anthropic](https://www.anthropic.com/engineering/harness-design-long-running-apps)

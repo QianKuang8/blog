@@ -1,9 +1,9 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
-lastmod: '2026-06-05T21:20:00+08:00'
-title: 'Subagents 的价值：为 Claude Code 保留主线程的清醒'
-summary: "解读 Claude Code subagents 指南：subagent 的核心价值不是“多开几个模型”，而是在研究、并行修改和独立 review 中隔离上下文、减少主线程污染。"
-description: "从 Claude Code 官方文章看 subagents 的适用场景、调用方式、自动化路径和不该使用的边界"
+lastmod: "2026-09-21T10:18:05+08:00"
+title: "Claude Code Subagents：怎样拆分任务与交接结果"
+summary: "Subagent 用独立上下文承担探索、修改或审查，再将结果交回主会话。本文说明哪些任务值得委派、怎样定义交接，以及自然语言、配置和 Hooks 分别解决什么问题。"
+description: "解读 Claude Code subagents 的任务边界、并行条件、独立审查和自动化层次。"
 tags: ["agentic-coding", "agent", "context-engineering", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"
@@ -11,60 +11,44 @@ isCJKLanguage: true
 showToc: true
 ---
 
-Claude 官方这篇 [How and when to use subagents in Claude Code](https://claude.com/blog/subagents-in-claude-code) 讲的是一个看似简单、实际很容易误用的能力：什么时候应该把任务交给 subagent，什么时候留在主会话里做。
+在陌生项目里实现功能，常常先要追踪认证流程、查找现成组件、确认数据格式。把所有探索都放进主会话，后续实现会携带大量已经无关的文件内容；拆成子任务，则需要付出说明和交接成本。
 
-文章开头的判断很准确：Claude Code 能处理复杂的多步骤项目，但长会话会变重。每次读文件、每个旁支探索、每段半成品思路都会留在上下文里，增加 token 成本，也让主线程更吵。Subagent 的价值，就是给这些旁支开一个独立上下文，最后只把结果带回来。
+Claude 的 [《How and when to use subagents in Claude Code》](https://claude.com/blog/subagents-in-claude-code) 把 subagent 描述为拥有独立上下文的执行者：接收任务，自行读取或修改文件，最后只向主会话返回相关结果。以下按归档中的行为讨论使用方法，未重新验证当前版本的配置和命令。
 
-## Subagent 本质上是上下文隔离工具
+## 委派是否有用，先看任务边界
 
-文章对 subagent 的定义很清楚：它是一个拥有自己上下文窗口的独立 Claude instance。它接收任务，独立读文件、探索代码或修改文件，完成后只把相关结果返回主会话。
+原文给出三类常见需求：需要读很多文件的探索、互不依赖的修改，以及希望减少实现过程影响的独立审查。它们收益不同。探索减少主会话承载的原始材料，并行修改缩短可重叠的工作时间，审查则提供一次重新检查假设的机会。
 
-这意味着 subagent 不继承主会话里的全部历史、假设和噪音。多个 subagents 可以并行运行，也可以有不同权限。比如研究型 subagent 可以只读，实施型 subagent 可以有编辑权限。
+这些收益都依赖清楚的范围。“调查支付系统”可能仍然过大；“找到支付失败的重试入口，说明状态如何更新，并返回相关文件位置”更容易独立完成。这个例子是对原文任务说明原则的应用：给执行者一个具体问题，也说明什么结果足以支持下一步。
 
-所以我不太愿意把 subagent 理解成“更多算力”。它更像 context engineering 里的隔离机制：把会污染主上下文的探索、验证和旁支工作挪出去，让主线程继续保持决策清醒。
+主会话不共享完整探索历史，因此交接应包含结论、证据位置和未解决问题。只说“实现没有问题”无法支撑复查；返回整个仓库又失去了隔离意义。主负责人需要的是能够验证、继续使用的结果。
 
-## 最适合 subagent 的几类任务
+## 并行只适用于没有阻塞关系的工作
 
-文章列了几个很明确的信号。
+原文以在不同 API 文件中调整错误处理为例：各自遵循共同参考实现，且不会修改同一文件，便可以并行。收益来自执行时间重叠，实际耗时还受到任务大小、工具等待和最终整合影响，不能保证开三个 subagent 就固定快三倍。
 
-第一类是 research-heavy task。比如你要改一个陌生系统，先要理解认证、数据库、API routes、前端组件。让主会话直接读几十个文件，后面就会背着很多无关上下文继续实现。让 subagent 先探索并返回摘要，主会话只接收结论。
+阶段式工作也可以委派，但应顺序交接。文章的 pipeline 示例先把 API 契约写到文件，再由下一位实现后端，最后检查集成行为。契约文件承担了跨上下文传递状态的作用。
 
-第二类是多个独立任务。比如不同包里的 TypeScript 错误、多个文件里同一模式的改造、彼此没有依赖的并行修改。文章的判断很直接：三个 subagents 同时做，通常会接近一个任务的耗时完成。
+如果每一步都要理解此前大量隐含细节，拆分反而可能增加补问和信息丢失。这时连续保留在同一会话更简单。两个 Agent 同时修改同一文件也会制造冲突；并行前应先划分所有权，并明确共享接口何时稳定。
 
-第三类是 fresh perspective。独立 review 很适合 subagent，因为它没有参与实现过程，不会继承主会话里的解释、取舍和盲点。文章也把 verification before committing 单独列出来：提交前让一个没看过实现旅程的 subagent 检查边界情况和错误处理，往往更容易发现熟悉感遮住的问题。
+## 独立审查要有独立的依据
 
-第四类是 pipeline workflow。设计 API contract、实现后端、写集成测试，这类阶段清楚的流程可以用明确 handoff 串起来，让每个阶段专注自己的问题。
+原文建议让只读 subagent 在未继承实现讨论的情况下检查安全、边界条件和错误处理。减少先前解释的影响，有助于重新审视代码，但干净上下文并不保证客观或完整。
 
-## 从自然语言开始，不要一上来就自动化
+Reviewer 仍然需要需求、适用规范和实际修改范围。缺少这些材料，它只能判断代码表面是否合理，很难发现实现了错误目标。审查输出也应指出可定位的问题与影响；原文的自定义 reviewer 示例明确要求，没有发现就说明没有，避免为了扮演批评者而编造缺陷。
 
-文章推荐从 conversational invocation 开始，也就是直接要求 Claude 使用 subagents。有效 prompt 的关键是把 scope、并行性和返回格式说清楚。
+这类任务适合只读权限：执行者可以查看证据，不能在检查过程中悄悄改掉被检查对象。是否修改，则由后续明确的修复任务负责。
 
-比如“Use subagents to explore this codebase in parallel: find API endpoints, identify database schema, map authentication flow. Return summaries, not full file contents.”这个结构好在它明确了三个独立任务、要求并行、说明返回摘要而不是原始文件。
+## 从重复需求形成配置
 
-当同一种任务反复出现时，再考虑 custom subagents。它们可以放在 `.claude/agents/` 或 `~/.claude/agents/`，定义自己的 system prompt、工具权限和模型。文章给的 security-reviewer 例子很典型：只允许读工具，专门检查 SQL injection、XSS、auth、敏感数据泄漏等问题，并要求返回按优先级排序的 findings。
+文章推荐先在对话中明确委派范围、是否并行和返回格式。观察到某种工作反复出现后，再配置 custom subagent，固定其提示、工具权限和可选模型。归档中对应的路径是项目级 `.claude/agents/` 与用户级 `~/.claude/agents/`。
 
-再往上，可以用 CLAUDE.md 描述项目级规则，例如每次 code review 都必须用 read-only subagent，检查安全、性能和架构约定。Skills 则适合复杂但按需触发的多步工作流，比如 staged changes 上同时跑 security、performance、style 三类 review。Hooks 是更自动的一层，可以在 Stop、提交等生命周期事件里触发检查。
+其他机制承担不同职责：`CLAUDE.md` 表达项目何时应使用某类委派；Skills 组织按需运行的多步骤流程；Hooks 在生命周期事件发生时执行检查。它们不是必须依次堆满的功能，而是不同触发与复用方式。
 
-这条路径很健康：先用自然语言找到真实重复模式，再把稳定模式固化到 custom agent、CLAUDE.md、skills 或 hooks。反过来，如果一开始就为所有事情建 specialist，很容易把系统搞得难以路由。
+原文的 Stop hook 示例尤其需要按代码理解：第一次检测到测试失败会阻止退出，但 `stop_hook_active` 分支会在已阻止过一次后放行，以防无限循环。因此，该示例不能被描述为“测试不通过就永远无法结束”的硬门禁，Hook 也不必然会启动 subagent。
 
-## Subagent 不适合所有事情
-
-文章最后专门讲了什么时候不该用 subagent，这部分很重要。
-
-如果任务是强顺序依赖，第二步必须完整继承第一步细节，主会话通常更简单。如果两个 subagents 会同时编辑同一个文件，那就是制造冲突。小任务也不值得 delegation，因为启动上下文和沟通结果本身有成本。
-
-还有一个很现实的边界：不要定义太多 specialist agents。选项太多会让自动 delegation 变得不可靠。大多数团队最后应该只有少数几个边界清楚的 agent，而不是为每种想象场景都建一个角色。
-
-如果 subagents 之间需要互相沟通，也不适合普通 subagent 模式。文章建议这种情况使用 agent teams，因为普通 subagent 是向主会话汇报结果，不是彼此协作。
-
-## 我的判断：subagent 的关键不是并行，而是主线程卫生
-
-并行当然是 subagent 的显性收益，但我觉得更大的收益是主线程卫生。Coding agent 的上下文很容易被探索痕迹污染：读过的无关文件、失败的假设、临时推理、被否掉的方向，都会影响后面的判断。Subagent 给了一个低成本的隔离方式，让探索发生在旁路，只把整理后的结论带回来。
-
-这也是为什么 fresh review 特别适合 subagent。很多 review 失败不是因为模型能力不够，而是因为它知道实现过程，于是会替自己的取舍找理由。干净上下文能减少这种路径依赖。
-
-所以使用 subagent 的好问题不是“能不能多开几个 agent 加速”，而是“这段工作会不会污染主会话，或者是否需要独立视角”。如果答案是是，subagent 很值；如果只是一个小而连续的改动，主会话做完更省心。
+是否值得委派，可以最终归结为三个问题：子任务能否独立完成，返回结果是否足以复核，节省的探索或等待成本是否大于交接成本。先把这三点说清楚，再增加专用角色，通常比堆积一个庞大的专家名单更容易维护。
 
 ## 原文
 
-- [How and when to use subagents in Claude Code](https://claude.com/blog/subagents-in-claude-code)
+- [How and when to use subagents in Claude Code — Claude](https://claude.com/blog/subagents-in-claude-code)

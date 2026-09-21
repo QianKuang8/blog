@@ -1,9 +1,9 @@
 ---
 date: '2026-05-07T21:12:00+08:00'
-lastmod: '2026-05-07T21:20:54+08:00'
-title: 'Deep Agents 提分：Harness Engineering 的价值在反馈回路'
-summary: "LangChain 这篇文章的重点不是某个提示词技巧，而是展示了如何用 trace、middleware 和验证循环，把 coding agent 的失败模式系统性转化为 harness 改进。"
-description: "解读 LangChain 如何只调整 harness，就让 deepagents-cli 在 Terminal Bench 2.0 上从 52.8 提升到 66.5。"
+lastmod: "2026-09-21T10:14:43+08:00"
+title: "Deep Agents 提分：从失败轨迹调整 Harness"
+summary: "固定 gpt-5.2-codex 后，LangChain 通过退出前验证、环境注入和推理预算调整，将 Terminal Bench 2.0 得分从 52.8 提升到 66.5。本文沿失败模式解释这些干预，并保留评测与归因边界。"
+description: "解读 Deep Agents 的 trace 分析、中间件干预、验证循环与分阶段推理预算。"
 tags: ["harness-engineering", "agent", "langchain"]
 categories: ["好文分享"]
 author: "Qian"
@@ -11,66 +11,48 @@ isCJKLanguage: true
 showToc: true
 ---
 
-LangChain 的 [Improving Deep Agents with harness engineering](https://blog.langchain.com/improving-deep-agents-with-harness-engineering/) 很适合作为 harness engineering 的实操案例读。它没有把 agent 提升归因于换更强模型，而是刻意固定模型，只调整 harness，最后让 deepagents-cli 在 Terminal Bench 2.0 上从 52.8 提升到 66.5。
+Agent 写出一个看似合理的方案后，重新读一遍代码便结束，没有执行测试。这是 LangChain 在分析 deepagents-cli 失败轨迹时反复看到的行为。要改善它，团队既调整提示，也在 Agent 准备退出时加入运行时提醒。
 
-我觉得这篇文章真正讨论的问题是：当模型本身已经足够强，但行为仍然不稳定时，系统层还能做什么？答案不是继续堆 prompt，而是建立一套能观察失败、注入上下文、强制验证、调配推理预算的反馈回路。
+[《Improving Deep Agents with harness engineering》](https://blog.langchain.com/improving-deep-agents-with-harness-engineering/) 报告，固定模型 `gpt-5.2-codex` 后，团队将 Terminal Bench 2.0 得分从 52.8 提高到 66.5，增加 13.7 个百分点。这个结果说明同一模型的表现会随工具与执行环境变化；它并没有把总增益逐项分配给每个改动。
 
-## Harness 不是包装层，而是能力塑形层
+## 先找重复失败，再选择修改位置
 
-文章对 harness engineering 的定义很直接：围绕模型构建工具、提示、执行流程和中间件，把模型“尖刺状”的智能塑造成对具体任务有用的能力。这个说法比“写好 system prompt”更准确。
+实验包含 Terminal Bench 2.0 的 89 个任务，由 Harbor 编排 Daytona sandbox，执行验证与评分。Agent 行为及延迟、token 和费用记录进入 LangSmith。团队把优化范围集中在 system prompt、tools 和 middleware，也就是模型与工具调用前后的运行钩子。
 
-在 LangChain 的实验里，harness 可调的空间很大，包括 prompt、tools、hooks、skills、sub-agent、memory 等。但他们为了控制变量，只集中改三个旋钮：system prompt、tools 和 middleware。模型固定为 `gpt-5.2-codex`，基准是 Terminal Bench 2.0，89 个任务覆盖机器学习、调试、生物等场景，运行由 Harbor 和 Daytona sandbox 编排，所有 agent action 进入 LangSmith trace。
+他们还把轨迹分析做成 Skill：获取实验 trace，派多个 Agent 分析错误，再汇总模式和修改建议。关注点包括推理错误、不遵守指令、缺少验证和超时。这样的外循环让改动能对应到重复出现的现象。
 
-这个实验设置的重要性在于，它把“模型进步”和“系统进步”拆开了。很多 agent 产品的提升来自模型、工具、提示、评测环境同时变化，最后很难判断到底是哪一层起作用。LangChain 这篇文章至少提供了一个更可讨论的样本：同一个模型，在更好的 harness 下，表现可以明显提升。
+作者将过程类比为 boosting，因为下一轮会关注之前做错的样本。这只是优化思路的类比，模型权重并未因此更新。人工参与建议审查仍有价值：针对某道题添加提示可能改善该题，却让其他任务回退，所以修复还要回到整组评估。
 
-## Trace 是外循环的训练信号
+## 在准备结束时补上验证机会
 
-这篇文章最有工程味的部分，是它没有从主观经验出发改 prompt，而是先看 trace。LangChain 做了一个 Trace Analyzer Skill：拉取 LangSmith 中的实验轨迹，派并行错误分析 agent 找失败模式，再由主 agent 汇总建议，最后有针对性地调整 harness。
+团队先在提示中明确规划、构建、验证、修复的流程，要求检查任务规范、运行测试并阅读完整输出。随后用 `PreCompletionChecklistMiddleware` 在 Agent 退出前注入检查提示，让它再对照原始任务验证。
 
-这套流程的价值不在于“让 agent 自动改自己”这个概念有多新，而在于它把失败分析变成了可重复流程。模型内部机制不可解释，但 agent 的输入、输出、工具调用、耗时、token 和错误路径都是可观察的。对 coding agent 来说，这些 trace 往往比最终 pass/fail 更有信息量。
+两个位置各有用途。初始提示建立预期行为，退出钩子在即将交付时再次提供约束。钩子触发是确定性的，但模型是否执行了充分验证、测试是否覆盖目标，仍需要观察。它增加了检查机会，并不构成一个能够证明代码正确的自动裁决器。
 
-文章把这种方式类比为 boosting：聚焦上一轮做错的样本，再针对错误模式改进系统。这个类比很贴切，但也要注意它的风险。作者明确提到，人工在第三步仍然有帮助，因为过度针对某些任务修 harness 可能导致过拟合，对其他任务回归。
+这里有一个重要区别：重新读自己的代码，提供的主要还是原有实现；运行针对需求的测试，才可能产生与原判断冲突的新证据。失败输出能够推动下一次修改，验证因此同时承担验收和诊断作用。
 
-我觉得这里的关键不是全自动，而是可审计。Trace 让 harness 改动有了依据，也让“为什么要加这个 middleware、为什么要改这段 prompt”可以追溯到具体失败模式。
+## 环境信息与循环检测改变下一步选择
 
-## 自验证不是自然发生的
+`LocalContextMiddleware` 在启动时提供当前目录、父子目录和可用工具信息，包括通过命令发现的 Python 安装。这减少了 Agent 在陌生环境中反复寻找工具和目录的工作。提示还要求精确遵守任务给出的路径，并覆盖边界情况，使产物能被后续程序检查。
 
-LangChain 观察到的最常见失败模式很典型：agent 写完方案，重新读一遍自己的代码，觉得看起来没问题，然后停止。它没有自然进入 build-verify loop。
+时间预算提醒则对应 benchmark 的严格超时。它帮助 Agent 从探索转向实现和验证。这个机制的效果与环境有关：若实际工作没有同样的硬时限，预算提示的内容就应根据真实约束重新设计，不能直接照搬评测参数。
 
-这和人类开发经验很接近。只读自己刚写完的代码，几乎总是更容易确认原有想法，而不是发现问题。coding agent 也是一样：如果没有外部反馈，它会停在第一个看似合理的解上。
+另一个干预点是反复编辑同一文件。`LoopDetectionMiddleware` 统计逐文件编辑次数，到阈值后提醒 Agent 重新考虑方案。这个信号可以发现部分无效循环，却不能判定所有重复修改都无效；原文也指出，模型收到提醒后仍可能继续原路径。
 
-LangChain 的做法包括两层。第一层是在 system prompt 中明确问题解决流程：规划和发现、构建、验证、修复。第二层是 deterministic context injection：用 `PreCompletionChecklistMiddleware` 在 agent 试图结束前拦截一次，提醒它对照任务 spec 重新做验证。
+## 推理预算为什么不能一直开到最高
 
-这里最值得借鉴的是 middleware 的位置。验证提示如果只写在系统提示里，模型可能在长任务中淡忘；放在退出前的 hook 里，就把“交付前检查”变成了运行时机制。它不保证正确，但能显著降低 agent 过早结束的概率。
+在有超时的任务里，更多推理会挤占工具执行与验证时间。原文报告，全程 `xhigh` 得分为 53.9%，全程 `high` 为 63.6%，前者受到超时影响。团队随后采用 `xhigh-high-xhigh`，把较高预算分配给早期规划和后期验证，最终达到 66.5%。
 
-## Context Engineering 是 harness 的职责
+这组结果的含义是预算需要与任务阶段和运行限制一起看。作者同时说明，不同阶段预算分配方案在试验中的差异不大。因此，不能将这个“reasoning sandwich”写成已被证明普适最优的调度策略。
 
-文章还强调了一个容易被低估的点：harness engineering 也是 context engineering 的交付机制。Terminal Bench 任务有目录结构、工具链和严格 timeout，agent 如果每次都自己摸索环境，就会浪费时间，还会因为搜索路径错误而做错判断。
+原文还提到早期 harness 在 Claude Opus 4.6 上的一次测试，但没有对它执行相同的优化循环。那项分数不能成为公平的模型排名：底层模型相同有助于分析 harness 改动，换模型时则需要重新确认提示和工具配合。
 
-LangChain 用 `LocalContextMiddleware` 在 agent 启动时注入当前目录、父子目录和可用工具信息，例如 Python 安装。这类信息并不是高深知识，但对 agent 来说很关键，因为它降低了环境发现的错误面。
+## 把干预保留为可撤销的实验
 
-他们还通过 prompt 告诉 agent：工作会被程序化测试衡量，任务中提到的文件路径要精确遵守，要关注 edge case，而不是只验证 happy path。再加上时间预算提醒，agent 更容易在 strict timeout 下从探索切换到实现和验证。
+这些机制都针对可观察的失败：提前结束对应退出前检查，环境摸索对应启动信息，无效循环对应编辑次数提醒，超时对应预算分配。它们的价值在于可以追溯到问题，也可以在模型或任务改变后重新评估。
 
-我的理解是，这里的 context engineering 不只是“把更多信息塞进上下文”，而是把那些 agent 本来容易漏掉、但对任务成败有决定性影响的环境约束提前摆到它面前。好的 harness 应该替 agent 完成一部分 onboarding。
-
-## 推理预算也需要工程化
-
-文章里另一个有意思的实验是 reasoning budget。直觉上，给 reasoning model 更多推理预算应该更好，但 Terminal Bench 有 timeout。LangChain 发现全程 `xhigh` 反而只有 53.9%，不如 `high` 的 63.6%，原因是高推理预算会消耗更多 token 和时间。
-
-他们最后采用的是类似 “reasoning sandwich” 的启发式：前期规划用更高推理，中间实现阶段降低，最后验证再提高。这个策略不一定普适，但它提出了一个实际问题：agent harness 不应该把推理预算看成单一全局参数，而应该按任务阶段分配。
-
-我的理解是，在真实产品里，这会继续扩展成多模型 harness：大模型负责规划，小模型负责局部实现，验证阶段再按风险选择更高推理预算，或者由模型自己做 adaptive reasoning。无论哪种方式，核心都是把推理计算当作稀缺资源调度，而不是简单开到最大。
-
-## 我的判断：harness 的核心资产是失败样本
-
-这篇文章给我的最大启发是，harness engineering 的核心资产不是 prompt 模板，而是失败样本和反馈回路。
-
-如果没有 trace，只靠感觉改 prompt，很容易陷入局部优化：某个失败案例修好了，但你不知道它是否提升了整体表现。如果没有退出前验证、环境注入和推理预算控制，agent 的很多错误会反复出现，因为模型本身没有足够稳定的行为倾向。文章里提到的 `LoopDetectionMiddleware` 也属于同一类短期护栏：当 agent 对同一个文件反复编辑时，middleware 会提示它重新考虑方案，避免在错误路径上不断小修小补。
-
-当然，这篇文章的边界也很清楚。Terminal Bench 2.0 是有固定任务、固定 timeout 和自动评分的环境，里面有效的 heuristics 不一定能直接迁移到所有真实软件开发场景。比如时间预算提醒在 benchmark 里很重要，但在长周期产品开发里可能需要换成里程碑、成本和风险控制。
-
-但它提供了一个可复用的方向：不要把 agent 看成单次调用模型，而要把它看成一个可以被观测、被干预、被验证的执行系统。模型越强，harness 的价值越不是“弥补模型不会”，而是把强模型的能力稳定地导向任务目标。
+借鉴时可以保留这条链：失败轨迹提出假设，运行时改动针对假设，固定任务比较结果，再检查其他任务是否回退。文章证明了这套方法在其评测条件下有效；真实仓库中的收益，还需要结合自己的环境、验收方式和任务分布测量。
 
 ## 原文
 
-- [Improving Deep Agents with harness engineering | LangChain Blog](https://blog.langchain.com/improving-deep-agents-with-harness-engineering/)
+- [Improving Deep Agents with harness engineering — LangChain](https://blog.langchain.com/improving-deep-agents-with-harness-engineering/)
