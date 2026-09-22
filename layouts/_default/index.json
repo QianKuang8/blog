@@ -5,9 +5,11 @@
         {{- if eq .Section "topics" -}}
             {{- $category = "专题" -}}
         {{- else -}}
-            {{- with .Params.categories -}}
-                {{- $category = delimit . " · " -}}
+            {{- $categoryTitles := slice -}}
+            {{- range .GetTerms "categories" -}}
+                {{- $categoryTitles = $categoryTitles | append .LinkTitle -}}
             {{- end -}}
+            {{- $category = delimit $categoryTitles " · " -}}
         {{- end -}}
         {{- $date := "" -}}
         {{- if not .Date.IsZero -}}

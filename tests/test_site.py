@@ -89,7 +89,7 @@ class HomeNavigationTests(SiteFixture):
     def render_pages(self, slugs=None, counts=(5, 4, 4)):
         slugs = self.slugs if slugs is None else slugs
         categories = ''.join(
-            f'<a data-home-category="{name}" data-count="{count}" href="/blog/categories/{name}/">{name}</a>'
+            f'<a data-home-category="{name}" data-count="{count}" href="/blog/categories/{name}/">{check_site.CATEGORY_LABELS[name]}</a>'
             for name, count in zip(check_site.HOME_CATEGORY_ORDER, counts)
         )
         self.write("index.html", '<link rel="canonical" href="https://example.org/blog/">'
@@ -137,6 +137,19 @@ class HomeNavigationTests(SiteFixture):
         ))
         self.assertTrue(any("target its category" in failure for failure in self.failures()))
 
+    def test_category_display_rename_preserves_original_url(self):
+        self.assertEqual(self.failures(), [])
+        path = self.root / "index.html"
+        self.write("index.html", path.read_text().replace(
+            'href="/blog/categories/原创文章/"', 'href="/blog/categories/研究与实践/"'
+        ))
+        self.assertTrue(any("target its category" in failure for failure in self.failures()))
+
+    def test_category_navigation_does_not_show_legacy_label(self):
+        path = self.root / "index.html"
+        self.write("index.html", path.read_text().replace('>研究与实践</a>', '>原创文章</a>'))
+        self.assertTrue(any("should display" in failure for failure in self.failures()))
+
     def test_title_link_cannot_target_a_different_article(self):
         path = self.root / "index.html"
         self.write("index.html", path.read_text().replace('href="/blog/posts/post-12/"', 'href="/blog/posts/post-11/"'))
@@ -149,6 +162,82 @@ class HomeNavigationTests(SiteFixture):
         path = self.root / "index.html"
         self.write("index.html", path.read_text().replace('<a href="/blog/page/2/">下一页</a>', ''))
         self.assertTrue(any("link to its next page" in failure for failure in self.failures()))
+
+
+class ArticleCategoryTests(SiteFixture):
+    def setUp(self):
+        super().setUp()
+        source_patch = patch.object(check_site, "__file__", str(self.root / "scripts/check_site.py"))
+        source_patch.start()
+        self.addCleanup(source_patch.stop)
+        for slug, term in (("original", "原创文章"), ("reading", "好文分享"), ("book", "好文分享")):
+            self.write(f"content/posts/{slug}.md", f"---\ncategories: ['{term}']\n---\nArticle\n")
+            self.write(f"posts/{slug}/index.html", "Article")
+        self.write("sources/orig/book.md", "---\nsource_type: book\n---\nBook evidence\n")
+
+    def category_link(self, term, label, href=None):
+        href = href or f"/blog/categories/{term}/"
+        return f'<a class="article-type" data-category-term="{term}" href="{href}">{label}</a>'
+
+    def failures(self, slug, html):
+        failures = []
+        categories = check_site.source_article_categories(failures)
+        page = check_site.PageParser()
+        page.feed(html)
+        check_site.validate_article_category(f"posts/{slug}/index.html", page, categories, failures)
+        return failures
+
+    def test_new_display_names_keep_original_category_identity_and_url(self):
+        self.assertEqual(self.failures("original", self.category_link("原创文章", "研究与实践")), [])
+        self.assertEqual(self.failures("reading", self.category_link("好文分享", "文章解读")), [])
+
+    def test_book_evidence_selects_book_label_without_creating_category(self):
+        self.assertEqual(self.failures("book", self.category_link("好文分享", "书籍导读")), [])
+        failures = self.failures("book", self.category_link("好文分享", "文章解读"))
+        self.assertTrue(any("displayed as 书籍导读" in failure for failure in failures))
+
+    def test_article_cannot_use_book_label_without_book_evidence(self):
+        failures = self.failures("reading", self.category_link("好文分享", "书籍导读"))
+        self.assertTrue(any("displayed as 文章解读" in failure for failure in failures))
+
+    def test_explicit_slug_selects_generated_page_and_book_evidence(self):
+        self.write("content/posts/reading.md", "---\nslug: reading-book\ncategories: ['好文分享']\n---\nArticle\n")
+        self.write("posts/reading-book/index.html", "Article")
+        self.write("sources/orig/reading-book.md", "---\nsource_type: book\n---\nBook evidence\n")
+        self.assertEqual(self.failures("reading-book", self.category_link("好文分享", "书籍导读")), [])
+
+    def test_renamed_or_external_category_url_is_rejected(self):
+        for href in ("/blog/categories/研究与实践/", "https://other.test/blog/categories/原创文章/"):
+            with self.subTest(href=href):
+                failures = self.failures("original", self.category_link("原创文章", "研究与实践", href))
+                self.assertTrue(any("original category URL" in failure for failure in failures))
+
+    def test_category_identity_must_match_source_even_when_link_and_label_match(self):
+        html = self.category_link("原创文章", "研究与实践").replace(
+            'data-category-term="原创文章"', 'data-category-term="好文分享"'
+        )
+        self.assertTrue(any("identity should match" in failure for failure in self.failures("original", html)))
+
+    def test_duplicate_article_categories_are_rejected(self):
+        html = self.category_link("原创文章", "研究与实践")
+        self.assertTrue(any("exactly one article category" in failure for failure in self.failures("original", html + html)))
+
+    def test_multiple_source_categories_are_rejected(self):
+        self.write("content/posts/original.md", "---\ncategories: ['原创文章', '好文分享']\n---\nArticle\n")
+        failures = self.failures("original", self.category_link("原创文章", "研究与实践"))
+        self.assertTrue(any("exactly one supported source category" in failure for failure in failures))
+
+    def test_search_uses_category_label_even_for_book_subtype(self):
+        category_urls = {"https://example.org/blog/posts/book/": "阅读与解读"}
+        item = {"permalink": "https://example.org/blog/posts/book/", "category": "阅读与解读"}
+        failures = []
+        check_site.validate_search_category(item, 0, category_urls, failures)
+        self.assertEqual(failures, [])
+        for label in ("好文分享", "研究与实践", "书籍导读", "专题"):
+            with self.subTest(label=label):
+                failures = []
+                check_site.validate_search_category({**item, "category": label}, 0, category_urls, failures)
+                self.assertTrue(failures)
 
 
 class ReadingPathTests(SiteFixture):

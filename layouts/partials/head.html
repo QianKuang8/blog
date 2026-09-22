@@ -12,8 +12,12 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fdfdfb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c231e" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="{{ "favicon.ico" | relURL }}">
-<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+{{ $iconVersion := (readFile "static/favicon.svg" | sha256 | truncate 12 "") }}
+<link rel="icon" href="{{ printf "favicon.ico?v=%s" $iconVersion | relURL }}" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" href="{{ printf "favicon-16x16.png?v=%s" $iconVersion | relURL }}" sizes="16x16">
+<link rel="icon" type="image/png" href="{{ printf "favicon-32x32.png?v=%s" $iconVersion | relURL }}" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="{{ printf "favicon.svg?v=%s" $iconVersion | relURL }}" sizes="any">
+<link rel="apple-touch-icon" href="{{ printf "apple-touch-icon.png?v=%s" $iconVersion | relURL }}" sizes="180x180">
 {{ range .AlternativeOutputFormats }}<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}">{{ end }}
 {{ $init := resources.Get "js/theme-init.js" }}
 <script>{{ $init.Content | safeJS }}</script>

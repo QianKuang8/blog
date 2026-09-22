@@ -17,7 +17,7 @@
     {{- if or (eq .Type "categories") (eq .Section "posts") }}
       {{ partial "category_tabs.html" . }}
     {{- else }}
-      <a class="bc-back" href="{{ (site.GetPage "/tags").RelPermalink }}">← 全部标签</a>
+      <a class="bc-back" href="{{ (site.GetPage "/tags").RelPermalink }}">← 主题浏览</a>
     {{- end }}
     <span>{{ len $pages }} 篇</span>
   </div>

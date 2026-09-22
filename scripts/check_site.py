@@ -24,6 +24,11 @@ ARTICLE_CATEGORIES = {
     "原创文章": "categories/原创文章/index.html",
     "视频笔记": "categories/视频笔记/index.html",
 }
+CATEGORY_LABELS = {
+    "好文分享": "阅读与解读",
+    "原创文章": "研究与实践",
+    "视频笔记": "视频笔记",
+}
 HOME_CATEGORY_ORDER = ("原创文章", "好文分享", "视频笔记")
 
 
@@ -214,6 +219,98 @@ def url_path_ends_with(href: str | None, suffix: str) -> bool:
     return path == normalized_suffix or path.endswith(f"/{normalized_suffix}")
 
 
+def source_article_categories(failures: list[str]) -> dict[str, tuple[str, str]]:
+    """Keep source taxonomy identity separate from rendered category/type labels."""
+    repo = Path(__file__).resolve().parent.parent
+    result: dict[str, tuple[str, str]] = {}
+    for source in sorted((repo / "content/posts").glob("*.md")):
+        if source.stem == "_index":
+            continue
+        try:
+            metadata, _ = read_markdown(source)
+            slug = metadata.get("slug") or source.stem
+            relative_path = f"posts/{slug}/index.html"
+            if not (SITE_DIR / relative_path).is_file():
+                continue
+            categories = metadata.get("categories")
+            if not isinstance(categories, list) or len(categories) != 1 or categories[0] not in ARTICLE_CATEGORIES:
+                failures.append(f"{source.name}: should have exactly one supported source category")
+                continue
+            term = categories[0]
+            label = CATEGORY_LABELS[term]
+            if term == "好文分享":
+                evidence = repo / "sources/orig" / f"{slug}.md"
+                evidence_metadata, _ = read_markdown(evidence) if evidence.is_file() else ({}, "")
+                label = "书籍导读" if evidence_metadata.get("source_type") == "book" else "文章解读"
+            result[relative_path] = (term, label)
+        except (OSError, ValueError, TypeError, yaml.YAMLError) as error:
+            failures.append(f"{source.name}: cannot validate article category: {error}")
+    return result
+
+
+def validate_article_category(
+    relative_path: str,
+    page: PageParser,
+    categories: dict[str, tuple[str, str]],
+    failures: list[str],
+) -> None:
+    article_types = [
+        (attrs, text) for attrs, text in page.links
+        if "article-type" in class_names(attrs)
+    ]
+    assert_true(
+        len(article_types) == 1,
+        f"{relative_path} should have exactly one article category",
+        failures,
+    )
+    expected = categories.get(relative_path)
+    assert_true(expected is not None, f"{relative_path} should identify a source article category", failures)
+    if not article_types or expected is None:
+        return
+    term, label = expected
+    attrs, text = article_types[0]
+    home_url = parse_html("index.html").canonical_url or ""
+    expected_url = urljoin(home_url, f"categories/{quote(term)}/")
+    assert_true(
+        attrs.get("data-category-term") == term,
+        f"{relative_path}: article category identity should match its source ({term})",
+        failures,
+    )
+    assert_true(
+        unquote(urljoin(home_url, attrs.get("href") or "")) == unquote(expected_url),
+        f"{relative_path}: article category link should target its original category URL",
+        failures,
+    )
+    assert_true(
+        text == label,
+        f"{relative_path}: article type should be displayed as {label}",
+        failures,
+    )
+
+
+def validate_search_category(
+    item: dict,
+    index: int,
+    category_urls: dict[str, str],
+    failures: list[str],
+) -> None:
+    permalink = item.get("permalink")
+    expected = category_urls.get(unquote(permalink)) if isinstance(permalink, str) else None
+    if expected is not None:
+        assert_true(
+            item.get("category") == expected,
+            f"index.json item {index}: category label should match its source ({expected})",
+            failures,
+        )
+    else:
+        assert_true(
+            isinstance(permalink, str) and item.get("category") == "专题"
+            and "/topics/" in urlsplit(permalink).path,
+            f"index.json item {index}: should identify a source article or topic category",
+            failures,
+        )
+
+
 def schema_datetime(
     schema: dict, field: str, relative_path: str, failures: list[str]
 ) -> datetime | None:
@@ -399,13 +496,13 @@ def validate_home_navigation(failures: list[str]) -> None:
         if metadata.get("hiddeninhomelist") is not True:
             posts[slug] = {"date": published}
 
-    category_links = [attrs for attrs, _ in home.links if "data-home-category" in attrs]
+    category_links = [(attrs, text) for attrs, text in home.links if "data-home-category" in attrs]
     assert_true(
-        [attrs.get("data-home-category") for attrs in category_links] == list(HOME_CATEGORY_ORDER),
+        [attrs.get("data-home-category") for attrs, _ in category_links] == list(HOME_CATEGORY_ORDER),
         "home page should have exactly one category entry in this order: " + " / ".join(HOME_CATEGORY_ORDER),
         failures,
     )
-    for attrs in category_links:
+    for attrs, text in category_links:
         name = attrs.get("data-home-category")
         if name not in categories:
             continue
@@ -413,6 +510,11 @@ def validate_home_navigation(failures: list[str]) -> None:
         assert_true(
             unquote(urljoin(home_url, attrs.get("href") or "")) == unquote(expected_url),
             f"home page {name} entry should target its category page",
+            failures,
+        )
+        assert_true(
+            text == CATEGORY_LABELS[name],
+            f"home page {name} entry should display {CATEGORY_LABELS[name]}",
             failures,
         )
         try:
@@ -712,6 +814,11 @@ def main() -> int:
         )
 
     home_page = parse_html("index.html")
+    article_categories = source_article_categories(failures)
+    category_urls = {
+        unquote(urljoin(home_page.canonical_url or "", quote(path.removesuffix("index.html")))): CATEGORY_LABELS[term]
+        for path, (term, _) in article_categories.items()
+    }
     assert_true(
         not any(
             " ".join(text.split()) == "栏目"
@@ -771,7 +878,7 @@ def main() -> int:
                         failures,
                     )
                     category = item.get("category")
-                    assert_true(category in (*ARTICLE_CATEGORIES, "专题"), f"index.json item {index}: should identify its category", failures)
+                    validate_search_category(item, index, category_urls, failures)
                     if category != "专题":
                         try:
                             date.fromisoformat(str(item.get("date")))
@@ -799,8 +906,8 @@ def main() -> int:
             failures,
         )
         assert_true(
-            category_name in category_html,
-            f"{category_path} should identify the {category_name} category",
+            ("h1", CATEGORY_LABELS[category_name]) in parse_html(category_path).headings,
+            f"{category_path} should display the {CATEGORY_LABELS[category_name]} category heading",
             failures,
         )
 
@@ -818,7 +925,7 @@ def main() -> int:
 
     tags_page = parse_html("tags/index.html")
     assert_true(
-        ("h1", "标签") in tags_page.headings,
+        ("h1", "主题浏览") in tags_page.headings,
         "tags page heading should be localized",
         failures,
     )
@@ -856,22 +963,7 @@ def main() -> int:
             )
         if not post_page.post_meta:
             continue
-        article_types = [
-            text
-            for attrs, text in post_page.links
-            if "article-type" in (attrs.get("class") or "").split()
-        ]
-        assert_true(
-            len(article_types) == 1,
-            f"{relative_path} should have exactly one article category",
-            failures,
-        )
-        if article_types:
-            assert_true(
-                article_types[0] in ARTICLE_CATEGORIES,
-                f"{relative_path} has an unsupported article category: {article_types[0]}",
-                failures,
-            )
+        validate_article_category(relative_path, post_page, article_categories, failures)
 
     assert_true(post_count > 0, "at least one post page should be generated", failures)
     validate_tag_navigation(failures)
