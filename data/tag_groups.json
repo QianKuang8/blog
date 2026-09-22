@@ -5,6 +5,6 @@
     {"id": "models", "title": "模型与产业", "tags": ["model-engineering", "行业动向"]}
   ],
   "sources": ["anthropic", "openai", "langchain", "cursor", "github", "uber", "latent-space"],
-  "other": ["blog", "init", "arm", "架构迁移"],
+  "other": ["blog", "init", "arm", "架构迁移", "software-design"],
   "retired": ["视频笔记", "博客推荐"]
 }
