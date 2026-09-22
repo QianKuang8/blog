@@ -1,7 +1,6 @@
 {{- $page := .page -}}
 {{- $slug := $page.Slug | default $page.File.ContentBaseName -}}
 <article class="bc-post-row{{ if .compact }} bc-post-row--compact{{ end }}" data-post-entry="{{ $slug }}">
-  <time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time>
   <div class="bc-post-copy">
     <h2><a data-post-link="{{ $slug }}" href="{{ $page.RelPermalink }}">{{ $page.Title }}{{ if $page.Draft }} <span class="bc-draft">草稿</span>{{ end }}</a></h2>
     {{- if and (not .compact) (ne ($page.Param "hideSummary") true) }}
@@ -9,7 +8,8 @@
     {{- end }}
     {{- if not ($page.Param "hideMeta") }}
     <div class="bc-post-meta entry-footer">
-      {{- range $page.GetTerms "categories" }}{{ partial "article_type.html" . }}{{ end }}
+      {{ partial "article_type.html" $page }}
+      <time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time>
       {{- if $page.Param "ShowReadingTime" }}<span>{{ $page.ReadingTime }} 分钟</span>{{ end }}
       {{- $topics := slice -}}
       {{- range $page.GetTerms "tags" -}}

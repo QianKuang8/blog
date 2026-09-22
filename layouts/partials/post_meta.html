@@ -13,7 +13,7 @@
 {{- errorf "post %q has unsupported category %q" .File.Path $categoryTerm -}}
 {{- end -}}
 {{/* Normalize partial HTML to strings so Scratch keeps a flat string slice. */}}
-{{- $scratch.Add "meta" (slice (printf "%s" (partial "article_type.html" $category))) }}
+{{- $scratch.Add "meta" (slice (printf "%s" (partial "article_type.html" .))) }}
 {{- end -}}
 
 {{- if not .Date.IsZero -}}

@@ -1,1 +1,19 @@
-<a class="article-type" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+{{- $page := . -}}
+{{- with .GetTerms "categories" -}}
+  {{- $category := index . 0 -}}
+  {{- $label := $category.LinkTitle -}}
+  {{- if eq $category.Data.Term "好文分享" -}}
+    {{- $label = "文章解读" -}}
+    {{- $slug := $page.Slug | default $page.File.ContentBaseName -}}
+    {{- $sourcePath := printf "sources/orig/%s.md" $slug -}}
+    {{- if fileExists $sourcePath -}}
+      {{/* Read only source frontmatter; book classification is already maintained there. */}}
+      {{- $frontmatterPattern := `(?s)^---\r?\n(.*?)\r?\n---(?:\r?\n|$)` -}}
+      {{- with findRE $frontmatterPattern (readFile $sourcePath) 1 -}}
+        {{- $metadata := transform.Unmarshal (dict "format" "yaml") (replaceRE $frontmatterPattern "${1}" (index . 0)) -}}
+        {{- if eq $metadata.source_type "book" -}}{{- $label = "书籍导读" -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <a class="article-type" href="{{ $category.RelPermalink }}" data-category-term="{{ $category.Data.Term }}">{{ $label }}</a>
+{{- end -}}
