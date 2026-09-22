@@ -50,7 +50,7 @@
 
 | 栏目 | 适用范围 | 来源要求 |
 |------|----------|----------|
-| `好文分享` | 基于外部网页文章整理的中文解读 | 必须有 `sources/orig/<slug>.md` |
+| `好文分享` | 基于外部网页文章或书籍整理的中文解读 | 必须有 `sources/orig/<slug>.md`；书籍保存证据记录，不归档全文 |
 | `原创文章` | 个人实践、研究、观点或工具清单 | 没有强制来源文件 |
 | `视频笔记` | 基于课程、访谈或演讲整理的主题式笔记 | 必须有 `sources/video/<slug>.md` 和对应 PDF |
 
@@ -96,6 +96,7 @@ categories: ["原创文章"]
 | `init` | 个人记录 | 本机初始化、开发环境配置 |
 | `arm` | 工程主题 | Arm / 多架构迁移 |
 | `架构迁移` | 工程主题 | 基础设施或系统架构迁移 |
+| `software-design` | 工程主题 | 软件设计、模块边界、信息隐藏与复杂性管理 |
 
 ### 标签选择
 
@@ -178,6 +179,12 @@ blog/
 - `sources/video/<slug>.md` 存放视频笔记的来源元信息、章节时间戳和证据边界；不要把视频伪装成 defuddle 原文归档
 - `sources/nlm/` 仅保留历史摘要材料，不再要求新增或补齐
 - slug 与最终博文 slug 保持一致，便于查找对应关系
+
+### 书籍导读
+
+书籍导读归入 `好文分享`，沿用 `sources/orig/<slug>.md` 保存可复核的来源记录。书籍记录明确设置 `source_type: book` 和 `extractor: manual-book-evidence`，保留通用的 `title`、`source_url`、`domain`、`description`、`retrieved_at`；正文记录作者、版本、出版信息，以及关键论点对应的章节和证据边界。`source_url` 使用作者或出版社的官方书籍页面。该记录是书籍证据索引，不是网页全文抓取，也不将私人译本全文写入公开仓库。
+
+导读以自主概括、解释和适量引用组织，保留作者与作品署名；当前 AI 编程等延伸讨论须与原书观点区分。需要归档仅供个人学习使用的原书、完整译稿、HTML 或 PDF 时，存入独立私有仓库，不进入博客主仓库、公开 `blog-pdfs`、submodule 或站点构建产物，也不发布公开阅读页。需要从博客回查时，入口标注“个人阅读资料（需仓库权限）”；普通读者使用官方书籍链接。私人资料仓库不开启 GitHub Pages。
 - PDF 使用稳定的英文 slug 文件名，不在文件名中维护 `v1`、`v2`；历史版本由 PDF 仓库提交和博客 submodule 指针追踪
 - `blog-pdfs` 只使用 `standalone/` 与 `stanford-mse435/` 两个顶层目录
 - 功能性文件集中在 `sources/failed/`（如 `sources/failed/failed-sources.md`）
@@ -203,7 +210,7 @@ extractor: "defuddle"
 ```
 
 说明：
-- `source_url` 是原文唯一来源
+- 网页归档的 `source_url` 指向原文来源；书籍记录使用官方书籍页面，正文证据按“书籍导读”约定定位到具体版本与章节
 - `domain` 优先从提取工具元信息获取；如果为空，可从 URL 主域名补齐
 - `retrieved_at` 必须带时区
 - frontmatter 之后直接接正文，不额外插入“Metadata”标题
