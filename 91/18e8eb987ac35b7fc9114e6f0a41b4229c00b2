@@ -1,0 +1,77 @@
+AGENTS.md
+  s_df32ca52d52588::t_908733e5b01e3d 72-73
+WORKFLOW.md
+  s_df32ca52d52588::t_a9dadf34a6e027 28,51-55,63-64,67,75,114-116
+assets/css/site.css
+  s_c9031794ab3027::t_ce4066b66dcf4b 49-51,53-54,72-74,77-78,89,92,94,194-195,197-200,204,207-208
+content/categories/_index.md
+  s_df32ca52d52588::t_21f985fdeb7bac 3
+content/categories/原创文章/_index.md
+  s_df32ca52d52588::t_3a8bdfea013496 2
+content/categories/好文分享/_index.md
+  s_df32ca52d52588::t_54e5fe1580b013 2
+content/tags/_index.md
+  s_df32ca52d52588::t_793e852f0419ab 2-3
+data/tag_groups.json
+  s_df32ca52d52588::t_a2992a4d44daad 5-6,9
+layouts/_default/index.json
+  s_df32ca52d52588::t_f22559aa4ce122 8-10,12
+layouts/_default/list.html
+  s_df32ca52d52588::t_3eb68296047148 20
+layouts/index.html
+  s_df32ca52d52588::t_ac92e828a5ed7c 14-19
+layouts/partials/article_type.html
+  s_df32ca52d52588::t_152d4a52752548 1-19
+layouts/partials/head.html
+  s_df32ca52d52588::t_4f7b0d30290dcc 15-20
+layouts/partials/post_meta.html
+  s_df32ca52d52588::t_57302d25c70387 16
+layouts/partials/post_row.html
+  s_df32ca52d52588::t_b0200566159525 11-12
+layouts/partials/sidebar.html
+  s_df32ca52d52588::t_db363f0cb84b7a 4,6,8
+layouts/partials/tag_chips.html
+  s_df32ca52d52588::t_174919b22e981f 1
+layouts/tags/terms.html
+  s_df32ca52d52588::t_8042b5144e4773 9,14,32,38-40,43-44,47
+scripts/check_site.py
+  s_f583b43fa67c8d::t_ab4ad163a891bf 27-31,222-313,499,501,505,515-519,817-821,881,909-910,928,966
+static/favicon.svg
+  s_df32ca52d52588::t_8935cd90be9a54 1-5
+tests/test_site.py
+  s_f583b43fa67c8d::t_7f52c0bb0f378b 92,140-152,167-242
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9118e8eb987ac35b7fc9114e6f0a41b4229c00b2",
+  "prompts": {},
+  "sessions": {
+    "s_c9031794ab3027": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c7f4-9d55-7613-a8d1-0c87e13a89ac",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_df32ca52d52588": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c7ef-12d4-7b00-8f91-8a55cb12f102",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_f583b43fa67c8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c7f1-3efd-7481-aca9-7df3d17b0dbc",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
