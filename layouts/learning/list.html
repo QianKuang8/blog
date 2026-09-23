@@ -1,0 +1,32 @@
+{{- define "main" -}}
+{{- $groups := partialCached "learning/pages.html" site site.Language.Lang -}}
+<header class="bc-home-heading bc-learning-heading">
+  <div><h1>{{ .Title }}</h1><p>{{ .Description }}</p></div>
+  <span>我的学习记录</span>
+</header>
+<section class="bc-learning-group" id="learning-pending" data-learning-group="pending" data-count="{{ len $groups.pending }}" aria-labelledby="learning-pending-heading">
+  <div class="bc-learning-group-heading"><h2 id="learning-pending-heading">待学习</h2><span>{{ len $groups.pending }} 篇</span></div>
+  {{- if $groups.pending }}
+  <ol class="bc-learning-rows">
+    {{- range $index, $page := $groups.pending }}{{ partial "learning/row.html" (dict "page" $page "status" "pending" "number" (add $index 1)) }}{{ end }}
+  </ol>
+  {{- else }}
+  <p class="bc-learning-empty">还没有标记为待学习的文章。可从<a href="#learning-unmarked" data-learning-reveal>未标记</a>中选择下一篇。</p>
+  {{- end }}
+</section>
+{{- range slice (dict "status" "done" "title" "已学习") (dict "status" "unmarked" "title" "未标记") }}
+  {{- $pages := index $groups .status -}}
+  {{- $status := .status -}}
+  <details class="bc-learning-group bc-learning-group--folded" id="learning-{{ $status }}" data-learning-group="{{ $status }}" data-count="{{ len $pages }}">
+    <summary><span>{{ .title }}</span><span>{{ len $pages }} 篇</span></summary>
+    {{- if $pages }}
+    <ol class="bc-learning-rows">
+      {{- range $index, $page := $pages }}{{ partial "learning/row.html" (dict "page" $page "status" $status "number" (add $index 1)) }}{{ end }}
+    </ol>
+    {{- else }}
+    <p class="bc-learning-empty">这个分组暂时没有文章。</p>
+    {{- end }}
+  </details>
+{{- end }}
+<p class="bc-learning-help">未标记表示尚未录入状态，不代表未学习。进入文章后，可在正文底部编辑学习记录。</p>
+{{- end -}}

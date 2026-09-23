@@ -17,6 +17,9 @@
 # 创建新博文
 hugo new content content/posts/my-post.md
 
+# 创建视频笔记（默认待学习）
+hugo new content --kind video content/posts/my-video.md
+
 # 本地预览（包含草稿）
 hugo server -D
 
@@ -73,7 +76,9 @@ showToc: true
 - 主题浏览页默认展开 Agent 系统、AI 编程、模型与产业、软件工程，以及次要的已维护来源；站点与环境折叠展示。分组与来源角色在 `data/tag_groups.json` 维护，显示名称在 `content/tags/<tag>/_index.md` 维护。标签 slug 与既有 URL 保持稳定。
 - `视频笔记` 与 `博客推荐` 已停用，不再写入文章 tags；前者使用同名栏目，旧标签入口、分页与 RSS 保留兼容。
 - 外部文章的原始发布者属于 `WORKFLOW.md` 已维护的来源时，添加对应来源标签。按原文来源判定，不因内容提到某公司或产品而添加；其他来源暂不强制打标。来源域名与标签映射统一维护在 `WORKFLOW.md`。
-- 修改标题、摘要、description 或正文时，必须同步更新 `lastmod`；纯栏目、标签或格式整理保留原有 `lastmod`，避免制造虚假的内容更新时间。
+- 修改标题、摘要、description 或正文时，必须同步更新 `lastmod`；纯栏目、标签、学习状态或格式整理保留原有 `lastmod`，避免制造虚假的内容更新时间。
+- 学习状态保存在文章 frontmatter 的可选字段 `learning_status`，只允许字符串 `pending`（待学习）或 `done`（已学习）；缺少字段表示未标记，不写空值或 `unmarked`。新增视频笔记默认 `pending`，普通文章只有在用户确认已读后才写 `done`；不根据已发布、已生成笔记或 PDF 推断学习状态，不批量补标历史文章。修订文章或 PDF 时保留已有状态。
+- 学习记录集中在 `/learning/`，首页及普通文章列表不显示学习状态；从清单进入文章后，在正文底部查看状态、GitHub 编辑入口和返回清单链接。状态修改提交并推送后，随 GitHub Pages 部署同步到各设备；浏览器不保存学习状态。
 - 视频笔记必须使用 `sources/video/<slug>.md` 保存来源、时间戳和证据边界。
 - PDF 使用选定源文件，不压缩、不重新编码，只提交到公开 `blog-pdfs` 仓库；博客主仓库仅提交 `static/pdfs` submodule 指针。
 - 不要把 PDF 作为博客主仓库的普通文件提交，也不要用 `git add .` 代替对主仓库和 submodule 的分别检查。

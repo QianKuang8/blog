@@ -278,5 +278,133 @@ class ReadingPathTests(SiteFixture):
         self.assertTrue(self.failures())
 
 
+class MainMenuParserTests(unittest.TestCase):
+    def test_nav_menu_tracks_nested_lists_and_stops_at_its_closing_tag(self):
+        parser = check_site.PageParser()
+        parser.feed('<nav id="menu"><ul><li><a href="/one/">One</a></li></ul>'
+                    '<a href="/two/">Two</a></nav><a href="/outside/">Outside</a>')
+        self.assertEqual([text for _, text in parser.main_menu_links], ["One", "Two"])
+
+    def test_legacy_ul_menu_remains_supported(self):
+        parser = check_site.PageParser()
+        parser.feed('<ul id="menu"><li><a href="/one/">One</a></li></ul><a href="/outside/">Outside</a>')
+        self.assertEqual([text for _, text in parser.main_menu_links], ["One"])
+
+
+class LearningNavigationTests(SiteFixture):
+    def setUp(self):
+        super().setUp()
+        source_patch = patch.object(check_site, "__file__", str(self.root / "scripts/check_site.py"))
+        source_patch.start()
+        self.addCleanup(source_patch.stop)
+        self.posts = {"waiting": "pending", "learned": "done", "video": "unmarked"}
+        self.nav = '<nav id="menu"><a data-learning-nav data-pending-count="1" href="/blog/learning/">学习清单</a></nav>'
+        self.write("index.html", '<link rel="canonical" href="https://example.org/blog/">' + self.nav)
+        for slug, status in self.posts.items():
+            filename = "original-filename" if slug == "learned" else slug
+            metadata = f"slug: {slug}\n" if filename != slug else ""
+            metadata += "categories: ['视频笔记']\n"
+            if status != "unmarked":
+                metadata += f"learning_status: {status}\n"
+            self.write(f"content/posts/{filename}.md", f"---\n{metadata}---\nArticle\n")
+            self.write(f"posts/{slug}/index.html", self.nav + (
+                f'<section data-learning-record data-learning-status="{status}" hidden>'
+                f'<a data-learning-edit href="https://github.com/QianKuang8/blog/edit/main/content/posts/{filename}.md">Edit</a>'
+                f'<a data-learning-back href="/blog/learning/#learning-{status}">Back</a></section>'
+            ))
+        for slug, condition in (("draft", "draft: true"), ("future", "date: '2099-01-01T00:00:00Z'"), ("expired", "expiryDate: '2000-01-01T00:00:00Z'")):
+            self.write(f"content/posts/{slug}.md", f"---\n{condition}\nlearning_status: pending\n---\nNot in this build\n")
+        self.render_learning()
+
+    def entry(self, slug):
+        return (f'<a data-learning-post="{slug}" data-learning-status="{self.posts[slug]}" '
+                f'href="/blog/posts/{slug}/?learning=1">{slug}</a>')
+
+    def render_learning(self, assignments=None):
+        assignments = assignments or {status: [slug for slug in self.posts if self.posts[slug] == status]
+                                      for status in ("pending", "done", "unmarked")}
+        html = self.nav
+        for status, slugs in assignments.items():
+            tag = "section" if status == "pending" else "details"
+            html += (f'<{tag} id="learning-{status}" data-learning-group="{status}" data-count="{len(slugs)}">'
+                     + ''.join(self.entry(slug) for slug in slugs) + f'</{tag}>')
+        self.write("learning/index.html", html)
+
+    def replace(self, path, before, after):
+        self.write(path, (self.root / path).read_text().replace(before, after))
+
+    def failures(self):
+        check_site.parse_html.cache_clear()
+        failures = []
+        check_site.validate_learning_navigation(failures)
+        return failures
+
+    def assert_failure(self, expected):
+        self.assertTrue(any(expected in failure for failure in self.failures()), self.failures())
+
+    def test_source_status_and_generated_membership_define_list(self):
+        self.assertEqual(self.failures(), [])
+        # Hugo's emitted artifact decides inclusion, even in a preview build.
+        source = self.root / "content/posts/waiting.md"
+        source.write_text(source.read_text().replace("---\n", "---\ndraft: true\ndate: '2099-01-01T00:00:00Z'\n", 1))
+        self.assertEqual(self.failures(), [])
+
+    def test_missing_and_duplicate_articles_are_rejected(self):
+        self.replace("learning/index.html", self.entry("video"), "")
+        self.assert_failure("exactly once")
+        self.render_learning()
+        self.replace("learning/index.html", self.entry("waiting"), self.entry("waiting") * 2)
+        self.assert_failure("exactly once")
+
+    def test_article_must_be_inside_its_source_status_group(self):
+        self.render_learning({"pending": ["video"], "done": ["learned"], "unmarked": ["waiting"]})
+        self.assert_failure("source learning status")
+        self.render_learning()
+        self.replace("learning/index.html", self.entry("waiting"), "")
+        self.write("learning/index.html", (self.root / "learning/index.html").read_text() + self.entry("waiting"))
+        self.assert_failure("exactly one learning group")
+
+    def test_group_counts_follow_source_state(self):
+        self.replace("learning/index.html", 'data-count="1"', 'data-count="2"')
+        self.assert_failure("data-count should match source status count")
+
+    def test_group_anchors_and_default_expansion_are_checked(self):
+        self.replace("learning/index.html", '<details id="learning-done"', '<details open id="learning-done"')
+        self.assert_failure("expected default expansion")
+        self.render_learning()
+        self.replace("learning/index.html", 'id="learning-unmarked"', 'id="other"')
+        self.assert_failure("stable anchor")
+
+    def test_title_link_preserves_site_article_and_learning_context(self):
+        for href in ("/blog/posts/waiting/", "/blog/posts/video/?learning=1", "https://other.test/blog/posts/waiting/?learning=1"):
+            with self.subTest(href=href):
+                self.render_learning()
+                self.replace("learning/index.html", '/blog/posts/waiting/?learning=1', href)
+                self.assert_failure("title link should target its article with learning=1")
+
+    def test_footer_is_hidden_until_learning_context_and_uses_source_state(self):
+        self.replace("posts/waiting/index.html", ' hidden>', '>')
+        self.assert_failure("should start hidden")
+        self.replace("posts/video/index.html", 'data-learning-status="unmarked"', 'data-learning-status="done"')
+        self.assert_failure("match source status (unmarked)")
+
+    def test_explicit_slug_must_edit_real_source_filename(self):
+        self.assertEqual(self.failures(), [])
+        self.replace("posts/learned/index.html", '/content/posts/original-filename.md', '/content/posts/learned.md')
+        self.assert_failure("actual source file on GitHub")
+
+    def test_footer_links_must_be_inside_record_and_return_to_correct_group(self):
+        self.replace("posts/waiting/index.html", '#learning-pending', '#learning-done')
+        self.assert_failure("back link should target its status group")
+        self.replace("posts/video/index.html", '<a data-learning-edit', '</section><a data-learning-edit')
+        self.assert_failure("actual source file on GitHub")
+
+    def test_sidebar_pending_count_and_destination_are_checked(self):
+        self.replace("posts/video/index.html", 'data-pending-count="1"', 'data-pending-count="3"')
+        self.assert_failure("sidebar should link to the learning list with pending count 1")
+        self.replace("index.html", 'href="/blog/learning/"', 'href="/learning/"')
+        self.assert_failure("index.html: sidebar")
+
+
 if __name__ == "__main__":
     unittest.main()

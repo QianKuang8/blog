@@ -3,7 +3,7 @@
 {{- $hasToc := and (.Param "showToc") (in .TableOfContents "<a href=") -}}
 <div class="bc-reading-actions">
   {{- if $isPost }}
-    {{- with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}">← 全部文章</a>{{ end -}}
+    {{- with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" data-reading-back>← 全部文章</a>{{ end -}}
   {{- else }}
     <a href="{{ site.Home.RelPermalink }}">← 首页</a>
   {{- end }}
@@ -25,6 +25,7 @@
     {{- end }}
     {{- if $isPost }}
     <div class="bc-article-end">— 本文完 —</div>
+    {{ partial "learning/record.html" . }}
     {{ partial "reading_paths.html" . }}
     <footer class="post-footer bc-article-footer">{{ partial "post_tags.html" . }}</footer>
     {{- end }}

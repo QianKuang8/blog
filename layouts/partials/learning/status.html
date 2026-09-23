@@ -1,0 +1,9 @@
+{{- $status := "unmarked" -}}
+{{- if isset .Params "learning_status" -}}
+  {{- if in (slice "pending" "done") .Params.learning_status -}}
+    {{- $status = .Params.learning_status -}}
+  {{- else if not .Draft -}}
+    {{- errorf "post %q: learning_status must be pending or done; omit the field for unmarked" .File.Path -}}
+  {{- end -}}
+{{- end -}}
+{{- return $status -}}

@@ -53,6 +53,10 @@ class PageParser(HTMLParser):
         self.post_tag_labels: list[str | None] = []
         self.tag_groups: list[str] = []
         self.post_entries: list[dict[str, object]] = []
+        self.learning_groups: list[dict[str, object]] = []
+        self.learning_records: list[dict[str, object]] = []
+        self._learning_containers: list[dict[str, object] | None] = []
+        self._link_learning_containers: list[dict[str, object]] = []
         self._json_ld_parts: list[str] | None = None
         self._link_attrs: dict[str, str | None] | None = None
         self._link_parts: list[str] = []
@@ -61,6 +65,7 @@ class PageParser(HTMLParser):
         self._heading_tag: str | None = None
         self._heading_parts: list[str] = []
         self._main_menu_depth = 0
+        self._main_menu_tag: str | None = None
         self._post_meta_depth = 0
         self._post_meta_parts: list[str] = []
         self._article_depth = 0
@@ -95,11 +100,21 @@ class PageParser(HTMLParser):
                 (attributes.get("data-post-meta-fields") or "").split()
             )
 
-        if tag == "ul":
-            if self._main_menu_depth:
-                self._main_menu_depth += 1
-            elif attributes.get("id") == "menu":
-                self._main_menu_depth = 1
+        if tag == self._main_menu_tag:
+            self._main_menu_depth += 1
+        elif tag in {"ul", "nav"} and attributes.get("id") == "menu" and not self._main_menu_depth:
+            self._main_menu_tag = tag
+            self._main_menu_depth = 1
+
+        if tag in {"section", "details"}:
+            container = None
+            if "data-learning-group" in attributes or "data-learning-record" in attributes:
+                container = {"tag": tag, "attrs": attributes, "links": []}
+                if "data-learning-group" in attributes:
+                    self.learning_groups.append(container)
+                if "data-learning-record" in attributes:
+                    self.learning_records.append(container)
+            self._learning_containers.append(container)
 
         if tag == "article":
             self._article_depth += 1
@@ -118,6 +133,7 @@ class PageParser(HTMLParser):
             self._link_parts = []
             self._link_in_main_menu = self._main_menu_depth > 0
             self._link_post_entry = self._post_entry_contexts[-1][1] if self._post_entry_contexts else None
+            self._link_learning_containers = [item for item in self._learning_containers if item is not None]
         elif tag == "meta":
             self.meta.append(attributes)
         elif tag in {"h1", "h2", "h3", "h4", "h5", "h6"}:
@@ -151,10 +167,13 @@ class PageParser(HTMLParser):
                 links = self._link_post_entry["links"]
                 assert isinstance(links, list)
                 links.append(link)
+            for container in self._link_learning_containers:
+                container["links"].append(link)
             self._link_attrs = None
             self._link_parts = []
             self._link_in_main_menu = False
             self._link_post_entry = None
+            self._link_learning_containers = []
         elif tag == self._heading_tag:
             self.headings.append(
                 (self._heading_tag, "".join(self._heading_parts).strip())
@@ -169,8 +188,12 @@ class PageParser(HTMLParser):
             ):
                 self._post_entry_contexts.pop()
             self._article_depth = max(0, self._article_depth - 1)
-        elif tag == "ul" and self._main_menu_depth:
+        elif tag == self._main_menu_tag and self._main_menu_depth:
             self._main_menu_depth -= 1
+            if not self._main_menu_depth:
+                self._main_menu_tag = None
+        if tag in {"section", "details"} and self._learning_containers:
+            self._learning_containers.pop()
 
 
 def read_html(relative_path: str) -> str:
@@ -652,6 +675,132 @@ def validate_reading_paths(failures: list[str]) -> None:
         )
 
 
+def validate_learning_navigation(failures: list[str]) -> None:
+    """Learning state comes from source metadata; membership follows this build."""
+    repo = Path(__file__).resolve().parent.parent
+    home_url = parse_html("index.html").canonical_url or ""
+    learning_url = urljoin(home_url, "learning/")
+    statuses = ("pending", "done", "unmarked")
+    posts: dict[str, dict[str, str]] = {}
+    for source in sorted((repo / "content/posts").glob("*.md")):
+        if source.stem == "_index":
+            continue
+        try:
+            metadata, _ = read_markdown(source)
+            slug = metadata.get("slug") or source.stem
+            relative_path = f"posts/{slug}/index.html"
+            # Include only generated posts, including preview-only posts if built.
+            if not (SITE_DIR / relative_path).is_file():
+                continue
+            status = metadata.get("learning_status", "unmarked")
+            if status not in statuses or ("learning_status" in metadata and status == "unmarked"):
+                raise ValueError("learning_status should be pending or done, or omitted")
+            posts[slug] = {
+                "status": status,
+                "path": relative_path,
+                "edit": "https://github.com/QianKuang8/blog/edit/main/"
+                + quote(source.relative_to(repo).as_posix()),
+            }
+        except (OSError, ValueError, TypeError, yaml.YAMLError) as error:
+            failures.append(f"{source.name}: cannot validate learning entry: {error}")
+
+    page = parse_html("learning/index.html")
+    groups = page.learning_groups
+    assert_true(
+        [group["attrs"].get("data-learning-group") for group in groups] == list(statuses),
+        "learning/index.html should have one pending, done and unmarked group in order",
+        failures,
+    )
+    entries = [(attrs, title) for attrs, title in page.links if "data-learning-post" in attrs]
+    actual_slugs = [attrs.get("data-learning-post") for attrs, _ in entries]
+    assert_true(
+        len(actual_slugs) == len(set(actual_slugs)) and set(actual_slugs) == set(posts),
+        "learning/index.html should show every generated article exactly once",
+        failures,
+    )
+    grouped_count = 0
+    for group in groups:
+        attrs = group["attrs"]
+        status = attrs.get("data-learning-group")
+        expected_count = sum(post["status"] == status for post in posts.values())
+        assert_true(
+            attrs.get("data-count") == str(expected_count),
+            f"learning/index.html: {status} data-count should match source status count ({expected_count})",
+            failures,
+        )
+        assert_true(
+            attrs.get("id") == f"learning-{status}" and "hidden" not in attrs
+            and (group["tag"] == "section" if status == "pending" else group["tag"] == "details" and "open" not in attrs),
+            f"learning/index.html: {status} should have a stable anchor and the expected default expansion",
+            failures,
+        )
+        links = [(attrs, title) for attrs, title in group["links"] if "data-learning-post" in attrs]
+        grouped_count += len(links)
+        for entry_attrs, title in links:
+            slug = entry_attrs.get("data-learning-post")
+            expected = posts.get(slug)
+            if expected is None:
+                continue
+            assert_true(
+                entry_attrs.get("data-learning-status") == status == expected["status"],
+                f"learning/index.html: {slug} should belong to its source learning status ({expected['status']})",
+                failures,
+            )
+            expected_url = urljoin(home_url, f"posts/{quote(slug)}/?learning=1")
+            assert_true(
+                bool(title.strip()) and unquote(urljoin(home_url, entry_attrs.get("href") or "")) == unquote(expected_url),
+                f"learning/index.html: {slug} title link should target its article with learning=1",
+                failures,
+            )
+    assert_true(
+        grouped_count == len(entries),
+        "learning/index.html: article title links should belong to exactly one learning group",
+        failures,
+    )
+
+    for slug, post in posts.items():
+        records = parse_html(post["path"]).learning_records
+        assert_true(len(records) == 1, f"{post['path']}: should contain one learning record", failures)
+        if len(records) != 1:
+            continue
+        record = records[0]
+        attrs = record["attrs"]
+        assert_true(
+            record["tag"] == "section" and "hidden" in attrs
+            and attrs.get("data-learning-status") == post["status"],
+            f"{post['path']}: learning record should start hidden and match source status ({post['status']})",
+            failures,
+        )
+        edit_links = [attrs for attrs, _ in record["links"] if "data-learning-edit" in attrs]
+        assert_true(
+            len(edit_links) == 1 and unquote(edit_links[0].get("href") or "") == unquote(post["edit"]),
+            f"{post['path']}: learning edit link should target its actual source file on GitHub",
+            failures,
+        )
+        back_links = [attrs for attrs, _ in record["links"] if "data-learning-back" in attrs]
+        assert_true(
+            len(back_links) == 1
+            and urljoin(home_url, back_links[0].get("href") or "") == learning_url + f"#learning-{post['status']}",
+            f"{post['path']}: learning back link should target its status group",
+            failures,
+        )
+
+    pending_count = str(sum(post["status"] == "pending" for post in posts.values()))
+    required_pages = {"index.html", "learning/index.html", *(post["path"] for post in posts.values())}
+    for path in sorted(SITE_DIR.rglob("*.html")):
+        relative_path = path.relative_to(SITE_DIR).as_posix()
+        menu = parse_html(relative_path).main_menu_links
+        if not menu and relative_path not in required_pages:
+            continue
+        links = [attrs for attrs, _ in menu if "data-learning-nav" in attrs]
+        assert_true(
+            len(links) == 1 and links[0].get("data-pending-count") == pending_count
+            and urljoin(home_url, links[0].get("href") or "") == learning_url,
+            f"{relative_path}: sidebar should link to the learning list with pending count {pending_count}",
+            failures,
+        )
+
+
 def rss_items(
     relative_path: str, failures: list[str]
 ) -> list[dict[str, str]] | None:
@@ -800,6 +949,7 @@ def main() -> int:
         "search/index.html",
         "tags/index.html",
         "topics/index.html",
+        "learning/index.html",
     ):
         assert_true(
             bool(read_html(relative_path)),
@@ -837,6 +987,11 @@ def main() -> int:
         assert_true(
             bool(home_feed_items),
             "index.xml should contain at least one item",
+            failures,
+        )
+        assert_true(
+            not any(url_path_ends_with(item.get("link"), "learning") for item in home_feed_items),
+            "index.xml should not include the learning utility page",
             failures,
         )
     categories_feed_items = rss_items("categories/index.xml", failures)
@@ -887,6 +1042,11 @@ def main() -> int:
                     if isinstance(item.get("permalink"), str):
                         search_urls.append(item["permalink"])
                 assert_true(len(search_urls) == len(set(search_urls)), "index.json should not repeat search URLs", failures)
+                assert_true(
+                    not any(url_path_ends_with(url, "learning") for url in search_urls),
+                    "index.json should not include the learning utility page",
+                    failures,
+                )
                 assert_true(
                     any(
                         isinstance(item, dict)
@@ -970,6 +1130,7 @@ def main() -> int:
     validate_local_references(failures)
     validate_pagination_canonicals(failures)
     validate_reading_paths(failures)
+    validate_learning_navigation(failures)
 
     search_page = parse_html("search/index.html")
     assert_true(

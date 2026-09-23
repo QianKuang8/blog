@@ -1,0 +1,13 @@
+{{- $status := partial "learning/status.html" . -}}
+{{- $labels := dict "pending" "待学习" "done" "已学习" "unmarked" "未标记" -}}
+{{- $symbols := dict "pending" "○" "done" "✓" "unmarked" "—" -}}
+{{- $learning := site.GetPage "/learning" -}}
+<section class="bc-learning-record" id="learning-record" data-learning-record data-learning-status="{{ $status }}" aria-label="我的学习记录" hidden>
+  <div class="bc-learning-record-line">
+    <div><span>我的学习记录</span><span class="bc-learning-status bc-learning-status--{{ $status }}"><span aria-hidden="true">{{ index $symbols $status }}</span> {{ index $labels $status }}</span></div>
+    {{- with site.Params.contentEditURL }}
+      <a data-learning-edit href="{{ printf "%s/%s" (strings.TrimSuffix "/" .) $.File.Path }}" target="_blank" rel="noopener noreferrer">在 GitHub 编辑 ↗</a>
+    {{- end }}
+  </div>
+  <a data-learning-back href="{{ $learning.RelPermalink }}#learning-{{ $status }}">← 返回学习清单</a>
+</section>
