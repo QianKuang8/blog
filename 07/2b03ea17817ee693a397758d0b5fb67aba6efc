@@ -1,0 +1,73 @@
+AGENTS.md
+  s_0ce0ba5d112edb::t_c91e444a3b1678 20-22,79-81
+BLOG_PROMPTS.md
+  s_0ce0ba5d112edb::t_cdba238328271c 20-22,123
+README.md
+  s_0ce0ba5d112edb::t_047bee40d651bc 30-37,40-45
+archetypes/video.md
+  s_0ce0ba5d112edb::t_2eaefea0685a4d 1-14
+assets/css/site.css
+  s_b24075d7718f58::t_0c2341e00d9823 55-56,106-138
+assets/js/site.js
+  s_b24075d7718f58::t_23aaf22fb7186c 50-92,123
+config/_default/config.yaml
+  s_b24075d7718f58::t_35d8227126900a 56
+content/learning/_index.md
+  s_b24075d7718f58::t_e6d4188e013478 1-5
+layouts/_default/single.html
+  s_b24075d7718f58::t_be7c8f72400b71 6,28
+layouts/learning/list.html
+  s_b24075d7718f58::t_78db43a7f0980e 1-32
+layouts/partials/learning/pages.html
+  s_b24075d7718f58::t_03806d1d69eb1f 1-14
+layouts/partials/learning/record.html
+  s_b24075d7718f58::t_d85bc922c65573 1-13
+layouts/partials/learning/row.html
+  s_b24075d7718f58::t_659ea761520394 1-15
+layouts/partials/learning/status.html
+  s_b24075d7718f58::t_168854d2fe5b71 1-9
+layouts/partials/sidebar.html
+  s_b24075d7718f58::t_6380550cfc6785 11-14
+scripts/check_content.py
+  s_bfc8c6228b3aaf::t_b90529387f0e5c 19,216-219
+scripts/check_site.py
+  s_bfc8c6228b3aaf::t_3a063fae87d567 56-59,68,103-117,136,170-171,176,191,193-196,678-803,952,992-996,1045-1049,1133
+tests/test_content.py
+  s_bfc8c6228b3aaf::t_b076baff882464 138-162
+tests/test_site.py
+  s_bfc8c6228b3aaf::t_b3342ce9ab55df 281-408
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "072b03ea17817ee693a397758d0b5fb67aba6efc",
+  "prompts": {},
+  "sessions": {
+    "s_0ce0ba5d112edb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd5b-28a9-7311-8479-254faf4a245f",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_b24075d7718f58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd4a-1698-71b2-a56a-b003027984fe",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_bfc8c6228b3aaf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd5a-e209-7392-b827-004a897f215d",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
