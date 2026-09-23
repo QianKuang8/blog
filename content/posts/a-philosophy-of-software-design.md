@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一本软件设计书怎样判断自己的建议有没有效果？John Ousterhout 在《软件设计的哲学》（*A Philosophy of Software Design*，第二版，2021）里选择了一个很实际的尺度：软件是否容易理解和修改。

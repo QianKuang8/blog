@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 同一项能力，可以做成一个工具、多个小工具、一段提示，或者让模型通过 shell 自己组合。人类工程师觉得简洁的接口，模型未必容易使用；工具能执行，也不代表模型会在正确时机选中它。

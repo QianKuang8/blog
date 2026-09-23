@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 这个博客使用 Hugo 生成静态页面，PaperMod 提供主题，GitHub Pages 负责托管。日常写作主要修改 Markdown 文件，但从“文章写完”到“读者能看到”，还要经过本地构建、资源检查和线上部署。这里把这条路径记下来，便于以后维护。

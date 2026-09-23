@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一处代码修改经常需要其他位置跟进：定义变了，使用它的代码可能也要调整；当前文件改完，工作区里还可能残留旧写法。编辑建议若只盯着光标，能减少输入，却难以减少寻找遗漏的工作。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 代码变化以后，文档可能需要更新；Issue 新建以后，需要分类和补充背景；CI 失败以后，需要有人把日志整理成可调查的线索。这些工作随项目持续发生，却不一定要求一个 Agent 自由接管整个仓库。

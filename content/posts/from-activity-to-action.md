@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 假设你一早上都在准备一次产品发布：先在 Slack 里确认阻塞项，再到浏览器里修改上线说明，最后在表格中更新进度。午饭后回到电脑前，你却记不起停在哪里，甚至想不起刚才打开的文档叫什么。

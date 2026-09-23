@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 给 LLM 接上工具以后，下一步该由代码安排，还是交给模型决定？Anthropic 的 [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents) 围绕这个问题整理了多种生产实践。文章建议先找到足够简单的方案，只有评估表明新增复杂度改善了结果，才继续增加步骤或自主性。

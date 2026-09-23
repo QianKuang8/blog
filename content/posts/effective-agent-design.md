@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 长任务会不断产生文件、工具结果、失败尝试和中间决策。把它们全部放进一条不断增长的消息历史，模型既要维持目标，又要从越来越多材料里寻找下一步所需信息。

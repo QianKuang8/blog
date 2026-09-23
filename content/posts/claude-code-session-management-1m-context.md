@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 长任务会留下文件内容、搜索结果、失败尝试和新的约束。窗口还能容纳这些信息，不代表下一步仍需要全部携带。Thariq Shihipar 在 [《Session management and 1M context》](https://claude.com/blog/using-claude-code-session-management-and-1m-context) 中，把每轮结束后的上下文管理整理成五种选择：继续、回退、清空、压缩和委派。

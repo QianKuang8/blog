@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 工具返回几万行日志时，全部塞进上下文会占用窗口，直接截断又可能丢掉后续排障所需的细节。Cursor 的 [Dynamic context discovery](https://cursor.com/cn/blog/dynamic-context-discovery) 介绍了一种折中：完整资料留在文件中，先向 Agent 提供足够的索引，再让它按需读取。

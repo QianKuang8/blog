@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 代码能编译、测试也通过，距离任务完成还差什么？tisonkun 的 [Agentic Coding 的边界](https://mp.weixin.qq.com/s/x_FUUG4wBUqYs1H5DUtpgQ)从实践经验出发，讨论“看起来合理的实现”如何变成经得起使用的产品。差距不一定在生成能力，而可能在需求是否完整、抽象是否合适，以及结果能否得到充分检查。

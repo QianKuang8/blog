@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 能修改代码后，为什么仍频繁需要人接手？OpenAI 的 [Harness Engineering 文章](https://openai.com/zh-Hans-CN/index/harness-engineering/)把调查方向放在执行环境：目标是否明确，工具是否够用，规则能否被发现，以及修改以后能否获得有效反馈。

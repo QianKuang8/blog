@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 当 Coding Agent 把推理服务的吞吐改低了，一句“性能回退 20%”能告诉它结果，却很难告诉它下一步该查什么。问题可能出在算子、通信、内存管理，也可能是上层调度让设备一直等不到任务。

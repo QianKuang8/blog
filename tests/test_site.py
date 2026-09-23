@@ -307,18 +307,19 @@ class LearningNavigationTests(SiteFixture):
             if status != "unmarked":
                 metadata += f"learning_status: {status}\n"
             self.write(f"content/posts/{filename}.md", f"---\n{metadata}---\nArticle\n")
-            self.write(f"posts/{slug}/index.html", self.nav + (
-                f'<section data-learning-record data-learning-status="{status}" hidden>'
-                f'<a data-learning-edit href="https://github.com/QianKuang8/blog/edit/main/content/posts/{filename}.md">Edit</a>'
-                f'<a data-learning-back href="/blog/learning/#learning-{status}">Back</a></section>'
-            ))
+            self.write(f"posts/{slug}/index.html", self.nav + '<article>Article body</article>')
         for slug, condition in (("draft", "draft: true"), ("future", "date: '2099-01-01T00:00:00Z'"), ("expired", "expiryDate: '2000-01-01T00:00:00Z'")):
             self.write(f"content/posts/{slug}.md", f"---\n{condition}\nlearning_status: pending\n---\nNot in this build\n")
         self.render_learning()
 
     def entry(self, slug):
         return (f'<a data-learning-post="{slug}" data-learning-status="{self.posts[slug]}" '
-                f'href="/blog/posts/{slug}/?learning=1">{slug}</a>')
+                f'href="/blog/posts/{slug}/">{slug}</a>')
+
+    def edit_link(self, slug):
+        filename = "original-filename" if slug == "learned" else slug
+        return (f'<a data-learning-edit="{slug}" '
+                f'href="https://github.com/QianKuang8/blog/edit/main/content/posts/{filename}.md">Edit</a>')
 
     def render_learning(self, assignments=None):
         assignments = assignments or {status: [slug for slug in self.posts if self.posts[slug] == status]
@@ -327,7 +328,7 @@ class LearningNavigationTests(SiteFixture):
         for status, slugs in assignments.items():
             tag = "section" if status == "pending" else "details"
             html += (f'<{tag} id="learning-{status}" data-learning-group="{status}" data-count="{len(slugs)}">'
-                     + ''.join(self.entry(slug) for slug in slugs) + f'</{tag}>')
+                     + ''.join(self.entry(slug) + self.edit_link(slug) for slug in slugs) + f'</{tag}>')
         self.write("learning/index.html", html)
 
     def replace(self, path, before, after):
@@ -375,29 +376,41 @@ class LearningNavigationTests(SiteFixture):
         self.replace("learning/index.html", 'id="learning-unmarked"', 'id="other"')
         self.assert_failure("stable anchor")
 
-    def test_title_link_preserves_site_article_and_learning_context(self):
-        for href in ("/blog/posts/waiting/", "/blog/posts/video/?learning=1", "https://other.test/blog/posts/waiting/?learning=1"):
+    def test_title_link_uses_ordinary_article_url_without_learning_context(self):
+        for href in ("/blog/posts/waiting/?learning=1", "/blog/posts/video/", "https://other.test/blog/posts/waiting/"):
             with self.subTest(href=href):
                 self.render_learning()
-                self.replace("learning/index.html", '/blog/posts/waiting/?learning=1', href)
-                self.assert_failure("title link should target its article with learning=1")
+                self.replace("learning/index.html", '/blog/posts/waiting/', href)
+                self.assert_failure("title link should target its ordinary article URL")
 
-    def test_footer_is_hidden_until_learning_context_and_uses_source_state(self):
-        self.replace("posts/waiting/index.html", ' hidden>', '>')
-        self.assert_failure("should start hidden")
-        self.replace("posts/video/index.html", 'data-learning-status="unmarked"', 'data-learning-status="done"')
-        self.assert_failure("match source status (unmarked)")
+    def test_article_pages_reject_learning_controls_even_when_hidden(self):
+        for control in (
+            '<section data-learning-record hidden></section>',
+            '<div data-learning-record></div>',
+            '<span data-learning-status="done">已学习</span>',
+            self.edit_link("waiting"),
+            '<a data-learning-back href="/blog/learning/">Back</a>',
+        ):
+            with self.subTest(control=control):
+                self.write("posts/waiting/index.html", self.nav + control)
+                self.assert_failure("article page should not contain learning controls or status")
 
     def test_explicit_slug_must_edit_real_source_filename(self):
         self.assertEqual(self.failures(), [])
-        self.replace("posts/learned/index.html", '/content/posts/original-filename.md', '/content/posts/learned.md')
+        self.replace("learning/index.html", '/content/posts/original-filename.md', '/content/posts/learned.md')
         self.assert_failure("actual source file on GitHub")
 
-    def test_footer_links_must_be_inside_record_and_return_to_correct_group(self):
-        self.replace("posts/waiting/index.html", '#learning-pending', '#learning-done')
-        self.assert_failure("back link should target its status group")
-        self.replace("posts/video/index.html", '<a data-learning-edit', '</section><a data-learning-edit')
-        self.assert_failure("actual source file on GitHub")
+    def test_list_requires_exactly_one_edit_link_per_article(self):
+        self.replace("learning/index.html", self.edit_link("waiting"), "")
+        self.assert_failure("exactly one edit link for every generated article")
+        self.render_learning()
+        self.replace("learning/index.html", self.edit_link("learned"), self.edit_link("learned") * 2)
+        self.assert_failure("exactly one edit link for every generated article")
+
+    def test_edit_link_must_belong_to_its_articles_group(self):
+        self.replace("learning/index.html", self.edit_link("waiting"), "")
+        self.replace("learning/index.html", self.edit_link("learned"), self.edit_link("learned") + self.edit_link("waiting"))
+        self.assert_failure("edit links should match the articles in this group")
 
     def test_sidebar_pending_count_and_destination_are_checked(self):
         self.replace("posts/video/index.html", 'data-pending-count="1"', 'data-pending-count="3"')

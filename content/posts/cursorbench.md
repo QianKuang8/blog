@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 两个模型在公开榜单上分数接近，放进同一个编辑器后，却可能表现出明显差异：一个经常需要追问和修正，另一个能更快找到相关文件。这时需要检查评测任务是否覆盖了实际工作，以及评分有没有遗漏交互成本。

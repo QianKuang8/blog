@@ -115,8 +115,9 @@ p { text-wrap: pretty; }
 .bc-learning-row h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.65; }
 .bc-learning-row h3 a:hover { text-decoration: underline; }
 .bc-learning-row .bc-post-meta { margin-top: 7px; }
-.bc-learning-read { color: var(--accent); font-size: 12px; white-space: nowrap; padding-top: 6px; }
-.bc-learning-read:hover { text-decoration: underline; }
+.bc-learning-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; padding-top: 6px; font-size: 12px; white-space: nowrap; }
+.bc-learning-actions a { color: var(--accent); }
+.bc-learning-actions a:hover { text-decoration: underline; }
 .bc-learning-group--folded { margin-top: 0; border-bottom: 1px solid var(--line); }
 .bc-learning-group--folded > summary { display: flex; gap: 10px; align-items: baseline; padding: 21px 0; font-size: 14px; color: var(--muted); cursor: pointer; list-style: none; }
 .bc-learning-group--folded > summary::-webkit-details-marker { display: none; }
@@ -128,13 +129,6 @@ p { text-wrap: pretty; }
 .bc-learning-empty { padding: 20px 0 26px; margin: 0; }
 .bc-learning-empty a { color: var(--accent); text-decoration: underline; }
 .bc-learning-help { margin: 24px 0 0; }
-.bc-learning-record { border-top: 1px solid var(--line); padding: 19px 0 24px; font-size: 12px; color: var(--muted); }
-.bc-learning-record-line { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; margin-bottom: 16px; }
-.bc-learning-record-line > div { display: flex; gap: 16px; align-items: baseline; }
-.bc-learning-record a { color: var(--accent); }
-.bc-learning-record a:hover { text-decoration: underline; }
-.bc-learning-status--done { color: var(--accent); }
-.bc-learning-status--pending { color: light-dark(#85662c, #d9bc7f); }
 
 /* A 720px reading column, with contextual navigation in a separate rail. */
 .bc-reading-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; font-size: 12px; color: var(--subtle); padding-top: 4px; }
@@ -246,6 +240,8 @@ p { text-wrap: pretty; }
 .post-tags { display: flex; flex-wrap: wrap; gap: 10px 18px; list-style: none; margin: 0; padding: 0; }
 .post-tags a { color: var(--accent); }
 .bc-archive-years { display: flex; gap: 22px; flex-wrap: wrap; padding: 0 0 25px; color: var(--accent); font-size: 14px; }
+.bc-archive-years a { display: inline-flex; align-items: baseline; gap: 8px; }
+.bc-archive-year-count { color: var(--subtle); font-size: 12px; }
 .bc-archive-year { margin-top: 30px; scroll-margin-top: 30px; }
 .bc-archive-year > h2 { font-size: 23px; margin: 0 0 15px; }
 .bc-post-row--compact { padding: 17px 0; }

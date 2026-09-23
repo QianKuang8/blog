@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 把一个模块的接口改掉，通常还要找到调用方、调整错误处理、更新测试，再检查行为是否一致。聊天助手可以逐步给建议，但如果文件由人来搬、错误由人来回传，这些步骤仍由开发者手动连接。

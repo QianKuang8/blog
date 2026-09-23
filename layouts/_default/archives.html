@@ -12,7 +12,7 @@
 </header>
 <nav class="bc-archive-years" aria-label="按年份跳转">
   {{- range $pages.GroupByDate "2006" }}
-    <a href="#year-{{ .Key }}">{{ .Key }}<span>{{ len .Pages }}</span></a>
+    <a href="#year-{{ .Key }}" aria-label="{{ .Key }} 年，共 {{ len .Pages }} 篇文章"><span>{{ .Key }} 年</span><span class="bc-archive-year-count">· {{ len .Pages }} 篇</span></a>
   {{- end }}
 </nav>
 {{- range $pages.GroupByDate "2006" }}

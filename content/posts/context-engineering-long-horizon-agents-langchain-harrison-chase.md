@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 长程 Agent 的第十四步会看到什么，开发者很难仅凭启动时的提示回答。前十三步可能读过文件、调用工具，也可能引入错误结论。任务越长，后续行为越依赖这些不断变化的输入。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Coding Agent 的成本优化需要回答一个具体问题：哪些工作值得交给另一个模型，交出去以后又要花多少精力检查？Cognition 的 [《Introducing Fusion in Devin Desktop & CLI》](https://cognition.com/blog/local-fusion) 提供了一个双 Agent 的例子。理解它的价值，需要同时看工作如何分配、信息如何传递，以及最终结果是否满足要求。

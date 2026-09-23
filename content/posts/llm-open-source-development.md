@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一张生态图上新增和消失的项目，能否直接说明技术方向的兴衰？机器之心的 [大模型开源生态全景图 2.0 报道](https://mp.weixin.qq.com/s/D58GfDHogMS43Dl75fostw)提供了丰富材料，也提醒读者先检查制图方法。榜单记录哪些项目被这套方法选中，与整个行业里哪些项目仍有价值，是两个不同问题。

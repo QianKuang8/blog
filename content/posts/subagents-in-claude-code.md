@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 在陌生项目里实现功能，常常先要追踪认证流程、查找现成组件、确认数据格式。把所有探索都放进主会话，后续实现会携带大量已经无关的文件内容；拆成子任务，则需要付出说明和交接成本。

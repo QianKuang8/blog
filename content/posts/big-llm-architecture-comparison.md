@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 两款模型都写着 Transformer、MoE 和长上下文，部署成本却可能相差很大。要理解这种差异，需要继续问：每个 token 缓存什么，计算时激活哪些参数，历史信息以什么形式保留，以及推理引擎怎样执行这些结构。

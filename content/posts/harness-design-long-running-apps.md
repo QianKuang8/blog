@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 应用能打开，不等于用户可以完成任务；设计看起来整齐，也不等于具有预期的视觉表达。长时间自主开发若只让生成者判断自己是否完成，往往会把这些差异藏在一份乐观总结里。

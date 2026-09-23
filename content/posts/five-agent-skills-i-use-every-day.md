@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 开发者反复提醒 Agent“先确认需求”“拆小任务”“按行为测试”，说明这些要求已经成为稳定的工作习惯，却仍在每个会话里重新表达。把它们整理成 Skill，可以减少重复说明，也让流程更容易一起修改。

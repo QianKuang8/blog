@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个长任务每执行一次工具调用，就会多出一段动作和观察结果。下一轮模型需要重新接收这些内容，判断继续做什么。Manus 的 [上下文工程经验](https://manus.im/zh-cn/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)由此讨论三个互相牵制的问题：怎样复用历史计算，怎样保留任务信息，以及怎样让模型在长链执行中持续回应目标。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 “修好测试”只描述了目标，没有说明仓库在哪、应跑哪条命令、现有修改是否属于用户。一个能持续工作的 coding agent，需要先取得这些事实，再执行、读取失败，并决定下一步。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 团队纠正了一次 Agent 的评审意见，下一个 PR 里，同类问题仍可能出现。对使用者来说，纠正已经发生；对下一次任务来说，那条意见却未必进入了它能读取的知识。怎样把一次反馈变成以后都能使用的工作方法，是持续使用 Agent 时绕不开的问题。

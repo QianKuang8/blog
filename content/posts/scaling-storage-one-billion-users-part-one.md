@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一次数据库查询很快，用户请求仍可能很慢。对存储访问层来说，查询前后的路由、等待和结果处理，同样占用请求的时间预算。增加实例之后，这些时间是否缩短，还要看流量怎样分配、下游能承受多少连接。

@@ -1,6 +1,6 @@
 {{- $page := .page -}}
 {{- $slug := $page.Slug | default $page.File.ContentBaseName -}}
-{{- $url := printf "%s?learning=1" $page.RelPermalink -}}
+{{- $url := $page.RelPermalink -}}
 <li class="bc-learning-row">
   <span class="bc-learning-number" aria-hidden="true">{{ printf "%02d" .number }}</span>
   <div>
@@ -11,5 +11,10 @@
       {{ if $page.Param "ShowReadingTime" }}<span>{{ $page.ReadingTime }} 分钟</span>{{ end }}
     </div>
   </div>
-  <a class="bc-learning-read" href="{{ $url }}" aria-label="阅读《{{ $page.Title }}》">阅读{{ if in $page.Params.categories "视频笔记" }}笔记{{ else }}文章{{ end }} →</a>
+  <div class="bc-learning-actions">
+    <a href="{{ $url }}" aria-label="阅读《{{ $page.Title }}》">阅读{{ if in $page.Params.categories "视频笔记" }}笔记{{ else }}文章{{ end }} →</a>
+    {{- with site.Params.contentEditURL }}
+    <a data-learning-edit="{{ $slug }}" href="{{ printf "%s/%s" (strings.TrimSuffix "/" .) $page.File.Path }}" target="_blank" rel="noopener noreferrer" aria-label="在 GitHub 编辑《{{ $page.Title }}》的学习状态">GitHub 编辑 ↗</a>
+    {{- end }}
+  </div>
 </li>

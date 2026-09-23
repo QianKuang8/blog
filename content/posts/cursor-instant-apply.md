@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 模型给出一段正确的修改建议后，还要把它放回现有文件。建议里可能省略了未修改的方法，也可能只画出了新结构；直接复制会丢代码，让通用模型补齐又可能带来无关改动和等待时间。

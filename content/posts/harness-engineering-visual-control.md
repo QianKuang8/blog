@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个仓库可以同时拥有 Spec、架构决策、Hooks、CODEOWNERS 和 CI，团队却仍然说不清：哪些变化会触发检查，失败由谁处理，哪些路径可以绕过规则。文件齐全，并不自动意味着交付流程已经受到约束。

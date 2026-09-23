@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 连续搜索、读文件和运行工具以后，上下文会积累许多只在某一步有用的内容。继续全部保留，会增加成本，并可能让旧结论、无关结果和相互冲突的材料影响后续动作；简单清空，又会丢掉目标、约束和已经确认的发现。

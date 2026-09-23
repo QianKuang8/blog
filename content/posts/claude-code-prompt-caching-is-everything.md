@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 在一个已有十万 token 历史的会话里，把简单问题切给单价更低的模型，未必更便宜。Claude Code 团队在 [《Prompt Caching Is Everything》](https://x.com/trq212/status/2024574133011673516) 中用这个例子提醒：切换模型还可能失去此前的缓存，需要重新处理长前缀。

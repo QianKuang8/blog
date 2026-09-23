@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 已经写出完整方案，读者却很难快速比较选项或指出要改哪里。输出文件的格式会影响这段协作。Thariq Shihipar 在 [《The Unreasonable Effectiveness of HTML》](https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html) 中介绍了自己的做法：让 Claude Code 生成 HTML，用布局、图示和交互承接复杂内容。

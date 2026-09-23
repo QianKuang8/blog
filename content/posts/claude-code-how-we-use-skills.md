@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 团队反复遇到同一类 Agent 错误时，怎样避免每次重新解释？Thariq Shihipar 的 [How We Use Skills](https://x.com/trq212/status/2033949937936085378)整理了 Anthropic 内部使用 Skills 的经验：把任务所需的说明、参考、脚本和资源放在可发现的目录里，再根据实际失败持续修改。

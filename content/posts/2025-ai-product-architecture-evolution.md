@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个助手能回答问题，并不意味着它能接下一个持续执行的业务任务。任务要跨系统、等待外部事件、处理失败，还可能在中途收到新的约束。这些要求会同时改变交互界面、执行架构与验收方式。

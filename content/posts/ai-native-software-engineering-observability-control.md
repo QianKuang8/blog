@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个 Agent 连续工作了两小时，可能完成了有价值的修改，也可能反复尝试同一条失败路径。token 多、工具调用多和无需人介入，都描述了过程，却没有单独说明任务是否推进。

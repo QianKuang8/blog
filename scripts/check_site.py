@@ -54,7 +54,7 @@ class PageParser(HTMLParser):
         self.tag_groups: list[str] = []
         self.post_entries: list[dict[str, object]] = []
         self.learning_groups: list[dict[str, object]] = []
-        self.learning_records: list[dict[str, object]] = []
+        self.learning_controls: list[dict[str, str | None]] = []
         self._learning_containers: list[dict[str, object] | None] = []
         self._link_learning_containers: list[dict[str, object]] = []
         self._json_ld_parts: list[str] | None = None
@@ -76,6 +76,8 @@ class PageParser(HTMLParser):
     ) -> None:
         attributes = dict(attrs)
         classes = class_names(attributes)
+        if {"data-learning-record", "data-learning-status", "data-learning-edit", "data-learning-back"}.intersection(attributes):
+            self.learning_controls.append(attributes)
         for class_name in classes:
             self.class_counts[class_name] = self.class_counts.get(class_name, 0) + 1
         if attributes.get("data-tag-group"):
@@ -108,12 +110,9 @@ class PageParser(HTMLParser):
 
         if tag in {"section", "details"}:
             container = None
-            if "data-learning-group" in attributes or "data-learning-record" in attributes:
+            if "data-learning-group" in attributes:
                 container = {"tag": tag, "attrs": attributes, "links": []}
-                if "data-learning-group" in attributes:
-                    self.learning_groups.append(container)
-                if "data-learning-record" in attributes:
-                    self.learning_records.append(container)
+                self.learning_groups.append(container)
             self._learning_containers.append(container)
 
         if tag == "article":
@@ -712,13 +711,30 @@ def validate_learning_navigation(failures: list[str]) -> None:
         failures,
     )
     entries = [(attrs, title) for attrs, title in page.links if "data-learning-post" in attrs]
+    edit_links = [attrs for attrs, _ in page.links if "data-learning-edit" in attrs]
     actual_slugs = [attrs.get("data-learning-post") for attrs, _ in entries]
     assert_true(
         len(actual_slugs) == len(set(actual_slugs)) and set(actual_slugs) == set(posts),
         "learning/index.html should show every generated article exactly once",
         failures,
     )
+    edit_slugs = [attrs.get("data-learning-edit") for attrs in edit_links]
+    assert_true(
+        len(edit_slugs) == len(set(edit_slugs)) and set(edit_slugs) == set(posts),
+        "learning/index.html should have exactly one edit link for every generated article",
+        failures,
+    )
+    for attrs in edit_links:
+        slug = attrs.get("data-learning-edit")
+        expected = posts.get(slug)
+        if expected is not None:
+            assert_true(
+                unquote(attrs.get("href") or "") == unquote(expected["edit"]),
+                f"learning/index.html: {slug} edit link should target its actual source file on GitHub",
+                failures,
+            )
     grouped_count = 0
+    grouped_edit_count = 0
     for group in groups:
         attrs = group["attrs"]
         status = attrs.get("data-learning-group")
@@ -736,6 +752,14 @@ def validate_learning_navigation(failures: list[str]) -> None:
         )
         links = [(attrs, title) for attrs, title in group["links"] if "data-learning-post" in attrs]
         grouped_count += len(links)
+        group_edits = [attrs for attrs, _ in group["links"] if "data-learning-edit" in attrs]
+        grouped_edit_count += len(group_edits)
+        assert_true(
+            {attrs.get("data-learning-edit") for attrs in group_edits}
+            == {attrs.get("data-learning-post") for attrs, _ in links},
+            f"learning/index.html: {status} edit links should match the articles in this group",
+            failures,
+        )
         for entry_attrs, title in links:
             slug = entry_attrs.get("data-learning-post")
             expected = posts.get(slug)
@@ -746,10 +770,10 @@ def validate_learning_navigation(failures: list[str]) -> None:
                 f"learning/index.html: {slug} should belong to its source learning status ({expected['status']})",
                 failures,
             )
-            expected_url = urljoin(home_url, f"posts/{quote(slug)}/?learning=1")
+            expected_url = urljoin(home_url, f"posts/{quote(slug)}/")
             assert_true(
                 bool(title.strip()) and unquote(urljoin(home_url, entry_attrs.get("href") or "")) == unquote(expected_url),
-                f"learning/index.html: {slug} title link should target its article with learning=1",
+                f"learning/index.html: {slug} title link should target its ordinary article URL",
                 failures,
             )
     assert_true(
@@ -757,31 +781,16 @@ def validate_learning_navigation(failures: list[str]) -> None:
         "learning/index.html: article title links should belong to exactly one learning group",
         failures,
     )
+    assert_true(
+        grouped_edit_count == len(edit_links),
+        "learning/index.html: edit links should belong to exactly one learning group",
+        failures,
+    )
 
-    for slug, post in posts.items():
-        records = parse_html(post["path"]).learning_records
-        assert_true(len(records) == 1, f"{post['path']}: should contain one learning record", failures)
-        if len(records) != 1:
-            continue
-        record = records[0]
-        attrs = record["attrs"]
+    for post in posts.values():
         assert_true(
-            record["tag"] == "section" and "hidden" in attrs
-            and attrs.get("data-learning-status") == post["status"],
-            f"{post['path']}: learning record should start hidden and match source status ({post['status']})",
-            failures,
-        )
-        edit_links = [attrs for attrs, _ in record["links"] if "data-learning-edit" in attrs]
-        assert_true(
-            len(edit_links) == 1 and unquote(edit_links[0].get("href") or "") == unquote(post["edit"]),
-            f"{post['path']}: learning edit link should target its actual source file on GitHub",
-            failures,
-        )
-        back_links = [attrs for attrs, _ in record["links"] if "data-learning-back" in attrs]
-        assert_true(
-            len(back_links) == 1
-            and urljoin(home_url, back_links[0].get("href") or "") == learning_url + f"#learning-{post['status']}",
-            f"{post['path']}: learning back link should target its status group",
+            not parse_html(post["path"]).learning_controls,
+            f"{post['path']}: article page should not contain learning controls or status",
             failures,
         )
 

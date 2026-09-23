@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 编程 Agent 会不断积累对话、代码和工具结果，模型能处理的内容却有容量限制。**上下文压缩**会把后续需要读入的材料变短，为继续工作腾出空间。

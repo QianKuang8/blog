@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 遇到模型反复误解任务时，可以先把问题说具体：它漏了约束、误用了背景，还是输出格式不符合调用方要求？带着失败类型查资料，通常比收集一组“万能提示词”更容易形成可验证的改动。

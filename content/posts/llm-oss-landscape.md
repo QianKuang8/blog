@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 看到一个新的 AI 开源项目，首先需要判断它解决的是哪一层问题。[Agentic AI Landscape and Trends](https://github.com/antgroup/llm-oss-landscape)提供了一份代表项目索引，将 Agentic AI 生态分成 Agent Infra、Model Infra 和 Large Models 三层。

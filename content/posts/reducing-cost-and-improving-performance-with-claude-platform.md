@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 的账单变高时，直接换便宜模型很容易想到；更难回答的是，现有流程到底在哪些地方多做了工作。输入反复处理、重复查证、失败重试，都可能让单次调用的价格失去解释力。

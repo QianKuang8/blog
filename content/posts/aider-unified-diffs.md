@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 模型把修改方向讲清楚，却在代码里留下“此处保留原实现”，这样的回答无法直接应用到仓库。Aider 在 2023 年的 [Unified Diff 实验](https://aider.chat/2023/12/21/unified-diffs.html)中，把这种代码省略单独做成评测问题：同一个模型换一种编辑格式，能否更完整地交付修改？

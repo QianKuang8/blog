@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 AI 能加快代码生成，但团队成员对分层和业务模型理解不一致时，更快生成也可能扩大差异。美团 Agent 评测团队的 [31 万行代码库重构实践](https://tech.meituan.com/2026/05/07/Agent-AI-Coding.html) 讨论了怎样在持续交付业务的同时，统一规范、迁移旧结构并组织验收。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 代码生成速度提高以后，开发者仍要表达意图、定位修改、确认 diff，并判断结果是否符合要求。Lex Fridman 的 [Cursor 团队访谈](https://lexfridman.com/cursor-team-transcript/)把这些环节放在一起讨论：模型能力怎样进入日常编辑循环，才不会把节省的输入时间重新花在等待与核对上？
