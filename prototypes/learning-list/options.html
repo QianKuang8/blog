@@ -1,0 +1,170 @@
+<!-- Throwaway design comparison: A inline metadata, B personal view, C separate learning list. All learning states are examples. No repository writes. -->
+<style>
+#q-study-options{--q-paper:light-dark(#fdfdfb,#1c231e);--q-ink:light-dark(#29322c,#e0e8db);--q-muted:light-dark(#5c6c55,#b0bea8);--q-line:light-dark(#e1e8db,#374333);--q-surface:light-dark(#f1f5ec,#262f28);--q-accent:light-dark(#2f7047,#9bcda6);--q-wait:light-dark(#85662c,#d9bc7f);--q-wait-bg:light-dark(#f7f1e4,#342d21);font:14px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--q-ink);width:100%;text-align:left}
+#q-study-options *{box-sizing:border-box}
+#q-study-options [hidden]{display:none!important}
+#q-study-options button,#q-study-options input{font:inherit;color:inherit}
+#q-study-options button{background:transparent;border:0}
+#q-study-options button:focus-visible,#q-study-options a:focus-visible{outline:2px solid var(--q-accent);outline-offset:4px}
+#q-study-options a{color:var(--q-accent);text-decoration:none;text-underline-offset:4px}
+#q-study-options a:hover{text-decoration:underline}
+#q-study-options .qo-design{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:0 0 14px}
+#q-study-options .qo-variants{display:flex;gap:5px;flex-wrap:wrap}
+#q-study-options .qo-variant{padding:8px 12px;font-size:13px;border:1px solid var(--q-line);border-radius:5px;background:var(--q-paper)}
+#q-study-options .qo-variant[aria-pressed="true"]{background:var(--q-ink);color:var(--q-paper);border-color:var(--q-ink)}
+#q-study-options .qo-sample{font-size:12px;color:var(--q-muted)}
+#q-study-options .qo-window{background:var(--q-paper);border:1px solid var(--q-line);border-radius:5px;min-height:690px;padding:30px 28px 24px;display:grid;grid-template-columns:145px minmax(0,1fr);gap:35px}
+#q-study-options .qo-sidebar{display:flex;flex-direction:column;min-width:0;align-self:stretch}
+#q-study-options .qo-brand{font-weight:650;font-size:20px;letter-spacing:-.4px;line-height:1.4}
+#q-study-options .qo-brand small{display:block;font-size:12px;color:var(--q-muted);font-weight:400;letter-spacing:0;margin-top:7px}
+#q-study-options .qo-nav{margin-top:28px;display:grid;gap:7px;color:var(--q-muted);font-size:13px}
+#q-study-options .qo-nav button{padding:5px 0;text-align:left;line-height:1.6;font-size:13px}
+#q-study-options .qo-nav span{padding:5px 0}
+#q-study-options .qo-nav button[aria-current="page"]{color:var(--q-accent);font-weight:600}
+#q-study-options .qo-study-nav{border-top:1px solid var(--q-line)!important;margin-top:10px;padding-top:16px!important;display:flex;justify-content:space-between;gap:12px}
+#q-study-options .qo-sidebar-bottom{margin-top:auto;padding-top:28px;color:var(--q-muted);font-size:11px}
+#q-study-options .qo-sidebar-bottom div{display:flex;gap:16px;margin-top:9px}
+#q-study-options .qo-main{min-width:0}
+#q-study-options .qo-top{display:flex;align-items:start;justify-content:space-between;gap:18px;margin-bottom:19px}
+#q-study-options h1{font-size:27px;line-height:1.45;font-weight:600;letter-spacing:-.3px;margin:0 0 9px}
+#q-study-options h2{margin:0;font-weight:600;font-size:20px;line-height:1.55}
+#q-study-options p{margin:0}
+#q-study-options .qo-intro{font-size:13px;color:var(--q-muted)}
+#q-study-options .qo-toggle{display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--q-muted);font-size:12px;margin-top:6px}
+#q-study-options .qo-toggle input{accent-color:var(--q-accent);width:14px;height:14px;margin:0}
+#q-study-options .qo-categories{display:flex;gap:23px;font-size:12px;color:var(--q-muted);border-bottom:1px solid var(--q-line);padding:3px 0 13px;flex-wrap:wrap}
+#q-study-options .qo-categories .qo-active{color:var(--q-accent);position:relative}
+#q-study-options .qo-categories .qo-active:after{content:"";height:1px;background:var(--q-accent);position:absolute;bottom:-14px;left:0;right:0}
+#q-study-options .qo-personal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--q-line);padding:15px 0}
+#q-study-options .qo-filterbar{display:flex;gap:5px;flex-wrap:wrap}
+#q-study-options .qo-filter{font-size:12px;padding:5px 10px;border-radius:3px;color:var(--q-muted)}
+#q-study-options .qo-filter[aria-pressed="true"]{background:var(--q-surface);color:var(--q-accent)}
+#q-study-options .qo-count{color:var(--q-muted);font-size:12px;white-space:nowrap}
+#q-study-options .qo-post{border-bottom:1px solid var(--q-line);padding:20px 0 23px;min-width:0}
+#q-study-options .qo-post-b{display:grid;grid-template-columns:minmax(0,1fr) 82px;gap:20px;align-items:start}
+#q-study-options .qo-open{padding:0;text-align:left;font-weight:600;font-size:18px;line-height:1.6}
+#q-study-options .qo-open:hover{color:var(--q-accent)}
+#q-study-options .qo-summary{font-size:14px;color:var(--q-muted);margin-top:6px;line-height:1.8}
+#q-study-options .qo-meta{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap;color:var(--q-muted);font-size:12px;margin-top:10px}
+#q-study-options .qo-status{font-size:12px;color:var(--q-wait);display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-weight:400}
+#q-study-options .qo-status.done{color:var(--q-accent)}
+#q-study-options .qo-status.unknown{color:var(--q-muted)}
+#q-study-options .qo-status-cell{padding-top:4px;text-align:right}
+#q-study-options .qo-status-cell .qo-status{padding:3px 7px;border-radius:3px;background:var(--q-wait-bg)}
+#q-study-options .qo-status-cell .done{background:var(--q-surface)}
+#q-study-options .qo-status-cell .unknown{background:transparent;padding-right:0}
+#q-study-options .qo-list-header{display:flex;justify-content:space-between;padding:11px 0 0;font-size:11px;color:var(--q-muted)}
+#q-study-options .qo-bottom{font-size:11px;color:var(--q-muted);padding-top:16px;display:flex;justify-content:space-between;gap:16px}
+#q-study-options .qo-group{margin-top:24px}
+#q-study-options .qo-group-heading{font-size:13px;color:var(--q-muted);padding-bottom:10px;border-bottom:1px solid var(--q-line);display:flex;justify-content:space-between}
+#q-study-options .qo-queue-row{display:grid;grid-template-columns:26px minmax(0,1fr) 76px;gap:12px;align-items:start;padding:18px 0;border-bottom:1px solid var(--q-line)}
+#q-study-options .qo-queue-number{font-size:12px;color:var(--q-muted);padding-top:5px}
+#q-study-options .qo-queue-row .qo-open{font-size:17px}
+#q-study-options .qo-queue-row .qo-meta{margin-top:6px}
+#q-study-options .qo-queue-link{font-size:12px;padding-top:5px;text-align:right;color:var(--q-accent)}
+#q-study-options .qo-collapsible{border-bottom:1px solid var(--q-line);padding:16px 0;color:var(--q-muted);font-size:13px}
+#q-study-options .qo-collapsible summary{list-style-position:inside}
+#q-study-options .qo-collapsible .qo-queue-row:last-child{border-bottom:0;padding-bottom:0}
+#q-study-options .qo-reading-actions{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:27px}
+#q-study-options .qo-back{font-size:12px;color:var(--q-muted);padding:0}
+#q-study-options .qo-article-header{padding-bottom:23px;border-bottom:1px solid var(--q-line);margin-bottom:24px}
+#q-study-options .qo-article-header h1{font-size:28px;line-height:1.55;margin:12px 0 16px}
+#q-study-options .qo-article-header .qo-meta{margin:0}
+#q-study-options .qo-article-summary{font-size:15px;color:var(--q-muted);line-height:1.85}
+#q-study-options .qo-record-band{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;padding:13px 16px;background:var(--q-surface);border-radius:3px;margin:21px 0 0;font-size:12px}
+#q-study-options .qo-record-band>div{display:flex;align-items:center;gap:14px}
+#q-study-options .qo-record-label{color:var(--q-muted)}
+#q-study-options .qo-prose{font-size:16px;line-height:1.9}
+#q-study-options .qo-prose p{margin-bottom:17px}
+#q-study-options .qo-prose h2{font-size:22px;margin:26px 0 14px}
+#q-study-options .qo-source{font-size:12px;color:var(--q-muted);padding:13px 0;line-height:1.8}
+#q-study-options .qo-end-note{text-align:center;color:var(--q-muted);font-size:12px;letter-spacing:2px;margin:30px 0 20px}
+#q-study-options .qo-bottom-record{border-top:1px solid var(--q-line);padding:17px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;font-size:12px}
+#q-study-options .qo-bottom-record>div{display:flex;gap:12px;align-items:center}
+#q-study-options .qo-preview-controls{display:flex;align-items:center;gap:5px}
+#q-study-options .qo-preview-controls button{font-size:12px;padding:4px 8px;color:var(--q-muted);border-bottom:1px solid transparent}
+#q-study-options .qo-preview-controls button[aria-pressed="true"]{color:var(--q-accent);border-color:var(--q-accent)}
+</style>
+<div id="q-study-options" aria-label="三套博客学习标记原型">
+  <div class="qo-design">
+    <div class="qo-variants" aria-label="原型方案">
+      <button type="button" class="qo-variant cursor-interaction" data-variant="A" aria-pressed="true">A · 随文标记</button>
+      <button type="button" class="qo-variant cursor-interaction" data-variant="B" aria-pressed="false">B · 个人学习视图</button>
+      <button type="button" class="qo-variant cursor-interaction" data-variant="C" aria-pressed="false">C · 独立学习清单</button>
+    </div>
+    <span class="qo-sample">原型 · 示例状态</span>
+  </div>
+  <div class="qo-window">
+    <aside class="qo-sidebar">
+      <div class="qo-brand">Qian's Blog<small>文章与笔记</small></div>
+      <nav class="qo-nav" aria-label="博客导航">
+        <button type="button" class="cursor-interaction" data-nav="blog" aria-current="page">最新文章</button>
+        <span>主题浏览</span><span>阅读专题</span><span>归档</span><span>搜索</span>
+        <button type="button" class="qo-study-nav cursor-interaction" data-nav="learning" hidden>学习清单 <span>2</span></button>
+      </nav>
+      <div class="qo-sidebar-bottom">90 篇记录 · 5 个专题<div><span>GitHub ↗</span><span>RSS ↗</span></div></div>
+    </aside>
+    <main class="qo-main" aria-label="原型内容"></main>
+  </div>
+  <div class="qo-bottom"><span class="qo-current-caption">A · 标记与日期、时长放在一起</span><div class="qo-preview-controls"><button type="button" data-page="list" aria-pressed="true" class="cursor-interaction">列表页</button><button type="button" data-page="article" aria-pressed="false" class="cursor-interaction">文章页</button></div></div>
+</div>
+<script>
+(()=>{
+ const root=document.getElementById('q-study-options');
+ const main=root.querySelector('.qo-main');
+ const articles=[
+  {id:0,title:'生成式 AI 的价值分布：怎样理解收入与利润的倒三角',short:'生成式 AI 的价值分布',slug:'stanford-mse435-week-01-generative-ai-economics',summary:'区分讲者口述与课件重算，理解上下游收入、利润和用户变现的不同口径。',date:'2026.08.31',minutes:7,source:'Stanford MS&E 435 · Week 1',status:'pending',pdf:'stanford-mse435/week-01-generative-ai-economics.pdf'},
+  {id:1,title:'从电子到 Token：吉瓦级 AI 工厂的物理约束与经济回报',short:'从电子到 Token',slug:'stanford-mse435-week-03-ai-factories-gigawatt-infrastructure',summary:'从电力、冷却和建设投入，理解数据中心怎样交付可用算力。',date:'2026.08.31',minutes:9,source:'Stanford MS&E 435 · Week 3',status:'pending',pdf:'stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf'},
+  {id:2,title:'Claude Code 团队如何工作：目标委派、动态工作流与验证反馈',short:'Claude Code 团队如何工作',slug:'how-claude-code-team-uses-claude-code',summary:'沿输入、执行、检查和反馈，看团队怎样完成更长、更自主的开发任务。',date:'2026.09.08',minutes:6,source:'Claude · 团队访谈',status:'done',pdf:'standalone/how-claude-code-team-uses-claude-code.pdf'},
+  {id:3,title:'代理时代的设计：执行更便宜，判断更昂贵',short:'代理时代的设计',slug:'agent-era-design',summary:'代理扩展设计候选，人负责选择、组合与验收。',date:'2026.08.31',minutes:8,source:'Y Combinator · Design Review',status:'unknown',pdf:'standalone/agent-era-design.pdf'}
+ ];
+ const state={variant:'A',page:'list',selected:0,enabled:true,filter:'all',surface:'blog',doneLabel:'已学习'};
+ function restore(saved){const s=saved?.privateContent;if(!s)return;if(['A','B','C'].includes(s.variant))state.variant=s.variant;if(['list','article'].includes(s.page))state.page=s.page;if([0,1,2,3].includes(s.selected))state.selected=s.selected;if(typeof s.enabled==='boolean')state.enabled=s.enabled;if(['all','pending','done','unknown'].includes(s.filter))state.filter=s.filter;if(['blog','learning'].includes(s.surface))state.surface=s.surface;if(['已学习','已看过'].includes(s.doneLabel))state.doneLabel=s.doneLabel;}
+ restore(window.openai?.widgetState);
+ const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function label(s){return s==='done'?state.doneLabel:s==='pending'?'待学习':'未标记';}
+ function status(s){return `<span class="qo-status ${s}">${s==='done'?'✓':s==='pending'?'○':'—'} ${label(s)}</span>`;}
+ function edit(a){return `<a href="https://github.com/QianKuang8/blog/edit/main/content/posts/${a.slug}.md" target="_blank" rel="noopener noreferrer">在 GitHub 编辑 ↗</a>`;}
+ function meta(a,withStatus=false){return `<div class="qo-meta"><span>视频笔记</span><span>${a.date}</span><span>${a.minutes} 分钟</span>${withStatus&&a.status!=='unknown'?status(a.status):''}</div>`;}
+ function toggle(){return `<label class="qo-toggle"><input type="checkbox" data-toggle ${state.enabled?'checked':''}>${state.variant==='B'?'个人学习视图':'显示学习标记'}</label>`;}
+ function categories(){return '<div class="qo-categories"><span>全部</span><span>阅读与解读</span><span>研究与实践</span><span class="qo-active">视频笔记</span></div>';}
+ function filters(){return `<div class="qo-personal-toolbar"><div class="qo-filterbar" aria-label="学习状态筛选">${[['all','全部',4],['pending','待学习',2],['done',state.doneLabel,1],['unknown','未标记',1]].map(([v,t,n])=>`<button type="button" class="qo-filter cursor-interaction" data-filter="${v}" aria-pressed="${state.filter===v}">${t} ${n}</button>`).join('')}</div></div>`;}
+ function rows(withColumn){const list=state.variant==='B'&&state.enabled&&state.filter!=='all'?articles.filter(a=>a.status===state.filter):articles;return list.map(a=>`<article class="qo-post ${withColumn?'qo-post-b':''}"><div><h2><button type="button" class="qo-open cursor-interaction" data-open="${a.id}">${escape(a.title)}</button></h2><p class="qo-summary">${escape(a.summary)}</p>${meta(a,state.variant==='A'&&state.enabled)}</div>${withColumn?`<div class="qo-status-cell">${status(a.status)}</div>`:''}</article>`).join('');}
+ function queueRow(a,number){return `<article class="qo-queue-row"><span class="qo-queue-number">${number}</span><div><button type="button" class="qo-open cursor-interaction" data-open="${a.id}">${escape(a.short)}</button><div class="qo-meta"><span>${escape(a.source)}</span><span>${a.minutes} 分钟</span></div></div><button type="button" class="qo-queue-link cursor-interaction" data-open="${a.id}">阅读笔记 →</button></article>`;}
+ function listPage(){
+  if(state.variant==='C'&&state.surface==='learning')return `<header class="qo-top"><div><h1>学习清单</h1><p class="qo-intro">为下一次学习留一个入口。</p></div><span class="qo-count">我的学习记录</span></header><section class="qo-group"><div class="qo-group-heading"><span>待学习</span><span>2 篇</span></div>${articles.filter(a=>a.status==='pending').map((a,i)=>queueRow(a,String(i+1).padStart(2,'0'))).join('')}</section><details class="qo-collapsible"><summary>${state.doneLabel} · 1 篇</summary>${queueRow(articles[2],'✓')}</details><details class="qo-collapsible"><summary>未标记 · 1 篇</summary>${queueRow(articles[3],'—')}</details><div class="qo-source">未标记表示尚未录入学习状态。</div>`;
+  return `<header class="qo-top"><div><h1>视频笔记</h1><p class="qo-intro">课程、访谈与演讲的主题式笔记。</p></div>${state.variant==='C'?'':toggle()}</header>${categories()}${state.variant==='B'&&state.enabled?filters()+'<div class="qo-list-header"><span>文章</span><span>学习状态</span></div>':''}${rows(state.variant==='B'&&state.enabled)}`;
+ }
+ function articlePage(){const a=articles[state.selected],show=state.variant!=='C'&&state.enabled;
+ const inline=state.variant==='A'&&show?`<div class="qo-meta"><span>我的学习状态</span>${status(a.status)}${edit(a)}</div>`:'';
+ const band=state.variant==='B'&&show?`<div class="qo-record-band"><div><span class="qo-record-label">我的学习记录</span>${status(a.status)}</div>${edit(a)}</div>`:'';
+ const footer=state.variant==='C'&&state.surface==='learning'?`<div class="qo-bottom-record"><div><span class="qo-record-label">学习记录</span>${status(a.status)}</div>${edit(a)}</div><button type="button" class="qo-back cursor-interaction" data-back>← 返回学习清单</button>`:'';
+ return `<div class="qo-reading-actions"><button type="button" class="qo-back cursor-interaction" data-back>← ${state.variant==='C'&&state.surface==='learning'?'学习清单':'视频笔记'}</button>${state.variant==='C'?'':toggle()}</div><header class="qo-article-header">${meta(a)}<h1>${escape(a.title)}</h1><p class="qo-article-summary">${escape(a.summary)}</p>${inline}${band}</header><div class="qo-prose"><p>${state.selected===0?'AI 基础设施投入迅速增长，应用收入需要多久才能承接这些投入？这场课程从半导体、基础设施和应用三层出发，比较收入与利润分布。':escape(a.summary)+' 这篇笔记围绕材料中的具体问题展开，保留讲者观点与整理者归纳的区别。'}</p><h2>${state.selected===0?'同一套产业栈，两种相反形状':'从材料中的具体问题出发'}</h2><p>${state.selected===0?'收入可以用来观察产业各层的规模，但上下游之间存在采购。同一笔支出可能出现在多个层级的收入里，因此各层收入之和不能直接当作去除重复计算后的市场规模。':'理解一个案例，需要先确认它讨论的任务、采用的方法，以及最后实际得到了什么结果。再把这些信息放回自己的使用情境，判断哪些方法值得继续尝试。'}</p><div class="qo-source">${escape(a.source)} · 正文节选</div></div><div class="qo-end-note">— 节选结束 —</div>${footer}<div class="qo-meta"><a href="https://qiankuang8.github.io/blog/pdfs/${a.pdf}" target="_blank" rel="noopener noreferrer">完整笔记 PDF ↗</a></div>`;
+ }
+ function save(){window.openai?.setWidgetState?.({modelContent:{prototypeOnly:true,variant:state.variant,page:state.page,learningDisplay:state.enabled},privateContent:{...state}})?.catch(()=>{});}
+ function render(){
+  main.innerHTML=state.page==='article'?articlePage():listPage();
+  root.querySelectorAll('[data-variant]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.variant===state.variant)));
+  root.querySelectorAll('[data-page]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.page===state.page)));
+  root.querySelector('[data-nav="learning"]').hidden=state.variant!=='C';
+  root.querySelector('[data-nav="blog"]').setAttribute('aria-current',state.variant==='C'&&state.surface==='learning'?'false':'page');
+  root.querySelector('[data-nav="learning"]').setAttribute('aria-current',state.variant==='C'&&state.surface==='learning'?'page':'false');
+  root.querySelector('.qo-current-caption').textContent={A:'A · 标记与日期、时长放在一起',B:'B · 打开个人视图，集中查看与筛选',C:'C · 用独立清单安排学习，阅读页面保持简洁'}[state.variant];
+ }
+ root.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b||!root.contains(b))return;
+  if(b.dataset.variant){state.variant=b.dataset.variant;state.filter='all';state.surface=state.variant==='C'?'learning':'blog';state.enabled=true;}
+  else if(b.dataset.page){state.page=b.dataset.page;}
+  else if(b.dataset.open!==undefined){state.selected=Number(b.dataset.open);state.page='article';}
+  else if(b.hasAttribute('data-back'))state.page='list';
+  else if(b.dataset.filter){state.filter=b.dataset.filter;}
+  else if(b.dataset.nav){state.surface=b.dataset.nav;state.page='list';}
+  else return;
+  render();save();
+ });
+ root.addEventListener('change',e=>{if(e.target.matches('[data-toggle]')){state.enabled=e.target.checked;if(!state.enabled)state.filter='all';render();save();}});
+ window.addEventListener('openai:set_globals',e=>{if(e.detail?.globals?.widgetState){restore(e.detail.globals.widgetState);render();}});
+ render();
+ if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:()=>{render();save();}});tweak.addSelect(state,'doneLabel',{label:'完成状态文案',options:['已学习','已看过']});}
+})();
+</script>
