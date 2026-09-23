@@ -8,6 +8,10 @@
       {{ $active := or (eq $page.RelPermalink $target.RelPermalink) (and (eq .path "/topics") (eq $page.Section "topics")) (and (eq .path "/tags") (eq $page.Section "tags")) }}
       <a href="{{ $target.RelPermalink }}"{{ if $active }} aria-current="page"{{ end }}>{{ .name }}</a>
     {{ end }}
+    {{ with site.GetPage "/learning" }}
+      {{ $learning := partialCached "learning/pages.html" site site.Language.Lang }}
+      <a class="bc-learning-nav" href="{{ .RelPermalink }}" data-learning-nav data-pending-count="{{ len $learning.pending }}"{{ if eq $page.RelPermalink .RelPermalink }} aria-current="page"{{ end }}><span>学习清单</span><span class="bc-learning-nav-count" aria-label="{{ len $learning.pending }} 篇待学习">{{ len $learning.pending }}</span></a>
+    {{ end }}
   </nav>
   <div class="bc-side-bottom">
     <span>{{ len $posts }} 篇记录 · {{ len hugo.Data.reading_paths.paths }} 个专题</span>

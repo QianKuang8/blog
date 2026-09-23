@@ -135,6 +135,31 @@ class ContentValidationTests(unittest.TestCase):
         self.write_markdown(self.post, {"draft": "true"}, "")
         self.assert_failure("draft must be a YAML boolean")
 
+    def test_learning_status_is_optional_and_accepts_pending_or_done(self):
+        self.assertEqual(validate_content(self.repo), [])
+        for status in ("pending", "done"):
+            with self.subTest(status=status):
+                self.metadata["learning_status"] = status
+                self.write_post()
+                self.assertEqual(validate_content(self.repo), [])
+
+    def test_learning_status_rejects_empty_non_string_and_unknown_values(self):
+        for status in (None, "", " ", True, False, 0, 1, [], {}, "unmarked", "Done", "reading"):
+            with self.subTest(status=status):
+                self.metadata["learning_status"] = status
+                self.write_post()
+                self.assertEqual(validate_content(self.repo), [
+                    "content/posts/example.md: learning_status must be pending or done; "
+                    "omit the field for an unmarked article"
+                ])
+
+    def test_learning_status_follows_explicit_draft_exemption(self):
+        self.write_markdown(self.post, {"draft": True, "learning_status": "unfinished"}, "")
+        self.assertEqual(validate_content(self.repo), [])
+        self.metadata.update(draft=False, learning_status="unfinished")
+        self.write_post()
+        self.assert_failure("learning_status must be pending or done")
+
     def test_deleted_original_source(self):
         self.add_source()
         self.assertEqual(validate_content(self.repo), [])

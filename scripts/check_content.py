@@ -16,6 +16,7 @@ import yaml
 
 
 CATEGORIES = {"好文分享", "原创文章", "视频笔记"}
+LEARNING_STATUSES = {"pending", "done"}
 PDF_REPOSITORY = "https://github.com/QianKuang8/blog-pdfs/blob/"
 
 
@@ -212,6 +213,10 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
             fail(post, "draft must be a YAML boolean")
         if data.get("draft") is True:
             continue
+        if "learning_status" in data and (
+            not isinstance(data["learning_status"], str) or data["learning_status"] not in LEARNING_STATUSES
+        ):
+            fail(post, "learning_status must be pending or done; omit the field for an unmarked article")
         required_text(post, data, ("title", "summary", "description", "author"))
         if not body.strip():
             fail(post, "article body must not be empty")

@@ -53,6 +53,7 @@ menu:
       weight: 60
 
 params:
+  contentEditURL: "https://github.com/QianKuang8/blog/edit/main/content"
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Qian's blog
   description: "Qian 的个人博客，记录 AI 工程、Coding Agent、Context Engineering 和软件工程实践。"

@@ -1,0 +1,14 @@
+{{- $pending := slice -}}
+{{- $done := slice -}}
+{{- $unmarked := slice -}}
+{{- range (where site.RegularPages "Section" "posts").ByDate.Reverse -}}
+  {{- $status := partial "learning/status.html" . -}}
+  {{- if eq $status "pending" -}}
+    {{- $pending = $pending | append . -}}
+  {{- else if eq $status "done" -}}
+    {{- $done = $done | append . -}}
+  {{- else -}}
+    {{- $unmarked = $unmarked | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "pending" $pending "done" $done "unmarked" $unmarked) -}}
