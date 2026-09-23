@@ -61,9 +61,18 @@ pdf_path: "standalone/communication-strategy-direct-narrative.pdf"
 - 自动字幕中的专名、数字和逐字引语需要复核。
 - Nabokov 短篇 Signs and Symbols 的情节以受访者复述为准，不当作小说原文。
 
+## 2026-09-23 理解复核
+
+- 对照 23 页修订 PDF 的 Go Direct、Jetsons 与总结章节，把“目标函数”“使能器”等表述改成受众、行动、渠道以及技术移除的具体障碍。
+- 00:24:24–00:24:43 的 200 名对象与 50 万阅读量仍标为讲者假设，不作为传播实验结果。
+- 文末沟通顺序与招聘应用例是整理者的迁移示例，检查受众是否理解、是否愿意进一步行动，不以曝光量独自证明有效。
+- 保留 Anduril、Shopify 案例和小说转述的来源级别；具体人物故事与长期关系可支持主张，不能自动保证真实性。
+
+本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/communication-strategy-direct-narrative.md`
 - 站点 PDF：`/blog/pdfs/standalone/communication-strategy-direct-narrative.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/standalone/communication-strategy-direct-narrative.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/communication-strategy-direct-narrative.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。

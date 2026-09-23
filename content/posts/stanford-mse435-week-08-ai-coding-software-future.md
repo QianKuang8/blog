@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:00:00+08:00'
-lastmod: '2026-09-21T10:19:06+08:00'
+lastmod: '2026-09-23T14:26:11+08:00'
 title: '当代码生成越来越容易：智能体软件的价值转向可靠运行'
 summary: "Guillermo Rauch 从部署、沙箱、可组合接口与运维出发，解释代码生成成本下降后，软件经济的稀缺性为何会迁移到可靠运行与可信治理。"
 description: "解读 Stanford MS&E 435 Week 8 关于 AI coding、智能体基础设施、SaaS 分层与软件未来的课堂访谈"
@@ -13,7 +13,7 @@ showToc: true
 
 代码生成成本下降以后，部署、恢复和运维会怎样影响软件价值？Stanford MS&E 435 的这场访谈中，Guillermo Rauch 从可运行服务出发，讨论长时任务、沙箱与可组合接口，以及它们怎样支撑生成后的软件。
 
-视频原题为 [Applications, Coding AI](https://www.youtube.com/watch?v=HA7lZd7zk3M)，嘉宾是 Vercel 创始人兼 CEO Guillermo Rauch，由 Stanford Online 于 2026 年 6 月 23 日发布，时长 49 分 22 秒，属于 Stanford MS&E 435 Week 8。以下内容依据人工英文字幕、时间戳来源记录和 22 页课程笔记整理。Rauch 同时也是基础设施供应商的创始人，因此本文把他的框架、Vercel 的公司自述和本文的工程归纳分开处理。
+视频原题为 [Applications, Coding AI](https://www.youtube.com/watch?v=HA7lZd7zk3M)，嘉宾是 Vercel 创始人兼 CEO Guillermo Rauch，由 Stanford Online 于 2026 年 6 月 23 日发布，时长 49 分 22 秒，属于 Stanford MS&E 435 Week 8。以下内容依据人工英文字幕、时间戳来源记录和 24 页课程笔记整理。Rauch 同时也是基础设施供应商的创始人，因此本文把他的框架、Vercel 的公司自述和本文的工程归纳分开处理。
 
 ## 四个核心结论
 
@@ -22,11 +22,13 @@ showToc: true
 3. SaaS 更可能分层重组，而非整体消失。呈现层更容易按任务生成，权威记录、访问控制和业务工作流仍是可复用底座。
 4. 智能体会偏好局部可理解、开放且可组合的“积木”。机器需求也会迫使平台把僵硬限额升级为带身份、预算和滥用防护的动态容量控制。
 
-## 代码生成之后，部署才启动学习
+## 从代码生成到用户使用，需要三种证据
 
 Rauch 把编程史理解为访问权不断扩张的历史：个人计算、开源和云平台先后降低了获得工具与交付软件的门槛，编码智能体又把自然语言意图直接推向实现。每次抽象都没有消灭复杂性，只是把稀缺性推到下一层。[00:06:10–00:08:06](https://www.youtube.com/watch?v=HA7lZd7zk3M&t=370s)
 
-这也是他强调“部署才让学习开始”的原因。仓库可以保存代码，却不会自动提供依赖、配置、密钥、网络、数据和持续运维。只有运行中的版本真正到达用户，团队才会得到行为、错误、转化或满意度信号，再用这些证据修改产品。AI coding 若只提高代码产量，却没有缩短“意图—运行—反馈”的闭环，价值仍停留在中间环节。
+这也是他强调“部署才让学习开始”的原因。仓库可以保存代码，却不会自动提供依赖、配置、密钥、网络、数据和持续运维。部署把代码放入可运行、可访问的环境；用户实际使用后，团队才能观察行为、错误、转化或满意度，再据此修改产品。
+
+新版课程笔记据此区分三种结果：构建通过，说明代码满足了部分技术检查；线上版本可访问，说明部署已经完成；用户完成预期任务并留下反馈，才提供了产品是否有用的证据。三者需要分别核验。一次构建或部署成功，都不能单独证明用户价值已经实现。这个区分是整理者对访谈的工程解释。
 
 接下来，Rauch 用一个反事实命名说明云对象的变化：如果今天重新创建 AWS，它也许更像“Amazon Agent Services”。这不是 Amazon 的产品公告，而是一种思考工具。页面请求通常在毫秒级返回；智能体可能持续推理、调用工具、等待外部结果，并在数小时后交付研究、构建或维护任务。[00:08:27–00:10:29](https://www.youtube.com/watch?v=HA7lZd7zk3M&t=507s)
 
@@ -62,7 +64,7 @@ Tailwind 是他解释 local reasoning 的例子。长串样式类未必符合所
 
 ## 按完整交付衡量生成收益
 
-把访谈中的例子连起来，可以得到三项不同的验收：生成的代码是否形成了可运行的服务，长时任务是否保留状态与恢复能力，以及已有系统是否能在明确权限下被组合使用。代码数量无法单独回答这些问题。
+把访谈中的例子连起来，团队需要沿实际交付路径检查：代码能否构建，部署后能否访问并按预期运行，用户是否完成了要做的事。长时任务还要检查中断后留下什么状态、从哪里恢复、怎样显示进度与成本；复用已有服务时，要确认它提供的接口和权限。代码数量无法代替这些结果。
 
 短命原型可以用来迅速检验需求，生产系统则还要承受持续流量、数据变更与故障。讲者展示的客户案例和工具选择结果，适合解释 Vercel 的战略判断；缺少完整评测方法时，不能据此证明普遍的市场份额或架构优势。
 
@@ -82,5 +84,5 @@ Rauch 最后用“Energy goes in, intelligence goes out”把讨论拉回物理�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Applications, Coding AI](https://www.youtube.com/watch?v=HA7lZd7zk3M)
-- [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-08-ai-coding-software-future.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/05a75cc84034e498d84a136ae147c3a5e0e43df2/stanford-mse435/week-08-ai-coding-software-future.pdf)
+- [完整课程笔记 PDF：24 页](/blog/pdfs/stanford-mse435/week-08-ai-coding-software-future.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-08-ai-coding-software-future.pdf)

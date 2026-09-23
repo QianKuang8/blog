@@ -1,8 +1,8 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
-lastmod: '2026-09-21T10:19:06+08:00'
+lastmod: '2026-09-23T14:26:11+08:00'
 title: "企业专用化如何形成反馈闭环：Eval、上下文与运行框架"
-summary: "通用模型提供能力底座，企业用自己的 eval 定义方向、用人工纠错生产训练信号、用 model-context-harness 三层系统交付结果，再把生产反馈转成下一轮更新。这场 Stanford 讲座把'企业内部知识'从知识库问题提升为学习闭环问题。"
+summary: "企业先用 eval 明确合格标准，再把纠错与业务结果用于改进。Model、Context 与 Harness 在任务中交换信息，经验也可进入不同更新位置；关键在于反馈能否反映业务成败，以及每次更新能否验证与撤回。"
 description: "解读 Stanford MS&E 435 Week 6 讲座：通用模型与企业知识的结构性距离、RLVR、DoorDash 案例、持续学习与三层系统协同"
 tags: ["context-engineering", "行业动向"]
 categories: ["视频笔记"]
@@ -13,7 +13,7 @@ showToc: true
 
 通用模型进入企业以后，还需要知道本地业务怎样定义“做得对”。[Stanford MS&E 435 Week 6](https://www.youtube.com/watch?v=LRGX-gTegVA) 中，Yash Patil 以评测、菜单结构化和生产反馈为例，讨论企业如何把自己的标准转化为可改进的系统。
 
-视频由 Stanford Online 发布于 2026 年 5 月 22 日，时长 48 分 10 秒。本文依据英文自动字幕和 22 页课程笔记整理；自动字幕在嘉宾姓名（Patel vs Patil）和个别 benchmark 名上存在误识别，以下只保留能由上下文或画面复核的内容。
+视频由 Stanford Online 发布于 2026 年 5 月 22 日，时长 48 分 10 秒。本文依据英文自动字幕和 2026 年 9 月 23 日修订的 23 页课程笔记整理；自动字幕在嘉宾姓名（Patel vs Patil）和个别 benchmark 名上存在误识别，以下只保留能由上下文或画面复核的内容。
 
 ## 三个核心判断
 
@@ -39,9 +39,9 @@ Patil 用山峰类比：eval 先定义目标，训练管线再用结构相近却
 
 ## DoorDash 菜单：把业务标准变成训练信号
 
-据 Patil 介绍，新商户向 DoorDash 提交菜单图片等非结构化信息，平台要转换成结构化店面。难点不只是 OCR：菜品、modifier、加料与组合关系必须符合平台内部规范。[00:27:21–00:29:17](https://www.youtube.com/watch?v=LRGX-gTegVA&t=1641s)
+据 Patil 介绍，新商户向 DoorDash 提交菜单图片等非结构化信息，平台要转换成结构化店面。难点不只是 OCR：菜品、选项（modifier）、加料与组合关系必须符合平台内部规范。视觉语言模型即使读对了文字，也可能把加料归到错误的菜品下。[00:27:21–00:29:17](https://www.youtube.com/watch?v=LRGX-gTegVA&t=1641s)
 
-他们采用的闭环可以抽象为五步：模型先生成结构化菜单；人工按规范修正；修正版成为 ground truth；差异被汇总成误差或奖励；训练再直接降低这些错误。案例的重点不是"做一个更强 OCR"，而是内部规范定义 eval，人工纠错生产 ground truth，差异函数把规范变成训练信号。
+他们采用的闭环可以抽象为五步：模型先生成结构化菜单；人工按规范修正；修正版成为参考真值（ground truth）；差异被汇总成误差或奖励；训练再直接降低这些错误。内部规范决定什么算正确，人工纠错提供参考答案，比较两者的差异才得到可用于训练的信号。视频没有披露差异函数的具体实现，不能把这条教学归纳当作完整训练方案。
 
 这也回答了一个常见反问：如果未来的通用模型开箱即用就能完成今天的专用任务，为什么现在训练？Patil 给出三层理由：企业关心每个时间点的能力前沿，等待会放弃今天已可取得的回报；许多正确行为依据不在通用训练分布；RL 使专用训练在具体任务上更具数据与算力效率。[00:29:16–00:31:04](https://www.youtube.com/watch?v=LRGX-gTegVA&t=1756s) 这些是讲者对当前实践的判断，不应升级为"通用模型永远不可能覆盖企业任务"的定理。
 
@@ -49,7 +49,9 @@ Patil 用山峰类比：eval 先定义目标，训练管线再用结构相近却
 
 企业系统不是一次模型调用。Patil 把能力拆成三层：模型提供推理；context 提供当前任务需要的企业资料、历史与状态；harness 负责工具、流程、编排和状态管理。[00:34:08–00:35:42](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2048s)
 
-由这个分层可以提出一种工程取舍：企业专用化的不同部分可以落在不同更新位置。变化快、需审计的知识更适合 context；稳定且重复的能力可以考虑权重更新；跨工具约束和流程策略则落在 harness。系统优势来自三层共同设计，而不是只比较单个模型的 benchmark。
+三层描述的是分工与信息交互，不能读成 Model → Context → Harness 的固定执行顺序。按这一分工理解一次任务，模型读取上下文后可以提出工具调用，运行框架执行并返回结果，结果又成为模型下一步使用的上下文。这段过程是帮助理解协作关系的教学展开，视频没有展示某个产品的完整调用架构。
+
+由这个分层可以提出一种工程取舍：企业专用化的不同部分可以落在不同更新位置。例如一条新审批规则，如果只是供模型查阅，适合放入版本化的 context；如果必须强制约束操作次序和权限，则应由 harness 执行。稳定且重复的能力才值得另行评估权重更新。这是编者据分层整理的实施建议，具体选择仍取决于任务和部署条件。
 
 更强的编排模型还可以把任务路由给多个专用子模型。Patil 提到的 Cognition/Windsurf 代码 bug 检测案例说明了帕累托前沿的概念：针对单一任务训练的小模型可能在接近任务性能的同时降低成本和时延，大型通用模型可能更强但更慢更贵。[00:33:14–00:33:58](https://www.youtube.com/watch?v=LRGX-gTegVA&t=1994s)
 
@@ -59,7 +61,9 @@ Patil 把持续学习描述为模型进入生产后，从使用过程、稀疏�
 
 但"接受"并不必然等于业务成功，"撤销"也可能只是需求变化。隐式反馈规模大、成本低，却含噪并受界面设计影响。更根本的区别在于：离线 RLVR 中任务可以大量并行回放，生产环境却持续变化——用户状态、代码库、组织政策都会移动，昨天的轨迹不能无损回放为今天的环境。
 
-讲者还介绍了一个 Applied Compute 的离线案例：分析文档和历史的人-Agent 轨迹，抽取能改善下游表现的经验供未来任务使用。[00:39:17–00:39:57](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2357s) 这说明持续学习不必每次都修改模型权重——历史经验可以先被物化为可检索规则、示例或任务上下文，更容易审计、更新和撤回。只有当经验跨任务稳定、收益明确且回归验证充分时，才值得进入更难回滚的权重更新。
+讲者还介绍了一个 Applied Compute 的离线案例：分析文档和历史的人-Agent 轨迹，抽取能改善下游表现的经验供未来任务使用。[00:39:17–00:39:57](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2357s) 这说明持续学习可以更新任务使用的经验，不必每次都修改模型权重。
+
+作为实施建议，编者倾向于先把历史经验整理成可检索规则、示例或任务上下文，逐条检查、更新和撤回。是否再修改权重，应由跨任务收益、回归结果和部署条件决定。不能笼统认定权重一定更难回滚；无论改哪一层，都应保存版本，并验证撤回后系统能否恢复预期行为。
 
 ## 让经验能够指向下一次更新
 
@@ -79,5 +83,5 @@ Patil 把持续学习描述为模型进入生产后，从使用过程、稀疏�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Enterprise Internal Knowledge](https://www.youtube.com/watch?v=LRGX-gTegVA)
-- [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
+- [完整课程笔记 PDF：23 页](/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)

@@ -57,13 +57,22 @@ pdf_path: "standalone/how-claude-code-team-uses-claude-code.pdf"
 - 博客围绕目标与上下文、工具演进、持续执行、审查及反馈组织主题；这不是原视频的逐章转写。
 - “把监督从每次工具调用转向目标和证据”“扩大委派前先打通验证与反馈”等表述属于整理者基于案例的判断，不是访谈给出的量化结论。
 
+## 2026-09-23 理解复核
+
+- 对照 14 页修订 PDF 第 3–5 章，把 routine 拆为每日反馈输入、重要性归类、选择高把握问题和输出修复；远端环境提供持续运行条件，重复触发才带来下一轮。
+- 区分动态工作流的两项检查：程序是否覆盖全部项目，每项语义判断是否有依据。循环正确不等于候选缺陷成立。
+- 保留目标、执行、测试与截图、人工试用、真实使用反馈的区别，不以任一类证据代替其他检查。
+- 现有博客重绘图的分支数仅作示意；访谈的三个视角用于候选问题复核。
+
+本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/how-claude-code-team-uses-claude-code.md`
 - 站点 PDF：`/blog/pdfs/standalone/how-claude-code-team-uses-claude-code.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/e71c1c8252555b885aa1797408fe1784c4ad048a/standalone/how-claude-code-team-uses-claude-code.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/how-claude-code-team-uses-claude-code.pdf`
 - 选定源文件：`Claude_Code团队的AI协作实践_notes.pdf`（源目录根部最终交付版）。
 - PDF 页数：14 页
-- PDF 字节数：566,836
-- SHA-256：`8a6237e3c9aba84fe69253baf7a1947696d135fc1592b4cc0c004aa3916cd172`
+- PDF 字节数：562987
+- SHA-256：`da2243d68601963d6258c277be21f911bba8ab071319487a624807e789bb9ec7`
 - 发布时以 `cmp` 校验选定源文件、公开 PDF 仓库文件和 Hugo 产物；保留源 PDF 字节，不压缩、不重新编码。

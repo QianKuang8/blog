@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
-lastmod: '2026-09-21T10:21:01+08:00'
+lastmod: '2026-09-23T14:26:11+08:00'
 title: "沟通战略怎样落地：理解受众、直接触达与可信叙事"
 summary: "Lulu Cheng Meservey 用跨文化经历和公司案例解释，怎样从目标受众倒推渠道，以可核查事实和人的经历支撑表达，并区分传播方法的适用情境。"
 description: "解读 Lulu Cheng Meservey 的沟通战略：Go Direct、宣言作为承诺装置、Jetsons 原则、真实性信号与长期复利"
@@ -46,7 +46,7 @@ Meservey 开始合作时，Anduril 仍在创立第一年。网站已经存在足
 
 ## Go Direct：从关键受众倒推叙事路径
 
-Go Direct 首先改变目标函数。传统路径常先追求大曝光数字，再希望真正重要的少数人恰好看到；Meservey 用一个假设例子说明浪费：为了触达约 200 名关键对象，先争取 50 万人的阅读量。[00:24:24–00:24:43](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1464s) 直接路径反过来问：真正影响招聘、采购或合作的是谁？他们在哪里获得信息？然后从这些人所在的渠道向后设计传播。
+Go Direct 首先改变传播的出发点。传统路径常先追求大曝光数字，再希望真正重要的少数人恰好看到；Meservey 用一个假设例子说明浪费：为了触达约 200 名关键对象，先争取 50 万人的阅读量。[00:24:24–00:24:43](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1464s) 直接路径反过来问：真正影响招聘、采购或合作的是谁？他们在哪里获得信息？然后从这些人所在的渠道向后设计传播。
 
 AI 招聘是最尖锐的例子。一家公司也许只想招到少数已知的顶尖机器学习工程师；此时规模较小但这些工程师确实会听的播客或 Substack，可能比全国性大众节目更接近目标。[00:25:46–00:26:46](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1546s)
 
@@ -56,7 +56,7 @@ Go Direct 不是绕过专业工作的捷径。它是把叙事责任交还给最�
 
 技术存在不等于社会采用。Meservey 用 Rostra 的使命说明这一点：产品只有被人理解、接纳和使用，人才愿意加入，制度环境允许它继续发展，才会产生现实影响。[00:31:48–00:33:24](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1908s) 这不是说工程较容易，而是把采用视为另一种问题。
 
-她用《The Jetsons》解释叙事方法：动画讲的是一家人的日常关系，机器人与飞行汽车只是世界中自然存在的环境。[00:41:17–00:42:22](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2477s) 观众先关心人，随后从人的生活感受到技术创造了什么条件。这就是 Jetsons 原则：乐观技术故事的主角应是人，技术作为环境或使能器存在。
+她用《The Jetsons》解释叙事方法：动画讲的是一家人的日常关系，机器人与飞行汽车只是世界中自然存在的环境。[00:41:17–00:42:22](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2477s) 观众先关心人，随后从人的生活感受到技术创造了什么条件。这就是 Jetsons 原则：先写人想完成什么、遇到什么困难，再说明技术移除了哪些障碍，以及人的行动和结果怎样变化。观众通过这个过程理解技术的用途。
 
 Shopify 案例把这套方法落到公司叙事。从小镇里想开果酱店的退休者到创建大规模品牌的团队，真正推动情节的是创业者自己的目标、行动与结果。Shopify 确实移除了基础设施障碍，但它不抢走人的故事主角位置。[00:46:28–00:47:50](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2788s)
 
@@ -70,7 +70,9 @@ Shopify 案例把这套方法落到公司叙事。从小镇里想开果酱店的
 
 ## 从一个具体受众开始组织表达
 
-这套方法可以从三项检查开始：受众已经相信什么，当前最需要他们理解的主张是什么，以及哪些行动和事实能够支撑它。渠道选择随后才有依据。面向少量潜在合作伙伴的交流，与面向公众的品牌叙事，未必需要同样的形式或覆盖面。
+把访谈用于一次具体沟通，可以先写出“希望谁采取什么行动”，再补上对方已有的认识与担忧。随后用一句话说明主张，列出能够支撑它的事实、人物经历和可观察行动，最后选择这些人实际会使用的渠道。这是整理者根据访谈提出的工作顺序。
+
+例如，招聘目标是让特定领域工程师愿意进一步了解团队，就应解释他们会解决什么问题、与谁合作，以及当前工作有哪些证据。发布后，可以检查他们是否理解岗位、是否愿意继续谈，不能只用总阅读量证明招聘沟通有效。这个例子将 Go Direct 的受众选择、人的故事和事实支撑连到同一个目标上。
 
 访谈主要来自创业公司与挑战者情境，不能直接推出所有组织都应绕开媒体或使用宣言。正式产品说明、技术文档和公共沟通各有任务；人的故事可以帮助理解，也需要与可核查事实保持一致。
 
@@ -90,4 +92,4 @@ Shopify 案例把这套方法落到公司叙事。从小镇里想开果酱店的
 
 - [原视频：The Comms Strategist Behind Anduril, Shopify & Cognition](https://www.youtube.com/watch?v=DFImJfJGXl0)
 - [完整课程笔记 PDF：23 页](/blog/pdfs/standalone/communication-strategy-direct-narrative.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/standalone/communication-strategy-direct-narrative.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/communication-strategy-direct-narrative.pdf)

@@ -21,7 +21,7 @@ pdf_path: "stanford-mse435/week-02-gpu-economics.pdf"
 - 嘉宾：Brad Gerstner（Altimeter）、Sunny Madra（Groq，后加入 NVIDIA）
 - 内容性质：Stanford MS&E 435 Week 2，讨论 token 经济、推理芯片、异构推理工厂、代理单位经济与基础设施扩张
 
-本记录没有提交完整字幕、视频、音频或生成日志。使用 `output/pdf/GPU经济_课程笔记.pdf`，不使用旧 render 版或附加访谈素材。
+本记录没有提交完整字幕、视频、音频或生成日志。选定 2026-09-23 修订的 40 页课程笔记，不使用附加访谈素材替代本讲证据。
 
 ## 核心论点与证据边界
 
@@ -37,9 +37,19 @@ pdf_path: "stanford-mse435/week-02-gpu-economics.pdf"
 
 对照选定 PDF 第 20–27 页修正旧记录：行动与单位经济位于 25:37–34:57；Madra 的 100× 共设计在 36:12–36:58，AI 辅助芯片设计在 36:58–37:30，基础设施外溢在 37:30–38:00；Gerstner 的社会契约讨论在 38:00–40:43。本文未重新生成或修改 PDF。
 
+## 2026-09-23 理解复核
+
+依据当日修订的 40 页课程笔记、对应 LaTeX 与修订记录复核正文，并直接查看 GDP 翻倍课件。页码均按 PDF 物理页计算，包含封面与目录。
+
+- 第 8–9 页、视频 00:05:50–00:06:03：标题写 25 年翻倍，2000–2022 年柱上写 2.42% CAGR、29 年翻倍；`ln(2)/ln(1.0242) ≈ 29.0` 只核对柱上标签，不预测未来增长。
+- 第 15 页、视频 00:11:13–00:11:22：“参数量乘以上下文长度平方”是讲者的简化口述，不能作为通用单 token 成本公式。博客改按 prefill、decode、状态访问及缓存、批量等条件解释成本。
+- 任务成本比较保留质量要求与可验收结果；token 吞吐提高本身不证明任务价值提高。嘉宾的收入、能力阈值与 100× 表述仍按现场判断或组织目标归因。
+
+9 月 21 日的时间戳复核记录描述上一发布版本；本次以新版 PDF 为准。未将本地复核扩写为对公司财务、市场预测或性能倍数的独立审计。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-02-gpu-economics.md`
 - 站点 PDF：`/blog/pdfs/stanford-mse435/week-02-gpu-economics.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/2eaabbb/stanford-mse435/week-02-gpu-economics.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-02-gpu-economics.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。

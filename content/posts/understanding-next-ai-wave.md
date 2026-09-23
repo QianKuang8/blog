@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T14:45:00+08:00'
-lastmod: '2026-09-21T10:21:01+08:00'
+lastmod: '2026-09-23T14:26:11+08:00'
 title: '下一波 AI 的分水岭：组织能否兑现模型能力'
 summary: "从 Tibo 的访谈出发，沿产品编排、推理基础设施和反馈流程，观察模型能力怎样转化为实际任务收益，并区分团队经验、产品愿景与已验证结果。"
 description: "解读 Tibo 关于 AI agent、ChatGPT 与 Codex 合流、系统级递归改进、ultra-fast 和能力普及的访谈"
@@ -13,7 +13,7 @@ showToc: true
 
 模型出现一项新能力以后，产品、基础设施和团队流程怎样把它交到用户手中？这场 [Tibo 访谈](https://www.youtube.com/watch?v=4qjEgPojjzM) 讨论了 Agent 的编排负担、交互入口、系统改进和生成速度，可以沿着能力到实际使用的路径来读。
 
-本文把产品化、发布反馈、推理基础设施和治理作为阅读线索。视频由 Matthew Berman 主持，受访者在元数据中仅标为 Tibo，发布于 2026 年 8 月 24 日，时长 44 分 28 秒。本文依据英文自动字幕和带时间戳的完整笔记整理，并区分内部经验、未来愿景、整理者归纳和未核实数字，不把方向判断当成产品现状。
+本文把产品化、发布反馈、推理基础设施和治理作为阅读线索。视频由 Matthew Berman 主持，受访者在元数据中仅标为 Tibo，发布于 2026 年 8 月 24 日，时长 44 分 28 秒。本文依据英文自动字幕和 24 页修订笔记整理，并区分内部经验、未来愿景、整理者归纳和未核实数字，不把方向判断当成产品现状。
 
 ## 五个核心结论
 
@@ -25,7 +25,7 @@ showToc: true
 
 ![访谈五层教学主线：组织、产品、供给、治理与社会边界](/blog/images/video-notes/understanding-next-ai-wave/system-delivery-layers.png)
 
-*根据访谈内容重绘，覆盖 00:00:45–00:44:24。*
+*根据访谈内容整理重绘，覆盖 [00:00:45–00:44:24](https://www.youtube.com/watch?v=4qjEgPojjzM&t=45s)。箭头表示整理者归纳的关系，不是已测得的业务因果。*
 
 ## 能力出现之后，发布机制决定它能否形成影响
 
@@ -63,7 +63,7 @@ Tibo 对当前 agent 体验的批评很具体：skill 需要维护，memory 不�
 
 *根据访谈内容重绘。来源范围：[00:30:25–00:31:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=1825s)。*
 
-按访谈讨论的具体范围，“递归自我改进”可以理解为模型参与优化执行栈、产品和研发流程，再把使用结果送回下一轮研发。它是一条受约束的系统反馈环，不是“能力必然爆炸”的单线叙事。
+按访谈讨论的具体范围，“递归自我改进”可以理解为模型帮助改进推理栈与内核，让服务运行得更快或更便宜；团队再改进产品交互和研发流程，把使用结果用于下一轮研究。收益真正被下一轮工作采用，反馈才接得上。视频没有给出闭环周期，也没有证明每轮改进都有效，因此这里只能解释可能的改进路径。
 
 正反馈越强，安全越不能只放在发布末端。Tibo 描述了暂停、理解、加固、形成原则后再恢复的方向，但视频没有披露触发条件、原则内容或可审计的验收证据。把安全纳入反馈环是合理的归纳；声称某套安全流程已经得到验证，则超出了视频证据。[00:32:00–00:34:13](https://www.youtube.com/watch?v=4qjEgPojjzM&t=1920s)
 
@@ -71,7 +71,9 @@ Tibo 对当前 agent 体验的批评很具体：skill 需要维护，memory 不�
 
 ultra-fast 最有价值的例子，不是聊天窗口里的数字，而是时延会改变决策质量的场景。事故响应中，每一秒都很关键；临近重要发布时，快速验证一个关键想法也可能改变团队选择。这两类任务分别对应“风险紧迫”和“机会紧迫”，它们都需要缩短从问题到可验证结果的反馈环。[00:34:29–00:36:04](https://www.youtube.com/watch?v=4qjEgPojjzM&t=2069s)
 
-生成速度提高后，瓶颈会迁移。网络、工具调用、CPU 和编译、外部服务、审批、结果验证以及人的注意力都会占据更大比例。访谈中提到的若干加速倍率没有统一模型、负载和测量口径，因此不适合作为 benchmark；它们真正说明的是，局部 token 速度不会等比例变成完整任务速度。
+生成速度提高后，瓶颈会迁移。网络、工具调用、CPU 和编译、外部服务、审批、结果验证以及人的注意力都会占据更大比例。访谈中提到的若干加速倍率没有统一模型、负载和测量口径，因此不适合作为 benchmark；它们用于提示同一问题：还需要逐段测量完整任务，才能知道局部生成加速带来多少收益。
+
+新版笔记用一组明确标为**编者假设**的数值解释这一点：假设各阶段串行，原来生成耗时 10 秒，工具调用等其他步骤耗时 20 秒，总计 30 秒；生成加快 10 倍后只需 1 秒，其他步骤仍用 20 秒，总计便是 21 秒。生成快了 10 倍，整项任务只缩短了 9 秒。这些数值不是 Tibo 的实测结果，也不能用于比较产品速度；它们说明后续应检查仍占大头的其他步骤。[00:36:56–00:37:39](https://www.youtube.com/watch?v=4qjEgPojjzM&t=2216s)
 
 ![共享画布反馈环：生成、选择、实时引导与持续修改](/blog/images/video-notes/understanding-next-ai-wave/shared-canvas-loop.png)
 
@@ -101,5 +103,5 @@ ultra-fast 最有价值的例子，不是聊天窗口里的数字，而是时延
 ## 继续阅读
 
 - [原视频：How to Understand the Next Wave of AI Before Everyone Else | Tibo Interview](https://www.youtube.com/watch?v=4qjEgPojjzM)
-- [完整课程笔记 PDF：23 页，约 1.1 MB](/blog/pdfs/standalone/understanding-next-ai-wave.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/0d36c93ce59e60ce9c458eaf3cf3f2bc501a6528/standalone/understanding-next-ai-wave.pdf)
+- [完整课程笔记 PDF：24 页](/blog/pdfs/standalone/understanding-next-ai-wave.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/understanding-next-ai-wave.pdf)

@@ -32,7 +32,7 @@ pdf_path: "standalone/building-high-talent-density-teams.pdf"
 | 2 | 末日漏斗为何失败 | 00:13:15–00:16:01 |
 | 3 | 三步框架：岗位界定、人才地图、持续激活 | 00:16:20–00:25:42 |
 | 4 | 让"人才第一"进入组织运行 | 00:25:43–00:32:19 |
-| 5 | 以人为原子单位：关怀与长期关系 | 00:32:19–00:40:12 |
+| 5 | 理解候选人：关怀与长期关系 | 00:32:19–00:40:12 |
 | 6 | 双向评估：Onsite 与工作试炼 | 00:40:12–00:53:12 |
 | 7 | Offer、谈判与成交机制 | 00:53:25–01:04:45 |
 | 8 | 从招聘方法到高人才密度组织 | 01:07:23–01:20:52 |
@@ -58,9 +58,18 @@ pdf_path: "standalone/building-high-talent-density-teams.pdf"
 - 节目含两段赞助、娱乐推荐和结尾推广，已从教学主线剔除。
 - 自动字幕中部分专名和断裂句只在语义可靠时意译。
 
+## 2026-09-23 理解复核
+
+- 对照 20 页修订 PDF 第 4、5、7 章，把岗位界定、名单和面试连接到同一组可观察标准；名企履历与回复率都不能代替能力证据。
+- 招聘经理指用人负责人；招聘专员组织证据、暴露未知，最终录用判断和候选人的加入决定分别归属双方。
+- 双向评估既检查公司是否获得能力与协作证据，也检查候选人是否理解真实工作、团队与环境。
+- 没有采用“规模越大越向平均值回归”的无依据泛化；讲义 J 曲线仅示意新角色适应过程，不把成果数量画为负数。
+
+本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/building-high-talent-density-teams.md`
 - 站点 PDF：`/blog/pdfs/standalone/building-high-talent-density-teams.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/standalone/building-high-talent-density-teams.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/building-high-talent-density-teams.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。

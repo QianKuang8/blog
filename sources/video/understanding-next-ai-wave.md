@@ -68,12 +68,21 @@ pdf_path: "standalone/understanding-next-ai-wave.pdf"
 - ChatGPT/Codex 合流、个人 agent、共享画布和 ultra-fast 普及时间均属于方向或预测。
 - 视频提到医疗与金融相关使用，但没有讨论诊断、投资、隐私和责任机制；相关内容不能替代合格专业意见。
 
+## 2026-09-23 理解复核
+
+- 对照 24 页修订 PDF 第 5、6 章，明确递归改进是可能的反馈路径，收益需要实际用于下一轮，视频没有证明每轮有效或必然无限增长。
+- 30 秒变 21 秒来自编者假设：生成 10 秒变 1 秒，其他串行步骤保持 20 秒；机制对应 00:36:56–00:37:39，数值不是访谈测量或产品 benchmark。
+- 博客三张图使用修订版 LaTeX 的相同图定义重新导出：总览与共享画布的反馈线从节点上方经过，递归图保留“收益用于下一轮才形成闭环”的限定。
+- 当前能力、受访者亲历、产品愿景和整理者推导继续分开；ChatGPT/Codex 合流、共享画布与普及时间不写成已发布结果。
+
+本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/understanding-next-ai-wave.md`
 - 站点 PDF：`/blog/pdfs/standalone/understanding-next-ai-wave.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/0d36c93ce59e60ce9c458eaf3cf3f2bc501a6528/standalone/understanding-next-ai-wave.pdf`
-- PDF 页数：23 页
-- PDF 字节数：1,123,492
-- SHA-256：`0e581c1d5b1543a755a114e1be2489cd739f046d2928662fbb7f27ec43fd9fc2`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/understanding-next-ai-wave.pdf`
+- PDF 页数：24 页
+- PDF 字节数：1130820
+- SHA-256：`2fcc463a6fc91d78dd62f599b2a08bda3c6a262069ce0c88332c2d41624ade8b`
 - 源 PDF 与公开仓库文件已经通过 `cmp` 验证，字节一致，没有压缩或重新编码。
