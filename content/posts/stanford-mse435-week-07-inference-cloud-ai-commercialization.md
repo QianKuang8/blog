@@ -1,8 +1,8 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-09-21T10:17:10+08:00'
+lastmod: '2026-09-23T14:26:11+08:00'
 title: "从前沿 API 到定制模型：推理成本、质量与控制权的取舍"
-summary: "Baseten 的课堂访谈讨论定制模型的单位经济与数据控制权。判断迁移是否值得，需要一起比较任务质量、端到端体验和包含训练运维的总成本。"
+summary: "Baseten 的课堂访谈讨论定制模型的单位经济与数据控制权。比较迁移收益要看同等质量下的完整成本；估算算力供给则要区分理想容量上界与实际交付，并把租赁、自有算力的费用放到同一期间。"
 description: "解读 Stanford MS&E 435 Week 7：Baseten 的推理云、后训练闭环、定制模型经济学、多云推理、算力稀缺与垂直整合"
 tags: ["model-engineering", "行业动向"]
 categories: ["视频笔记"]
@@ -13,7 +13,7 @@ showToc: true
 
 当 AI 应用的调用量增长，模型费用、响应延迟和故障恢复会一起进入产品决策。[Stanford MS&E 435 Week 7](https://www.youtube.com/watch?v=Qh7Oxvo5sJI) 讨论了一个具体选择：继续使用前沿模型 API，还是为稳定的业务任务建立定制模型与推理系统？
 
-嘉宾是 Baseten 联合创始人兼 CEO Tuhin Srivastava，由 Apoorv Agrawal 主持。视频由 Stanford Online 于 2026 年 6 月 5 日发布，时长 49 分 15 秒。本文依据来源记录和 26 页课程笔记整理。Baseten 本身提供推理平台，理解其论点时，需要保留供应商的观察位置和课堂估算的边界。
+嘉宾是 Baseten 联合创始人兼 CEO Tuhin Srivastava，由 Apoorv Agrawal 主持。视频由 Stanford Online 于 2026 年 6 月 5 日发布，时长 49 分 15 秒。本文依据来源记录和 2026 年 9 月 23 日修订的 29 页课程笔记整理。Baseten 本身提供推理平台，理解其论点时，需要保留供应商的观察位置和课堂估算的边界。
 
 ## 延迟与可靠性怎样进入产品体验
 
@@ -50,7 +50,13 @@ Srivastava 的第一条理由是单位经济。他在课堂中估计，当时开
 
 Baseten 描述的方向，是把数据准备、基础模型选择、后训练和线上推理连接起来。企业提供业务效用的定义，平台帮助把模型运行和改进变成可持续的过程。把训练数据交给平台又引入信任要求，数据托管不能只按计算服务的方式评价。[00:14:06–00:19:00](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=846s)
 
-算力供给也会约束这条路径。课堂谈到多云选择、提前锁定容量以及供应链投入；12—15 个月的提前期属于讲者当时讨论的市场条件，不能作为所有硬件采购的固定周期。平台需要在利用率、供给确定性和资本占用之间作取舍。
+## 容量是上界，成本要在同一期间比较
+
+算力供给也会约束这条路径。课堂谈到多云选择、提前锁定容量以及供应链投入；12—15 个月的提前期属于讲者当时讨论的市场条件，不能作为所有硬件采购的固定周期。[00:33:23–00:34:51](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=2003s) 多云增加采购选择和议价空间，全行业供给不足时，平台仍可能拿不到足够设备。
+
+新版笔记用一个教学公式说明需求与容量的关系：`实际服务量 ≤ min（需求量，设备数 × 利用率 × 单设备工作时吞吐 × 时间窗）`。需求量与服务量必须覆盖同一时间窗；单设备吞吐按设备有效工作时计算，利用率再计入调度、故障等损耗，避免重复扣除。这个式子给出理想上界，不能保证每个请求都按时完成。批处理、请求长短和服务时限等具体约束仍要在目标负载上检验。公式是整理者对课堂供给讨论的解释，不是 Baseten 公布的容量模型。
+
+拥有设备能提高容量控制，却也引入资本和运营责任。Srivastava 估计自有算力可能具有约 30% 成本优势，这只是课堂判断，未提供相应项目的审计结果。[00:36:08–00:36:42](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=2168s) 比较时应先选定同一持有期间，再合计该期间承担的设备与基础设施资本成本、电力冷却、运维、融资及额外淘汰损失，并计入可回收残值。已经通过折旧或残值反映的损失，不应再作为淘汰风险重复相加；一次性采购价也不能直接与一年租金比较。
 
 这场课更适合帮助建立比较口径，而非得出“离开 API 总是更好”的结论。先在一个稳定任务上比较质量、延迟、可靠性与总成本，再决定迁移多少负载；保留前沿模型用于仍需通用能力的任务，也是一种可以检验的组合方式。
 
@@ -67,5 +73,5 @@ Baseten 描述的方向，是把数据准备、基础模型选择、后训练和
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Applications, Applied AI](https://www.youtube.com/watch?v=Qh7Oxvo5sJI)
-- [完整课程笔记 PDF：26 页](/blog/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/85c8d5d/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)
+- [完整课程笔记 PDF：29 页](/blog/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)

@@ -47,7 +47,7 @@ pdf_path: "stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf"
 | 代码和数学因可验证而成为 RLVR 第一前沿 | 00:14:42–00:15:24 | Patil 机制判断 | 通过测试不保证所有情形正确 |
 | DoorDash 菜单：人工纠错→ground truth→训练信号 | 00:27:21–00:29:17 | Patil 案例 | 据讲者介绍，未独立核验 |
 | 不能只等下一代通用模型：时间价值+私有标准在通用训练分布之外 | 00:29:16–00:31:04 | Patil 战略判断 | 不是"永远不可能"的定理 |
-| 企业系统由 model+context+harness 三层共同交付 | 00:34:08–00:35:42 | Patil 架构概括 | 视频未展示具体产品架构 |
+| 企业系统由 model+context+harness 三层共同交付 | 00:34:08–00:35:42 | Patil 架构概括 | 分层表示协同，不是固定的单向执行顺序；视频未展示具体产品架构 |
 | Cursor Composer 用接受/撤销作为隐式奖励做在线更新 | 00:37:16–00:38:04 | Patil 案例 | 接受不等于业务成功 |
 | 持续学习更新面：weights、context、harness | 00:39:17–00:40:08 | Patil 总结 | 视频未给出实现细节 |
 
@@ -59,9 +59,20 @@ pdf_path: "stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf"
 - 自动字幕把 benchmark 名首次记作 SWE-bench、后一次写成 "TreeBench"，关键帧未显示专名。
 - 结尾视觉产品名无法由自动字幕可靠还原。
 
+## 2026-09-23 内容复核
+
+本次对照修订版 23 页 PDF 第 4.3、4.7、5.4–5.5 节及编者练习更新博客，并直接查看图 9 的双向连线与图注。
+
+- 菜单案例补明 modifier 是菜品选项，ground truth 是人工按业务规范修正后的参考真值。五步闭环属于机制归纳，视频没有给出具体差异函数的实现。
+- Model、Context、Harness 表示可交换信息的三个部分。博客对工具调用与结果返回的展开是教学解释，不是对某产品运行轨迹的复现。
+- 用审批规则说明知识查阅与强制流程约束的不同更新位置，明确标为编者建议。
+- 00:39:17–00:40:08 支持经验可以影响 context、权重与 harness；先把经验整理成规则或示例的建议归属编者。撤去“权重必然更难回滚”的泛化，三类更新都需版本记录、回归检查和回滚验证。
+
+本轮核对课程材料中的机制与归因，不补充产品内部实现，也不把讲者在课堂上的产品陈述当作截至复核日的实现证明。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md`
 - 站点 PDF：`/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/4bade9b/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf`
 - 源 PDF 与公开仓库文件已通过 `cmp` 验证，字节一致。

@@ -61,9 +61,18 @@ PDF 九章结构：
 - 计算量数月约增三倍、每日部署数翻倍是公司自述，基期和绝对量未知。
 - Amazon 页面每慢 100ms 转化率下降 1% 被标为"Rauch 在演讲中引用"，未追溯原始实验。
 
+## 2026-09-23 理解复核
+
+- 对照 24 页修订 PDF 的第 2 章与末章练习，把“构建通过”“部署可访问”“用户实际使用并获得结果”分开；三项检查属于整理者解释，不把部署成功当成产品价值证明。
+- 长时任务的状态、中断、恢复、进度与成本，是笔记对 00:08:27–00:10:29 的工程展开。
+- 复核 00:17:09–00:17:37：93% 指讲者自述的支持咨询回答比例，不能写成问题解决率。榜单 86/86、64/71 分属不同类别，不能据此推导市场份额。
+- 更新正文的页数说明；公司客户案例、增长数字和路线图继续保留录制时的归属。
+
+本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/stanford-mse435-week-08-ai-coding-software-future.md`
 - 站点 PDF：`/blog/pdfs/stanford-mse435/week-08-ai-coding-software-future.pdf`
-- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/05a75cc84034e498d84a136ae147c3a5e0e43df2/stanford-mse435/week-08-ai-coding-software-future.pdf`
+- GitHub 源文件：`https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-08-ai-coding-software-future.pdf`
 - 源 PDF 与公开仓库文件已经通过 `cmp` 验证，字节一致，没有压缩或重新编码。

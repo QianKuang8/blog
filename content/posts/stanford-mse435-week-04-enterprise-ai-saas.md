@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-09-21T10:17:10+08:00'
+lastmod: '2026-09-23T14:26:11+08:00'
 title: "企业 AI 怎样形成交付收益：Databricks 连接器的流程重构"
 summary: "连接器原型两天可写，生产交付原先仍需九个月。Ghodsi 的案例说明，缩短需求周期、并行准备环境与共享项目所有权，怎样让代码生成能力进入完整交付流程。"
 description: "解读 Stanford MS&E 435 Week 4：AGI 与企业价值差距、软件已死命题、生产率悖论、Amdahl 定律与价值栈"
@@ -13,7 +13,7 @@ showToc: true
 
 企业已经能用模型快速生成代码，却仍可能花数月把一个功能交付给客户。延迟发生在哪里？[Stanford MS&E 435 Week 4](https://www.youtube.com/watch?v=sRvrXL83N-c) 用 Databricks 的连接器项目说明，模型能力、组织知识和工作流程需要一起考察，单个步骤加速不能直接换算成整体收益。
 
-嘉宾是 Databricks CEO Ali Ghodsi，由 Apoorv Agrawal 主持。视频由 Stanford Online 于 2026 年 7 月 13 日发布，时长 39 分 09 秒。本文依据来源记录和 23 页课程笔记整理；案例结果属于讲者自述，课堂估算不作为独立审计数据。
+嘉宾是 Databricks CEO Ali Ghodsi，由 Apoorv Agrawal 主持。视频由 Stanford Online 于 2026 年 7 月 13 日发布，时长 39 分 09 秒。本文依据来源记录和 2026 年 9 月 23 日修订的 24 页课程笔记整理；案例结果属于讲者自述，课堂估算不作为独立审计数据。
 
 ## 先看企业任务缺少什么输入
 
@@ -43,7 +43,9 @@ Ghodsi 在开场表达了“已经有 AGI”的看法。[00:02:00–00:03:30](ht
 | 内部等待第三方测试环境 | 由专业方并行准备环境 | 减少串行等待 |
 | 一人独立负责一个连接器 | 七人共享七个项目的所有权 | 减少单点人员依赖 |
 
-据讲者报告，重构后七人团队在一个季度完成并发布了七个连接器。代码生成降低了尝试与返工的成本，组织调整则让这一变化能够进入整个交付过程。这个案例支持的是二者结合后的结果，不能把它描述为模型独立完成七个生产系统。
+据讲者报告，重构后七人团队在一个季度完成并发布了七个连接器。代码生成降低了尝试与返工的成本，组织调整则让这一变化能够进入整个交付过程。这个案例报告的是多项改变共同发生后的结果，没有单独识别模型、外包或团队协作各自贡献了多少收益，也不能把它描述为模型独立完成七个生产系统。
+
+Ghodsi 特别强调，这些调整不需要等待下一代模型。[00:24:13–00:24:43](https://www.youtube.com/watch?v=sRvrXL83N-c&t=1453s) 缩短需求阶段、签约外部服务商、重分项目责任，都需要团队作出决定。模型加速了一部分执行，组织仍要改变工作的安排，并用相同的生产交付标准检验新流程。
 
 课程用电力革命的工厂布局作类比：替换动力源以后，旧的生产组织方式仍可能限制收益。[00:14:56–00:20:23](https://www.youtube.com/watch?v=sRvrXL83N-c&t=896s) 类比的用途是提醒读者寻找未改变的流程约束，并不证明所有企业都必须照搬 Databricks 的组织方式。需求稳定性、测试环境和团队规模不同，最值得重构的环节也会不同。
 
@@ -70,5 +72,5 @@ Ghodsi 对“软件已死”的回答同样强调完整过程。已有系统承�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Enterprise AI and SaaS](https://www.youtube.com/watch?v=sRvrXL83N-c)
-- [完整课程笔记 PDF：23 页](/blog/pdfs/stanford-mse435/week-04-enterprise-ai-saas.pdf)
-- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/85c8d5d/stanford-mse435/week-04-enterprise-ai-saas.pdf)
+- [完整课程笔记 PDF：24 页](/blog/pdfs/stanford-mse435/week-04-enterprise-ai-saas.pdf)
+- [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-04-enterprise-ai-saas.pdf)
