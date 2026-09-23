@@ -1,0 +1,201 @@
+AGENTS.md
+  s_b24075d7718f58::t_9014e418d3e0c9 80-81
+BLOG_PROMPTS.md
+  s_b24075d7718f58::t_e6c7ede16f353c 22
+README.md
+  s_b24075d7718f58::t_dd6ce1b7e8a4d3 32,34,36-38
+WORKFLOW.md
+  s_b24075d7718f58::t_910928cda7b530 80,83,85-87
+assets/css/site.css
+  s_b24075d7718f58::t_ca92c30761b53e 118-120,243-244
+content/posts/2025-ai-product-architecture-evolution.md
+  s_b24075d7718f58::t_9dd9b0f8a7d6da 13
+content/posts/a-philosophy-of-software-design.md
+  s_b24075d7718f58::t_d6a5c03b80154d 12
+content/posts/agent-engineering-new-discipline.md
+  s_b24075d7718f58::t_d70fd53d979247 13
+content/posts/agent-year-review-claude-code-to-deep-agent.md
+  s_b24075d7718f58::t_cceb0169037279 13
+content/posts/agentic-coding-boundary.md
+  s_b24075d7718f58::t_7adad3d375be78 12
+content/posts/ai-coding-tools.md
+  s_b24075d7718f58::t_f239f0edb82fd7 12
+content/posts/ai-native-software-engineering-observability-control.md
+  s_b24075d7718f58::t_b9167a31d3c621 12
+content/posts/aider-unified-diffs.md
+  s_b24075d7718f58::t_901fb47ea784a9 13
+content/posts/anthropic-skill-creator-breakdown.md
+  s_b24075d7718f58::t_1edf63361dbfdb 12
+content/posts/architectural-visualization-with-astra.md
+  s_b24075d7718f58::t_a5bee395e642e5 12
+content/posts/augment-next-edit.md
+  s_b24075d7718f58::t_5bf19d698d2725 13
+content/posts/big-llm-architecture-comparison.md
+  s_b24075d7718f58::t_1394ee45675aee 12
+content/posts/build-blog-tips.md
+  s_b24075d7718f58::t_71dd6134ac7b9d 12
+content/posts/building-effective-agents.md
+  s_b24075d7718f58::t_e75db45a3e0b2d 13
+content/posts/claude-code-anthropic-agent-terminal.md
+  s_b24075d7718f58::t_c90a802e5d4a8b 12
+content/posts/claude-code-auto-mode.md
+  s_b24075d7718f58::t_66455f317db0a2 12
+content/posts/claude-code-how-we-use-skills.md
+  s_b24075d7718f58::t_c070fd402ab55f 12
+content/posts/claude-code-prompt-caching-is-everything.md
+  s_b24075d7718f58::t_5475d7b6f918e3 12
+content/posts/claude-code-seeing-like-an-agent.md
+  s_b24075d7718f58::t_304233d9744d35 12
+content/posts/claude-code-session-management-1m-context.md
+  s_b24075d7718f58::t_09a0090465c4e5 12
+content/posts/claude-code-unreasonable-effectiveness-html.md
+  s_b24075d7718f58::t_23afa94e0e41e7 12
+content/posts/code-surgery-edit-tools.md
+  s_b24075d7718f58::t_9428baa2f0fa0d 13
+content/posts/cognition-local-fusion.md
+  s_b24075d7718f58::t_6d8aaeb622dbac 12
+content/posts/components-of-a-coding-agent.md
+  s_b24075d7718f58::t_3d52d71d51270b 12
+content/posts/context-engineering-for-agents.md
+  s_b24075d7718f58::t_3b2795414dd4b1 13
+content/posts/context-engineering-long-horizon-agents-langchain-harrison-chase.md
+  s_b24075d7718f58::t_f4734072370b3d 12
+content/posts/continue-instinct.md
+  s_b24075d7718f58::t_7f1b19a0549c98 13
+content/posts/continuous-ai.md
+  s_b24075d7718f58::t_284a38af4eb279 12
+content/posts/copilot-next-edit-suggestions.md
+  s_b24075d7718f58::t_c40b9a4f876e1c 13
+content/posts/cursor-instant-apply.md
+  s_b24075d7718f58::t_5ce1219e2eee15 13
+content/posts/cursor-team-interview.md
+  s_b24075d7718f58::t_857901b7715e3a 12
+content/posts/cursorbench.md
+  s_b24075d7718f58::t_9ae8c7912513c7 13
+content/posts/domain-llm-pseudo-proposition.md
+  s_b24075d7718f58::t_ffbd55365e52d5 12
+content/posts/dynamic-context-discovery.md
+  s_b24075d7718f58::t_d1687c4adee9ee 13
+content/posts/effective-agent-design.md
+  s_b24075d7718f58::t_6b95a5d6f565cc 12
+content/posts/every-cli-coding-agent-compared.md
+  s_b24075d7718f58::t_32bf10891876ec 13
+content/posts/filesystems-for-context-engineering.md
+  s_b24075d7718f58::t_d6d3e8c9b245ab 13
+content/posts/five-agent-skills-i-use-every-day.md
+  s_b24075d7718f58::t_404bcd751e7056 12
+content/posts/from-activity-to-action.md
+  s_b24075d7718f58::t_c2f3b4362d521a 12
+content/posts/from-compaction-to-context-recovery.md
+  s_b24075d7718f58::t_dd69ed9bd3cf5a 12
+content/posts/from-demonstration-to-skill.md
+  s_b24075d7718f58::t_104e51c59dbef2 12
+content/posts/glm-built-its-inference-infrastructure.md
+  s_b24075d7718f58::t_1b66fa37471491 12
+content/posts/harness-design-long-running-apps.md
+  s_b24075d7718f58::t_aeb01fa4aff116 12
+content/posts/harness-engineering-behavioral-evaluations.md
+  s_b24075d7718f58::t_153c17bafa4e84 12
+content/posts/harness-engineering-leveraging-codex-in-an-agent-first-world.md
+  s_b24075d7718f58::t_262808493e28f9 12
+content/posts/harness-engineering-visual-control.md
+  s_b24075d7718f58::t_fd8835fbebdbf7 12
+content/posts/harness-engineering-vs-sdd.md
+  s_b24075d7718f58::t_1e83fbc585d0cb 12
+content/posts/how-to-kill-the-code-review.md
+  s_b24075d7718f58::t_01802817743948 13
+content/posts/how-warp-builds-self-improving-agents-on-claude.md
+  s_b24075d7718f58::t_85277ac3c11b1b 12
+content/posts/huggingface-assisted-generation.md
+  s_b24075d7718f58::t_b455bf8f5bc18f 13
+content/posts/improving-deep-agents-with-harness-engineering.md
+  s_b24075d7718f58::t_d50add9004e111 12
+content/posts/init-mac.md
+  s_b24075d7718f58::t_17ec7be4d43b2d 12
+content/posts/introduction-to-agentic-coding.md
+  s_b24075d7718f58::t_6b48dcf0b1b338 13
+content/posts/llm-open-source-2-landscape.md
+  s_b24075d7718f58::t_9e8e398ec88bb8 12
+content/posts/llm-open-source-development.md
+  s_b24075d7718f58::t_94e64c9351e4d7 12
+content/posts/llm-oss-landscape.md
+  s_b24075d7718f58::t_696b81e0116d4c 12
+content/posts/manus-context-engineering.md
+  s_b24075d7718f58::t_feae94c94effb2 13
+content/posts/meituan-agent-ai-coding-refactor.md
+  s_b24075d7718f58::t_7a46fc904528e8 12
+content/posts/prompt-auto-caching-with-claude.md
+  s_b24075d7718f58::t_d053e964fb85a3 12
+content/posts/prompt-engineering-best-practices.md
+  s_b24075d7718f58::t_f7cf19052f0577 12
+content/posts/prompt-engineering-guide.md
+  s_b24075d7718f58::t_40f14f1542cdb9 12
+content/posts/reducing-cost-and-improving-performance-with-claude-platform.md
+  s_b24075d7718f58::t_be16cd5a7ac1b2 12
+content/posts/rethinking-skills-and-prompts-for-gpt-6-astra.md
+  s_b24075d7718f58::t_399745509c469b 12
+content/posts/scaling-pain-coding-agent-serving.md
+  s_b24075d7718f58::t_636cf00437ddcc 12
+content/posts/scaling-storage-one-billion-users-part-one.md
+  s_b24075d7718f58::t_0a51f0b08d276e 12
+content/posts/subagents-in-claude-code.md
+  s_b24075d7718f58::t_dac0c6950670aa 12
+content/posts/the-8-levels-of-agentic-engineering.md
+  s_b24075d7718f58::t_128eb97a3790ff 13
+content/posts/the-rise-of-context-engineering.md
+  s_b24075d7718f58::t_b76253a833c0ea 13
+content/posts/uber-arm-migration.md
+  s_b24075d7718f58::t_847ae8b64a4e78 12
+content/posts/uber-efficient-software-factory.md
+  s_b24075d7718f58::t_2df5346ff557c0 12
+content/posts/unrolling-codex-agent-loop.md
+  s_b24075d7718f58::t_fc6d4386480618 13
+content/posts/useful-skills.md
+  s_b24075d7718f58::t_eccce4a1069b2b 12
+content/posts/we-completely-rebuilt-the-kilo-vs-code-extension.md
+  s_b24075d7718f58::t_6faaaee036d318 13
+content/posts/why-context-engineering-needed.md
+  s_b24075d7718f58::t_afe0ca952b04f4 12
+content/posts/why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities.md
+  s_b24075d7718f58::t_9d9f30806b1c1b 12
+content/posts/zed-edit-prediction.md
+  s_b24075d7718f58::t_496e9559d3e574 13
+layouts/_default/archives.html
+  s_b24075d7718f58::t_6da38b1d9933f8 15
+layouts/_default/single.html
+  s_b24075d7718f58::t_e0fd4de7d3602c 6
+layouts/learning/list.html
+  s_b24075d7718f58::t_918a3b76ae6d27 31
+layouts/partials/learning/row.html
+  s_b24075d7718f58::t_7daa359ab7953a 3,14-19
+scripts/check_site.py
+  s_bfc8c6228b3aaf::t_1d75803befc441 57,79-80,113,115,714,721-735,737,755-762,773,776,784-788,790,792-793
+tests/test_site.py
+  s_bfc8c6228b3aaf::t_52392c504a66bc 310,317-322,331,379-380,383-396,400,403-413
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d69eb24cec04438960fd1825607e922668e6e9b0",
+  "prompts": {},
+  "sessions": {
+    "s_b24075d7718f58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd4a-1698-71b2-a56a-b003027984fe",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_bfc8c6228b3aaf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd5a-e209-7392-b827-004a897f215d",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
