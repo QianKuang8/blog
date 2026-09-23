@@ -1,0 +1,53 @@
+content/posts/agent-era-design.md
+  s_f6722a1407a056::t_44a035109c1229 3,39-41,49,61-65,90
+content/posts/building-high-talent-density-teams.md
+  s_f6722a1407a056::t_f52bfb7b15ef9b 3,16,22,39-40,49,57,74,82-83
+content/posts/communication-strategy-direct-narrative.md
+  s_f6722a1407a056::t_aabbd456701968 3,49,59,73-75,95
+content/posts/how-claude-code-team-uses-claude-code.md
+  s_f6722a1407a056::t_7dc2b94dc2fe07 3,5,45,59,75,92
+content/posts/stanford-mse435-week-01-generative-ai-economics.md
+  s_f6722a1407a056::t_4d3cb25235f07e 3,5,16,28-30,38-42,54-56,80
+content/posts/stanford-mse435-week-02-gpu-economics.md
+  s_f6722a1407a056::t_2c89207537e91b 3,16,31-32,35-37,39,67,84-85
+content/posts/stanford-mse435-week-04-enterprise-ai-saas.md
+  s_f6722a1407a056::t_b65a7fe5519d35 3,16,46-48,75-76
+content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md
+  s_f6722a1407a056::t_6f9b813c28ff51 3,5,16,42,44,52-54,64-66,86-87
+content/posts/stanford-mse435-week-07-inference-cloud-ai-commercialization.md
+  s_f6722a1407a056::t_4cdafb520bc363 3,5,16,53-59,76-77
+content/posts/stanford-mse435-week-08-ai-coding-software-future.md
+  s_f6722a1407a056::t_f254564f87e5de 3,16,25,29-31,67,87-88
+content/posts/stanford-mse435-week-09-ai-life-sciences.md
+  s_f6722a1407a056::t_c1fd4cb88ac259 3,5,16,22,30,34,56-59,66-69,75-76
+content/posts/understanding-next-ai-wave.md
+  s_f6722a1407a056::t_5ceb5db8f28038 3,16,28,66,74-76,106-107
+sources/video/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure.md
+  s_736e11b5bddf81::t_c52f0a4c030d45 40-53,59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a311bdd00db789648cc30fc2f6dc2142bfd8be10",
+  "prompts": {},
+  "sessions": {
+    "s_736e11b5bddf81": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cce9-e1f2-7381-aba2-62143aa86198",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    },
+    "s_f6722a1407a056": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ccea-147b-7ce3-a315-3d3dcd45f2b1",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
