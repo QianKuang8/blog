@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 把一个服务编译成 Arm 版本，只解决了架构迁移的一小部分。运行它的主机代理、构建器、发布平台和依赖库，也可能默认世界里只有 x86。Uber 在 2025 年发布的两篇 [Arm 迁移文章](https://www.uber.com/kr/en/blog/adopting-arm-at-scale-bootstrapping-infrastructure/)，展示了如何先打通一条部署路径，再把它扩展为可持续运行的多架构平台。

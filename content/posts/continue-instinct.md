@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 预测下一次编辑，需要知道代码刚刚怎样变化。开发者删掉一个参数之后，接下来可能要改函数体，也可能要更新调用处；只给模型当前光标附近的代码，往往不足以区分这些意图。

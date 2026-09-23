@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 “找不到匹配上下文”常常发生在代码逻辑已经想清楚之后：模型输出了一段修改，但真实文件已变，或者文件中存在几个相似片段，工具无法确认该改哪一个。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 写出一个看似合理的方案后，重新读一遍代码便结束，没有执行测试。这是 LangChain 在分析 deepagents-cli 失败轨迹时反复看到的行为。要改善它，团队既调整提示，也在 Agent 准备退出时加入运行时提醒。

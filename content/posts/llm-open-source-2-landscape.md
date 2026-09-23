@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 开源项目的热度变化，可以帮助发现开发者正在解决什么问题，但不能直接回答一个工具是否适合生产使用。应用框架、编码助手、推理引擎和数据基础设施，即使出现在同一张排行榜上，承担的工作也并不相同。

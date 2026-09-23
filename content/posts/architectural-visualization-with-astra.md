@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 让 Coding Agent 参与三维创作，怎样把“房间更有生活感”这样的要求变成可以持续修改的作品？Thomas Ricouard 在 OpenAI 的 [《Architectural visualization with Astra》](https://developers.openai.com/blog/architectural-visualization-with-astra) 中，用住宅项目 Solace 展示了一条从设计意图走向场景、渲染和交互的路径。

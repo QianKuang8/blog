@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 有能力读写代码、运行测试，仍可能把跨服务约定实现错。它能看到调用接口，却未必知道某个错误码代表可以重试、需要降级，还是应该立即终止。执行工具齐备，不能补上缺失的业务含义。

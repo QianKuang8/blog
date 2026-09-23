@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 重装 Mac 时，最容易遗漏的通常是开发环境之间的连接：终端能否找到编译器，项目用了哪个语言版本，编辑器能否复用同一套工具链。这里把原有安装清单按使用顺序整理，先恢复能工作的环境，再补充日常工具。

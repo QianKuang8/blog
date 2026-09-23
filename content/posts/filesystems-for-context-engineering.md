@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一次搜索返回一万 token，并不意味着下一步推理需要一万 token。若每次工具结果都完整留在消息历史里，Agent 会不断为已经不相关的内容付出成本。LangChain 的 [How agents can use filesystems for context engineering](https://blog.langchain.com/how-agents-can-use-filesystems-for-context-engineering/) 讨论了另一种组织方式：先保存材料，再让模型按任务需要寻找和读取。

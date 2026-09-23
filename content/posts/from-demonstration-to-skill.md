@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 假设你每周都要完成一次数据填报。金额和页面位置会变，但任务目标始终相同。

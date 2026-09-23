@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 把 coding agent 做进终端，除了改变界面，还会改变它与现有工程系统的关系。文本输入输出可以接脚本，命令可以进入 CI，同一能力也可以由开发者交互调用。

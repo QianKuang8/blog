@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 权限确认太频繁，用户可能逐渐只点击“批准”，不再仔细判断。Anthropic 在 [Auto Mode 设计文章](https://www.anthropic.com/engineering/claude-code-auto-mode)中报告，手动请求有 93% 被接受，因而尝试用模型分类器承接部分审批，同时保留对危险动作的拦截。

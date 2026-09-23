@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 同一个请求离线重放几百次都正常，生产环境却偶尔输出乱码或反复重复，排障该从哪里继续？Z.ai 的 [Scaling Pain of Coding Agent Serving](https://z.ai/blog/scaling-pain)记录了一个负载相关的案例：团队最终定位到两种 KV Cache 竞态，而用户最初看到的是模型输出质量异常。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 “领域大模型是伪命题”容易被读成无需再做专用模型。量子位整理的 [唐杰八点思考](https://mp.weixin.qq.com/s/krtUS58RrBX4UHnMZLPy4w)实际上紧接着给出限定：AGI 尚未实现，领域模型会长时间存在，具体多久难以判断。理解这段话，需要把他对通用智能的长期预期，与当前应用如何落地分开。

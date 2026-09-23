@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 自回归生成通常每得到一个 token，就再运行一次模型来预测下一个。如果大模型一次前向计算主要耗在读取权重上，这种串行调用会反复支付相近的内存搬运成本。

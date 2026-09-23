@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Uber 的 [《Running a Software Factory Efficiently at Uber Scale》](https://www.uber.com/us/en/blog/efficient-software-factory/) 值得读，因为它把一个常见的预算问题拆成了可以逐项改进的工程问题：当 Agent 开始持续处理代码审查、CI 修复和日常维护，怎样知道钱花在哪里，又怎样判断优化没有损害交付质量？

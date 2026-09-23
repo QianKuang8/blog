@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 遇到重复任务时，Skill 可以把操作方法、参考资料和辅助脚本保存在一起，供 Agent 按需读取。挑选它的依据应是自己经常遇到什么问题：创建技能、组织开发流程、澄清设计，还是维护一份本地知识索引。

@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个子 Agent 开始工作时，不只需要一句任务说明。它还可能需要上游已经确认的事实、当前约束、可调用工具，以及尚未解决的问题。给少了，它无法判断；把所有历史搬过去，又可能掩盖当前任务。

@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 给一个方法增加参数，往往只是修改的开始：调用点要补实参，方法内部可能也要调整。传统补全可以接着光标写代码，却很难主动把这些相关位置串起来。GitHub Next 的 [Next Edit Suggestions（NES）](https://githubnext.com/projects/copilot-next-edit-suggestions/) 项目把任务定义为：观察开发者刚做的修改，预测接下来可能需要的编辑，再按顺序交给开发者接受。

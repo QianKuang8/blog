@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 代码补全通常接收光标前后的文本，生成中间缺少的内容。但一次开发操作可能同时要求增加参数、修改调用和删除旧逻辑，下一处变化未必在光标之后。Zed 的 [Edit Prediction](https://zed.dev/blog/edit-prediction) 把预测对象扩展为“接下来对这段代码做什么修改”，并围绕这一目标设计了 Zeta 模型、训练流程与交互方式。

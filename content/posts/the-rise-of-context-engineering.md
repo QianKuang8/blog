@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 给出错误答案时，最容易看到的是模型最后说了什么，最难复原的却往往是它当时看到了什么。检索可能漏掉关键文档，工具可能没有开放，旧状态也可能被当作当前事实传入。只盯着最终输出，很难区分这些原因。

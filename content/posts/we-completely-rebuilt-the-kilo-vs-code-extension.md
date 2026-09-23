@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 同一款 Coding Agent 有 CLI、VS Code 和 JetBrains 多个入口时，底层能力应当怎样复用？Kilo 的 [扩展重构说明](https://blog.kilo.ai/p/we-completely-rebuilt-the-kilo-vs-code-extension) 从一个具体问题出发：旧架构让这些入口都依赖 VS Code 内部实现，连 JetBrains 环境也需要携带这套依赖。

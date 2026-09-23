@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 面对几十种终端 Coding Agent，按功能数量挑选很容易遗漏实际工作中的限制。Michael Livs 的 [Every CLI coding agent, compared](https://michaellivs.com/blog/cli-coding-agents-compared) 收集了 36 个项目，并按模型、许可证、工具扩展、隔离与协作能力展开比较。它适合作为寻找候选产品的索引，也提供了分析 Agent 运行环境的线索。

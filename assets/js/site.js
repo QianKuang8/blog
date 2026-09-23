@@ -47,36 +47,6 @@
         });
     }
 
-    // The query selects a reading view. Learning state comes only from Markdown.
-    const learningRecord = document.querySelector('[data-learning-record]');
-    if (learningRecord) {
-        const learningBack = learningRecord.querySelector('[data-learning-back]');
-        const readingBack = document.querySelector('[data-reading-back]');
-        const ordinaryBack = readingBack && { href: readingBack.href, text: readingBack.textContent };
-        const learningNav = document.querySelector('[data-learning-nav]');
-        const nextLinks = [...document.querySelectorAll('[data-reading-path-next]')];
-        function updateLearningView() {
-            const enabled = new URL(location.href).searchParams.get('learning') === '1';
-            learningRecord.hidden = !enabled;
-            if (readingBack && learningBack) {
-                readingBack.href = enabled ? learningBack.href : ordinaryBack.href;
-                readingBack.textContent = enabled ? '← 学习清单' : ordinaryBack.text;
-            }
-            if (learningNav) {
-                if (enabled) learningNav.setAttribute('aria-current', 'page');
-                else learningNav.removeAttribute('aria-current');
-            }
-            nextLinks.forEach(link => {
-                const url = new URL(link.href);
-                if (enabled) url.searchParams.set('learning', '1');
-                else url.searchParams.delete('learning');
-                link.href = url.href;
-            });
-        }
-        updateLearningView();
-        addEventListener('popstate', updateLearningView);
-    }
-
     function revealLearningGroup() {
         const group = document.getElementById(location.hash.slice(1));
         if (group?.matches('details[data-learning-group]')) group.open = true;

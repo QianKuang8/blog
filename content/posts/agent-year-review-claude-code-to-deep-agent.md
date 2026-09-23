@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 通用 Agent 能搜索、写文件、执行命令，距离胜任一项专业工作仍有多远？周星星在 [2025 年 Agent 复盘](https://zhuanlan.zhihu.com/p/1983512173549483912)中把问题拆成两部分：输出是否符合行业判断标准，以及系统能否在多步骤任务里持续保持方向与质量。

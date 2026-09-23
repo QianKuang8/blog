@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个 Agent 可能始终在线，工具调用也没有报错，却持续回答错问题，或在不需要操作时反复调用工具。服务可用率无法完整描述这类失败；团队还要判断它有没有按用户意图完成工作。

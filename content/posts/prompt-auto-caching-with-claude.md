@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 Agent 每运行一轮，通常只新增少量动作与工具结果，但下一次请求仍会带上系统规则、工具定义和此前历史。如果每次都重新处理这些内容，输入越长，重复计算的开销越明显。

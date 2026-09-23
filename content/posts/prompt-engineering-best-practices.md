@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 “分析这份报告”和“从报告中提取指定指标，缺失值写为 null，输出供程序读取的 JSON”，交给模型的是两个不同清晰度的任务。前者留下用途、范围和格式供模型猜测，后者说明了如何处理输入和判断结果。

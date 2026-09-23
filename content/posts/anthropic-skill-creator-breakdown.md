@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一份 Skill 写得详细，不代表它会在正确时机被使用；被使用，也不代表结果比原来更好。Riba 的 [skill-creator 拆解文章](https://blog.riba2534.cn/blog/2026/%E6%8B%86%E8%A7%A3anthropic%E7%9A%84skill-creator-ai-agent%E7%9A%84%E6%8A%80%E8%83%BD%E5%B7%A5%E5%8E%82%E6%98%AF%E6%80%8E%E4%B9%88%E8%BF%90%E8%BD%AC%E7%9A%84/)介绍了 2026 年 2 月更新后的工具链：它把创建初稿、执行样例、评价产物和修改说明连接起来，并另行优化触发描述。

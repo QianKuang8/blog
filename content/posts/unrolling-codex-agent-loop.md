@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 让模型运行一条命令，和让它持续修改一个仓库，中间隔着一套状态管理。模型要知道已经做过什么、工具实际返回了什么，以及当前应该继续执行还是交还控制权。

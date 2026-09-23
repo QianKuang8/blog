@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 同一款模型进入不同团队，可能产生不同的开发效率。除了模型能力，结果还取决于它能读到哪些项目知识、能否验证修改，以及产出的代码怎样进入团队交付流程。

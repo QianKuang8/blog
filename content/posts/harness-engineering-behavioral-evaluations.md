@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 给 coding agent 补上一条“完成前验证”的提示后，怎样判断它确实改善了行为？任务成功率可以反映结果，但要解释一次失败，还得看到执行过程。

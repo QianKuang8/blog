@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 长期使用 Coding Agent，项目里往往会积累不少规则：遇到某类任务先读文档、执行前询问、修改后检查。每条规则都可能对应一次真实失败，但换了模型以后，这些规则是否仍然合适，需要重新判断。Eric Provencher 在 OpenAI 的 [《Rethinking skills and prompts for GPT-6 Astra》](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) 中提出了这个问题。

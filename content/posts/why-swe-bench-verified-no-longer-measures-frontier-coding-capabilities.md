@@ -9,6 +9,7 @@ categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 一个 coding benchmark 分数上升，可能说明模型更会解决新问题，也可能混入对历史题解的记忆；分数停滞，则既可能来自能力边界，也可能来自测试无法接受合理修复。

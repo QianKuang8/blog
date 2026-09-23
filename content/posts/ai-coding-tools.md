@@ -9,6 +9,7 @@ categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 在 Claude Code 终端里反复确认模型、上下文和 Git 状态，会打断正在进行的任务。这里保留一份 ccstatusline 配置，把这些信息放进同一行，便于以后恢复。

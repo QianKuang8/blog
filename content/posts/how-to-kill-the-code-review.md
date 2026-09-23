@@ -10,6 +10,7 @@ origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 当 Agent 生成修改的速度高于团队阅读 diff 的速度，审查队列就会增长。增加一个自动评论工具可以帮助发现问题，但仍需回答：团队究竟依据什么证据批准这次变化？
