@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 模型出现一项新能力以后，产品、基础设施和团队流程怎样把它交到用户手中？这场 [Tibo 访谈](https://www.youtube.com/watch?v=4qjEgPojjzM) 讨论了 Agent 的编排负担、交互入口、系统改进和生成速度，可以沿着能力到实际使用的路径来读。

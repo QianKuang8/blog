@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 [Stanford MS&E 435 Week 2](https://www.youtube.com/watch?v=BBl8bNJP6ds) 回答的核心问题是：当 AI 的边际成本不再接近零，芯片、互联、编译器、模型与代理工作流怎样共同决定能交付多少有用智能，以及这些智能能否产生足以覆盖资本开支的价值。

@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 严格的面试只能判断已经进入流程的人。如果真正符合岗位的人没有回复邀请，后续筛选再细，也无法评价他们。这场 [Lenny's Podcast 访谈](https://www.youtube.com/watch?v=zegYJ6dhIg4) 从这一样本问题出发，讨论如何定义岗位、建立人才地图，并让候选人与团队相互了解。

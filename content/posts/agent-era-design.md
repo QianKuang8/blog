@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 代理可以很快给出多个界面，设计师怎样比较、修改并确认其中一个值得发布？这场 [Y Combinator Design Review](https://www.youtube.com/watch?v=P06RgnUKX_I) 用 Paper 的工作流和三个网站评审，展示了生成、选择与验收怎样接在一起。
