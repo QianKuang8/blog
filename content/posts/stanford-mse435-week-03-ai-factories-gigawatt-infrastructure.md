@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 AI 服务背后需要多大的电力、冷却和建设投入？[Stanford MS&E 435 Week 3](https://www.youtube.com/watch?v=GcCGzfKdCd0) 以 Crusoe 的数据中心项目为例，把抽象的资本开支拆成选址、建筑、设备与服务收入，讨论这些环节怎样约束 token 生产。

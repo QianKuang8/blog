@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 当 AI 应用的调用量增长，模型费用、响应延迟和故障恢复会一起进入产品决策。[Stanford MS&E 435 Week 7](https://www.youtube.com/watch?v=Qh7Oxvo5sJI) 讨论了一个具体选择：继续使用前沿模型 API，还是为稳定的业务任务建立定制模型与推理系统？

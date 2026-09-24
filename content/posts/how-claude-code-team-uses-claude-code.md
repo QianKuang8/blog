@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 这场 [Claude Code 团队访谈](https://www.youtube.com/watch?v=S-sYlFiGFv8) 讨论了一种协作变化：工程师开始把目标交给代理，减少对每次工具调用的监督。上下文、执行环境、工作流、验证和真实反馈，则让这些更大的委派目标有了可检查的结果。

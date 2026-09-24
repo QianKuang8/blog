@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 企业已经能用模型快速生成代码，却仍可能花数月把一个功能交付给客户。延迟发生在哪里？[Stanford MS&E 435 Week 4](https://www.youtube.com/watch?v=sRvrXL83N-c) 用 Databricks 的连接器项目说明，模型能力、组织知识和工作流程需要一起考察，单个步骤加速不能直接换算成整体收益。

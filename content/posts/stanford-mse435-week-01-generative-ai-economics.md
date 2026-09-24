@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: done
 ---
 
 AI 基础设施投入迅速增长，应用收入需要多久才能承接这些投入？[Stanford MS&E 435 Week 1](https://www.youtube.com/watch?v=LNSvp-9b-J0) 从半导体、基础设施和应用三层出发，比较收入与利润分布，并讨论价值可能在什么条件下向应用层迁移。

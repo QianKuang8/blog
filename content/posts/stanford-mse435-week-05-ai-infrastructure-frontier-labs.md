@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 采购合同上的 GPU 数量，怎样变成研究和产品真正能用的算力？[Stanford MS&E 435 Week 5](https://www.youtube.com/watch?v=4k53z3Ysjg0) 把这段过程称为算力交付问题：芯片、电力、建设、运行与任务调度共同决定何时能够提供有效服务。

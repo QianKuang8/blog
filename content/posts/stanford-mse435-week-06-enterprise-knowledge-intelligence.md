@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 通用模型进入企业以后，还需要知道本地业务怎样定义“做得对”。[Stanford MS&E 435 Week 6](https://www.youtube.com/watch?v=LRGX-gTegVA) 中，Yash Patil 以评测、菜单结构化和生产反馈为例，讨论企业如何把自己的标准转化为可改进的系统。

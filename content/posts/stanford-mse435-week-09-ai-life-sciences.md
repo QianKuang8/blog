@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 AI 生成一个有希望的分子之后，谁来证明它能够制造、在体内有效，而且足够安全？[Stanford MS&E 435 Week 9](https://www.youtube.com/watch?v=nWKiJHKIZfo) 把分子设计与研发流程分开讨论，说明专业模型和通用 Agent 各自可以加速哪些环节，以及它们如何与实验连接。

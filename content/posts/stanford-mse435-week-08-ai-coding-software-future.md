@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 代码生成成本下降以后，部署、恢复和运维会怎样影响软件价值？Stanford MS&E 435 的这场访谈中，Guillermo Rauch 从可运行服务出发，讨论长时任务、沙箱与可组合接口，以及它们怎样支撑生成后的软件。

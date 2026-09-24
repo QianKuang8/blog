@@ -9,6 +9,7 @@ categories: ["视频笔记"]
 author: "Qian"
 isCJKLanguage: true
 showToc: true
+learning_status: pending
 ---
 
 一家新公司怎样让目标受众理解自己在做什么，又为什么值得相信？这场 [David Senra 访谈](https://www.youtube.com/watch?v=DFImJfJGXl0) 中，Lulu Cheng Meservey 从跨文化经历和公司传播案例出发，讨论受众语境、直接触达与可信叙事之间的关系。
