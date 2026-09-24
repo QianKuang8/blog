@@ -1,0 +1,47 @@
+content/posts/agent-era-design.md
+  s_b24075d7718f58::t_4bbeb3b82b2c20 12
+content/posts/building-high-talent-density-teams.md
+  s_b24075d7718f58::t_486b7bbb58eb7e 12
+content/posts/communication-strategy-direct-narrative.md
+  s_b24075d7718f58::t_bd2a19ce609811 12
+content/posts/how-claude-code-team-uses-claude-code.md
+  s_b24075d7718f58::t_7fcae3dfa54aef 12
+content/posts/stanford-mse435-week-01-generative-ai-economics.md
+  s_b24075d7718f58::t_a5fcb8a0fba9cf 12
+content/posts/stanford-mse435-week-02-gpu-economics.md
+  s_b24075d7718f58::t_9da700aab61e0b 12
+content/posts/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure.md
+  s_b24075d7718f58::t_7d35c7c8575bc2 12
+content/posts/stanford-mse435-week-04-enterprise-ai-saas.md
+  s_b24075d7718f58::t_4de45243f98b63 12
+content/posts/stanford-mse435-week-05-ai-infrastructure-frontier-labs.md
+  s_b24075d7718f58::t_acd5c6854b8d02 12
+content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md
+  s_b24075d7718f58::t_21354a10f1216b 12
+content/posts/stanford-mse435-week-07-inference-cloud-ai-commercialization.md
+  s_b24075d7718f58::t_dc697c3a78d9c3 12
+content/posts/stanford-mse435-week-08-ai-coding-software-future.md
+  s_b24075d7718f58::t_33d6e7f5c268bd 12
+content/posts/stanford-mse435-week-09-ai-life-sciences.md
+  s_b24075d7718f58::t_d5b379d494ce68 12
+content/posts/understanding-next-ai-wave.md
+  s_b24075d7718f58::t_395c6e24930e66 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a0ecad526757c863e3481ad1cd1d9257140f45a7",
+  "prompts": {},
+  "sessions": {
+    "s_b24075d7718f58": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd4a-1698-71b2-a56a-b003027984fe",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
