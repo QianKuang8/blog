@@ -148,6 +148,10 @@
               "reason": "从动作分类与权限分层看如何判断授权，并保留拒绝恢复和评测结果的适用边界。"
             },
             {
+              "post": "/posts/meta-muse-agent-security",
+              "reason": "继续看执行隔离、凭证替身和网络出口控制，理解模型受诱导后系统如何限制行动范围。"
+            },
+            {
               "post": "/posts/from-demonstration-to-skill",
               "reason": "看录制证据怎样写成方法，以及 Skill、当前任务、工具与权限怎样共同决定执行。"
             }

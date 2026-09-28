@@ -1,5 +1,11 @@
 ## 失败记录
 
+### [2026-09-28] Meta Muse Agent 安全文章
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse | defuddle 首次请求超时；延长超时后仍返回 `fetch failed` | 经用户授权使用浏览器核对全文；网络恢复后 defuddle 重试成功，归档至 `sources/orig/meta-muse-agent-security.md`，补入提取器遗漏的原架构图链接 | 已解决，原文已补档 |
+
 ### [2026-09-21] OpenAI Habitat 存储扩展文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
