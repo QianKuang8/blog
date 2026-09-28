@@ -1,0 +1,27 @@
+content/posts/meta-muse-agent-security.md
+  s_ebb71d0bdb6b04::t_37ef9ccf5e9b79 1-89
+data/reading_paths.json
+  s_ebb71d0bdb6b04::t_a497e9b593571d 150-153
+sources/failed/failed-sources.md
+  s_ebb71d0bdb6b04::t_b9eb836a2773f6 3-8
+sources/orig/meta-muse-agent-security.md
+  s_ebb71d0bdb6b04::t_7c322846e56b5b 1-176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bd38d9b5e1e9a225d0ea716b2f5cdcf16c1d3275",
+  "prompts": {},
+  "sessions": {
+    "s_ebb71d0bdb6b04": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0e6ed-610f-71b0-ae87-52505e058c72",
+        "model": "unknown"
+      },
+      "human_author": "QianKuang8 <qk2004@nyu.edu>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
