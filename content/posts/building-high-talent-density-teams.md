@@ -80,5 +80,5 @@ Ward 的方法把三个问题连在一起：团队究竟需要什么能力，名
 ## 继续阅读
 
 - [原视频：The playbook for building high talent density teams](https://www.youtube.com/watch?v=zegYJ6dhIg4)
-- [完整课程笔记 PDF：20 页](/blog/pdfs/standalone/building-high-talent-density-teams.pdf)
+- [完整课程笔记 PDF：20 页](/pdfs/standalone/building-high-talent-density-teams.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/building-high-talent-density-teams.pdf)

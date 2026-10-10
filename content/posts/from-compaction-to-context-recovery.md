@@ -20,7 +20,7 @@ learning_status: done
 
 以修复上传取消问题为例，这段持续的会话叫作 **session**；模型当前读到的材料叫作**上下文**，它的容量受**上下文窗口**限制。会话可以继续，窗口容量却不会随任务增长。[会话与窗口状态][session-state]
 
-![同一 session 内，基础指令、用户消息、模型回复、工具调用和结果逐步累积，当前上下文接近容量上限，需要为继续工作腾出空间](/blog/images/original/from-compaction-to-context-recovery/00-session-and-limit.svg)
+![同一 session 内，基础指令、用户消息、模型回复、工具调用和结果逐步累积，当前上下文接近容量上限，需要为继续工作腾出空间](/images/original/from-compaction-to-context-recovery/00-session-and-limit.svg)
 
 图中的回复、工具调用和工具结果不断累积，直到窗口接近上限。读文件或运行测试，都可能带回一大段代码或日志，留给下一步的空间也随之减少。实际系统通常会提前整理输入，并为后续生成预留空间。[窗口预算与上限][context-limit]
 
@@ -28,7 +28,7 @@ learning_status: done
 
 Codex 有两种不同的交接思路。**旧方法先压缩历史，带着较短的交接材料继续；新方法先记下进度，换一个窗口，再按需找回旧信息。**[压缩与切窗的路径选择][dispatch]
 
-![旧方法先压缩历史再继续；新方法记下进度，换窗后按需找回旧信息](/blog/images/original/from-compaction-to-context-recovery/01-three-paths.svg)
+![旧方法先压缩历史再继续；新方法记下进度，换窗后按需找回旧信息](/images/original/from-compaction-to-context-recovery/01-three-paths.svg)
 
 <a id="old-method"></a>
 
@@ -53,7 +53,7 @@ Codex 有两种不同的交接思路。**旧方法先压缩历史，带着较短
 
 Session 还在继续，变化的是下一次模型调用的输入。以文字摘要为例，基础指令会重新组织，一部分用户内容按规则保留；先前大量模型回复、工具调用和工具结果所记录的过程，由一份较短的摘要承接。[压缩后内容的组织方式][local-retention]
 
-![旧方法的压缩前后：同一 session 的容量限制不变，较短的交接材料替换长过程，留出供后续新消息使用的空间](/blog/images/original/from-compaction-to-context-recovery/02b-legacy-context-after.svg)
+![旧方法的压缩前后：同一 session 的容量限制不变，较短的交接材料替换长过程，留出供后续新消息使用的空间](/images/original/from-compaction-to-context-recovery/02b-legacy-context-after.svg)
 
 此后生成的新回复、新工具调用和新工具结果，继续加入这份较短的上下文。窗口容量没有变，腾出来的是后续工作的空间。图中展示的是简化后的组成；远端压缩可以使用不透明的压缩状态，直接保留哪些旧消息也会因路径而异。[远端压缩][remote-request]
 
@@ -71,7 +71,7 @@ Session 还在继续，变化的是下一次模型调用的输入。以文字摘
 
 **这套实验中的 notes 和 history 由远端服务提供。** 模型请求写笔记时，Codex 客户端把内容提交给服务；换窗以后，客户端再按模型的请求取回笔记或历史片段。它们与工作目录中的源码、文件和本地会话日志分开，笔记也不是自动写进项目目录的普通文件。[远端服务调用][history-backend]
 
-![Codex 客户端组织同一 Session 的窗口 A 和 B，远端 notes 与 history 保存跨窗口状态；客户端写入笔记、请求记录历史，切窗后再读取所需内容](/blog/images/original/from-compaction-to-context-recovery/03-state-boundaries.svg)
+![Codex 客户端组织同一 Session 的窗口 A 和 B，远端 notes 与 history 保存跨窗口状态；客户端写入笔记、请求记录历史，切窗后再读取所需内容](/images/original/from-compaction-to-context-recovery/03-state-boundaries.svg)
 
 图中以桌面使用为例：**本地 Codex 客户端**组织当前输入并操作项目文件，**OpenAI 远端的 Notes / History 服务**保存笔记与历史。远端材料只有被读回的部分，才重新占用当前窗口。模型接口不自动提供这套远端恢复服务。
 
@@ -87,7 +87,7 @@ Session 还在继续，变化的是下一次模型调用的输入。以文字摘
 
 接近容量限制时，Codex 会提醒模型准备交接；模型也可以主动请求新窗口。[交接提醒][reminders] 客户端随后重建上下文。新窗口里会有基础工作说明和恢复指引，之前那一长串用户消息、代码与工具输出则不再自动带入。这次切换跳过了专门生成摘要的步骤。[切窗流程][rollover] 这时，项目文件仍然保留着刚才的修改。旧材料退出模型眼前的窗口，也不意味着旧日志在这一步被删除。[活动历史与日志的处理][history-replace]
 
-![新方法的换窗前后：同一 session 从窗口 A 切到窗口 B，刚切完仅有重建的基础内容；模型再发出读取笔记和历史的工具调用，工具结果进入窗口 B 后恢复任务背景](/blog/images/original/from-compaction-to-context-recovery/05b-new-context-after.svg)
+![新方法的换窗前后：同一 session 从窗口 A 切到窗口 B，刚切完仅有重建的基础内容；模型再发出读取笔记和历史的工具调用，工具结果进入窗口 B 后恢复任务背景](/images/original/from-compaction-to-context-recovery/05b-new-context-after.svg)
 
 图中“刚换完”和“读回之后”都是窗口 B。模型在窗口 B 发出新的工具调用，笔记和历史片段作为工具结果进入当前上下文。查回的用户要求，也以这次工具结果的形式供模型核对。[历史工具的返回方式][history-output] 因此，换窗只是先腾出空间。真正把两段工作接起来的是后面的读取与恢复。
 
@@ -99,7 +99,7 @@ Session 还在继续，变化的是下一次模型调用的输入。以文字摘
 
 假设真实网络验证失败了。Codex 需要弄清：之前通过的单元测试，究竟验证了什么？笔记里可以只写“单元测试通过”，再附上测试记录的引用。模型根据引用读取那段命令和输出，先确认跑过哪些测试、结果如何，再结合测试代码核对覆盖范围。如果没有现成引用，也可以先搜索或浏览历史，找到相关条目后再读取。[历史查询与读取][history-tools]
 
-![工作笔记指向用户要求和测试原记录：笔记告诉模型下一步，原记录供它核对具体细节](/blog/images/original/from-compaction-to-context-recovery/06-checkpoint-references.svg)
+![工作笔记指向用户要求和测试原记录：笔记告诉模型下一步，原记录供它核对具体细节](/images/original/from-compaction-to-context-recovery/06-checkpoint-references.svg)
 
 找回的信息会进入新窗口。于是，此刻模型眼前的材料可能只有：基础工作说明、一份进度笔记、用户的 API 约束、一段必要的测试输出，以及后续新产生的工作内容。此前那些与下一步无关的搜索结果，就不必全部读回来了。以后需要其中某段，再去找那一段。
 

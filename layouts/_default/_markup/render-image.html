@@ -5,6 +5,10 @@
     {{- $src = .RelPermalink -}}
     {{- with $url.RawQuery }}{{ $src = printf "%s?%s" $src . }}{{ end -}}
     {{- with $url.Fragment }}{{ $src = printf "%s#%s" $src . }}{{ end -}}
+  {{- else -}}
+    {{- if and (hasPrefix $src "/") (not (hasPrefix $src "//")) (not (hasPrefix $src site.Home.RelPermalink)) -}}
+      {{- $src = relURL (strings.TrimPrefix "/" $src) -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 <img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">

@@ -8,8 +8,8 @@
 {{- $terms := .Data.Terms.Alphabetical -}}
 {{- if eq .Type "categories" -}}
   {{- $terms = slice -}}
-  {{- range slice "原创文章" "好文分享" "视频笔记" -}}
-    {{- with site.GetPage (printf "/categories/%s" .) -}}
+  {{- range hugo.Data.categories.categories -}}
+    {{- with site.GetPage (printf "/categories/%s" .term) -}}
       {{- $terms = $terms | append (dict "Page" . "Count" (len .RegularPages)) -}}
     {{- end -}}
   {{- end -}}

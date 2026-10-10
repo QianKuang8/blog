@@ -18,7 +18,7 @@ Coding Agent 的成本优化需要回答一个具体问题：哪些工作值得�
 
 原文介绍的 Fusion 由 Lead 和 Sidekick 组成：Lead 使用前沿模型，负责规划、处理歧义和审查；Sidekick 承接任务，探索代码、实现并运行测试。双方各自维护持久上下文与工具，通过任务说明、结果和反馈沟通。Lead 保留会话控制权，必要时接管执行；这种上下文组织也用于利用 prompt caching。[来源：Fusion 架构说明](https://cognition.com/blog/local-fusion#the-fusion-architecture)
 
-![Fusion 分工示意：用户与 Lead 交互，Lead 向 Sidekick 下发任务并审查返回结果，两个 Agent 各自保留上下文。](/blog/images/cognition-local-fusion/lead-sidekick.svg)
+![Fusion 分工示意：用户与 Lead 交互，Lead 向 Sidekick 下发任务并审查返回结果，两个 Agent 各自保留上下文。](/images/cognition-local-fusion/lead-sidekick.svg)
 
 *根据原文架构说明整理。图中表示职责和信息流，不表示底层调度时序。*
 

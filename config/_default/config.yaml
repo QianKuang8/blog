@@ -1,81 +1,35 @@
 baseURL: https://qiankuang8.github.io/blog/
 defaultContentLanguage: zh
-copyright: "© [Qian](https://github.com/QianKuang8) 2024"
 title: Qian's blog
 pagination:
   pagerSize: 10
 
-enableInlineShortcodes: true
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-enableEmoji: true
-pygmentsUseClasses: true
-mainsections: ["posts"]
 capitalizeListTitles: false
-
-minify:
-  disableXML: true
+disableKinds: ["rss"]
 
 markup:
   goldmark:
     renderer:
-      unsafe: true
+      unsafe: true # reading_path and other shortcodes emit HTML
   highlight:
     noClasses: false
 
 outputs:
   home:
     - HTML
-    - RSS
-    - JSON # necessary for search
-
-menu:
-  main:
-    - name: 首页
-      url: /
-      weight: 10
-    - name: 专题
-      url: topics/
-      weight: 20
-    - name: 标签
-      url: tags
-      weight: 30
-    - name: 归档
-      url: archives/
-      weight: 40
-    - name: 搜索
-      url: search/
-      weight: 50
-    - name: Github
-      url: https://github.com/QianKuang8
-      weight: 60
+    - JSON # search index
 
 params:
   contentEditURL: "https://github.com/QianKuang8/blog/edit/main/content"
-  env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: Qian's blog
   description: "Qian 的个人博客，记录 AI 工程、Coding Agent、Context Engineering 和软件工程实践。"
   author: Qian
   images: ["site-card.png"]
   DateFormat: "2006-01-02"
-
   ShowReadingTime: true
-  ShowShareButtons: false
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: false
-  ShowCodeCopyButtons: true
-  ShowWordCount: false
-  ShowRssButtonInSectionTermList: false
-  UseHugoToc: true
-  disableSpecial1stPost: false
-  disableScrollToTop: false
-  comments: false
-  hidemeta: false
-  hideSummary: false
-  showtoc: false
-  tocopen: false
 
   fuseOpts:
     threshold: 0.3
@@ -91,10 +45,8 @@ params:
         weight: 0.15
 
   homeInfoParams:
-    Title: "Qian's Blog"
     Content: "记录 AI 工程、Coding Agent、Context Engineering 和一些个人折腾。"
 
   schema:
-    publisherType: Person
     sameAs:
       - "https://github.com/QianKuang8"

@@ -82,5 +82,5 @@ Gerstner 在接下来的社会契约讨论中强调，技术可能扩大产出�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：The GPU Economy](https://www.youtube.com/watch?v=BBl8bNJP6ds)
-- [完整课程笔记 PDF：40 页](/blog/pdfs/stanford-mse435/week-02-gpu-economics.pdf)
+- [完整课程笔记 PDF：40 页](/pdfs/stanford-mse435/week-02-gpu-economics.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-02-gpu-economics.pdf)

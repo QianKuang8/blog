@@ -22,7 +22,7 @@ Z.ai 的 [《How GLM Built Its Own Inference Infrastructure》](https://z.ai/blo
 
 原文把解决办法称为 dense feedback，本文译为“密集反馈”。它有三个条件：能定位到具体代码路径或输入条件，获取成本足够低且及时，以及能通过参考实现或对照实验客观验证。“密集”描述的是反馈对决策的支撑程度。给出某个请求在两条计算路径上的输出差异，就比追加一批没有上下文的错误日志更有用。
 
-![Infra Agent 的反馈循环：工程师定义目标与边界，Agent 提出假设和修改，实验环境提供数值、时序与性能证据；候选修改经过端到端验收，结果继续反馈给 Agent。](/blog/images/glm-built-its-inference-infrastructure/dense-feedback-loop.svg)
+![Infra Agent 的反馈循环：工程师定义目标与边界，Agent 提出假设和修改，实验环境提供数值、时序与性能证据；候选修改经过端到端验收，结果继续反馈给 Agent。](/images/glm-built-its-inference-infrastructure/dense-feedback-loop.svg)
 
 *根据原文整理的职责与反馈关系。三类局部验证按当前假设选择，没有固定执行顺序；通过局部验证的修改仍需端到端验收。*
 

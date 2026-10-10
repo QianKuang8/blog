@@ -28,7 +28,7 @@ learning_status: done
 
 先把产品机制放到一边，只看这项工作。用户从"九月周报"读取本周金额 `42,680`，再打开数据后台，把金额填进"经营数据"，提交后确认页面显示成功。
 
-![每周从周报读取当前金额，填入数据后台并确认提交成功](/blog/images/original/from-demonstration-to-skill/task-scenario.svg)
+![每周从周报读取当前金额，填入数据后台并确认提交成功](/images/original/from-demonstration-to-skill/task-scenario.svg)
 
 下周的金额会变成 `43,210`，单元格和后台字段也可能移动，但任务没有变：找到本周的正确金额，填入正确记录，并确认结果。Record & Replay 要保存的正是这套方法，而不是这一次的数字和点击位置。
 
@@ -38,7 +38,7 @@ learning_status: done
 
 > 录制并留下证据 → Agent 理解证据并生成 Skill → 在新任务中使用 Skill
 
-![用户录下演示并留下证据，Agent 从证据中提炼 Skill，随后在新任务中使用这套方法](/blog/images/original/from-demonstration-to-skill/end-to-end-overview.svg)
+![用户录下演示并留下证据，Agent 从证据中提炼 Skill，随后在新任务中使用这套方法](/images/original/from-demonstration-to-skill/end-to-end-overview.svg)
 
 接下来，我们继续用每周填报的例子，依次回答三个问题：录制结束后留下什么，Agent 怎样把这些证据写成 Skill，以及保存的 Skill 怎样在下一次任务中工作。
 
@@ -46,7 +46,7 @@ learning_status: done
 
 用户先在表格中找到 `42,680`，再切到浏览器，把数字填进"本周金额"，最后点击"提交"。同一次演示，在 Claude 和 Codex 中会变成两类不同的录制证据。
 
-![同一次演示，在 Claude 和 Codex 中变成两类不同的录制证据](/blog/images/original/from-demonstration-to-skill/what-is-recorded.svg)
+![同一次演示，在 Claude 和 Codex 中变成两类不同的录制证据](/images/original/from-demonstration-to-skill/what-is-recorded.svg)
 
 Claude 保存动作文字、关键帧、应用信息和可选旁白；Codex 保存事件与 AX 快照。Claude 的录制证据包含图片，Codex 的录制证据由 JSON / JSONL 文本组成。
 
@@ -74,7 +74,7 @@ Claude 的证据保留筛选后的画面；Codex 的证据用结构化事件和�
 
 Claude 客户端把动作文字、关键帧、应用信息和旁白交给 Cowork。已有任务优先使用交错的文字与图片内容块；新建任务则携带文字消息和同一批图片。Cowork 是 Claude for Mac 的任务工作区，Agent 直接从本轮任务读取这些材料。下面这张图展示已有 Cowork 任务中的消息形态。
 
-![已有 Cowork 任务中，Claude 把动作文字和关键图片交错放入消息](/blog/images/original/from-demonstration-to-skill/claude-agent-input.svg)
+![已有 Cowork 任务中，Claude 把动作文字和关键图片交错放入消息](/images/original/from-demonstration-to-skill/claude-agent-input.svg)
 
 ### Codex：让 Agent 查询结构化文本文件
 
@@ -89,13 +89,13 @@ Codex 的主要材料继续保存在 `session.json` 和 `events.jsonl` 中。用
 
 状态查询返回的是文件位置，不是整份事件日志。Agent 随后打开 `events.jsonl`，按顺序读取事件，并在需要时展开其中的 AX 文字。
 
-![Codex Agent 通过本地路径打开 events.jsonl，读取事件与 AX 文字](/blog/images/original/from-demonstration-to-skill/codex-agent-input.svg)
+![Codex Agent 通过本地路径打开 events.jsonl，读取事件与 AX 文字](/images/original/from-demonstration-to-skill/codex-agent-input.svg)
 
 ### 两套产品怎样生成和保存 Skill？
 
 取得证据后，Agent 会沿两条不同路径起草并保存 Skill：
 
-![Claude 和 Codex 通过不同的生成指导与保存交互，把录制证据写成 Skill](/blog/images/original/from-demonstration-to-skill/evidence-to-skill.svg)
+![Claude 和 Codex 通过不同的生成指导与保存交互，把录制证据写成 Skill](/images/original/from-demonstration-to-skill/evidence-to-skill.svg)
 
 Claude 的 Record 流程用产品提示指导 Agent 解读演示和选择工具。主路径先展示可审阅的草案（proposal）；proposal 不可用时，流程回退到通用 `skill-creator`。用户可以用 `Save` 保存新 Skill；若录制内容与已有 Skill 重叠，也可以用 `Update` 更新它。proposal 只用于审阅和保存，不是生成器 Skill。
 
@@ -105,7 +105,7 @@ Codex 的 `record-and-replay` Skill 指导 Agent 读取事件、区分变量和�
 
 最终产物不是回放文件，而是一份给 Agent 读取的 `SKILL.md`。它需要写清何时使用、每次确认什么、怎样操作，以及如何判断完成。
 
-![普通 Skill 以 SKILL.md 为核心，写明适用场景、可变输入、操作方法和成功标准](/blog/images/original/from-demonstration-to-skill/skill-anatomy.svg)
+![普通 Skill 以 SKILL.md 为核心，写明适用场景、可变输入、操作方法和成功标准](/images/original/from-demonstration-to-skill/skill-anatomy.svg)
 
 下面是一份完整的周报填报 Skill 示例：
 
@@ -140,7 +140,7 @@ description: 从每周报表读取本周金额，更新数据后台中的对应�
 
 这份 Skill 将“读取本周金额、更新对应记录、核验结果”写成固定方法，将 `42,680`、本周报表和记录位置留作每次执行时确认的变量。
 
-![Agent 从单次演示中提炼固定方法，把本次金额和位置改写为下次执行时再确认的变量](/blog/images/original/from-demonstration-to-skill/demo-to-rule.svg)
+![Agent 从单次演示中提炼固定方法，把本次金额和位置改写为下次执行时再确认的变量](/images/original/from-demonstration-to-skill/demo-to-rule.svg)
 
 一次演示无法说明所有细节是否固定。例如，它不能证明金额所在的单元格每周不变。遇到这类歧义，Agent 应询问用户。
 
@@ -152,7 +152,7 @@ description: 从每周报表读取本周金额，更新数据后台中的对应�
 
 新的一周到了。金额变成 `43,210`，它在"九月周报"中换了行，后台里的"本周金额"字段也换了位置。下一次任务的核心上下文是保存后的 Skill。
 
-![保存的 Skill、当前任务和产品编排层共同决定下一次执行](/blog/images/original/from-demonstration-to-skill/replay-execution.svg)
+![保存的 Skill、当前任务和产品编排层共同决定下一次执行](/images/original/from-demonstration-to-skill/replay-execution.svg)
 
 再次执行由三部分共同决定：Skill 规定目标、可变输入、步骤和成功标准；当前任务提供新的数据与页面；产品编排层加载 Skill，并提供浏览器、Computer Use、外部服务接口和相应权限。
 
@@ -166,7 +166,7 @@ Agent 可以先从表格读取 `43,210`，再操作后台并检查提交结果�
 
 两项产品最直观的架构差别，是录制器放在哪里。Claude 把录制编排放在 Mac 客户端内部；Codex 把采集和文件管理交给独立运行的 Computer Use 服务。
 
-![Claude 的宿主内集成与 Codex 的独立录制服务](/blog/images/original/from-demonstration-to-skill/architecture-comparison.svg)
+![Claude 的宿主内集成与 Codex 的独立录制服务](/images/original/from-demonstration-to-skill/architecture-comparison.svg)
 
 Claude 客户端管理开始、停止和临时录制状态，随应用安装的原生模块收集键鼠动作、连续画面和可选旁白。客户端整理出动作文字和关键帧，再组成包含真实图片的 Cowork 消息。用户从录制到查看草案，一直留在 Claude 的任务体系中。
 
@@ -182,7 +182,7 @@ Codex 的 Record & Replay 插件规定怎样发起、停止和处理录制。录
 
 前面的架构差异不仅决定材料的形式，也决定 Agent 可能看到什么。还是以周报填报为例：用户只想教会 Agent 登录后台、填写金额并确认结果。录制时，用户还会输入密码，屏幕旁边开着机密文件，并说出一句包含客户底价的旁白。
 
-![用户只想演示登录和填报，录制证据却可能包含任务之外的信息](/blog/images/original/from-demonstration-to-skill/security-boundary-story.svg)
+![用户只想演示登录和填报，录制证据却可能包含任务之外的信息](/images/original/from-demonstration-to-skill/security-boundary-story.svg)
 
 **键盘输入。** 密码框把字符显示成圆点时，Claude 的关键帧里也只有圆点。圆点显示由目标应用完成。若目标应用也开启了 macOS Secure Input，Claude 会把这段按键记作 `[secure input]`；否则，动作文字里仍可能出现真实输入。
 

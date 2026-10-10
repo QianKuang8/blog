@@ -53,7 +53,7 @@ Loops 的起点很朴素：任务过去运行在个人笔记本上，下班关�
 
 这里的“三个视角”用于复核每个候选 bug，不是三个固定的搜索代理或三种预设角色。视频也没有提供准确率、漏报率和成本数据。多代理增加的是推理阶段投入和搜索范围；候选生成之后的质疑与收敛，则帮助审查者判断结果是否可信。
 
-![多个搜索分支提出候选问题，经逐项复核和过滤后汇总给人，结合产品背景与系统边界判断](/blog/images/how-claude-code-team-uses-claude-code/review-workflow.svg)
+![多个搜索分支提出候选问题，经逐项复核和过滤后汇总给人，结合产品背景与系统边界判断](/images/how-claude-code-team-uses-claude-code/review-workflow.svg)
 
 *图：根据原视频 [00:09:16–00:14:04](https://www.youtube.com/watch?v=S-sYlFiGFv8&t=556s) 整理重绘。分支数量只作示意；复核针对候选问题，不代表固定的代理角色配置。*
 
@@ -89,6 +89,6 @@ Slack 中的消息界面也没有展示全部执行细节。按受访者描述�
 ## 继续阅读
 
 - [原视频：How the Claude Code team uses Claude Code](https://www.youtube.com/watch?v=S-sYlFiGFv8)
-- [完整中文学习讲义 PDF：14 页](/blog/pdfs/standalone/how-claude-code-team-uses-claude-code.pdf)
+- [完整中文学习讲义 PDF：14 页](/pdfs/standalone/how-claude-code-team-uses-claude-code.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/how-claude-code-team-uses-claude-code.pdf)
 - [Coding Agent 阅读路径]({{< relref "/topics/coding-agent.md" >}})：继续了解编辑循环、代理产品与评测边界。

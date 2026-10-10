@@ -87,5 +87,5 @@ Paper 的演示把共享表示、画布操作、候选生成和审查连接起�
 ## 继续阅读
 
 - [原视频：How To Design In The Agent Era](https://www.youtube.com/watch?v=P06RgnUKX_I)
-- [完整课程笔记 PDF：32 页](/blog/pdfs/standalone/agent-era-design.pdf)
+- [完整课程笔记 PDF：32 页](/pdfs/standalone/agent-era-design.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/agent-era-design.pdf)

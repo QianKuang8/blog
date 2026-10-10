@@ -18,7 +18,6 @@
 <link rel="icon" type="image/png" href="{{ printf "favicon-32x32.png?v=%s" $iconVersion | relURL }}" sizes="32x32">
 <link rel="icon" type="image/svg+xml" href="{{ printf "favicon.svg?v=%s" $iconVersion | relURL }}" sizes="any">
 <link rel="apple-touch-icon" href="{{ printf "apple-touch-icon.png?v=%s" $iconVersion | relURL }}" sizes="180x180">
-{{ range .AlternativeOutputFormats }}<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}">{{ end }}
 {{ $init := resources.Get "js/theme-init.js" }}
 <script>{{ $init.Content | safeJS }}</script>
 {{ $css := slice (resources.Get "css/site.css") (resources.Get "css/syntax.css") | resources.Concat "assets/site.css" | minify | fingerprint }}

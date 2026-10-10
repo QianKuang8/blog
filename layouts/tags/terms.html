@@ -11,14 +11,14 @@
   {{- $group := . }}
   {{- $known = union $known .tags }}
   {{- $known = union $known (.details | default slice) }}
-  <div class="tag-topic-group" id="group-{{ .id }}" data-tag-group="{{ .id }}">
+  <div class="tag-topic-group" id="group-{{ .id }}">
     <h3>{{ .title }}</h3>
     <div>
-      {{ partial "tag_chips.html" (dict "tags" .tags "kind" "topic") }}
+      {{ partial "tag_chips.html" (dict "tags" .tags) }}
       {{- with .details }}
       <div class="tag-subtopics">
         <p>{{ $group.detailTitle }}</p>
-        {{ partial "tag_chips.html" (dict "tags" . "kind" "topic") }}
+        {{ partial "tag_chips.html" (dict "tags" .) }}
       </div>
       {{- end }}
     </div>
@@ -29,20 +29,20 @@
     {{- if not (in $known .Name) }}{{ $otherTopics = $otherTopics | append .Name }}{{ end }}
   {{- end }}
   {{- with $otherTopics }}
-  <div class="tag-topic-group" id="group-ungrouped" data-tag-group="ungrouped">
+  <div class="tag-topic-group" id="group-ungrouped">
     <h3>其他主题</h3>
-    {{ partial "tag_chips.html" (dict "tags" . "kind" "topic") }}
+    {{ partial "tag_chips.html" (dict "tags" .) }}
   </div>
   {{- end }}
 </section>
-<section class="tag-section tag-source-section" id="group-sources" aria-labelledby="source-tags-heading" data-tag-group="sources">
+<section class="tag-section tag-source-section" id="group-sources" aria-labelledby="source-tags-heading">
   <h2 id="source-tags-heading">已维护来源</h2>
   <p class="tag-section-note">这里列出持续维护的来源，便于回查；并非站内全部文章来源的完整索引。</p>
-  {{ partial "tag_chips.html" (dict "tags" $groups.sources "kind" "source") }}
+  {{ partial "tag_chips.html" (dict "tags" $groups.sources) }}
 </section>
-<details class="tag-section tag-other" id="group-other" data-tag-group="other">
+<details class="tag-section tag-other" id="group-other">
   <summary>站点与环境</summary>
-  {{ partial "tag_chips.html" (dict "tags" $groups.other "kind" "topic") }}
+  {{ partial "tag_chips.html" (dict "tags" $groups.other) }}
 </details>
 <div class="tag-category-link">按写作方式浏览：<a href="{{ (site.GetPage "/categories").RelPermalink }}">全部栏目</a></div>
 {{- end }}
