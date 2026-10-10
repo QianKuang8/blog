@@ -17,8 +17,10 @@ class CleanBuildTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.repo = Path(self.temporary.name)
-        for directory in ("content/posts", "config/_default", "layouts/_default", "scripts"):
+        for directory in ("content/posts", "config/_default", "data", "layouts/_default", "scripts"):
             (self.repo / directory).mkdir(parents=True)
+        for name in ("categories.json", "tag_groups.json"):
+            shutil.copy(Path(__file__).resolve().parents[1] / "data" / name, self.repo / "data" / name)
         (self.repo / "config/_default/config.yaml").write_text("baseURL: https://example.com/blog/\n")
         (self.repo / "layouts/_default/single.html").write_text("<!doctype html><title>{{ .Title }}</title>{{ .Content }}")
         (self.repo / "layouts/_default/list.html").write_text("<!doctype html><title>{{ .Title }}</title>{{ range .Pages }}{{ .Title }}{{ end }}")

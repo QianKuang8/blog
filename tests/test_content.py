@@ -3,6 +3,7 @@
 from pathlib import Path
 from html import escape
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -11,7 +12,8 @@ from unittest.mock import patch
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "scripts"))
 from check_content import validate_content
 
 
@@ -24,8 +26,10 @@ class ContentValidationTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.repo = Path(self.temporary.name)
-        for directory in ("content/posts", "sources/orig", "sources/video", "config/_default", "static/pdfs/standalone"):
+        for directory in ("content/posts", "sources/orig", "sources/video", "config/_default", "data", "static/pdfs/standalone"):
             (self.repo / directory).mkdir(parents=True)
+        for name in ("categories.json", "tag_groups.json"):
+            shutil.copy(REPO / "data" / name, self.repo / "data" / name)
         (self.repo / "config/_default/config.yaml").write_text("baseURL: https://example.com/blog/\n")
         self.post = self.repo / "content/posts/example.md"
         self.metadata = {
@@ -52,7 +56,8 @@ class ContentValidationTests(unittest.TestCase):
             "retrieved_at": "2026-01-01T12:00:00+08:00", "description": "Original description",
             "domain": "example.com", "extractor": "defuddle",
         }
-        self.write_markdown(self.source, self.record)
+        # Public article records hold metadata only; the article text stays private.
+        self.write_markdown(self.source, self.record, "" if not video else "Chapters and evidence.")
         self.write_post()
 
     def add_video(self):
@@ -67,10 +72,10 @@ class ContentValidationTests(unittest.TestCase):
         self.commit = self.git(self.pdf_root, "rev-parse", "HEAD")
         self.git(self.repo, "update-index", "--add", "--cacheinfo", f"160000,{self.commit},static/pdfs")
         self.record.update(source_type="video", channel="Example channel", duration="30:00", pdf_path="standalone/example.pdf")
-        self.write_markdown(self.source, self.record)
+        self.write_markdown(self.source, self.record, "Chapters and evidence.")
         self.body = (
             "[Original](https://example.com/original)\n"
-            "[PDF](/blog/pdfs/standalone/example.pdf)\n"
+            "[PDF](/pdfs/standalone/example.pdf)\n"
             f"[Source](https://github.com/QianKuang8/blog-pdfs/blob/{self.commit[:7]}/standalone/example.pdf)\n"
         )
         self.write_post(self.body)
@@ -78,9 +83,9 @@ class ContentValidationTests(unittest.TestCase):
     def assert_failure(self, expected, site=None):
         self.assertIn(expected, "\n".join(validate_content(self.repo, site)))
 
-    def video_urls(self):
+    def video_urls(self, prefix=""):
         return [
-            self.record["source_url"], "/blog/pdfs/standalone/example.pdf",
+            self.record["source_url"], f"{prefix}/pdfs/standalone/example.pdf",
             f"https://github.com/QianKuang8/blog-pdfs/blob/{self.commit[:7]}/standalone/example.pdf",
         ]
 
@@ -90,7 +95,7 @@ class ContentValidationTests(unittest.TestCase):
         (site / "pdfs/standalone/example.pdf").write_bytes(self.pdf.read_bytes())
         (site / "posts/example").mkdir(parents=True)
         (site / "posts/example/index.html").write_text(
-            "".join(f'<a href="{escape(url)}">Link</a>' for url in self.video_urls())
+            "".join(f'<a href="{escape(url)}">Link</a>' for url in self.video_urls("/blog"))
         )
         return site
 
@@ -166,12 +171,59 @@ class ContentValidationTests(unittest.TestCase):
         self.source.unlink()
         self.assert_failure("sources/orig/example.md")
 
-    def test_source_metadata_and_body_are_required(self):
+    def test_source_metadata_is_required(self):
         self.add_source()
         del self.record["retrieved_at"]
         self.write_markdown(self.source, self.record, "")
         self.assert_failure("retrieved_at must be an ISO 8601 datetime")
+
+    def test_article_record_must_not_contain_archived_text(self):
+        self.add_source()
+        self.write_markdown(self.source, self.record, "Full article text.")
+        self.assert_failure("store the article text in the private archive")
+
+    def test_book_and_video_records_need_their_evidence_body(self):
+        self.add_source()
+        self.record["source_type"] = "book"
+        self.write_markdown(self.source, self.record, "")
         self.assert_failure("source record body must not be empty")
+        self.add_video()
+        self.write_markdown(self.source, self.record, "")
+        self.assert_failure("source record body must not be empty")
+
+    def test_unused_source_record_fails_unless_related(self):
+        self.add_source()
+        extra = self.repo / "sources/orig/example-part-two.md"
+        self.write_markdown(extra, {**self.record, "title": "Part two"}, "")
+        self.assert_failure("sources/orig/example-part-two.md: no article uses this source record")
+        self.record["related_sources"] = ["example-part-two"]
+        self.write_markdown(self.source, self.record, "")
+        self.assertEqual(validate_content(self.repo), [])
+        del self.record["related_sources"]
+        self.write_markdown(self.source, self.record, "")
+        self.write_markdown(self.post, {"draft": True, "categories": ["好文分享"]}, "")
+        extra.unlink()
+        self.assertEqual(validate_content(self.repo), [])
+
+    def test_unknown_frontmatter_key_fails(self):
+        self.metadata["origStatus"] = "available"
+        self.write_post()
+        self.assert_failure("unknown frontmatter keys ['origStatus']")
+
+    def test_tags_must_be_registered_and_active(self):
+        for tag, message in (("unregistered", "register new tags"), ("博客推荐", "retired tags")):
+            with self.subTest(tag=tag):
+                self.metadata["tags"] = ["agent", tag]
+                self.write_post()
+                self.assert_failure(message)
+
+    def test_links_must_not_hardcode_the_site_path(self):
+        for body in ("![Figure](/blog/images/example.svg)", '<a href="/blog/posts/other/">Other</a>'):
+            with self.subTest(body=body):
+                self.write_post(body)
+                self.assert_failure("hardcodes the site path /blog")
+        self.write_post("![Figure](/images/example.svg)\n\n`[code](/blog/x)`")
+        self.assertEqual(validate_content(self.repo), [])
 
     def test_malformed_source_url_is_reported(self):
         self.add_source()
@@ -201,7 +253,7 @@ class ContentValidationTests(unittest.TestCase):
 
     def test_missing_pdf_and_mismatched_links(self):
         self.add_video()
-        self.write_post(self.body.replace("/blog/pdfs/standalone/example.pdf", "/blog/pdfs/standalone/wrong.pdf").replace(self.commit[:7], "main"))
+        self.write_post(self.body.replace("/pdfs/standalone/example.pdf", "/pdfs/standalone/wrong.pdf").replace(self.commit[:7], "main"))
         self.assert_failure("missing site PDF link")
         self.assert_failure("GitHub PDF link must pin a commit")
         self.pdf.unlink()
@@ -209,7 +261,7 @@ class ContentValidationTests(unittest.TestCase):
 
     def test_javascript_url_does_not_count_as_a_site_pdf_link(self):
         self.add_video()
-        self.write_post(self.body.replace("[PDF](/blog/", "[PDF](javascript:/blog/"))
+        self.write_post(self.body.replace("[PDF](/", "[PDF](javascript:/"))
         self.assert_failure("missing site PDF link")
 
     def test_malformed_video_body_link_is_reported(self):

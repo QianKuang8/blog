@@ -7,6 +7,7 @@ import argparse
 from datetime import datetime, timezone
 import filecmp
 from html.parser import HTMLParser
+import json
 from pathlib import Path
 import re
 import subprocess
@@ -15,9 +16,17 @@ from urllib.parse import unquote, urlsplit
 import yaml
 
 
-CATEGORIES = {"好文分享", "原创文章", "视频笔记"}
+FRONTMATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|$)(.*)\Z", re.S)
 LEARNING_STATUSES = {"pending", "done"}
 PDF_REPOSITORY = "https://github.com/QianKuang8/blog-pdfs/blob/"
+# Post frontmatter keys that the templates or Hugo read (compared case-insensitively).
+POST_KEYS = {
+    "date", "lastmod", "title", "summary", "description", "tags", "categories", "author",
+    "iscjklanguage", "showtoc", "learning_status", "draft", "slug", "aliases",
+    "publishdate", "expirydate", "weight", "hidemeta", "hidesummary", "hideauthor",
+    "showreadingtime", "disableanchoredheadings",
+    "robotsnoindex", "canonicalurl", "images", "cover", "searchhidden", "hiddeninhomelist",
+}
 
 
 class UniqueKeyLoader(yaml.SafeLoader):
@@ -38,14 +47,36 @@ UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, 
 
 
 def read_markdown(path: Path) -> tuple[dict, str]:
-    text = path.read_text(encoding="utf-8")
-    match = re.match(r"\A---\s*\n(.*?)\n---\s*(?:\n|$)(.*)\Z", text, re.S)
+    match = FRONTMATTER.match(path.read_text(encoding="utf-8"))
     if not match:
         raise ValueError("missing YAML frontmatter")
     metadata = yaml.load(match[1], Loader=UniqueKeyLoader)
     if not isinstance(metadata, dict):
         raise ValueError("frontmatter must be a YAML mapping")
     return metadata, match[2]
+
+
+def post_paths(repo: Path) -> list[Path]:
+    return [path for path in sorted((repo / "content/posts").rglob("*.md")) if path.name != "_index.md"]
+
+
+def post_slug(path: Path, metadata: dict) -> str:
+    return metadata.get("slug") or (path.parent.name if path.stem == "index" else path.stem)
+
+
+def load_categories(repo: Path) -> dict[str, dict]:
+    """Ordered category settings; display labels come from each category's _index.md title."""
+    data = json.loads((repo / "data/categories.json").read_text(encoding="utf-8"))
+    categories = {}
+    for entry in data["categories"]:
+        index = repo / "content/categories" / entry["term"] / "_index.md"
+        label = read_markdown(index)[0].get("title") if index.is_file() else None
+        categories[entry["term"]] = {**entry, "label": label or entry["term"]}
+    return categories
+
+
+def site_prefix(base_url: str) -> str:
+    return urlsplit(base_url).path.rstrip("/")
 
 
 def aware_datetime(value) -> datetime:
@@ -101,13 +132,18 @@ def html_linked_urls(html: str) -> list[str]:
     return parser.urls
 
 
-def linked_urls(body: str) -> list[str]:
-    # The generated HTML is checked separately after Hugo has applied its full
-    # Markdown rules. This pre-build check supports inline and reference links.
+def without_code(body: str) -> str:
+    """Drop comments, fenced and inline code so examples never count as links."""
     body = re.sub(r"<!--(?:.*?-->|.*\Z)", "", body, flags=re.S)
     body = re.sub(r"(?ms)^ {0,3}(`{3,}|~{3,}).*?^ {0,3}\1[^\n]*(?:\n|$)", "", body)
     body = re.sub(r"<(code|pre|script|style|template)\b[^>]*>.*?</\1\s*>", "", body, flags=re.I | re.S)
-    body = re.sub(r"(?<!`)(`+)(?!`)(.*?)\1(?!`)", "", body, flags=re.S)
+    return re.sub(r"(?<!`)(`+)(?!`)(.*?)\1(?!`)", "", body, flags=re.S)
+
+
+def linked_urls(body: str) -> list[str]:
+    # The generated HTML is checked separately after Hugo has applied its full
+    # Markdown rules. This pre-build check supports inline and reference links.
+    body = without_code(body)
     definitions: dict[str, str] = {}
 
     def reference_label(label: str) -> str:
@@ -131,7 +167,16 @@ def linked_urls(body: str) -> list[str]:
     return urls
 
 
-def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
+def local_destinations(body: str) -> list[str]:
+    """Root-relative link and image destinations written in Markdown or HTML."""
+    body = without_code(body)
+    return [
+        *re.findall(r"\]\(\s*<?(/[^\s)>]*)", body),
+        *re.findall(r"""(?:href|src)\s*=\s*["'](/[^"']*)""", body),
+    ]
+
+
+def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | None = None) -> list[str]:
     """Return actionable failures; never fetch remote data or modify the checkout.
 
     Valid YAML drafts (draft: true) may be incomplete. Every other post must
@@ -144,10 +189,22 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
     pdf_git_available = False
     try:
         config = yaml.safe_load((repo / "config/_default/config.yaml").read_text())
-        site_url = urlsplit(config["baseURL"])
-        site_prefix = site_url.path.rstrip("/")
+        site_url = urlsplit(base_url or config["baseURL"])
+        prefix = site_prefix(site_url.geturl())
     except (OSError, KeyError, TypeError, yaml.YAMLError) as exc:
         return [f"config/_default/config.yaml: cannot read baseURL: {exc}"]
+    try:
+        categories = load_categories(repo)
+        tag_groups = json.loads((repo / "data/tag_groups.json").read_text(encoding="utf-8"))
+    except (OSError, KeyError, TypeError, ValueError, yaml.YAMLError) as exc:
+        return [f"data/: cannot read category or tag settings: {exc}"]
+    registered_tags = [*tag_groups.get("sources", []), *tag_groups.get("other", [])]
+    for group in tag_groups.get("topics", []):
+        registered_tags.extend([*group.get("tags", []), *group.get("details", [])])
+    if len(registered_tags) != len(set(registered_tags)):
+        failures.append("data/tag_groups.json: a tag is registered in more than one group")
+    retired_tags = set(tag_groups.get("retired", []))
+    referenced_sources: set[Path] = set()
 
     def fail(path: Path, message: str) -> None:
         failures.append(f"{path.relative_to(repo)}: {message}")
@@ -171,14 +228,26 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
             fail(path, f"{key} must be an ISO 8601 datetime with a timezone ({exc})")
             return None
 
-    def video_links(post: Path, urls: list[str], pdf_path: str, source_url, context: str = "") -> list[str]:
+    def check_record(source: Path, record: dict, body: str) -> None:
+        required_text(source, record, ("title", "source_url"))
+        retrieved = date_field(source, record, "retrieved_at")
+        if retrieved and retrieved > datetime.now(timezone.utc):
+            fail(source, "retrieved_at must not be in the future")
+        if not is_http_url(record.get("source_url")):
+            fail(source, "source_url must be an absolute HTTP(S) URL")
+        if source.parent.name == "video" or record.get("source_type") == "book":
+            if not body.strip():
+                fail(source, "source record body must not be empty")
+        elif body.strip():
+            fail(source, "keep only metadata here; store the article text in the private archive (sources/archive/orig/)")
+
+    def video_links(post: Path, urls: list[str], expected_site_path: str, pdf_path: str, source_url, context: str = "") -> list[str]:
         parsed_urls = []
         for url in urls:
             try:
                 parsed_urls.append((url, urlsplit(url)))
             except ValueError:
                 fail(post, f"{context}malformed link URL: {url}")
-        expected_site_path = f"{site_prefix}/pdfs/{pdf_path}"
         if not any(
             unquote(parsed.path) == expected_site_path
             and parsed.netloc in {"", site_url.netloc}
@@ -199,20 +268,25 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
             fail(post, f"{context}missing original video link matching source_url")
         return github_links
 
-    post_paths = sorted((repo / "content/posts").rglob("*.md"))
-    if not post_paths:
+    posts = post_paths(repo)
+    if not posts:
         return ["content/posts: no Markdown articles found"]
-    for post in post_paths:
-        if post.name == "_index.md":
-            continue
+    for post in posts:
         result = read(post)
         if result is None:
             continue
         data, body = result
         if "draft" in data and not isinstance(data["draft"], bool):
             fail(post, "draft must be a YAML boolean")
+        terms = data.get("categories")
+        slug = post_slug(post, data)
+        if isinstance(terms, list) and len(terms) == 1 and isinstance(terms[0], str) and categories.get(terms[0], {}).get("source") and isinstance(slug, str):
+            referenced_sources.add(repo / "sources" / categories[terms[0]]["source"] / f"{slug}.md")
         if data.get("draft") is True:
             continue
+        unknown = sorted(key for key in data if str(key).lower() not in POST_KEYS)
+        if unknown:
+            fail(post, f"unknown frontmatter keys {unknown}; remove them, or add them to POST_KEYS in scripts/check_content.py when a template reads them")
         if "learning_status" in data and (
             not isinstance(data["learning_status"], str) or data["learning_status"] not in LEARNING_STATUSES
         ):
@@ -220,6 +294,10 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
         required_text(post, data, ("title", "summary", "description", "author"))
         if not body.strip():
             fail(post, "article body must not be empty")
+        if prefix:
+            for destination in local_destinations(body):
+                if destination == prefix or destination.startswith(f"{prefix}/"):
+                    fail(post, f"link {destination} hardcodes the site path {prefix}; write it relative to the site root")
         published = date_field(post, data, "date")
         modified = date_field(post, data, "lastmod")
         if published and modified and modified < published:
@@ -230,32 +308,38 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
         tags = data.get("tags")
         if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
             fail(post, "tags must be a YAML list of nonempty strings (an empty list is allowed)")
-        categories = data.get("categories")
-        if not isinstance(categories, list) or len(categories) != 1 or not isinstance(categories[0], str) or categories[0] not in CATEGORIES:
-            fail(post, "categories must be a list containing exactly one of 好文分享, 原创文章, 视频笔记")
+        else:
+            if retired_tags.intersection(tags):
+                fail(post, f"retired tags are no longer assigned: {sorted(retired_tags.intersection(tags))}")
+            if set(tags) - set(registered_tags):
+                fail(post, f"register new tags in data/tag_groups.json: {sorted(set(tags) - set(registered_tags))}")
+        if not isinstance(terms, list) or len(terms) != 1 or not isinstance(terms[0], str) or terms[0] not in categories:
+            fail(post, f"categories must be a list containing exactly one of {', '.join(categories)}")
             continue
-        category = categories[0]
-        if category == "原创文章":
+        source_dir = categories[terms[0]].get("source")
+        if not source_dir:
             continue
-        slug = data.get("slug", post.parent.name if post.stem == "index" else post.stem)
         if not isinstance(slug, str) or not re.fullmatch(r"[^/\\.][^/\\]*", slug):
             fail(post, "slug must be a single nonempty path segment")
             continue
-        source = repo / "sources" / ("video" if category == "视频笔记" else "orig") / f"{slug}.md"
+        source = repo / "sources" / source_dir / f"{slug}.md"
         result = read(source)
         if result is None:
             continue
         record, source_body = result
-        required_text(source, record, ("title", "source_url"))
-        if not source_body.strip():
-            fail(source, "source record body must not be empty")
-        retrieved = date_field(source, record, "retrieved_at")
-        if retrieved and retrieved > datetime.now(timezone.utc):
-            fail(source, "retrieved_at must not be in the future")
+        check_record(source, record, source_body)
+        related = record.get("related_sources", [])
+        if not isinstance(related, list) or any(not isinstance(name, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", name) for name in related):
+            fail(source, "related_sources must be a list of source record slugs")
+            related = []
+        for name in related:
+            related_source = source.parent / f"{name}.md"
+            referenced_sources.add(related_source)
+            related_result = read(related_source)
+            if related_result is not None:
+                check_record(related_source, *related_result)
         source_url = record.get("source_url")
-        if not is_http_url(source_url):
-            fail(source, "source_url must be an absolute HTTP(S) URL")
-        if category == "好文分享":
+        if source_dir == "orig":
             required_text(source, record, ("domain", "description", "extractor"))
             continue
         required_text(source, record, ("channel", "duration", "pdf_path"))
@@ -271,13 +355,13 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
         if not pdf.is_file() or not pdf.resolve().is_relative_to(pdf_root.resolve()):
             fail(source, f"PDF is missing from static/pdfs: {pdf_path}; initialize the PDF submodule")
             continue
-        github_links = video_links(post, linked_urls(body), pdf_path, source_url)
+        github_links = video_links(post, linked_urls(body), f"/pdfs/{pdf_path}", pdf_path, source_url)
         if site_dir is not None:
             output_page = site_dir / "posts" / slug / "index.html"
             if output_page.is_file():
                 github_links.extend(video_links(
                     post, html_linked_urls(output_page.read_text(encoding="utf-8")),
-                    pdf_path, source_url, "rendered page: ",
+                    f"{prefix}/pdfs/{pdf_path}", pdf_path, source_url, "rendered page: ",
                 ))
             elif not published or published <= datetime.now(timezone.utc):
                 fail(post, f"missing generated video page: posts/{slug}/index.html")
@@ -313,14 +397,26 @@ def validate_content(repo: Path, site_dir: Path | None = None) -> list[str]:
             output_pdf = site_dir / "pdfs" / pdf_path
             if not output_pdf.is_file() or not filecmp.cmp(pdf, output_pdf, shallow=False):
                 fail(source, f"generated PDF is missing or differs from source bytes: pdfs/{pdf_path}")
+    for record_path in list(referenced_sources):
+        try:
+            related = read_markdown(record_path)[0].get("related_sources") or []
+        except (OSError, ValueError, TypeError, yaml.YAMLError):
+            continue
+        if isinstance(related, list):
+            referenced_sources.update(record_path.parent / f"{name}.md" for name in related if isinstance(name, str))
+    for source_dir in sorted({entry["source"] for entry in categories.values() if entry.get("source")}):
+        for record in sorted((repo / "sources" / source_dir).glob("*.md")):
+            if record not in referenced_sources:
+                fail(record, "no article uses this source record; delete it or list it in related_sources")
     return failures
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--site-dir", type=Path, help="also compare generated PDF bytes")
+    parser.add_argument("--base-url", help="the baseURL the site was built with (default: config baseURL)")
     args = parser.parse_args()
-    failures = validate_content(Path(__file__).resolve().parents[1], args.site_dir)
+    failures = validate_content(Path(__file__).resolve().parents[1], args.site_dir, args.base_url)
     if failures:
         print("Content validation failed:\n" + "\n".join(f"- {failure}" for failure in failures))
         return 1
