@@ -149,7 +149,7 @@ slug 在文章、来源记录、私有归档和 PDF 之间保持一致。`source
 外部网页文章的全文受版权保护，不能放在公开仓库。归档分成两份：
 
 - **私有全文**：`sources/archive/orig/<slug>.md`，即私有仓库 `QianKuang8/blog-sources` 的 `orig/<slug>.md`。frontmatter 之后接 defuddle 提取和清洗后的 Markdown 正文，是写作与审校的依据。
-- **公开元信息**：`sources/orig/<slug>.md`，只有同一份 frontmatter，由 `scripts/source_record.py <slug>` 从私有全文生成。构建检查拒绝带正文的公开记录（书籍证据记录除外）。
+- **公开元信息**：`sources/orig/<slug>.md`，只有同一份 frontmatter，由 `scripts/source_record.py <slug>` 从私有全文生成。构建检查拒绝带正文的公开记录（书籍证据记录除外）。修改 frontmatter（例如补 `related_sources`）时先改私有全文，再重新生成公开记录，两边保持一致。
 
 首次使用时克隆私有仓库：
 

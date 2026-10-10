@@ -6,7 +6,7 @@
 
 - Hugo 静态博客，模板与样式在仓库内（`layouts/`、`assets/`），不依赖外部主题。
 - 通过 GitHub Pages 部署。日常修改直接提交到 `main`，推送后由 `.github/workflows/hugo.yaml` 构建部署；不要求 PR。
-- 仓库公开。第三方文章全文只放私有仓库 `QianKuang8/blog-sources`，书籍资料只放私有仓库 `QianKuang8/books`。`blog-sources` 尚待手动创建，见 [TODO.md](TODO.md)。
+- 仓库公开。第三方文章全文只放私有仓库 `QianKuang8/blog-sources`，书籍资料只放私有仓库 `QianKuang8/books`。
 
 ## 常用命令
 
@@ -103,4 +103,3 @@ showToc: true
 - [WORKFLOW.md](WORKFLOW.md)：外部文章、视频笔记、PDF、标签与专题的处理流程。处理 `inbox.md`、生成来源记录或发布前先读。
 - [BLOG_PROMPTS.md](BLOG_PROMPTS.md)：写作与审校标准。撰写或审校文章前先读。
 - [docs/decisions.md](docs/decisions.md)：历史决策与一次性操作记录。
-- [TODO.md](TODO.md)：尚未完成的手动步骤（创建私有原文归档仓库）。
