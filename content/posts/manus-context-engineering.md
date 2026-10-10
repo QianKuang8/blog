@@ -6,7 +6,6 @@ summary: "Manus 将多轮 Agent 的延迟、成本和行为稳定性落实到上
 description: "解读 Manus 2025 年的上下文工程实践及其缓存、记忆和注意力管理取舍。"
 tags: ["agent", "context-engineering"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

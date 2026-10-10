@@ -6,7 +6,6 @@ summary: "Codex 的 Agent Loop 把用户输入、模型输出和工具结果组�
 description: "解读 Codex Agent Loop 的输入构造、工具调用关联、无状态请求、提示缓存和上下文压缩。"
 tags: ["agent", "agentic-coding", "openai"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

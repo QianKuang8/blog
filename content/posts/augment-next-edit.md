@@ -6,7 +6,6 @@ summary: "Augment 将 Next Edit 拆成意图推断、位置检索和修改生成
 description: "解读 Augment Next Edit 的训练数据、跨文件定位、RAG 上下文与 diff 解码。"
 tags: ["code-editing", "next-edit"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

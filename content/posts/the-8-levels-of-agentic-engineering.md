@@ -6,7 +6,6 @@ summary: "作者用八个层级梳理 AI 编程实践：先让 Agent 获取信�
 description: "解读 Agentic Engineering 八级框架中的经验沉淀、反馈机制、后台执行与多 Agent 协作边界。"
 tags: ["agentic-coding"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

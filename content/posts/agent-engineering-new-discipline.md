@@ -6,7 +6,6 @@ summary: "Agent 的接口可以正常返回，行为却仍偏离目标。LangCha
 description: "解读 LangChain Agent Engineering 的生产反馈循环、跨职能分工与可靠性边界。"
 tags: ["agent", "langchain"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

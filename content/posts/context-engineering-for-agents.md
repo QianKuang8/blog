@@ -6,7 +6,6 @@ summary: "Write、Select、Compress、Isolate 分别处理信息保存、取回�
 description: "解读 Lance Martin 的上下文工程分类、检索和压缩机制及信息交接边界。"
 tags: ["agent", "context-engineering"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

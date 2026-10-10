@@ -6,7 +6,6 @@ summary: "Agentic coding 将搜索上下文、跨文件修改和测试反馈交�
 description: "解读 Anthropic 对 agentic coding 工作流的介绍，以及 Claude Code 的环境访问和案例边界。"
 tags: ["agentic-coding", "anthropic"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

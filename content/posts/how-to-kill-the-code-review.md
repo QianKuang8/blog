@@ -6,7 +6,6 @@ summary: "Ankit Jain 主张把人类检查前移到规范与验收标准，并�
 description: "解读 How to Kill the Code Review 的上游规范、确定性验证与权限分工。"
 tags: ["agentic-coding", "latent-space"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

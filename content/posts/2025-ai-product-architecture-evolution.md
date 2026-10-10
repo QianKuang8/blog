@@ -6,7 +6,6 @@ summary: "这篇年度综述把后台任务、验证循环、状态管理和结�
 description: "围绕任务交付解读 2025 年 Agent 架构综述，分析规划验证、编排、记忆和产品控制之间的关系。"
 tags: ["agent", "行业动向"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
