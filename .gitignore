@@ -8,3 +8,4 @@ resources/_gen/
 __pycache__/
 .venv/
 .public-build-*/
+sources/archive/

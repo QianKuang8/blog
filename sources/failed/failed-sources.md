@@ -1,5 +1,7 @@
 ## 失败记录
 
+> 2026-10-10 起，下文提到的 `sources/orig/<slug>.md` 全文已迁到私有仓库 `blog-sources`（本地路径 `sources/archive/orig/<slug>.md`），公开仓库只保留元信息。
+
 ### [2026-09-28] Meta Muse Agent 安全文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
