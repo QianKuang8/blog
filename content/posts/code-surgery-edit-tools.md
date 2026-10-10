@@ -6,7 +6,6 @@ summary: "一段正确的修改建议仍可能在定位、缩进或重试时失�
 description: "基于 Code Surgery 比较 Codex、Aider、RooCode、OpenHands 与 Cursor 的文件编辑机制。"
 tags: ["code-editing", "apply"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

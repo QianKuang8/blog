@@ -6,7 +6,6 @@ summary: "周星星的 2025 年复盘将专业判断与长时间执行视为 Dee
 description: "解读一篇 2025 年 Agent 复盘中的业务知识封装、主从分工与长任务设计。"
 tags: ["agent", "行业动向"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

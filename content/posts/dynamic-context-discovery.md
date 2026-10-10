@@ -6,7 +6,6 @@ summary: "Cursor 将长工具输出、历史对话和工具说明保留为文件
 description: "解读 Cursor 用文件组织工具结果、会话历史、Skills、MCP 描述和终端输出的机制与边界。"
 tags: ["agentic-coding", "context-engineering", "cursor"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

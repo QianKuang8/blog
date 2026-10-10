@@ -6,7 +6,6 @@ summary: "Hugging Face 的 Assisted Generation 用小模型提出连续候选，
 description: "解释 Assisted Generation 的因果验证、候选接受规则、动态长度和延迟收益边界。"
 tags: ["model-engineering"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

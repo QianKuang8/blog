@@ -6,7 +6,6 @@ summary: "Cursor 将修改规划与文件应用分开，用专门训练的模型
 description: "解读 Cursor Instant Apply 的两阶段编辑、数据构建与 speculative edits。"
 tags: ["code-editing", "apply", "speculative-edit", "cursor"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

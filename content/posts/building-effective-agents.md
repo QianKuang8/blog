@@ -6,7 +6,6 @@ summary: "Anthropic 将固定工作流与模型自主控制的 Agent 分开讨�
 description: "解读 Anthropic 的工作流模式、Agent 决策循环及工具接口设计原则。"
 tags: ["agent", "anthropic"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

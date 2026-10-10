@@ -6,7 +6,6 @@ summary: "LangChain 将上下文工程定义为动态组织信息、工具和表
 description: "解读上下文工程的动态输入、工具接口、数据格式与可观测性，说明其与提示工程的关系。"
 tags: ["context-engineering", "langchain"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

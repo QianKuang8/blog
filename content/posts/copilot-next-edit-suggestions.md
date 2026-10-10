@@ -6,7 +6,6 @@ summary: "NES 根据近期编辑推测下一处修改。本文结合 GitHub Next
 description: "解读 Copilot NES 的历史编辑输入、修改预测和逐步接受交互，区分原型能力与研究方向。"
 tags: ["code-editing", "next-edit", "github"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

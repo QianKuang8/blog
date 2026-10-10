@@ -6,7 +6,6 @@ summary: "LangChain 用可用信息、必要信息和实际检索结果的关系
 description: "解读文件系统如何参与 Agent 的上下文检索、工作记忆和知识更新。"
 tags: ["agent", "context-engineering", "langchain"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

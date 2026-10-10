@@ -6,7 +6,6 @@ summary: "一份包含 36 个终端 Agent 的历史盘点，提供了比较工�
 description: "基于 2026 年 4 月归档的 CLI Agent 盘点，讨论选型维度及数据时效边界。"
 tags: ["agentic-coding", "行业动向"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

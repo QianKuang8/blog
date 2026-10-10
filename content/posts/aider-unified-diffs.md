@@ -6,7 +6,6 @@ summary: "Aider 在 89 个 Python 重构任务上比较编辑格式，并通过�
 description: "解读 Aider 2023 年的 Unified Diff 实验、补丁应用策略及基准边界。"
 tags: ["code-editing", "apply"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

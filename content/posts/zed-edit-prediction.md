@@ -6,7 +6,6 @@ summary: "Zed 把近期编辑历史与光标位置交给 Zeta，让模型重写�
 description: "解读 Zed Zeta 的局部重写、SFT 与 DPO 训练、推测解码及编辑预测的交互边界。"
 tags: ["code-editing", "next-edit"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

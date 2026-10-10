@@ -6,7 +6,6 @@ summary: "Kilo 将 VS Code 扩展迁到与 CLI 共用的 OpenCode server 核心�
 description: "解读 Kilo VS Code 扩展预发布重构中的共享核心、并发组织和行级审查。"
 tags: ["agentic-coding", "harness-engineering"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

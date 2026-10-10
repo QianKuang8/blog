@@ -6,7 +6,6 @@ summary: "Instinct 把连续按键整理成编辑样本，再用稀疏微调适�
 description: "解读 Continue Instinct 的编辑轨迹数据、SeleKT 训练与 Next Edit 评估方法。"
 tags: ["code-editing", "next-edit"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true

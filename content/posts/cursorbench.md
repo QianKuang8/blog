@@ -6,7 +6,6 @@ summary: "CursorBench 从团队实际会话中提取请求与提交结果，并�
 description: "解读 CursorBench 的会话采样、正确性评估与线上线下校验方法。"
 tags: ["agentic-coding", "cursor"]
 categories: ["好文分享"]
-origStatus: "available"
 author: "Qian"
 isCJKLanguage: true
 showToc: true
