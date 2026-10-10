@@ -7,7 +7,8 @@
     {{- with site.Params.homeInfoParams.Content }}<p>{{ . | plainify }}</p>{{ end }}
   </div>
   <form class="bc-search" action="{{ (site.GetPage "/search").RelPermalink }}" method="get" role="search">
-    <input type="search" name="q" placeholder="搜索文章、标签…" aria-label="搜索文章、标签">
+    <input type="search" name="q" placeholder="搜索文章、标签…" aria-label="搜索文章、标签" aria-keyshortcuts="/">
+    <kbd class="bc-search-key" data-search-key hidden title="按 / 聚焦搜索">/</kbd>
     <button type="submit">搜索</button>
   </form>
 </header>

@@ -10,8 +10,8 @@
 {{ else }}<meta name="robots" content="noindex, nofollow">{{ end }}
 <link rel="canonical" href="{{ partial "canonical_url.html" . }}">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#fdfdfb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1c231e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
 {{ $iconVersion := (readFile "static/favicon.svg" | sha256 | truncate 12 "") }}
 <link rel="icon" href="{{ printf "favicon.ico?v=%s" $iconVersion | relURL }}" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" href="{{ printf "favicon-16x16.png?v=%s" $iconVersion | relURL }}" sizes="16x16">
