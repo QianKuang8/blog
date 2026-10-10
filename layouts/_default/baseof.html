@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ site.Language.Lang }}">
 <head>{{ partial "head.html" . }}</head>
-<body id="top">
+<body id="top" data-search-url="{{ (site.GetPage "/search").RelPermalink }}">
   <a class="skip-link" href="#main-content">跳到正文</a>
   <div class="bc-layout">
     {{ partial "sidebar.html" . }}

@@ -94,9 +94,21 @@
             navigator.clipboard?.writeText(url.href).catch(() => {});
         });
     });
+    // "/" jumps to search from anywhere; keys typed into a field are left alone.
+    const searchField = document.querySelector('.bc-search input, #searchInput');
+    document.querySelectorAll('[data-search-key]').forEach(key => { key.hidden = false; });
+    addEventListener('keydown', event => {
+        if (event.key !== '/' || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+        if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]')) return;
+        event.preventDefault();
+        if (searchField) searchField.focus();
+        else if (document.body.dataset.searchUrl) location.href = document.body.dataset.searchUrl;
+    });
+
     const toc = document.querySelector('.bc-toc');
     if (toc && 'IntersectionObserver' in window) {
-        const links = [...toc.querySelectorAll('a[href^="#"]')];
+        // Only outline entries; the "back to top" link is not a section.
+        const links = [...toc.querySelectorAll('nav a[href^="#"]')];
         const headings = links.map(link => document.getElementById(decodeURIComponent(link.hash.slice(1)))).filter(Boolean);
         const observer = new IntersectionObserver(entries => {
             const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
