@@ -84,5 +84,5 @@ Patil 把持续学习描述为模型进入生产后，从使用过程、稀疏�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Enterprise Internal Knowledge](https://www.youtube.com/watch?v=LRGX-gTegVA)
-- [完整课程笔记 PDF：23 页](/blog/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
+- [完整课程笔记 PDF：23 页](/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf)

@@ -22,7 +22,7 @@ Computer History 想解决的正是这个问题。它在用户允许的范围内
 
 ## 一图看懂：平时积累线索，使用时继续工作
 
-![Computer History 平时将获准活动整理成本地 History Memory，并在 Timeline 中呈现；用户提出任务后，Agent 读取相关线索、核对原始来源并帮助用户采取下一步行动](/blog/images/original/from-activity-to-action/computer-history-workflow.svg)
+![Computer History 平时将获准活动整理成本地 History Memory，并在 Timeline 中呈现；用户提出任务后，Agent 读取相关线索、核对原始来源并帮助用户采取下一步行动](/images/original/from-activity-to-action/computer-history-workflow.svg)
 
 图的上层说明 History 怎样生成：系统把获准的电脑活动整理成 **History Memory**，也就是保存在本地的活动摘要，再通过 **Timeline** 按时间呈现。下层说明这些线索怎样派上用场：用户提出任务，Agent 读取相关 History，帮助用户继续工作、回顾一周或复用流程。
 
@@ -40,7 +40,7 @@ Computer History 想解决的正是这个问题。它在用户允许的范围内
 
 ### 从 Settings 了解并开启
 
-![Settings 用具体例子介绍 Computer History，并让用户决定是否开启](/blog/images/original/from-activity-to-action/discovery-surfaces.svg)
+![Settings 用具体例子介绍 Computer History，并让用户决定是否开启](/images/original/from-activity-to-action/discovery-surfaces.svg)
 
 在未开启状态的 Settings 中，页面先用“继续午饭前的工作”“按模糊描述找回文档”等例子说明用途，再请用户同意持续观察，并设置哪些 app 和网站可以贡献 History。
 
@@ -50,7 +50,7 @@ Computer History 想解决的正是这个问题。它在用户允许的范围内
 
 ### 开启后，先决定它可以看什么
 
-![用户通过 app 和网站规则限定观察范围，私密浏览、截图和音频不进入 History](/blog/images/original/from-activity-to-action/observation-boundary.svg)
+![用户通过 app 和网站规则限定观察范围，私密浏览、截图和音频不进入 History](/images/original/from-activity-to-action/observation-boundary.svg)
 
 用户可以允许大多数 app 和网站，只排除少数来源；也可以反过来，只允许明确选中的来源。
 
@@ -62,7 +62,7 @@ History 不包含截图；Computer History 也不记录麦克风或系统音频�
 
 ## 第二阶段：活动怎样变成 History
 
-![获准的交互事件经过临时处理，生成本地 History Memory，再由桌面应用组织为 Timeline](/blog/images/original/from-activity-to-action/activity-to-history.svg)
+![获准的交互事件经过临时处理，生成本地 History Memory，再由桌面应用组织为 Timeline](/images/original/from-activity-to-action/activity-to-history.svg)
 
 获准的交互先写入本机的临时事件文件。随后，Computer History 会定期启动一个临时 Codex 会话，把事件整理成摘要，并将生成的 History Memory 作为 Markdown 文件保存在本机。ChatGPT desktop 再按日期和时间把这些文件组织成 History Timeline。
 
@@ -72,7 +72,7 @@ History 不包含截图；Computer History 也不记录麦克风或系统音频�
 
 ### Timeline 把 History 变成可读的条目
 
-![一个 History 条目包含时间、活动摘要、来源应用、建议以及 Reveal 和 Delete 操作](/blog/images/original/from-activity-to-action/history-entry-anatomy.svg)
+![一个 History 条目包含时间、活动摘要、来源应用、建议以及 Reveal 和 Delete 操作](/images/original/from-activity-to-action/history-entry-anatomy.svg)
 
 上图用发布计划示意了一条 History：它概括某段时间修改了上线说明、核对了表格，并列出当时使用的 app。用户可以按日期浏览这些摘要，查看系统怎样理解那段工作。
 
@@ -82,7 +82,7 @@ History 不包含截图；Computer History 也不记录麦克风或系统音频�
 
 ## 第三阶段：从 History 走向三种下一步
 
-![Ask、周回顾和 Skill 或 Automation 建议通过不同方式把 History 交给 Codex](/blog/images/original/from-activity-to-action/three-ways-to-continue.svg)
+![Ask、周回顾和 Skill 或 Automation 建议通过不同方式把 History 交给 Codex](/images/original/from-activity-to-action/three-ways-to-continue.svg)
 
 点开 **Ask about your history** 后，问题会先进入一个 Codex 任务的输入框，等用户确认再发送。发送后，Agent 可以从 History 找到线索，再打开当前的 Slack 对话、文档或表格核实。History 负责指路，原始来源负责回答“现在究竟是什么状态”。
 
@@ -98,7 +98,7 @@ History 不包含截图；Computer History 也不记录麦克风或系统音频�
 
 ### 使用边界：原始来源用于核对，用户要求决定授权
 
-![获准来源中的恶意文字可能随 History 进入任务；用户要求决定授权边界，原始来源用于核对事实](/blog/images/original/from-activity-to-action/untrusted-history-content.svg)
+![获准来源中的恶意文字可能随 History 进入任务；用户要求决定授权边界，原始来源用于核对事实](/images/original/from-activity-to-action/untrusted-history-content.svg)
 
 Computer History 之所以能帮用户找回工作，是因为相关事件和 History 可能带入获准来源中的文字。可这些文字并不都可靠：网页或消息也可能故意写下针对 AI 的恶意指令。
 
@@ -108,7 +108,7 @@ Computer History 之所以能帮用户找回工作，是因为相关事件和 Hi
 
 ### 数据边界：停止未来采集，不等于删除已有记录
 
-![来源规则、暂停和关闭影响未来采集，Delete 和 Clear 处理已经留下的 History](/blog/images/original/from-activity-to-action/controls-scope.svg)
+![来源规则、暂停和关闭影响未来采集，Delete 和 Clear 处理已经留下的 History](/images/original/from-activity-to-action/controls-scope.svg)
 
 修改来源规则、Pause、Resume 和 Turn off 只会影响以后的记录，不会删除已有 History。Delete 删除单个 Timeline 条目；Clear 按时间范围清除相关事件和 memories，且无法撤销。[OpenAI 对检查和清除 History 的说明](https://learn.chatgpt.com/docs/customization/computer-history#review-and-clear-history)
 
@@ -116,7 +116,7 @@ Computer History 之所以能帮用户找回工作，是因为相关事件和 Hi
 
 #### 要理解 Clear，先分清三种 Memory
 
-![全局 Memories、本地 History Memory、当前任务上下文和后续 ChatGPT Memory 属于不同层次](/blog/images/original/from-activity-to-action/memory-is-not-one-thing.svg)
+![全局 Memories、本地 History Memory、当前任务上下文和后续 ChatGPT Memory 属于不同层次](/images/original/from-activity-to-action/memory-is-not-one-thing.svg)
 
 Computer History 与三种 Memory 相关，但它们承担不同作用：全局 **Memories** 是开启功能的前置项；本地 **History Memory** 保存活动摘要，也是 Timeline 的材料；未来对话还可能使用 **ChatGPT Memory**。Ask 或 recap 形成的当前任务上下文不是第四种 Memory；它只在使用 History 时承载相关线索。[OpenAI 对 Memories 的说明](https://learn.chatgpt.com/docs/customization/memories)
 

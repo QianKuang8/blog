@@ -86,5 +86,5 @@ Energy-first 让选址从可获得的能源出发，但便宜电力只是条件�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Building AI Factories](https://www.youtube.com/watch?v=GcCGzfKdCd0)
-- [完整课程笔记 PDF：32 页](/blog/pdfs/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf)
+- [完整课程笔记 PDF：32 页](/pdfs/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf)

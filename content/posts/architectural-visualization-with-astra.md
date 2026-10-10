@@ -32,7 +32,7 @@ learning_status: done
 
 这里的工程价值在于缩小下一次修改的范围。此前已经认可的房间布局可以继续作为约束，灯光变化则需要新的证据。对 Agent 的任务描述也可以相应具体化：保留什么、调整什么、用哪个视角检查变化。这样，用户无需枚举每个参数，也能把设计意图传递到执行层。
 
-![围绕可编辑场景的反馈循环：输入设计目标，修改场景，查看预览，再将问题定位回场景；交付时分别检查渲染成片与实时交互。](/blog/images/architectural-visualization-with-astra/editable-scene-loop.svg)
+![围绕可编辑场景的反馈循环：输入设计目标，修改场景，查看预览，再将问题定位回场景；交付时分别检查渲染成片与实时交互。](/images/architectural-visualization-with-astra/editable-scene-loop.svg)
 
 *图：本文根据案例整理的工作模型。上方表示迭代循环，下方表示两种交付形式各自需要的检查，不代表原项目的精确执行时序。*
 

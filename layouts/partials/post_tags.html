@@ -7,14 +7,13 @@
     {{- $topics = $topics | append . }}
   {{- end }}
 {{- end }}
-{{- range slice (dict "label" "主题" "kind" "topic" "terms" $topics) (dict "label" "来源" "kind" "source" "terms" $sources) }}
+{{- range slice (dict "label" "主题" "terms" $topics) (dict "label" "来源" "terms" $sources) }}
 {{- if .terms }}
 <div class="post-tag-row">
   <span class="post-tag-label">{{ .label }}</span>
   <ul class="post-tags" aria-label="{{ .label }}">
-    {{- $kind := .kind }}
     {{- range .terms }}
-    <li><a href="{{ .RelPermalink }}" data-tag="{{ .Data.Term }}" data-tag-kind="{{ $kind }}">{{ .LinkTitle }}</a></li>
+    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
     {{- end }}
   </ul>
 </div>

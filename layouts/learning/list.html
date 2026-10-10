@@ -4,7 +4,7 @@
   <div><h1>{{ .Title }}</h1><p>{{ .Description }}</p></div>
   <span>我的学习记录</span>
 </header>
-<section class="bc-learning-group" id="learning-pending" data-learning-group="pending" data-count="{{ len $groups.pending }}" aria-labelledby="learning-pending-heading">
+<section class="bc-learning-group" id="learning-pending" data-learning-group="pending" aria-labelledby="learning-pending-heading">
   <div class="bc-learning-group-heading"><h2 id="learning-pending-heading">待学习</h2><span>{{ len $groups.pending }} 篇</span></div>
   {{- if $groups.pending }}
   <ol class="bc-learning-rows">
@@ -17,7 +17,7 @@
 {{- range slice (dict "status" "done" "title" "已学习") (dict "status" "unmarked" "title" "未标记") }}
   {{- $pages := index $groups .status -}}
   {{- $status := .status -}}
-  <details class="bc-learning-group bc-learning-group--folded" id="learning-{{ $status }}" data-learning-group="{{ $status }}" data-count="{{ len $pages }}">
+  <details class="bc-learning-group bc-learning-group--folded" id="learning-{{ $status }}" data-learning-group="{{ $status }}">
     <summary><span>{{ .title }}</span><span>{{ len $pages }} 篇</span></summary>
     {{- if $pages }}
     <ol class="bc-learning-rows">

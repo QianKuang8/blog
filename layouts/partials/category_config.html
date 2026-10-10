@@ -1,0 +1,6 @@
+{{- /* Settings for one category term, maintained in data/categories.json. */ -}}
+{{- $term := . -}}
+{{- $config := dict -}}
+{{- range where hugo.Data.categories.categories "term" $term }}{{ $config = . }}{{ end -}}
+{{- if not $config }}{{ errorf "unsupported category %q; register it in data/categories.json" $term }}{{ end -}}
+{{- return $config -}}

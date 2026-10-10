@@ -24,7 +24,7 @@ learning_status: done
 4. “递归自我改进”更像模型、执行栈、产品和研发工作流之间的反馈环。
 5. 生成越快，端到端瓶颈越会转向工具、验证、审批和人的注意力。
 
-![访谈五层教学主线：组织、产品、供给、治理与社会边界](/blog/images/video-notes/understanding-next-ai-wave/system-delivery-layers.png)
+![访谈五层教学主线：组织、产品、供给、治理与社会边界](/images/video-notes/understanding-next-ai-wave/system-delivery-layers.png)
 
 *根据访谈内容整理重绘，覆盖 [00:00:45–00:44:24](https://www.youtube.com/watch?v=4qjEgPojjzM&t=45s)。箭头表示整理者归纳的关系，不是已测得的业务因果。*
 
@@ -60,7 +60,7 @@ Tibo 对当前 agent 体验的批评很具体：skill 需要维护，memory 不�
 
 讨论规模化时，Tibo 没有把问题简化成“再买更多算力”。成本、token 生成速度、吞吐和完整任务耗时并不等价。模型既消耗算力，也能反过来帮助团队分析负载、优化推理栈和内核，改进产品交互与研发流程。因此，真实供给能力取决于模型、基础设施和产品能否协同演进。
 
-![系统级递归自我改进：模型、执行、产品与工作流构成反馈环](/blog/images/video-notes/understanding-next-ai-wave/recursive-improvement-loop.png)
+![系统级递归自我改进：模型、执行、产品与工作流构成反馈环](/images/video-notes/understanding-next-ai-wave/recursive-improvement-loop.png)
 
 *根据访谈内容重绘。来源范围：[00:30:25–00:31:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=1825s)。*
 
@@ -76,7 +76,7 @@ ultra-fast 最有价值的例子，不是聊天窗口里的数字，而是时延
 
 新版笔记用一组明确标为**编者假设**的数值解释这一点：假设各阶段串行，原来生成耗时 10 秒，工具调用等其他步骤耗时 20 秒，总计 30 秒；生成加快 10 倍后只需 1 秒，其他步骤仍用 20 秒，总计便是 21 秒。生成快了 10 倍，整项任务只缩短了 9 秒。这些数值不是 Tibo 的实测结果，也不能用于比较产品速度；它们说明后续应检查仍占大头的其他步骤。[00:36:56–00:37:39](https://www.youtube.com/watch?v=4qjEgPojjzM&t=2216s)
 
-![共享画布反馈环：生成、选择、实时引导与持续修改](/blog/images/video-notes/understanding-next-ai-wave/shared-canvas-loop.png)
+![共享画布反馈环：生成、选择、实时引导与持续修改](/images/video-notes/understanding-next-ai-wave/shared-canvas-loop.png)
 
 *根据受访者描述的产品愿景重绘。来源范围：[00:38:51–00:39:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=2331s)。*
 
@@ -104,5 +104,5 @@ ultra-fast 最有价值的例子，不是聊天窗口里的数字，而是时延
 ## 继续阅读
 
 - [原视频：How to Understand the Next Wave of AI Before Everyone Else | Tibo Interview](https://www.youtube.com/watch?v=4qjEgPojjzM)
-- [完整课程笔记 PDF：24 页](/blog/pdfs/standalone/understanding-next-ai-wave.pdf)
+- [完整课程笔记 PDF：24 页](/pdfs/standalone/understanding-next-ai-wave.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/understanding-next-ai-wave.pdf)

@@ -32,7 +32,7 @@ Habitat 的一个诊断线索是：下游响应很快，Python 协程却迟迟�
 
 这可以用 [Python 的 asyncio 文档](https://docs.python.org/3/library/asyncio-dev.html#concurrency-and-multithreading)解释：事件循环在一个线程里运行任务与回调；一个任务执行时，同线程的其他任务不能同时执行。异步 I/O 能交叠等待，但一段持续占用事件循环线程的计算仍会推迟其他任务。
 
-![假设的存储请求时间线：0 到 20 毫秒等待下游，响应在 20 毫秒到达 socket，80 毫秒才由事件循环继续处理，90 毫秒完成。中间 60 毫秒是本地等待，不是数据库执行时间。](/blog/images/scaling-storage-one-billion-users-part-one/request-timeline.svg)
+![假设的存储请求时间线：0 到 20 毫秒等待下游，响应在 20 毫秒到达 socket，80 毫秒才由事件循环继续处理，90 毫秒完成。中间 60 毫秒是本地等待，不是数据库执行时间。](/images/scaling-storage-one-billion-users-part-one/request-timeline.svg)
 
 *整理者绘制的假设示例，数字仅用于说明时间归属，不表示 Habitat 的生产数据。*
 

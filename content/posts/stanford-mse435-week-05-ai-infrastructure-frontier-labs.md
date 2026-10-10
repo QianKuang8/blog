@@ -79,5 +79,5 @@ Time to compute 关注从决策到算力可用的时间，任务级指标关注�
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Infrastructure, Capstone Case](https://www.youtube.com/watch?v=4k53z3Ysjg0)
-- [完整课程笔记 PDF：22 页](/blog/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf)
+- [完整课程笔记 PDF：22 页](/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf)

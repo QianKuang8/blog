@@ -1,62 +1,20 @@
-{{- $scratch := newScratch }}
-{{- $showWordCount := and (.Param "ShowWordCount") (not (.Param "hideWordCount")) -}}
-
-{{- if and .IsPage (eq .Section "posts") -}}
 {{- $categories := .GetTerms "categories" -}}
-{{- $allowedCategories := slice "好文分享" "原创文章" "视频笔记" -}}
 {{- if ne (len $categories) 1 -}}
 {{- errorf "post %q must have exactly one category, got %d" .File.Path (len $categories) -}}
 {{- end -}}
-{{- $category := index $categories 0 -}}
-{{- $categoryTerm := $category.Data.Term -}}
-{{- if not (in $allowedCategories $categoryTerm) -}}
-{{- errorf "post %q has unsupported category %q" .File.Path $categoryTerm -}}
-{{- end -}}
-{{/* Normalize partial HTML to strings so Scratch keeps a flat string slice. */}}
-{{- $scratch.Add "meta" (slice (printf "%s" (partial "article_type.html" .))) }}
-{{- end -}}
-
+{{- $dateFormat := site.Params.DateFormat | default "2006-01-02" -}}
+{{- $meta := slice (partial "article_type.html" . | string) -}}
 {{- if not .Date.IsZero -}}
-{{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default "2006-01-02" site.Params.DateFormat)))) }}
-{{- end }}
-
-{{- with .Lastmod -}}
-{{- if and (not .IsZero) (ne (.Format "2006-01-02 15:04:05 -0700 MST") ($.Date.Format "2006-01-02 15:04:05 -0700 MST")) -}}
-{{- $scratch.Add "meta" (slice (printf "更新于 %s" (. | time.Format (default "2006-01-02" site.Params.DateFormat)))) }}
+{{- $meta = $meta | append (printf "<span title='%s'>%s</span>" .Date (.Date | time.Format $dateFormat)) -}}
 {{- end -}}
-{{- end }}
-
-{{- if (.Param "ShowReadingTime") -}}
-{{- $scratch.Add "meta" (slice (printf "%d 分钟" .ReadingTime)) }}
-{{- end }}
-
-{{- if $showWordCount -}}
-{{- $scratch.Add "meta" (slice (printf "%d 字" .WordCount)) }}
-{{- end }}
-
+{{- /* Same-day edits are not shown as updates. */ -}}
+{{- if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02")) -}}
+{{- $meta = $meta | append (printf "更新于 %s" (.Lastmod | time.Format $dateFormat)) -}}
+{{- end -}}
+{{- if .Param "ShowReadingTime" -}}
+{{- $meta = $meta | append (printf "%d 分钟" .ReadingTime) -}}
+{{- end -}}
 {{- if not (.Param "hideAuthor") -}}
-{{- with (partial "author.html" .) }}
-{{- $scratch.Add "meta" (slice (printf "%s" .)) }}
-{{- end }}
-{{- end }}
-
-{{/* Declare enabled fields independently of the rendered items for validation. */}}
-{{- if not .Date.IsZero -}}
-{{- $scratch.Add "fields" (slice "date") }}
-{{- end }}
-{{- if and (not .Lastmod.IsZero) (ne (.Lastmod.Format "2006-01-02 15:04:05 -0700 MST") (.Date.Format "2006-01-02 15:04:05 -0700 MST")) -}}
-{{- $scratch.Add "fields" (slice "updated") }}
-{{- end }}
-{{- if (.Param "ShowReadingTime") -}}
-{{- $scratch.Add "fields" (slice "reading-time") }}
-{{- end }}
-{{- if $showWordCount -}}
-{{- $scratch.Add "fields" (slice "word-count") }}
-{{- end }}
-{{- if and (not (.Param "hideAuthor")) (partial "author.html" .) -}}
-{{- $scratch.Add "fields" (slice "author") }}
-{{- end }}
-
-{{- with ($scratch.Get "meta") }}
-<span data-post-meta-fields="{{ delimit ($scratch.Get "fields" | default (slice)) " " }}">{{ delimit . "&nbsp;·&nbsp;" | safeHTML }}</span>
+{{- with partial "author.html" . }}{{ $meta = $meta | append . }}{{ end -}}
 {{- end -}}
+<span>{{ delimit $meta "&nbsp;·&nbsp;" | safeHTML }}</span>

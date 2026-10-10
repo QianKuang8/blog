@@ -1,8 +1,7 @@
 {{- $page := .page -}}
-{{- $slug := $page.Slug | default $page.File.ContentBaseName -}}
-<article class="bc-post-row{{ if .compact }} bc-post-row--compact{{ end }}" data-post-entry="{{ $slug }}">
+<article class="bc-post-row{{ if .compact }} bc-post-row--compact{{ end }}">
   <div class="bc-post-copy">
-    <h2><a data-post-link="{{ $slug }}" href="{{ $page.RelPermalink }}">{{ $page.Title }}{{ if $page.Draft }} <span class="bc-draft">草稿</span>{{ end }}</a></h2>
+    <h2><a href="{{ $page.RelPermalink }}">{{ $page.Title }}{{ if $page.Draft }} <span class="bc-draft">草稿</span>{{ end }}</a></h2>
     {{- if and (not .compact) (ne ($page.Param "hideSummary") true) }}
     <p>{{ $page.Summary | plainify | htmlUnescape }}{{ if $page.Truncated }}…{{ end }}</p>
     {{- end }}

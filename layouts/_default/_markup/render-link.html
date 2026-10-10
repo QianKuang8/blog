@@ -1,0 +1,7 @@
+{{- $dest := .Destination -}}
+{{- /* Content links site files from the site root; add the deployment path (e.g. /blog/) here. */ -}}
+{{- if and (hasPrefix $dest "/") (not (hasPrefix $dest "//")) (not (hasPrefix $dest site.Home.RelPermalink)) -}}
+  {{- $dest = relURL (strings.TrimPrefix "/" $dest) -}}
+{{- end -}}
+<a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- /* Keep the trailing newline out of the rendered paragraph. */ -}}

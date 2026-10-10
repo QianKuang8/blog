@@ -266,3 +266,20 @@ p { text-wrap: pretty; }
 .search-snippet-label { font-size: 12px; }
 #searchResults mark { color: var(--ink); background: var(--surface); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Desktop is the design target. Narrow screens only fall back to one readable column. */
+@media (max-width: 820px) {
+  .bc-layout, .bc-focused { display: block; width: auto; max-width: none; padding: 20px 16px 0; }
+  .bc-sidebar { position: static; height: auto; overflow: visible; padding: 0 0 16px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .bc-primary-nav { flex-direction: row; flex-wrap: wrap; gap: 0 18px; margin-top: 14px; }
+  .bc-primary-nav .bc-learning-nav { gap: 6px; border-top: 0; margin-top: 0; padding-top: 7px; }
+  .bc-side-bottom { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 17px; padding-top: 6px; }
+  .bc-side-bottom > div, .bc-side-bottom button { margin-top: 0; }
+  .bc-home-heading { flex-direction: column; }
+  .bc-search { flex-basis: auto; width: 100%; }
+  .bc-reading-grid, .bc-reading-grid-without-toc { display: block; }
+  .bc-toc { display: none; }
+  .tag-topic-group { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .bc-learning-row { grid-template-columns: minmax(0, 1fr); }
+  .bc-learning-number { display: none; }
+}

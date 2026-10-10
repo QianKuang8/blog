@@ -74,5 +74,5 @@ Baseten 描述的方向，是把数据准备、基础模型选择、后训练和
 
 - [Stanford MS&E 435 系列目录]({{< relref "/topics/stanford-mse435.md" >}})：查看 Week 1–9 的主题与阅读顺序。
 - [原视频：Applications, Applied AI](https://www.youtube.com/watch?v=Qh7Oxvo5sJI)
-- [完整课程笔记 PDF：29 页](/blog/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)
+- [完整课程笔记 PDF：29 页](/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf)

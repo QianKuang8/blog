@@ -1,0 +1,7 @@
+{
+  "categories": [
+    {"term": "原创文章"},
+    {"term": "好文分享", "source": "orig", "articleType": "文章解读", "bookType": "书籍导读"},
+    {"term": "视频笔记", "source": "video"}
+  ]
+}
