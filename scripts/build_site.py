@@ -17,7 +17,7 @@ def build_site(repo: Path, base_url: str | None = None) -> None:
     destination = repo / "public"
     if destination.is_symlink() or (destination.exists() and not destination.is_dir()):
         raise ValueError("public must be a directory, not a symlink or file")
-    failures = validate_content(repo)
+    failures = validate_content(repo, base_url=base_url)
     if failures:
         raise ValueError("Content validation failed:\n" + "\n".join(f"- {failure}" for failure in failures))
     # Keep staging beside public so renames stay on the same filesystem.
@@ -28,10 +28,13 @@ def build_site(repo: Path, base_url: str | None = None) -> None:
         if base_url:
             command.extend(["--baseURL", base_url])
         subprocess.run(command, cwd=repo, check=True)
-        failures = validate_content(repo, output)
+        failures = validate_content(repo, output, base_url)
         if failures:
             raise ValueError("Content validation failed:\n" + "\n".join(f"- {failure}" for failure in failures))
-        subprocess.run([sys.executable, str(repo / "scripts/check_site.py"), str(output)], cwd=repo, check=True)
+        check = [sys.executable, str(repo / "scripts/check_site.py"), str(output)]
+        if base_url:
+            check.extend(["--base-url", base_url])
+        subprocess.run(check, cwd=repo, check=True)
         # Leave the last verified output intact if Hugo or either validator fails.
         previous = staging_path / "previous"
         if destination.exists():
