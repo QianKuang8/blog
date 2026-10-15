@@ -2,6 +2,12 @@
 
 > 2026-10-10 起，下文提到的 `sources/orig/<slug>.md` 全文已迁到私有仓库 `blog-sources`（本地路径 `sources/archive/orig/<slug>.md`），公开仓库只保留元信息。
 
+### [2026-10-15] Self-evolving / Self-improving / RSI 自进化文章
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://zhuanlan.zhihu.com/p/2065227313973825752 | `npx --yes defuddle parse <URL> --md` 返回 `Failed to fetch: 403`，未生成可用全文归档 | 经用户指定，defuddle 成功抓取青稞社区同文转载 `https://www.qingkeai.online/blog/Self-evolving`，与用户提供的知乎 Markdown 核对并补齐一张分类图和参考资料；归档至私有仓库 `blog-sources` 的 `orig/self-evolving-agents-rsi.md` | 已解决，原文已补档 |
+
 ### [2026-09-28] Meta Muse Agent 安全文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
