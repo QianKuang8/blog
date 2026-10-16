@@ -1,6 +1,6 @@
 ---
 date: '2026-10-16T17:44:55+08:00'
-lastmod: '2026-10-16T17:47:15+08:00'
+lastmod: '2026-10-16T17:58:49+08:00'
 title: 'Cursor 的 token 效率优化：精简上下文、稳定缓存与按需委派'
 summary: "Cursor 从请求组装、缓存复用和子智能体委派入手，报告组合优化让用户 token 成本降低了 7%。本文解释这些改动如何减少长任务中的重复处理，以及不同降幅的统计边界。"
 description: "解读 Cursor 的系统提示精简、工具按需加载、缓存前缀布局、稀疏行号和子智能体调度取舍。"
@@ -23,6 +23,10 @@ Cursor 报告，随着模型能力提升，很多任务只需清楚定义工具�
 
 工具定义还涉及使用频率。原文列举后台 shell 监控、云端子智能体、网页访问等新增能力，并指出其中大部分工具各自只在不到 20% 的对话里用到。全部常驻意味着没有使用它们的会话，也持续携带完整说明。
 
+![Cursor 工具调用分布：read、grep、glob、shell 和 edit 被较多会话使用，web_fetch、create_plan 等工具的使用比例较低。](/images/cursor-improved-token-efficiency/tool-invocation-share.png)
+
+*图 1：原页面图表截图，来源：[Cursor](https://cursor.com/cn/blog/improved-token-efficiency#improved-token-efficiency-most-invoked-tools-graphic)。横轴是至少调用过一次该工具的会话占比，并非工具调用次数或 token 消耗占比。高频读取、搜索和执行工具与低频能力的差异，为按需加载提供了依据。*
+
 Cursor 因此保留读取、搜索、编辑和 shell 等高频工具，其他工具按需加载。但频率并非唯一依据：`ask_question` 被保留，是因为部分模型容易幻觉出对它的调用；规划模式中的 `create_plan` 则因产品流程需要而保留。由此可以归纳，静态上下文既要考虑调用频率，也要考虑定义缺席是否会引发错误、流程是否要求模型一开始就知道该能力。
 
 站内的[动态上下文发现解读]({{< relref "/posts/dynamic-context-discovery.md" >}})可以补充按需加载的背景：完整资料保持可访问，当前请求先携带发现入口。加载被延后之后，仍要检查模型能否找到并正确使用工具。
@@ -34,6 +38,10 @@ Cursor 因此保留读取、搜索、编辑和 shell 等高频工具，其他工
 原文称，自 GPT-5.6 起，OpenAI API 允许客户端在隐式缓存之外显式标记缓存断点。Cursor 将断点放在稳定内容之后、不断增长的对话之前；同时让前面的工具和系统指令只保留极少变化的内容，把更多可变设置移到边界之后。
 
 这些设置通过所谓的“幻影用户消息”承载，包括技能、子智能体和环境信息。可以理解为由 Harness 组装的用户级、请求级上下文，读者不应把它理解为用户又手动输入了一次消息。本文沿用原文对实现的描述，不据此推定所有模型提供方都具备相同接口。
+
+![Cursor 缓存断点前后对比：右侧在稳定的工具和系统指令之后、setup 之后设置显式断点，并保留最新消息处的隐式边界，将可复用前缀与持续增长的对话区分开。](/images/cursor-improved-token-efficiency/cache-breakpoints.png)
+
+*图 2：显式缓存断点示意，原图来自 [Cursor](https://cursor.com/cn/blog/improved-token-efficiency)。右侧分别标出工具与系统指令前缀、setup 前缀的结束位置；最末尾仍保留最新消息对应的隐式边界。可沿图比较哪些内容能够复用、哪些内容继续增长。[查看完整图](/images/cursor-improved-token-efficiency/cache-breakpoints.png)。*
 
 断点和布局需要一起看：如果前缀本身频繁变化，只标记边界无法创造可复用的内容。Cursor 报告这些改动让冷缓存未命中率降低了 20%。这是未命中率的降幅，不能改写为总 token 数减少 20%，也不等于命中率提高 20 个百分点。
 
