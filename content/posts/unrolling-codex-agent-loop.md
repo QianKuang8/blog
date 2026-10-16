@@ -1,6 +1,6 @@
 ---
 date: '2026-04-06T10:30:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-16T18:09:33+08:00'
 title: "Codex Agent Loop：工具结果如何进入下一轮推理"
 summary: "Codex 的 Agent Loop 把用户输入、模型输出和工具结果组织成可继续推理的状态。本文沿一轮调用说明结构化历史、前缀缓存和上下文压缩如何共同支撑长任务。"
 description: "解读 Codex Agent Loop 的输入构造、工具调用关联、无状态请求、提示缓存和上下文压缩。"
@@ -47,6 +47,10 @@ Responses API 通过 SSE 流式返回事件。文本增量可以驱动界面显�
 ## 缓存复用依赖稳定的前缀
 
 提示缓存能够复用此前相同前缀的计算。为此，原文中的历史更新尽量采用追加方式，让旧提示保持为新提示的精确前缀。
+
+![Codex 请求的增长过程：第一次调用包含 instructions、tools、权限说明、项目指令、环境和用户消息；第二次调用原样保留这些项，再追加 reasoning、function_call 和 function_call_output；工作目录变化时追加新的环境消息；超过阈值后，input 被压缩返回的项目列表替换。](/images/unrolling-codex-agent-loop/request-prefix-growth.svg)
+
+*图 1：重绘，依据 [深入解析 Codex 智能体循环](https://openai.com/zh-Hans-CN/index/unrolling-the-codex-agent-loop/) 对请求构造、追加更新与压缩的说明整理，原文没有对应示意图。色块高度不代表 token 数；权限说明之后的部分输入项是可选的，具体字段以原文为准。[查看完整图](/images/unrolling-codex-agent-loop/request-prefix-growth.svg)。*
 
 这个要求会影响看似无关的实现细节。原文提到，早期 MCP 工具枚举顺序不固定，造成了缓存未命中；更换工具集合、模型相关指令，或改写前面的权限与环境消息，也可能减少可复用范围。内容语义相同，并不等于 token 序列一致。
 

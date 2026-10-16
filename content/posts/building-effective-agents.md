@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T18:00:00+08:00'
-lastmod: "2026-09-21T10:11:09+08:00"
+lastmod: "2026-10-16T18:09:33+08:00"
 title: "Building Effective Agents：按任务的不确定性选择编排方式"
 summary: "Anthropic 将固定工作流与模型自主控制的 Agent 分开讨论。本文以任务分解、反馈条件和工具接口为线索，说明何时值得增加调用与自主性。"
 description: "解读 Anthropic 的工作流模式、Agent 决策循环及工具接口设计原则。"
@@ -19,6 +19,10 @@ learning_status: done
 ## 控制流由谁决定
 
 原文把预先由代码定义路径的系统称为 Workflow，把由 LLM 动态决定过程与工具使用的系统称为 Agent。两者都可以调用模型、搜索信息和执行操作，区别在于下一步的决策权。
+
+![六种编排模式：链式调用、路由、并行、协调者-执行者、评价-优化由代码预先定义路径，自主 Agent 由模型根据环境反馈决定下一步；每种模式标出数据流与适用条件。](/images/building-effective-agents/orchestration-patterns.svg)
+
+*图 1：重绘，依据 [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents) 中各模式的说明与示意图，合并为一张对照图并补充适用条件。各模式可以组合使用，排列顺序不表示必须逐级升级。[查看完整图](/images/building-effective-agents/orchestration-patterns.svg)。*
 
 如果任务能够稳定拆成“大纲—检查—正文”，程序可以规定顺序，并在中间设置检查门槛。这样的 prompt chaining 把一次复杂生成变成几次较容易的调用，代价是更多延迟。如果输入本来就分为几类，例如退款咨询与技术支持，routing 则先分类，再把请求送到不同提示与工具流程；它能否奏效，取决于分类是否足够可靠。
 

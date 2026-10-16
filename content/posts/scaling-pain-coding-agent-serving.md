@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
-lastmod: "2026-09-21T10:24:32+08:00"
+lastmod: "2026-10-16T18:09:33+08:00"
 title: "Coding Agent 推理排障：两种 KV Cache 竞态如何污染输出"
 summary: "GLM-5 的乱码、重复和罕见字符异常，在保留请求时序并施加负载后才得以复现。本文沿重现、检测、时序定位和修复验证，解释缓存回收与加载顺序如何影响生成结果。"
 description: "解读 Z.ai 的 GLM-5 Serving 排障：PD 分离缓存回收、HiCache 同步及 LayerSplit 的收益条件。"
@@ -40,6 +40,10 @@ Prefill/Decode 分离后，Prefill 侧通过 RDMA 把缓存写到 Decode 侧。�
 
 故障发生在两个生命周期没有对齐：Decode 已经结束请求 Req1，并把原槽位分配给 Req2；Prefill 却没有正确收到中止信息，Req1 的计算或异步写入仍继续。等旧写入到达时，它覆盖了已经属于 Req2 的缓存，Req2 随后基于被污染的状态生成。
 
+![PD 分离下的 KV Cache 竞态时序：Decode 超时中止 Req1 后，把同一地址分配给 Req2；Prefill-1 完成 Req1 的计算后开始传输 KV，覆盖 Req2 的缓存，之后的生成出现异常。](/images/scaling-pain-coding-agent-serving/pd-kv-cache-race.png)
+
+*图 1：原图，来源：[Z.ai](https://z.ai/blog/scaling-pain) Figure 2。沿时间轴对照三条线：Decode 中止 Req1 时，Prefill-1 仍在计算；Req2 复用同一地址并开始生成后，Prefill-1 的 KV 传输到达，红色箭头处发生覆盖。[查看完整图](/images/scaling-pain-coding-agent-serving/pd-kv-cache-race.png)。*
+
 修复增加了明确的回收确认。Decode 发出中止通知后，Prefill 必须确认尚未启动 RDMA 写入，或此前所有写入已经完成，才能返回 safe-to-reclaim；Decode 收到信号后再复用槽位。
 
 这里保证的是旧请求的写入不会越过内存复用边界。作者报告，修复后异常率从约 0.1% 降到 0.03% 以下。这是修复阶段报告的结果，与前面的离线每万次 3–5 次复现率不是同一组对照，不能混算收益。
@@ -49,6 +53,10 @@ Prefill/Decode 分离后，Prefill 侧通过 RDMA 把缓存写到 Decode 侧。�
 原文报告，Coding Agent 平均输入超过 70K token，并有较高前缀复用。HiCache 将历史前缀保存在分层存储中，需要时从 CPU 内存异步载入，再与计算重叠以提高效率。
 
 在 DSA 的相关实现中，Load Stream 负责加载 KV 与 Indexer cache，Forward Stream 先做索引计算，再做稀疏注意力。原实现没有在 Indexer kernel 启动前明确等待对应缓存就绪，因而可能读到不完整或未初始化的状态，并把错误传播到后续计算。
+
+![HiCache 加载同步修复：原实现中 Indexer 在对应的 Indexer cache 加载完成前开始执行，出现 read-before-ready；修正后每层 Indexer 都在加载完成后才启动。](/images/scaling-pain-coding-agent-serving/hicache-load-sync.png)
+
+*图 2：原图，来源：[Z.ai](https://z.ai/blog/scaling-pain) Figure 3。对比上下两部分 Sync 箭头的位置：按图示，原实现的同步指向稀疏注意力，Indexer 可能在 Indexer cache 加载完成前读取（红色虚线）；修正后同步点前移到 Indexer 之前。*
 
 修复是在 Indexer 前加入与加载流的同步点。作者报告，同样工作负载下，由这类执行顺序不一致导致的异常被消除。这个结论限定了异常类型和测试条件，不等于证明服务中所有质量问题都已消失。
 
