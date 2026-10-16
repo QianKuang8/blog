@@ -191,7 +191,7 @@ extractor: "defuddle"
    ├─ 2b. 检查全文是否有完整 metadata + 正文
    ├─ 2c. scripts/source_record.py <slug> 生成公开元信息
    ├─ 2d. 确认 categories: ["好文分享"] 和 tags
-   ├─ 2e. 基于私有全文撰写博客文章
+   ├─ 2e. 基于私有全文撰写博客文章，并检查原文图表、选取有解释价值的配图
    └─ 2f. 按 BLOG_PROMPTS.md 做发布前 review
 3. 发布：hugo server -D 预览 → scripts/build_site.py → 分别提交两个仓库并推送
 4. 清理：从 inbox.md 移除已发布条目
@@ -239,6 +239,14 @@ git commit -m "add: 文章标题"
 ```
 
 ---
+
+## 外部文章配图
+
+- 选图标准见 `BLOG_PROMPTS.md`。写作时检查原页面，defuddle 提取的正文可能遗漏交互图表，不据此判断原文没有图。
+- 选用的图片存入 `static/images/<slug>/`，正文引用 `/images/<slug>/...`，沿用 Markdown 图片加下一段斜体图注的格式。图注说明图片含义与来源；细节较多时附完整图链接。
+- 优先取得清晰的原图文件；交互图表可截取原页面中的完整图表区域，保留标题、坐标、单位、图例和必要注释，并在图注注明“原页面图表截图”。
+- 在私有归档 frontmatter 的 `image_sources` 中记录图片标题、站内路径、原图或页面 URL、取得方式和时间，再运行 `scripts/source_record.py <slug>` 同步公开元信息。重绘或局部截取须说明处理方式。
+- 发布前检查桌面正文宽度下的可读性、图文对应关系与图片加载情况，再执行正式构建。新增配图或图注属于正文修订，保留 `date` 并更新 `lastmod`。
 
 ## 视频笔记与 PDF
 
