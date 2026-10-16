@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="734" viewBox="0 0 1000 734" role="img" aria-labelledby="title desc">
+  <title id="title">Codex 请求怎样随工具调用增长</title>
+  <desc id="desc">第一次调用包含 instructions、tools、权限说明、项目指令、环境和用户消息。第二次调用原样保留这些项，再追加 reasoning、function_call 和 function_call_output。工作目录变化时追加新的环境消息而不改写旧消息。超过自动压缩阈值后，input 被压缩返回的项目列表替换，其中包含内容不透明的 compaction 项。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="734" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">旧请求是新请求的精确前缀</text>
+    <text x="40" y="86" font-size="19" fill="#526478">每次调用都携带完整历史；新内容只追加在末尾，直到压缩重建 input</text>
+    <g font-size="16" fill="#526478">
+      <rect x="40" y="105" width="16" height="16" rx="3" fill="#e7f4ee" stroke="#a3cdbb"/>
+      <text x="64" y="119">与上一次请求相同的前缀</text>
+      <rect x="280" y="105" width="16" height="16" rx="3" fill="#fff4df" stroke="#d9c397"/>
+      <text x="304" y="119">本次追加的新项</text>
+      <rect x="452" y="105" width="16" height="16" rx="3" fill="#e9f0fb" stroke="#a9bfdc"/>
+      <text x="476" y="119">压缩返回的项目</text>
+    </g>
+    <g font-size="19" font-weight="700" fill="#182b40">
+      <text x="40" y="160">第 1 次调用</text>
+      <text x="276" y="160">第 2 次调用</text>
+      <text x="512" y="160">工作目录变化后</text>
+      <text x="748" y="160">自动压缩后</text>
+    </g>
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M220 153 H262" marker-end="url(#arrow)"/>
+      <path d="M456 153 H498" marker-end="url(#arrow)"/>
+      <path d="M692 153 H734" marker-end="url(#arrow)"/>
+    </g>
+    <rect x="40" y="176" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="52" y="199" font-size="16" fill="#725025">instructions</text>
+    <rect x="40" y="216" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="52" y="239" font-size="16" fill="#725025">tools</text>
+    <rect x="40" y="256" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="52" y="279" font-size="16" fill="#725025">权限说明</text>
+    <rect x="40" y="296" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="52" y="319" font-size="16" fill="#725025">项目指令 · AGENTS.md</text>
+    <rect x="40" y="336" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="52" y="359" font-size="16" fill="#725025">环境 · cwd 与 shell</text>
+    <rect x="40" y="376" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="52" y="399" font-size="16" fill="#725025">用户消息</text>
+    <rect x="276" y="176" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="288" y="199" font-size="16" fill="#21624a">instructions</text>
+    <rect x="276" y="216" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="288" y="239" font-size="16" fill="#21624a">tools</text>
+    <rect x="276" y="256" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="288" y="279" font-size="16" fill="#21624a">权限说明</text>
+    <rect x="276" y="296" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="288" y="319" font-size="16" fill="#21624a">项目指令 · AGENTS.md</text>
+    <rect x="276" y="336" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="288" y="359" font-size="16" fill="#21624a">环境 · cwd 与 shell</text>
+    <rect x="276" y="376" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="288" y="399" font-size="16" fill="#21624a">用户消息</text>
+    <rect x="276" y="416" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="288" y="439" font-size="16" fill="#725025">reasoning</text>
+    <rect x="276" y="456" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="288" y="479" font-size="16" fill="#725025">function_call</text>
+    <rect x="276" y="496" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="288" y="519" font-size="16" fill="#725025">function_call_output</text>
+    <rect x="512" y="176" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="199" font-size="16" fill="#21624a">instructions</text>
+    <rect x="512" y="216" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="239" font-size="16" fill="#21624a">tools</text>
+    <rect x="512" y="256" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="279" font-size="16" fill="#21624a">权限说明</text>
+    <rect x="512" y="296" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="319" font-size="16" fill="#21624a">项目指令 · AGENTS.md</text>
+    <rect x="512" y="336" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="359" font-size="16" fill="#21624a">环境 · cwd 与 shell</text>
+    <rect x="512" y="376" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="399" font-size="16" fill="#21624a">用户消息</text>
+    <rect x="512" y="416" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="439" font-size="16" fill="#21624a">reasoning</text>
+    <rect x="512" y="456" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="479" font-size="16" fill="#21624a">function_call</text>
+    <rect x="512" y="496" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="524" y="519" font-size="16" fill="#21624a">function_call_output</text>
+    <rect x="512" y="536" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397"/>
+    <text x="524" y="559" font-size="16" fill="#725025">新的环境消息 · 新 cwd</text>
+    <rect x="512" y="576" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397" stroke-dasharray="4 3"/>
+    <text x="524" y="599" font-size="16" fill="#725025">后续调用与结果……</text>
+    <rect x="748" y="176" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="760" y="199" font-size="16" fill="#21624a">instructions</text>
+    <rect x="748" y="216" width="212" height="34" rx="6" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="760" y="239" font-size="16" fill="#21624a">tools</text>
+    <rect x="748" y="256" width="212" height="114" rx="6" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="760" y="286" font-size="16" fill="#254d7a">压缩返回的项目列表</text>
+    <text x="760" y="312" font-size="16" fill="#254d7a">含 compaction 项</text>
+    <text x="760" y="338" font-size="16" fill="#254d7a">内容对客户端不透明</text>
+    <rect x="748" y="376" width="212" height="34" rx="6" fill="#fff4df" stroke="#d9c397" stroke-dasharray="4 3"/>
+    <text x="760" y="399" font-size="16" fill="#725025">之后的新项继续追加……</text>
+    <g font-size="16">
+      <text x="40" y="646" fill="#344d68">初始化 input，追加用户消息</text>
+      <text x="40" y="670" fill="#526478">每次请求都自带完整历史</text>
+      <text x="276" y="646" fill="#344d68">调用与结果按 call_id 关联</text>
+      <text x="276" y="670" fill="#526478">连同 reasoning 一起追加</text>
+      <text x="512" y="646" fill="#344d68">配置变化写成新消息</text>
+      <text x="512" y="670" fill="#526478">不回写旧的环境消息</text>
+      <text x="748" y="646" fill="#344d68">超过阈值后替换 input</text>
+      <text x="748" y="670" fill="#526478">此前的精确前缀关系改变</text>
+    </g>
+    <text x="500" y="712" text-anchor="middle" font-size="16" fill="#64758a">根据 OpenAI 原文的请求构造重绘；色块高度不代表 token 数，可选项与具体字段以原文为准</text>
+  </g>
+</svg>
