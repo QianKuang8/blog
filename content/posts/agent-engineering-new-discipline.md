@@ -1,6 +1,6 @@
 ---
 date: '2026-04-06T10:10:00+08:00'
-lastmod: "2026-09-21T10:12:27+08:00"
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "Agent Engineering：把生产轨迹接回评估与迭代"
 summary: "Agent 的接口可以正常返回，行为却仍偏离目标。LangChain 提出的工程循环把生产 trace、任务评估与提示和工具调整连起来，让每次改动回应可观察的失败。"
 description: "解读 LangChain Agent Engineering 的生产反馈循环、跨职能分工与可靠性边界。"
@@ -27,6 +27,10 @@ LangChain 的 [《Agent Engineering: A New Discipline》](https://blog.langchain
 ## 产品、工程与数据共享同一组任务
 
 文章把实践所需能力分为三类。产品工作定义用户究竟要完成什么，以及什么产物可接受；工程工作提供工具、可恢复执行、人类介入和记忆管理；数据工作通过评估、实验和错误分析衡量质量。
+
+![Agent Engineering 示意：产品、工程、数据科学三类工作汇入 Agent Engineering，下方是构建、测试、上线、观察、改进并重复的循环。](/images/agent-engineering-new-discipline/agent-engineering-loop.png)
+
+*图 1：原图，来源：[Agent Engineering: A New Discipline](https://blog.langchain.com/agent-engineering-a-new-discipline/)。上半部分是本节的三类分工，下半部分是下一节讨论的循环：上线（Ship）之后接着观察（Observe）和改进（Refine），而不是终点。*
 
 这些分工相互依赖。例如，工具按预期返回了数据，却没有覆盖用户需要的时间范围。它既可能是接口能力不足，也可能是任务范围未说明。只有把用户目标、调用轨迹和实际产物放在一起，才容易判断问题应由谁处理。
 

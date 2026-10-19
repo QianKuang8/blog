@@ -1,6 +1,6 @@
 ---
 date: '2026-05-07T21:14:00+08:00'
-lastmod: "2026-09-21T10:19:00+08:00"
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "Harness Engineering：让 Agent 读取约束并验证运行结果"
 summary: "OpenAI 的内部产品实验把工具、知识、架构约束和反馈放进 Agent 可访问的环境。本文沿具体案例解释这些条件怎样支持自动执行，并保留团队投入与结果适用范围。"
 description: "解读 OpenAI 2026 年 2 月的 Harness Engineering 实验，包括运行反馈、仓库知识和持续治理。"
@@ -27,6 +27,10 @@ Agent 能修改代码后，为什么仍频繁需要人接手？OpenAI 的 [Harne
 ## 将应用行为接回修改循环
 
 团队让应用按 Git worktree 独立启动，再把 Chrome DevTools Protocol 接入运行时，提供 DOM 快照、截图和导航能力。Agent 可以针对某个变更启动实例，复现问题，查看状态，修改代码后再次检查。
+
+![Codex 通过 Chrome DevTools MCP 驱动应用验证修改的时序图：选择目标并清空控制台，记录操作前快照，触发界面路径，记录操作后快照，应用修复并重启，然后循环重新验证直到干净。](/images/harness-engineering-leveraging-codex-in-an-agent-first-world/codex-chrome-devtools-loop.webp)
+
+*图 1：原图，来源：[OpenAI Harness Engineering](https://openai.com/zh-Hans-CN/index/harness-engineering/)。前后两次快照之间夹着真实的界面操作与运行时事件，修复后的 LOOP 会一直重跑验证，直到结果干净。*
 
 可观测性也采用相同方式。每个 worktree 有临时的日志、指标和 trace 环境，Agent 通过 LogQL 与 PromQL 查询。这样，“启动在 800ms 内完成”才能从一句目标变成可测条件：执行启动，读取对应指标，与要求比较，再决定是否需要继续修改。
 

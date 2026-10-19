@@ -1,6 +1,6 @@
 ---
 date: '2026-04-06T10:40:00+08:00'
-lastmod: "2026-09-21T10:12:27+08:00"
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "Agentic Coding：把目标、代码修改与验证接成循环"
 summary: "Agentic coding 将搜索上下文、跨文件修改和测试反馈交给同一个执行循环。本文以 Anthropic 的介绍为线索，说明开发者仍需定义哪些约束，以及工具执行结果怎样支持任务验收。"
 description: "解读 Anthropic 对 agentic coding 工作流的介绍，以及 Claude Code 的环境访问和案例边界。"
@@ -27,6 +27,10 @@ Anthropic 的 [《Introduction to agentic coding》](https://claude.com/blog/int
 ## 终端提供环境反馈，界面形态不决定能力上限
 
 文章以 Claude Code 为例，介绍它在项目目录里读写文件、调用命令、运行测试以及使用 Git 的方式。把 Agent 接到实际工具链后，测试输出可以直接成为下一轮输入，减少人工复制结果的步骤。
+
+![Claude Code 终端会话：读取两个 GraphQL resolver 文件，定位 N+1 查询所在行，再运行脚本测得 10 个用户共 51 次查询。](/images/introduction-to-agentic-coding/claude-code-terminal-session.png)
+
+*图 1：原图，来源：[Introduction to agentic coding](https://claude.com/blog/introduction-to-agentic-coding)。读文件、定位问题、运行命令拿到实测数据都发生在同一个终端会话里，模型据此决定下一步修改。*
 
 终端是实现这种接入的一条路径。原文以浏览器聊天和局部补全作比较，但不能据此推导 IDE 或浏览器产品天然无法执行完整任务。能够访问哪些文件和工具、得到什么反馈、如何约束操作，才决定执行范围。
 
