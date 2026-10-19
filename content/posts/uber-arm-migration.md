@@ -1,6 +1,6 @@
 ---
 date: '2025-04-13T13:58:21+08:00'
-lastmod: '2026-09-21T10:14:01+08:00'
+lastmod: '2026-10-19T11:08:10+08:00'
 title: "Uber 的 Arm 迁移：先打通构建，再推广到多架构运行"
 summary: "Uber 先解决构建系统的循环依赖，再通过双架构验证、分阶段迁移和自动回退推广 Arm。两篇实践说明了从单个服务跑通到平台持续支持之间的工程距离。"
 description: "解读 Uber 的 Arm 构建引导、多架构镜像、测试与渐进迁移机制。"
@@ -29,6 +29,10 @@ Uber 用 Bazel 逐层完成这段引导，随后在 x86 与 Arm 主机上分别�
 ## 自动化迁移也要有停止条件
 
 推广按服务重要性、非生产与生产环境、可用区分阶段推进。自动化系统读取目标状态，以小批次协调迁移；告警或 SLA 下降触发回退。原文报告迁移了超过 2800 个无状态 Go 服务，这是当时已完成的范围，不能推成所有语言和有状态服务都已迁移。
+
+![目标状态驱动的迁移系统：高层计划按服务等级、服务类型、环境和可用区选出服务，协调计划后，在可用区 1 把 Go 服务从 x86 域迁到 Arm 域，可用区 2 暂不变化。](/images/uber-arm-migration/goal-state-adoption.png)
+
+*图 1：原图，来源：[Adopting Arm at Scale: Transitioning to a Multi-Architecture Environment](https://www.uber.com/kr/en/blog/adopting-arm-at-scale-transitioning-to-a-multi-architecture-environment/) Figure 1。左下的高层计划限定了这一批的范围（Tier 4–5、Go 服务、非生产、zone1），迁移只在选中的可用区发生。*
 
 从这段实践可以归纳出三项验收：目标架构是否具备完整构建路径，服务是否保持预期行为，以及运行收益是否覆盖新增的构建和维护成本。迁移平台若能持续回答这三个问题，新增一种硬件才会成为可维护的能力。单次跑通的样例，则只是进入下一阶段的起点。
 
