@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-19T10:55:03+08:00'
 title: "上下文工程的四个动作：写入、选择、压缩与隔离"
 summary: "周星星用 Write、Select、Compress、Isolate 梳理 Agent 的信息流。本文按任务状态的生命周期解释四种动作，讨论检索、摘要和子 Agent 交接各自的收益与损失。"
 description: "解读上下文工程四分法，分析持久状态、相关信息选择、压缩保真及多 Agent 隔离的边界。"
@@ -13,6 +13,10 @@ learning_status: done
 ---
 
 一个子 Agent 开始工作时，不只需要一句任务说明。它还可能需要上游已经确认的事实、当前约束、可调用工具，以及尚未解决的问题。给少了，它无法判断；把所有历史搬过去，又可能掩盖当前任务。
+
+![多个子 Agent 组成的网络：绿色方框是各自执行任务的子 Agent，红色方框标出当前需要开始工作的子 Agent。](/images/why-context-engineering-needed/subagent-context-question.jpg)
+
+*图 1：原图，来源：[为什么我们需要 Context Engineering？](https://zhuanlan.zhihu.com/p/1953085369328337945)。原文用这张图提出问题：轮到红框中的子 Agent 工作时，其他子 Agent 已获得的信息哪些应该进入它的上下文。*
 
 周星星的 [《为什么我们需要 Context Engineering？》](https://zhuanlan.zhihu.com/p/1953085369328337945) 将这个问题放进 Write、Select、Compress、Isolate 四种动作中讨论。它们分别处理信息保存、进入窗口、缩减和分工，是作者引用的一种分析框架，并非上下文工程唯一的分类标准。
 
@@ -29,6 +33,10 @@ learning_status: done
 写入上下文在这里指把信息保存在当前窗口之外。原文区分长期记忆、scratchpad 和工作流 state：长期记忆供未来会话使用，scratchpad 记录当前任务的草稿与计划，state 则保存工作流需要的结构化中间变量。
 
 例如，计划写进 `todo.md` 后，可以随任务调整，在需要时重新读取；一个 `todo` 状态变量也可以由不同步骤更新，而不是每次都重复放进 messages。存储载体不决定价值，关键是保存的内容是否足以支持下一次继续工作。
+
+![LangGraph 状态定义代码：OverallState 继承 MessagesState，在 messages 之外还定义了 todo、answer 和 step_index 字段。](/images/why-context-engineering-needed/state-todo-field.jpg)
+
+*图 2：原图，来源同上。`todo` 与 `messages` 是同一状态对象中的不同字段，计划可以在流程中更新和读取，而不必每次都写进消息历史。*
 
 这要求保留信息的语义。已经验证的结果、尚待检验的猜测、用户明确约束和临时尝试，不宜都写成同一种“事实”。原文强调保存有用信息；从工程上延伸，还需要来源、时间和状态，防止临时判断在后续被当作稳定规则。
 
@@ -53,6 +61,10 @@ learning_status: done
 ## Isolate：按职责分配信息，并保留交接证据
 
 隔离可以发生在 state 字段、代码执行环境或不同 Agent 的窗口中。原文讨论了把一串操作放进程序执行，只返回必要结果，以及让搜索、回答、评估 Agent 各自获得任务所需输入。
+
+![新闻检索 Agent 的流程图：supervisor 调度 search 与 answer，answer 之后经过 judge，再结束。](/images/why-context-engineering-needed/supervisor-search-answer-judge.jpg)
+
+*图 3：原图，来源同上。作者设计的新闻检索流程中，搜索、回答、评估各由一个 Agent 负责，supervisor 决定流转；随后讨论的问题是 judge 的输出怎样写回 supervisor 的上下文。*
 
 其中有一条需要按评价目标补充条件。若 judge 只检查表达是否清楚、结构是否完整，答案与标准可能已经够用；若它要检查事实准确性，就仍然需要来源证据。不能为了隔离搜索过程，把完成验证所必需的资料也一并移走。
 
