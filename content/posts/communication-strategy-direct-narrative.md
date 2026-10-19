@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
-lastmod: '2026-09-23T14:26:11+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: "沟通战略怎样落地：理解受众、直接触达与可信叙事"
 summary: "Lulu Cheng Meservey 用跨文化经历和公司案例解释，怎样从目标受众倒推渠道，以可核查事实和人的经历支撑表达，并区分传播方法的适用情境。"
 description: "解读 Lulu Cheng Meservey 的沟通战略：Go Direct、宣言作为承诺装置、Jetsons 原则、真实性信号与长期复利"
@@ -53,17 +53,29 @@ AI 招聘是最尖锐的例子。一家公司也许只想招到少数已知的�
 
 Go Direct 不是绕过专业工作的捷径。它是把叙事责任交还给最理解主张、也为主张承担最大信誉风险的人。[00:20:33–00:21:14](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1233s) 这也是为什么 Meservey 把确信（conviction）和魅力（charisma）区分开：魅力是放大器，确信才是信号源。[00:28:16–00:31:30](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1696s) 一个不太擅长演讲但确信自己在做什么的创始人，比一个魅力十足但论点空洞的人更可能产生持久影响。
 
+![同心圆式动员：中心是创始人的自我确信，向外依次是核心团队、关键受众和更广群体；旁注说明先让中心拥有清楚使命与稳定承诺，再由行动和可复述表达逐层向外扩散，外圈不能替中心制造确信。](/images/video-notes/communication-strategy-direct-narrative/concentric-mobilization.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/standalone/communication-strategy-direct-narrative.pdf) 第 11 页图 3，根据视频 [00:30:29–00:30:53](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1829s) 整理。本段说魅力是放大器、确信是信号源：在图中，放大发生在向外扩散的过程里，信号源在最里层。*
+
 ## 人做主角，技术做环境
 
 技术存在不等于社会采用。Meservey 用 Rostra 的使命说明这一点：产品只有被人理解、接纳和使用，人才愿意加入，制度环境允许它继续发展，才会产生现实影响。[00:31:48–00:33:24](https://www.youtube.com/watch?v=DFImJfJGXl0&t=1908s) 这不是说工程较容易，而是把采用视为另一种问题。
 
 她用《The Jetsons》解释叙事方法：动画讲的是一家人的日常关系，机器人与飞行汽车只是世界中自然存在的环境。[00:41:17–00:42:22](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2477s) 观众先关心人，随后从人的生活感受到技术创造了什么条件。这就是 Jetsons 原则：先写人想完成什么、遇到什么困难，再说明技术移除了哪些障碍，以及人的行动和结果怎样变化。观众通过这个过程理解技术的用途。
 
+![两条叙事路径：易失信的路径以技术为主角，宣称“趋势不可阻挡”，人变成被动对象，只能上车或被淘汰；Jetsons 路径从人的目标与冲突出发建立情感入口，技术移除障碍、帮助人完成目标，人的行动与结果自然显示技术价值。](/images/video-notes/communication-strategy-direct-narrative/two-narrative-paths.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/standalone/communication-strategy-direct-narrative.pdf) 第 13 页图 5，根据视频 [00:34:26–00:35:25](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2066s)、[00:41:17–00:42:22](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2477s) 与 [00:47:16–00:47:55](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2836s) 整理。两行的主语不同：上一行的主语是技术，下一行的主语始终是人。*
+
 Shopify 案例把这套方法落到公司叙事。从小镇里想开果酱店的退休者到创建大规模品牌的团队，真正推动情节的是创业者自己的目标、行动与结果。Shopify 确实移除了基础设施障碍，但它不抢走人的故事主角位置。[00:46:28–00:47:50](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2788s)
 
 ## 真实性：寻找难以伪造的信号
 
 当模板化发布和付费互动让"成功的样子"变得容易复制，受众也更警觉。Meservey 的替代方案是"做无法伪造的事"：发布真正代表当前工作最好版本的内容，把传播建立在需要时间与相互承诺的关系上。[00:49:48–00:50:49](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2988s)
+
+![两条信任路径：可购买的表面指标（模板发布、可疑互动）被识别为操纵，动机受到怀疑，怀疑扩大到产品、团队和创始人；相关回应、长期关系、线下行动与持续推敲构成可追溯的投入（时间、在场、相互承诺），可信度逐步积累，但仍要接受事实检验。](/images/video-notes/communication-strategy-direct-narrative/two-trust-paths.png)
+
+*图 3：重绘，裁剪自本站[学习笔记 PDF](/pdfs/standalone/communication-strategy-direct-narrative.pdf) 第 15 页图 6，根据视频 [00:48:46–00:50:49](https://www.youtube.com/watch?v=DFImJfJGXl0&t=2926s) 与 [00:55:30–00:57:02](https://www.youtube.com/watch?v=DFImJfJGXl0&t=3330s) 整理。上一行的怀疑会扩散到产品之外，这也是下一段说受众不会只扣除那部分数据的原因。*
 
 这些行为并非逻辑上绝对不可伪造，但与购买账号相比，它们更依赖历史、声誉、在场和相互承担风险，复制成本高得多。可疑互动一旦被识别，受众可能不会只扣除那部分数据，而会重新解释"公司为何需要制造繁荣"，局部失真因此可能污染原本要积累的信誉。
 

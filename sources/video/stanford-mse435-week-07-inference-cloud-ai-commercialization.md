@@ -34,6 +34,13 @@ pdf_path: "stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf"
 
 自有算力成本拆分属于教学框架。资本、电力、运维和融资费用须折算到同一持有期间；只有未被折旧、残值等已列项目覆盖的额外淘汰损失才能另计，避免重复相加。本轮未独立审计企业成本，也不把课堂预测视为复核日的行业现状。
 
+## 2026-10-19 博客配图
+
+博客新增 2 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-07-inference-cloud-ai-commercialization/inference-platform-layers.png`：PDF 第 19 页图 8，根据视频 00:26:38–00:32:19 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-07-inference-cloud-ai-commercialization/post-training-loop.png`：PDF 第 14 页图 6，根据视频 00:16:38–00:18:28 整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-07-inference-cloud-ai-commercialization.md`

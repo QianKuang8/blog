@@ -70,6 +70,13 @@ pdf_path: "stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf"
 
 本轮核对课程材料中的机制与归因，不补充产品内部实现，也不把讲者在课堂上的产品陈述当作截至复核日的实现证明。
 
+## 2026-10-19 博客配图
+
+博客新增 2 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-06-enterprise-knowledge-intelligence/model-context-harness.png`：PDF 第 15 页图 9，根据视频 00:34:08–00:35:42 与 00:39:55–00:40:08 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-06-enterprise-knowledge-intelligence/enterprise-learning-loop.png`：PDF 第 5 页图 1，综合视频 00:05:07–00:05:40、00:23:57–00:29:17 与 00:35:43–00:40:08 整理，视频中没有这张整合图。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/stanford-mse435-week-06-enterprise-knowledge-intelligence.md`

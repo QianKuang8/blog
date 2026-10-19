@@ -70,6 +70,14 @@ pdf_path: "standalone/communication-strategy-direct-narrative.pdf"
 
 本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
 
+## 2026-10-19 博客配图
+
+博客新增 3 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/communication-strategy-direct-narrative/concentric-mobilization.png`：PDF 第 11 页图 3，根据视频 00:30:29–00:30:53 整理。
+- 图 2 `/images/video-notes/communication-strategy-direct-narrative/two-narrative-paths.png`：PDF 第 13 页图 5，根据视频 00:34:26–00:35:25、00:41:17–00:42:22 与 00:47:16–00:47:55 整理。
+- 图 3 `/images/video-notes/communication-strategy-direct-narrative/two-trust-paths.png`：PDF 第 15 页图 6，根据视频 00:48:46–00:50:49 与 00:55:30–00:57:02 整理。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/communication-strategy-direct-narrative.md`

@@ -31,6 +31,13 @@ pdf_path: "stanford-mse435/week-04-enterprise-ai-saas.pdf"
 
 博客中的 Amdahl 定律例子属于教学假设；30% 编码占比并非本案例工时统计。本轮核对课程理解，不把课堂经营数字更新为截至复核日的公司现状。
 
+## 2026-10-19 博客配图
+
+博客新增 2 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-04-enterprise-ai-saas/factory-electrification.png`：PDF 第 12 页图 5，根据视频 00:18:11–00:19:43 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-04-enterprise-ai-saas/durable-moats.png`：PDF 第 9 页图 3，根据视频 00:10:55–00:12:49 整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-04-enterprise-ai-saas.md`

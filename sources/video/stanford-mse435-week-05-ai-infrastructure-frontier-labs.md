@@ -39,6 +39,14 @@ pdf_path: "stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf"
 
 本次复核不等于对 OpenAI 容量、收入、内部性能或项目计划的独立审计。讲者的规模、推理占比与远期判断保留现场口径。
 
+## 2026-10-19 博客配图
+
+博客新增 3 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/power-scales-log.png`：PDF 第 10 页图 3，根据视频 00:14:02–00:15:25 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/workload-graphs.png`：PDF 第 12 页图 6，根据视频 00:18:05–00:21:17 整理。
+- 图 3 `/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/co-design-loop.png`：PDF 第 17 页图 10，根据视频 00:34:32–00:36:22 整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-05-ai-infrastructure-frontier-labs.md`

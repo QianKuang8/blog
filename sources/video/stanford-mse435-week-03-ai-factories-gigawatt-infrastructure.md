@@ -52,6 +52,13 @@ pdf_path: "stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf"
 
 本次只复核课程材料、设备说明与成本口径；未独立验证工程拓扑、实际合同、建设预算或项目回报。
 
+## 2026-10-19 博客配图
+
+博客新增 2 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure/energy-first-siting.png`：PDF 第 9 页图 6，根据视频 00:11:33–00:12:59 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure/closed-loop-cooling.png`：PDF 第 13 页图 9，根据视频 00:20:28–00:22:37 整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure.md`

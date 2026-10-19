@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-09-23T14:27:57+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: 'AI 基础设施的竞争单位：从名义算力到可交付智能的端到端系统'
 summary: "Sachin Katti 从算力交付时间、模型生命周期中的推理负载和 Agent 计算图出发，说明怎样把名义容量转成可用服务，并区分规划目标、即席估算与远期设想。"
 description: "解读 Stanford MS&E 435 Week 5：算力交付、供应链同步、智能体计算图、TTFT 与全栈瓶颈迁移、价值迁移"
@@ -41,9 +41,17 @@ Katti 把 1 GW 用约 50 万 GPU 的口头估算建立规模直觉。[00:08:43�
 
 他还区分了三种量级的算力扩张状态：30 GW 是讲者描述的愿景目标，约 100 GW 是他对美国 hyperscaler 规划的即席估算，7 TW 是“每人一块 GPU 等效智能”的思想实验。三者的状态和范围不同，可能存在重叠，不能相加成为已规划或已建成容量。
 
+![三种功率口径在对数刻度上的位置：30 GW 为愿景目标，100 GW 为即席估算，7000 GW（7 TW）为思想实验。](/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/power-scales-log.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf) 第 10 页图 3，根据视频 [00:14:02–00:15:25](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=842s) 整理。横轴是对数刻度，相邻刻度相差十倍；三个点的状态不同，不能相加。*
+
 ## 智能体计算图改变硬件需求
 
 当产品从"单次问答"变成"代理完成一个任务"，推理就从单次模型调用变成一张包含多次模型调用、工具执行、搜索和数据库查询的计算图。[00:17:36–00:27:29](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1056s)
+
+![三类工作负载：Chatbot 由用户请求经一次推理得到答案；Reasoner 经过多步推理；Agent 在推理之间调用工具、搜索、数据库或虚拟机环境，再进入新的推理并产出结果，反馈迭代按时间展开后可表示为有限 DAG。](/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/workload-graphs.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf) 第 12 页图 6，根据视频 [00:18:05–00:21:17](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1085s) 整理。Agent 一行多出的工具、数据库与环境节点是外部执行资源，计算特征与推理不同，这正是下文讨论异构计算的出发点。*
 
 Katti 引入"人的 flow"作为基础设施指标：如果用户正在连续工作，代理的响应延迟会打断这种状态。因此 TTFT（首 token 延迟）和端到端延迟不只是技术指标，而是产品体验指标。
 
@@ -60,6 +68,10 @@ TTFT 是请求发出到首个输出 token 出现的全部等待；prefill 是处
 课堂中的具体加速例子是 Cerebras 让输出 token 生成更快，随后应用和 API 中原本不起眼的延迟显现，团队需要继续优化其余层。[00:31:43–00:33:13](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1903s) 这直接支持 decode 加快后瓶颈迁移的观察；讲座没有提供 Cerebras 的 prefill 倍数或 TTFT 降幅，也没有规定每个系统都会沿同一顺序遇到瓶颈。
 
 他还讨论了模型-芯片-软件协同设计：让一代模型参与设计下一代基础设施。[00:33:13–00:36:22](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1993s) 这是一种递归优化——AI 辅助芯片设计和编译器优化可能加速整个迭代周期。
+
+![模型、芯片、系统与软件的协同设计闭环：当前模型的特征与工作负载参与芯片、系统和低层软件的协同设计，更适配的下一代算力更快上线，支撑下一代模型的训练与运行，目的是缩短模型需求与硬件交付之间的错配。](/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/co-design-loop.png)
+
+*图 3：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf) 第 17 页图 10，根据视频 [00:34:32–00:36:22](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=2072s) 整理。讲座没有量化自动化率或周期缩短幅度，闭环只表示依赖方向。*
 
 ## 沿任务路径寻找当前约束
 

@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
-lastmod: '2026-09-23T14:27:57+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: '从电子到 Token：吉瓦级 AI 工厂的物理约束与经济回报'
 summary: "AI 产品看起来是聊天框或 API，但每次训练与推理都要经过芯片、电力、冷却、建筑和网络。这场 Stanford 课堂用 Crusoe 的 Abilene 项目，把数据中心从抽象 CapEx 数字拆成能源选址、设备堆叠、互联集群和 token 服务的完整物理链。"
 description: "解读 Stanford MS&E 435 Week 3：吉瓦级 AI 工厂的能源选址、CapEx 堆叠、算力经济寿命与从基础设施出租到 token 服务的商业模式演进"
@@ -36,6 +36,10 @@ Crusoe 的垂直整合覆盖能源获取、电力基础设施、数据中心建�
 
 Lochmiller 的核心选址逻辑是 energy-first：不是先选城市再拉电力，而是先找到电力供给过剩、价格低甚至出现负价的地方，再把数据中心建在那里。[00:10:00–00:13:16](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=600s) 他的原话是"搬数据比搬电便宜"——光纤传输数据的成本远低于输电线传输电力的损耗和建设成本。
 
+![Energy-first 选址示意：在富余或受输电约束的能源旁就地建设数据中心，共置计算，再通过网络输出数据与结果；下方虚线标出远距离“搬电”受约束。](/images/video-notes/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure/energy-first-siting.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf) 第 9 页图 6，根据视频 [00:11:33–00:12:59](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=693s) 整理。实线上搬运的是数据，虚线代表被绕开的长距离输电。*
+
 Abilene（得克萨斯）项目是主要案例：该地区可再生能源供给过剩、电价一度为负，Crusoe 从 200 MW 起步，按讲者当时介绍的规划扩展到 2.1 GW。[00:13:16–00:18:32](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=796s) 八栋建筑通过高速互联形成一个统一集群，而不是八个独立机房。
 
 ## 配电、冷却与可靠性各自解决什么
@@ -43,6 +47,10 @@ Abilene（得克萨斯）项目是主要案例：该地区可再生能源供给�
 在算成本之前，先要分清设备职责。PDC（配电中心）组织配电，变压器改变电压，开关设备控制和保护回路，UPS 在中断时短时支撑关键负载。字幕先出现 34.5 kV，后续又出现 345 kV，课件没有足够的电压标注消解冲突，因此只能保留设备分工，不能据此画出已确认的完整电压拓扑。[00:19:35–00:20:28](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=1175s)
 
 冷却则是另一条循环：水进入 GPU 机架吸热，经管路流向冷机，把热排到空气后再返回；CDU 负责冷却液向机架的分配。这里要区分系统首次充水与每年新增用水。讲者称每栋建筑首次约需 100 万加仑水，闭环运行后的年度补水很低；这不能缩写为数据中心“零用水”。[00:20:28–00:22:37](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=1228s)
+
+![闭环冷却示意：冷水进入机架，经 GPU 与 CDU 吸热和分配，升温水离开机架，由风冷冷机与盘管把热排到空气，再回到机架。](/images/video-notes/stanford-mse435-week-03-ai-factories-gigawatt-infrastructure/closed-loop-cooling.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-03-ai-factories-gigawatt-infrastructure.pdf) 第 13 页图 9，根据视频 [00:20:28–00:22:37](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=1228s) 整理。讲座没有给出流量、温度或 PUE；图只说明水在闭环中循环，热量排到空气里。*
 
 备电也有优先级。讲者描述部分备电优先保护存储和网络，使计算暂停后仍能读取 checkpoint、迁移和恢复工作负载。它说明如何按恢复价值配置可靠性，没有给出整个园区经过测量的可用率。[00:22:04–00:23:45](https://www.youtube.com/watch?v=GcCGzfKdCd0&t=1324s)
 

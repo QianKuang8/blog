@@ -44,6 +44,13 @@ pdf_path: "stanford-mse435/week-01-generative-ai-economics.pdf"
 
 这些改动核对的是本地课程材料和算术，不构成对市场规模、公司财务或广告预测的独立审计，也不把课堂估计更新成修订日的实时数据。
 
+## 2026-10-19 博客配图
+
+博客新增 2 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-01-generative-ai-economics/conversational-ads.png`：PDF 第 18 页图 10，根据视频 00:33:04–00:33:21 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-01-generative-ai-economics/value-migration-loop.png`：PDF 第 20 页图 11，由编者综合全讲整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-01-generative-ai-economics.md`
