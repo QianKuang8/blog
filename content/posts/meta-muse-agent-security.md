@@ -1,6 +1,6 @@
 ---
 date: '2026-09-28T15:38:42+08:00'
-lastmod: '2026-09-28T15:42:15+08:00'
+lastmod: '2026-10-19T11:08:10+08:00'
 title: 'Meta Muse 的 Agent 安全架构：隔离执行、独立授权与凭证保护'
 summary: "Muse 把执行环境、凭证和授权拆到不同的安全边界中。沿着一次工具调用，理解 Sentinel、凭证替身、污染出网与浏览器限制如何共同约束 Agent，以及这些机制仍然依赖哪些前提。"
 description: "解读 Meta Muse 的 runtime cell、Sentinel 授权、凭证替身、tainted egress 和浏览器防护，分析个人 Agent 的权限边界与工程取舍。"
@@ -22,6 +22,10 @@ Muse 为每位用户提供独立的 Linux 云端虚拟机。虚拟机内部又�
 Agent harness、工作区和它执行的工具位于 `systemd-nspawn` 容器，原文称为 **runtime cell**。这个执行单元拥有独立根文件系统和虚拟网络接口，但容器里的 root 映射为宿主侧的非特权用户。系统还过滤部分系统调用，移除 `CAP_SYS_PTRACE`、`CAP_NET_ADMIN` 等能力。因此，Agent 可以在自己的环境里编写工具，却没有随之获得修改宿主安全服务的权限。
 
 安全分类器、凭证服务 `authd`、连接器 worker 和授权服务 Sentinel 都运行在 cell 外。跨域通信使用 Unix domain socket，通过 `SO_PEERCRED` 获取内核提供的对端身份，再执行访问控制。这让进程身份成为权限判断依据，减少依靠可被复制的共享秘密来识别调用方。
+
+![Muse 系统架构：用户界面与审批通道在左，中间是用户虚拟机，内含隔离的 runtime cell 与 cell 外的分类器、凭证存储、Sentinel 等宿主侧服务，右侧是模型推理和外部服务。](/images/meta-muse-agent-security/muse-architecture.png)
+
+*图 1：原图，来源：[How We Built Safety Into Muse](https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse)。中间虚线框是 runtime cell，Agent 与工具都在框内；凭证、分类器和 Sentinel 在框外，跨越边界的请求都要经过它们。图中文字较小，可点击查看原图。*
 
 这层结构的意义是：把“Agent 可能被恶意内容说服”作为设计前提。即使它开始提出危险动作，负责限制动作的组件仍位于另一侧。
 

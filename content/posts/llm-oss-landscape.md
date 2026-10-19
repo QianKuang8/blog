@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
-lastmod: "2026-09-21T10:22:23+08:00"
+lastmod: '2026-10-19T11:08:10+08:00'
 title: "Agentic AI Landscape：用三层地图定位项目"
 summary: "这份生态索引以 Agent Infra、Model Infra 和 Large Models 组织代表项目。本文说明三层各回答什么问题，以及如何从图谱继续找到项目资料，而不把入选位置当成质量排名。"
 description: "基于 2026 年 6 月归档的 Agentic AI Landscape README，介绍生态地图的范围与使用方式。"
@@ -19,6 +19,18 @@ learning_status: done
 ## 三层分别描述什么
 
 Agent Infra 包括应用、框架、运行时和工具生态，关注模型怎样被组织起来完成任务。Model Infra 覆盖数据、训练、模型服务和部署，关注模型怎样被构建并运行。Large Models 则描述为上层提供能力的模型基础。
+
+![Agent Infra Landscape 2026：按应用、框架、运行时、工具等类别排列的代表性开源项目图标。](/images/llm-oss-landscape/agent-infra-landscape-2026.png)
+
+*图 1：原图，来源：[Agentic AI Landscape](https://github.com/antgroup/llm-oss-landscape)。三张图依次对应本节的三层，图中只收录各类别中较有代表性的项目。图片较大，可点击查看原图。*
+
+![Model Infra Landscape 2026：数据、训练、模型服务与部署等类别的代表性开源项目。](/images/llm-oss-landscape/model-infra-landscape-2026.png)
+
+*图 2：原图，来源同上。Model Infra 一层。*
+
+![Large Models Landscape 2026：各机构发布的代表性开源大模型。](/images/llm-oss-landscape/large-models-landscape-2026.jpg)
+
+*图 3：原图，来源同上。Large Models 一层。*
 
 这三层能帮助区分看起来都带有“Agent”标签的项目。例如，执行工具的运行时与承载模型推理的服务引擎，可能出现在同一个系统中，却承担不同职责。前者需要管理行动过程，后者需要处理推理请求，通常不能因为都属于基础设施就直接互换。
 

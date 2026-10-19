@@ -1,6 +1,6 @@
 ---
 date: '2026-05-07T21:12:00+08:00'
-lastmod: "2026-09-21T10:14:43+08:00"
+lastmod: '2026-10-19T11:08:10+08:00'
 title: "Deep Agents 提分：从失败轨迹调整 Harness"
 summary: "固定 gpt-5.2-codex 后，LangChain 通过退出前验证、环境注入和推理预算调整，将 Terminal Bench 2.0 得分从 52.8 提升到 66.5。本文沿失败模式解释这些干预，并保留评测与归因边界。"
 description: "解读 Deep Agents 的 trace 分析、中间件干预、验证循环与分阶段推理预算。"
@@ -22,11 +22,19 @@ Agent 写出一个看似合理的方案后，重新读一遍代码便结束，�
 
 他们还把轨迹分析做成 Skill：获取实验 trace，派多个 Agent 分析错误，再汇总模式和修改建议。关注点包括推理错误、不遵守指令、缺少验证和超时。这样的外循环让改动能对应到重复出现的现象。
 
+![Trace Analyzer Skill：从 LangSmith 拉取实验 trace，分批交给并行的子 Agent 分析错误，主 Agent 汇总发现，再由人审核，决定下一轮实验的修改。](/images/improving-deep-agents-with-harness-engineering/trace-analyzer-skill.png)
+
+*图 1：原图，来源：[Improving Deep Agents with harness engineering](https://blog.langchain.com/improving-deep-agents-with-harness-engineering/)。三步依次是获取 trace、并行分析、人工审核；人仍然决定哪些建议进入下一轮实验。*
+
 作者将过程类比为 boosting，因为下一轮会关注之前做错的样本。这只是优化思路的类比，模型权重并未因此更新。人工参与建议审查仍有价值：针对某道题添加提示可能改善该题，却让其他任务回退，所以修复还要回到整组评估。
 
 ## 在准备结束时补上验证机会
 
 团队先在提示中明确规划、构建、验证、修复的流程，要求检查任务规范、运行测试并阅读完整输出。随后用 `PreCompletionChecklistMiddleware` 在 Agent 退出前注入检查提示，让它再对照原始任务验证。
+
+![Agent 单次运行内的自我验证：构建方案，对照任务规范运行测试，根据错误修正，循环直到正确。](/images/improving-deep-agents-with-harness-engineering/self-verification-loop.png)
+
+*图 2：原图，来源同上。中间一步是“对照规范并运行测试”，而不是重读自己的代码；退出前的检查提示就是为了让 Agent 回到这一步。*
 
 两个位置各有用途。初始提示建立预期行为，退出钩子在即将交付时再次提供约束。钩子触发是确定性的，但模型是否执行了充分验证、测试是否覆盖目标，仍需要观察。它增加了检查机会，并不构成一个能够证明代码正确的自动裁决器。
 
@@ -43,6 +51,10 @@ Agent 写出一个看似合理的方案后，重新读一遍代码便结束，�
 ## 推理预算为什么不能一直开到最高
 
 在有超时的任务里，更多推理会挤占工具执行与验证时间。原文报告，全程 `xhigh` 得分为 53.9%，全程 `high` 为 63.6%，前者受到超时影响。团队随后采用 `xhigh-high-xhigh`，把较高预算分配给早期规划和后期验证，最终达到 66.5%。
+
+![推理三明治：按时间预算，前 25% 用 xhigh 推理做规划与理解，中间 50% 用 high 推理构建和迭代，最后 25% 用 xhigh 推理做最终验证。](/images/improving-deep-agents-with-harness-engineering/reasoning-sandwich.png)
+
+*图 3：原图，来源同上。两端的高推理预算分给规划和最终验证，中间的构建阶段用较低预算，给工具执行留出时间。*
 
 这组结果的含义是预算需要与任务阶段和运行限制一起看。作者同时说明，不同阶段预算分配方案在试验中的差异不大。因此，不能将这个“reasoning sandwich”写成已被证明普适最优的调度策略。
 

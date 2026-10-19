@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T14:30:00+08:00'
-lastmod: "2026-09-21T10:11:09+08:00"
+lastmod: '2026-10-19T11:08:10+08:00'
 title: "Aider Unified Diff：编辑格式与补丁容错如何减少代码省略"
 summary: "Aider 在 89 个 Python 重构任务上比较编辑格式，并通过简化 diff、扩大语义块和容错应用减少失败。本文解释具体机制，也保留评测未验证完整行为等价性的限制。"
 description: "解读 Aider 2023 年的 Unified Diff 实验、补丁应用策略及基准边界。"
@@ -23,6 +23,10 @@ learning_status: done
 基准检查修改后的文件能否解析、目标函数是否移到顶层、函数的 AST 节点数量是否大致保留，以及原类是否相应缩小。它适合发现代码被注释替代或大段内容丢失，但作者明确说明，这不是严格的重构正确性证明。结构符合预期，不等于每个调用关系和运行行为都已验证。
 
 在这个基准上，`gpt-4-1106-preview` 使用旧 SEARCH/REPLACE 格式的得分是 20%，新方案达到 61%；出现省略性注释的任务从 12 个降到 4 个。标题中的“3 倍”对应后一个计数变化，不应转述为所有代码任务的能力提升三倍。
+
+![重构“懒惰”基准柱状图：gpt-4-1106-preview 使用 SEARCH/REPLACE 格式为 20%，加上“看不见、没有手、给小费”等提示后为 16%；使用 unified diff 为 61%，加上同类提示后为 49%。](/images/aider-unified-diffs/laziness-benchmark.svg)
+
+*图 1：原图，来源：[Unified diffs make GPT-4 Turbo 3X less lazy](https://aider.chat/2023/12/21/unified-diffs.html)。格式本身带来的提升（20% → 61%）远大于提示技巧；附加的情绪化提示在两种格式下反而都降低了得分。*
 
 ## 保留熟悉的 diff，去掉脆弱的行号
 

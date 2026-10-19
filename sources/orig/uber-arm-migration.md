@@ -6,4 +6,10 @@ description: "In February 2023, Uber embarked on a strategic journey: migrating 
 retrieved_at: "2026-09-21T10:14:01+08:00"
 extractor: "defuddle"
 related_sources: ["uber-arm-migration-transition"]
+image_sources:
+  - title: "Figure 1: Goal state driven system for automating the adoption process"
+    path: "/images/uber-arm-migration/goal-state-adoption.png"
+    source_url: "https://tb-static.uber.com/prod/udam-assets/58e7c266-d69d-58db-a4a6-05dec83a832d.png"
+    method: "原图文件，未改动；来自第二篇文章 Figure 1"
+    retrieved_at: "2026-10-19T11:08:10+08:00"
 ---

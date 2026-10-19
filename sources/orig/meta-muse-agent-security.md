@@ -8,4 +8,10 @@ published_at: '2026-09-08'
 retrieved_at: '2026-09-28T15:40:57+08:00'
 extractor: defuddle+browser-verified
 extraction_note: Initial defuddle requests failed during a network issue. After user-approved browser verification and network recovery, defuddle successfully extracted the full text. The architecture image omitted by the extractor was restored from its browser DOM URL. Site navigation and footer omitted.
+image_sources:
+  - title: "Muse system architecture"
+    path: "/images/meta-muse-agent-security/muse-architecture.png"
+    source_url: "https://research.meta.ai/articles/security-and-safety-for-ai-agents-our-approach-with-hatch/system-architecture-v3.png"
+    method: "原图文件，未改动"
+    retrieved_at: "2026-10-19T11:08:10+08:00"
 ---
