@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T15:30:00+08:00'
-lastmod: '2026-09-21T10:23:48+08:00'
+lastmod: '2026-10-19T19:55:22+08:00'
 title: "用 HTML 承接 Agent 输出：阅读、交互与结果回传"
 summary: "从 Claude Code 团队成员的 HTML 实践出发，讨论复杂方案怎样通过布局与交互帮助判断，操作结果怎样导回 Agent，以及生成与版本维护的成本。"
 description: "从 Claude Code 团队的 HTML 实践看 coding agent 输出格式的演进方向"
@@ -20,6 +20,10 @@ Agent 已经写出完整方案，读者却很难快速比较选项或指出要�
 
 原文从一个阅读问题出发：模型能写越来越长的 spec 和 plan，但作者发现自己和同事很难认真阅读超过百行的 Markdown。这里的百行是个人体验，没有构成普遍的阅读阈值。
 
+![同一份支付服务 spec 的两种形式：左侧 Markdown 有 240 行，需要滚动阅读；右侧 HTML 分成概览、API、上线等标签页，并用卡片和柱状图展示延迟目标与各区域流量。](/images/claude-code-unreasonable-effectiveness-html/markdown-vs-html-spec.jpg)
+
+*图 1：原图，来源：[The Unreasonable Effectiveness of HTML](https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html)。内容相同，HTML 把目标、关键数字和待解决问题放在一屏内，读者不用从头滚到尾。*
+
 HTML 给出的额外空间，是把不同关系直接表达出来。CSS 可以并排放置多个方案，SVG 可以连接状态或数据流，导航和折叠可以控制读者一次看到多少信息。Markdown 也能表达表格、链接和图片；差别在于复杂布局和交互是否需要额外的呈现层。
 
 例如，原文建议把六种 onboarding 方案放在同一页面比较，并标明各自的取舍。对这类任务，读者需要在不同方案之间来回查看；并排布局可能比六段顺序描述更容易保持比较维度。但如果问题只需要一个命令或一段说明，页面布局也可能成为额外负担。
@@ -31,6 +35,10 @@ HTML 给出的额外空间，是把不同关系直接表达出来。CSS 可以�
 原文更有特点的用法，是为一次任务生成临时编辑界面。比如把 30 个 Linear ticket 放进可拖拽的栏目，调整按钮动画参数，或在左右分栏中编辑 prompt 并预览样例输入。
 
 这些例子的共同过程是：Agent 整理初始数据，人在界面里作选择，再把选择导出成 JSON、Markdown、参数或新的 prompt，交回 Agent。导出让操作成为明确输入；只有一张可以拖动却不能取回结果的页面，协作仍会停在中间。
+
+![在浏览器里调节悬停动画的时长、缩放、阴影和缓动参数，点击“Copy as prompt”，把参数粘贴回 Claude Code，由它更新真实组件。](/images/claude-code-unreasonable-effectiveness-html/tune-then-paste-back.jpg)
+
+*图 2：原图，来源同上。关键是左下角的“Copy as prompt”：页面上的调节结果被导出成明确的参数，再交回 Agent 修改代码。*
 
 由此可以提出三项检查：导出内容是否反映页面的最终状态，字段是否足以让下一步继续，以及 Agent 是否理解哪些选项已被确认。这些是根据原文用例整理的验收问题，不能假定所有生成页面都已经实现。
 
