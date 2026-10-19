@@ -1,6 +1,6 @@
 ---
 date: '2026-09-16T11:17:00+08:00'
-lastmod: '2026-09-16T11:22:05+08:00'
+lastmod: '2026-10-19T19:55:22+08:00'
 title: 'Claude Platform 成本优化：缓存、指令与 effort 如何配合'
 summary: "从 Anthropic 的成本优化文章出发，理解缓存复用、提示词审计和 effort 调整分别改变什么，以及怎样判断节省是否来自有效优化。"
 description: "围绕 Claude Platform 的缓存、指令与 effort，梳理任务成本的来源、评估方法和适用边界。"
@@ -38,6 +38,10 @@ Lance Martin 在 Anthropic 的[这篇文章](https://claude.com/blog/reducing-co
 
 Claude 的缓存按 `tools → system → messages` 的顺序覆盖前缀。文档明确区分缓存写入、缓存读取和普通输入；在响应的 `usage` 中，`input_tokens` 只表示未进入前两类的输入，不能单独当作全部输入量。评估缓存时，应一起记录这三部分。[缓存文档](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance)
 
+![按稳定程度排列的提示布局：系统指令和工具全局缓存，CLAUDE.md 与记忆按项目缓存，会话状态按会话缓存，消息每轮增长。](/images/reducing-cost-and-improving-performance-with-claude-platform/stable-prefix-layout.png)
+
+*图 1：原图，来源：[Reducing cost and improving performance with Claude Platform](https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform) Figure 2。越往下变化越频繁，动态内容只追加在稳定前缀之后。*
+
 稳定内容放在前面之后，还要确认它确实被写入过缓存。显式断点标记写入的位置；自动缓存则随对话增长移动断点。一个容易忽略的边界是：缓存查找寻找此前写入的前缀，不会因为某段文字保持稳定，就自动替它建立可命中的缓存。[断点机制](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#structuring-your-prompt)
 
 时间同样影响复用。默认缓存有效期为 5 分钟，命中会刷新有效期，计时从请求开始算起。生成回复和等待工具都会消耗这段时间；1 小时缓存可以覆盖更长间隔，但写入更贵。[缓存有效期](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
@@ -48,6 +52,10 @@ Claude 的缓存按 `tools → system → messages` 的顺序覆盖前缀。文�
 
 原文给出的客服实验，是在干净提示词中分别植入六类旧指令问题，再比较模型迁移前后的表现。清理后，作者报告平均成本下降 14.6%，准确率提高 5.3%。这个结果来自特定实验，不能直接当作其他应用的收益预期。[原文实验](https://claude.com/blog/reducing-cost-and-improving-performance-with-claude-platform)
 
+![模型迁移与提示词审计：Opus 4.8 旧提示词每单 2.52 美分、准确率 89.4%；直接升级到 Opus 5 为 3.43 美分、91.7%；经 prompt-audit 清理后为 2.93 美分、97.0%。](/images/reducing-cost-and-improving-performance-with-claude-platform/prompt-audit-migration.png)
+
+*图 2：原图，来源同上 Figure 3。只换模型时成本和准确率都上升；审计旧指令这一步再把成本降回 0.49 美分，并把准确率提高 5.3 个百分点，对应正文的 14.6% 与 5.3%。*
+
 官方成本指南解释了背后的机制：为旧模型补弱项而加入的固定检查、强制步骤和过度详尽要求，可能被新模型严格执行，带来额外工具轮次与输出。[提示词审计](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence#audit-prompts-against-the-current-model)
 
 这里需要区分业务约束和实现习惯。以一个假设的退款流程为例，“退款前核对金额与权限”有明确的业务目的；“不论情况如何都重复查询两次”则需要证明第二次查询增加了什么证据。审计时可以保留前者，再通过失败样例判断后者是否仍然必要。
@@ -57,6 +65,10 @@ Claude 的缓存按 `tools → system → messages` 的顺序覆盖前缀。文�
 ## effort 要放进任务评估中比较
 
 Effort 控制模型投入多少工作，会影响推理和工具使用，不能简单理解为最终回答的字数限制。例如，当前文档特别说明，Opus 5 的 effort 调整并不可靠地缩短可见回复；需要短答案时，仍应明确长度要求。[Effort 文档](https://platform.claude.com/docs/en/build-with-claude/effort)
+
+![Fable 5 在 FrontierCode Diamond 上各 effort 档位的得分与单任务平均成本：low 为 11.5%、5.35 美元，max 为 30.9%、19.00 美元，提升 19.4 个百分点，成本约为 3.5 倍。](/images/reducing-cost-and-improving-performance-with-claude-platform/effort-cost-curve.png)
+
+*图 3：原图，来源同上 Figure 4。xhigh 之后曲线明显变平：从 xhigh 到 max 成本继续增加，得分只小幅上升，这正是需要按任务比较档位的原因。*
 
 比较不同档位时，还要控制缓存条件。官方指南建议用不同会话测试，因为会话中修改顶层 effort 会干扰缓存，进而扭曲比较。部分模型支持通过消息调整 effort 并保留前缀，但有具体的模型与 beta 接口条件，不能推广为任意配置切换都不影响缓存。[评估建议](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort)；[会话中调整 effort](https://platform.claude.com/docs/en/build-with-claude/effort#change-effort-mid-conversation)
 

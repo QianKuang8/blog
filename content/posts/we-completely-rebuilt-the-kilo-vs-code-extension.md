@@ -1,6 +1,6 @@
 ---
 date: '2026-04-09T23:28:00+08:00'
-lastmod: "2026-09-21T10:14:36+08:00"
+lastmod: '2026-10-19T19:55:22+08:00'
 title: "Kilo 扩展重构：共享执行核心与并行任务管理"
 summary: "Kilo 将 VS Code 扩展迁到与 CLI 共用的 OpenCode server 核心。本文区分工具并发、子 Agent 委派和 worktree 会话，说明审查反馈如何回到执行过程，以及预发布阶段仍有哪些限制。"
 description: "解读 Kilo VS Code 扩展预发布重构中的共享核心、并发组织和行级审查。"
@@ -30,6 +30,10 @@ learning_status: done
 
 并行工具调用用于同时执行多个独立动作，例如读取文件或搜索，从而缩短串行等待。子 Agent 委派则把较大的任务拆成局部工作，由执行者保留自己的过程，再将结果汇总给主 Agent；原文举了实现、测试与文档分工，也允许自定义子 Agent。
 
+![Kilo 的 Orchestrator 读完计划后，同时派出三个 General Agent，分别更新英语、西班牙语和葡萄牙语页面。](/images/we-completely-rebuilt-the-kilo-vs-code-extension/parallel-subagents.png)
+
+*图 1：原图，来源：[Kilo Code VS Code 扩展重构公告](https://blog.kilo.ai/p/we-completely-rebuilt-the-kilo-vs-code-extension)。三个子 Agent 各自保留读取和编辑过程，主 Agent 只需汇总结果。*
+
 Agent Manager 的多个标签页则代表独立会话。用户可以给不同会话分配不同任务，或用同一个提示比较不同模型的结果。这些会话的组织与子 Agent 的内部调度处在不同层，不意味着所有标签页都会由某个主 Agent 自动合并。
 
 并行的收益还取决于依赖关系。彼此等待同一项输出的任务，无法仅靠同时启动而消除等待；多个执行者修改重叠内容，还会引入协调工作。因此，原文的速度描述应视为产品方说明，文章没有提供统一负载下的对照数据。
@@ -37,6 +41,10 @@ Agent Manager 的多个标签页则代表独立会话。用户可以给不同会
 ## Worktree 隔离修改，合并仍需处理
 
 为避免多个会话在同一个工作目录里相互覆盖，Agent Manager 支持创建 Git worktree。每个 Agent 可以在独立工作区处理任务，完成后再应用变更、提交或创建 PR。
+
+![Agent Manager 的 worktree 列表：New API、Refactor auth、Write tests 三个任务各有独立 worktree，右侧显示当前分支、基准分支、会话数和改动行数。](/images/we-completely-rebuilt-the-kilo-vs-code-extension/agent-manager-worktrees.png)
+
+*图 2：原图，来源同上。每个任务一个 worktree，改动互不覆盖；完成后仍要逐个应用、提交或创建 PR。*
 
 这让并发修改更容易组织，但隔离工作区不等于自动解决语义冲突。两个任务即使没有改到同一行，也可能对同一个接口作出不兼容假设。因而原文描述的完成流程中仍有结果合并与审查，不能把 worktree 简化为“多个 Agent 无需协调”。
 

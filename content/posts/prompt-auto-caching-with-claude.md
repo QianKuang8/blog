@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: "2026-09-21T10:22:33+08:00"
+lastmod: '2026-10-19T19:55:22+08:00'
 title: "Claude Auto-Caching：怎样复用 Agent 的稳定上下文"
 summary: "Prompt caching 复用相同前缀的计算，auto-caching 则随对话增长移动缓存断点。本文区分请求历史、缓存读写与自动断点，说明怎样判断长会话是否获得实际收益。"
 description: "解读 Claude prompt auto-caching 的前缀复用、缓存断点与上下文布局。"
@@ -20,6 +20,10 @@ Lance Martin 的 [《Prompt auto-caching with Claude》](https://x.com/RLanceMar
 
 原文以 Claude Messages API 为例说明，API 不会替应用自动保留全部行动历史。Harness 仍需把过去消息、工具说明和新反馈组织成下一次请求。Prompt cache 并不代替这个状态管理职责。
 
+![第 N 轮把上下文发给 Claude；第 N+1 轮重新发送完整的旧上下文，再加上新内容。](/images/prompt-auto-caching-with-claude/turn-n-vs-n-plus-1.jpg)
+
+*图 1：原图，来源：[Prompt auto-caching with Claude](https://x.com/RLanceMartin/status/2024573404888911886)。API 本身不保存历史，每一轮都要重发旧上下文；缓存省掉的是对这段相同前缀的重复计算。*
+
 它复用的是对相同输入前缀已经完成的计算。推理通常包含处理输入的 prefill 和逐步生成输出的 decode；如果新请求开头与之前一致，prefill 中对应部分就有机会复用。模型仍要处理新增材料，也仍需生成新的输出。
 
 因此，缓存命中不能理解为“模型已经记住了，不用再传历史”，也不意味着返回同一个答案。它改变相同前缀的处理成本，后续输入和生成过程仍可以不同。这一区别有助于把应用记忆、请求构造和底层缓存分别设计。
@@ -35,6 +39,10 @@ Lance Martin 的 [《Prompt auto-caching with Claude》](https://x.com/RLanceMar
 ## Auto-caching 自动处理什么
 
 手动使用断点时，随着对话增长，开发者需要决定新的写入位置。原文介绍的 auto-caching 允许在请求级提供一个 `cache_control` 参数，让断点移动到请求中最后一个可缓存块；它也能与明确设置的块级断点配合。
+
+![三轮对话的缓存示意：每轮在末尾追加新的动作和观察，断点随之向后移动，前一轮断点之前的内容命中缓存。](/images/prompt-auto-caching-with-claude/breakpoint-advance.png)
+
+*图 2：原图，来源同上。断点每轮下移一段，绿色虚线框内是上一轮已缓存、本轮直接复用的前缀；auto-caching 自动完成的就是这一步。*
 
 自动化的是断点推进，不是任意历史改写后的语义对齐。如果每轮重排消息或修改早期内容，系统不会因为开启 auto-caching 就把两个不同前缀视为相同。应用仍要决定哪些信息长期稳定，哪些以新消息追加。
 
