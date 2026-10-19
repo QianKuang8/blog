@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: "2026-09-21T10:24:32+08:00"
+lastmod: '2026-10-19T20:20:27+08:00'
 title: "拆解 skill-creator：分别验证触发、产物与改进效果"
 summary: "Riba 对 skill-creator 的拆解展示了两条评估线：技能能否被正确触发，以及加载后是否改善产物。本文解释基线、断言、盲评和描述优化怎样配合，也指出评分不能覆盖全部质量。"
 description: "解读 2026 年 2 月版 skill-creator 的任务评估、基准比较、描述优化与人工反馈。"
@@ -21,6 +21,10 @@ learning_status: done
 流程从任务意图开始：Skill 做什么，哪些请求应该触发，最终输出是什么，适合怎样验收。可客观检查的表单填写与主观写作风格，需要不同评价方式，不能都简化成相同通过率。
 
 初稿产生后，每个样例至少有两组执行：新 Skill 与不使用 Skill 的基线；修改旧 Skill 时，也可以用旧版比较。各组保存独立产物、执行记录、耗时与 token 用量。
+
+![skill-creator 工作流：从用户意图开始，经结构化访谈（Capture Intent）、撰写 SKILL.md 初稿，并发执行 with_skill 与 baseline 测试，三层评估并聚合基准，生成交互式仪表板；用户有修改意见时分析反馈、重写 Skill 并重新测试，全部满意后进入描述优化循环，最后打包为 .skill 文件。](/images/anthropic-skill-creator-breakdown/skill-creator-workflow.png)
+
+*图 1：原页面图表截图，来源：[Riba 的 skill-creator 拆解](https://blog.riba2534.cn/blog/2026/%E6%8B%86%E8%A7%A3anthropic%E7%9A%84skill-creator-ai-agent%E7%9A%84%E6%8A%80%E8%83%BD%E5%B7%A5%E5%8E%82%E6%98%AF%E6%80%8E%E4%B9%88%E8%BF%90%E8%BD%AC%E7%9A%84/)，为原文 Mermaid 流程图的渲染结果。“Spawn Test Runs”一格同时执行 with_skill 与 baseline；用户提出修改意见后回到这一步重跑，全部满意才进入描述优化与打包。*
 
 基线用于回答“新增说明带来了什么”。如果不用 Skill 也能完成，新增包可能只是增加成本；如果两组都失败，则需要继续判断是需求、输入、工具还是模型能力的问题。单看新版本某次成功，无法分离这些因素。
 
