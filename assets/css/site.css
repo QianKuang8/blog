@@ -184,6 +184,7 @@ p { text-wrap: pretty; }
 .prose th { background: var(--surface); font-size: 13px; }
 .prose img { display: block; margin: 28px auto 12px; height: auto; }
 .prose img[src$=".svg"] { background: #fff; }
+.prose a.bc-image-link { display: block; text-decoration: none; cursor: zoom-in; }
 .prose figure { margin: 28px 0; }
 .prose figcaption, .prose p:has(> em:only-child) { font-size: 14px; color: var(--muted); line-height: 1.7; }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 35px 0; }

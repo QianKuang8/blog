@@ -97,6 +97,14 @@ class LocalReferenceTests(SiteFixture):
         self.write("posts/one/index.html", '<a href="/blog/pdfs/missing.pdf">PDF</a>')
         self.assertIn("target does not exist", "\n".join(self.failures()))
 
+    def test_every_srcset_candidate_must_exist(self):
+        self.write("images/a.png", "png")
+        self.write("images/a_720.webp", "webp")
+        self.write("posts/one/index.html", '<img src="/blog/images/a_720.webp" srcset="/blog/images/a_720.webp 720w, /blog/images/a_1440.webp 1440w">')
+        failures = self.failures()
+        self.assertEqual(len(failures), 1)
+        self.assertIn("img[srcset] target does not exist: /blog/images/a_1440.webp", failures[0])
+
     def test_relative_reference_must_keep_the_site_path(self):
         self.write("posts/one/index.html", '<a href="/pdfs/file.pdf">PDF</a>')
         self.assertIn("outside the site path", "\n".join(self.failures()))

@@ -1,14 +1,40 @@
+{{- /* Raster images under static/images are also mounted as assets: the article shows
+  WebP copies sized for the 720px column (1x and 2x), while the link keeps the
+  untouched original file. */ -}}
 {{- $src := .Destination -}}
 {{- $url := urls.Parse $src -}}
+{{- $image := false -}}
+{{- $local := false -}}
 {{- if not $url.IsAbs -}}
   {{- with .Page.Resources.Get (strings.TrimPrefix "./" $url.Path) -}}
+    {{- $image = . -}}
+    {{- $local = true -}}
     {{- $src = .RelPermalink -}}
     {{- with $url.RawQuery }}{{ $src = printf "%s?%s" $src . }}{{ end -}}
     {{- with $url.Fragment }}{{ $src = printf "%s#%s" $src . }}{{ end -}}
   {{- else -}}
     {{- if and (hasPrefix $src "/") (not (hasPrefix $src "//")) (not (hasPrefix $src site.Home.RelPermalink)) -}}
+      {{- with resources.Get (strings.TrimPrefix "/" $url.Path) }}{{ $image = . }}{{ end -}}
+      {{- $local = true -}}
       {{- $src = relURL (strings.TrimPrefix "/" $src) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
-<img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- $display := dict "src" $src -}}
+{{- if and $image (eq $image.ResourceType "image") (in (slice "png" "jpeg" "webp") $image.MediaType.SubType) -}}
+  {{- $widths := slice -}}
+  {{- if gt $image.Width 720 }}{{ $widths = $widths | append 720 }}{{ end -}}
+  {{- $widths = $widths | append (cond (gt $image.Width 1440) 1440 $image.Width) -}}
+  {{- $candidates := slice -}}
+  {{- $largest := $image -}}
+  {{- range $widths -}}
+    {{- $largest = $image.Resize (printf "%dx webp q85 Lanczos drawing" .) -}}
+    {{- $candidates = $candidates | append (printf "%s %dw" $largest.RelPermalink .) -}}
+  {{- end -}}
+  {{- $display = dict "src" $largest.RelPermalink "srcset" (delimit $candidates ", ") "width" $largest.Width "height" $largest.Height -}}
+{{- end -}}
+{{- if $local }}<a class="bc-image-link" href="{{ $src | safeURL }}">{{ end -}}
+<img src="{{ $display.src | safeURL }}"
+  {{- with $display.srcset }} srcset="{{ . }}" sizes="(max-width: 800px) 100vw, 720px" width="{{ $display.width }}" height="{{ $display.height }}"{{ end }} alt="{{ .Text | plainify }}"
+  {{- with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- if $local }}</a>{{ end -}}
