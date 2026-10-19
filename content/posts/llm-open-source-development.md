@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
-lastmod: "2026-09-21T10:19:00+08:00"
+lastmod: '2026-10-19T19:59:42+08:00'
 title: "LLM 开源生态图 2.0：先看筛选口径，再看项目变化"
 summary: "全景图 2.0 收录 114 个项目，但名单变化同时受到采样方式和门槛调整影响。本文梳理 Agent、Infra、Data 三层，并区分社区活跃度、工程价值与开放程度。"
 description: "解读机器之心的大模型开源生态报道，关注图谱方法、系统分层和指标解释边界。"
@@ -27,6 +27,10 @@ learning_status: done
 ## 分层比总榜更接近实际依赖
 
 新版将生态划成 AI Agent、AI Infra 和 AI Data 三个板块。这个分类便于追问项目在系统里负责什么，而不只是比较谁有更多 Star。
+
+![大模型开源开发生态全景图：分为 AI Agent、AI Infra、AI Data 三个板块，每个板块内按类别排列代表性开源项目。](/images/llm-open-source-development/landscape-2-0-overview.png)
+
+*图 1：原图，来源：[大模型开源生态全景图 2.0 报道](https://mp.weixin.qq.com/s/D58GfDHogMS43Dl75fostw)。左侧竖排标签是三个板块，板块内再按功能分组；原图分辨率有限，可点击查看。*
 
 Agent 层进一步分成 Coding、Workflow Platform、Framework 和 Tool。编码应用承接开发任务，工作流平台组织应用流程，框架提供编排构件，工具则补足浏览器操作、记忆或外部连接等能力。它们可能在同一产品中组合，也可能存在功能重叠，不能因为归在相邻格子里就认定互相替代。
 
