@@ -70,6 +70,14 @@ PDF 九章结构：
 
 本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
 
+## 2026-10-19 博客配图
+
+博客新增 3 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-08-ai-coding-software-future/agent-infra-triangle.png`：PDF 第 8 页图 5，根据视频 00:13:47–00:14:48 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-08-ai-coding-software-future/failure-trace-to-eval.png`：PDF 第 17 页图 13，根据视频 00:31:01–00:31:32 整理。
+- 图 3 `/images/video-notes/stanford-mse435-week-08-ai-coding-software-future/energy-to-utility.png`：PDF 第 22 页图 18，根据视频 00:40:18–00:43:56 与 00:48:47–00:49:12 整理。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/stanford-mse435-week-08-ai-coding-software-future.md`

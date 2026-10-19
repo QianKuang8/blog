@@ -47,6 +47,14 @@ pdf_path: "stanford-mse435/week-02-gpu-economics.pdf"
 
 9 月 21 日的时间戳复核记录描述上一发布版本；本次以新版 PDF 为准。未将本地复核扩写为对公司财务、市场预测或性能倍数的独立审计。
 
+## 2026-10-19 博客配图
+
+博客新增 3 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-02-gpu-economics/marginal-cost-curves.png`：PDF 第 4 页图 1，根据视频 00:00:09–00:00:32 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-02-gpu-economics/harness-loop.png`：PDF 第 27 页图 11，根据视频 00:31:51–00:32:48 整理。
+- 图 3 `/images/video-notes/stanford-mse435-week-02-gpu-economics/co-design-stack.png`：PDF 第 29 页图 12，根据视频 00:36:12–00:37:12 整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-02-gpu-economics.md`

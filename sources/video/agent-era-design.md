@@ -77,6 +77,13 @@ pdf_path: "standalone/agent-era-design.pdf"
 
 本轮依据修订 PDF、LaTeX 和修订记录同步博客；涉及画面语义的位置直接查看对应图像。没有重新逐字重听全片，也没有刷新录制后的产品状态。新增练习和解释属于编者整理，不改写成讲者原话或用户学习成果。
 
+## 2026-10-19 博客配图
+
+博客新增 2 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/agent-era-design/shared-representation.png`：PDF 第 14 页图 10，根据视频 00:11:32–00:16:48 整理。
+- 图 2 `/images/video-notes/agent-era-design/curation-loop.png`：PDF 第 17 页图 14，根据视频 00:16:48–00:24:11 整理。
+
 ## 发布映射与文件校验
 
 - 博客文章：`content/posts/agent-era-design.md`

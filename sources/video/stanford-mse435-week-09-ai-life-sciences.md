@@ -34,6 +34,14 @@ pdf_path: "stanford-mse435/week-09-ai-life-sciences.pdf"
 
 Zero-shot 在此指减少针对目标的反复设计—实验迭代，不取消实验、临床和监管验证。本轮修正了博客“从靶点到临床约四年”的时间定位；没有独立核验疗效、药物批准或公司截至复核日的进展。
 
+## 2026-10-19 博客配图
+
+博客新增 3 张教学图，均取自本站课程笔记 PDF：按图形边界以 3 倍分辨率渲染裁剪，图形内容和文字未改动。它们是笔记编者依据视频重绘的示意图，不是视频截帧；图注沿用 PDF 的限定，并标出对应时间范围。
+
+- 图 1 `/images/video-notes/stanford-mse435-week-09-ai-life-sciences/two-routes.png`：PDF 第 4 页图 1，根据视频 00:00:40–00:01:52、00:03:06–00:04:52 与 00:06:30–00:08:32 整理。
+- 图 2 `/images/video-notes/stanford-mse435-week-09-ai-life-sciences/wet-lab-routes.png`：PDF 第 18 页图 12，根据视频 00:37:19–00:38:24 与 00:40:18–00:41:21 整理。
+- 图 3 `/images/video-notes/stanford-mse435-week-09-ai-life-sciences/feedback-cycles.png`：PDF 第 21 页图 16，根据视频 00:46:46–00:48:57 整理。
+
 ## 发布映射
 
 - 博客文章：`content/posts/stanford-mse435-week-09-ai-life-sciences.md`

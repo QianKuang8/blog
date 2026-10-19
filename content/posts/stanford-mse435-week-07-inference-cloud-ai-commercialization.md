@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-09-23T14:26:11+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: "从前沿 API 到定制模型：推理成本、质量与控制权的取舍"
 summary: "Baseten 的课堂访谈讨论定制模型的单位经济与数据控制权。比较迁移收益要看同等质量下的完整成本；估算算力供给则要区分理想容量上界与实际交付，并把租赁、自有算力的费用放到同一期间。"
 description: "解读 Stanford MS&E 435 Week 7：Baseten 的推理云、后训练闭环、定制模型经济学、多云推理、算力稀缺与垂直整合"
@@ -21,6 +21,10 @@ learning_status: pending
 Srivastava 用 Wispr Flow 和 Abridge 说明推理系统承担的任务。语音输入工具需要及时返回结果，医疗记录工作流则要求可靠交付与系统集成。用户感受到的是整条模型链的行为，单个模型的生成速度只能解释其中一部分。[00:03:03–00:08:29](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=183s)
 
 因此，拥有 GPU 后仍需处理请求路由、扩缩容、模型优化和故障恢复。推理平台的价值要放回应用中观察：请求能否在目标时间内完成，错误是否可恢复，以及实际负载下每次成功服务花费多少。只比较硬件租价，容易漏掉把硬件变成持续服务的工作。
+
+![推理平台的分层：底层是基础资源（约 20 个云、87 个集群与不同 GPU），其上是可按职责解耦的 prefill/decode 执行阶段，再往上是 TensorRT-LLM、vLLM、SGLang 等运行时，模型服务负责路由、批处理、伸缩、可观测性与故障恢复，最上层向 AI 应用提供稳定的请求接口与服务目标。](/images/video-notes/stanford-mse435-week-07-inference-cloud-ai-commercialization/inference-platform-layers.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf) 第 19 页图 8，根据视频 [00:26:38–00:32:19](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=1598s) 整理。层次名称为笔记的教学归纳，不是 Baseten 公布的产品架构；本段列出的路由、扩缩容与故障恢复都在 GPU 之上的几层。*
 
 ## 定制模型要跨过质量与总成本两道门槛
 
@@ -50,6 +54,10 @@ Srivastava 的第一条理由是单位经济。他在课堂中估计，当时开
 ## 后训练与推理平台怎样接起来
 
 Baseten 描述的方向，是把数据准备、基础模型选择、后训练和线上推理连接起来。企业提供业务效用的定义，平台帮助把模型运行和改进变成可持续的过程。把训练数据交给平台又引入信任要求，数据托管不能只按计算服务的方式评价。[00:14:06–00:19:00](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=846s)
+
+![从业务目标到线上推理的后训练闭环：业务方效用函数、专有数据与用户反馈、开放基础模型汇入平台工具进行后训练与评测，产出专用模型并推理部署；新请求、错误与业务信号经重新评价、补充数据，回到专有数据。](/images/video-notes/stanford-mse435-week-07-inference-cloud-ai-commercialization/post-training-loop.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-07-inference-cloud-ai-commercialization.pdf) 第 14 页图 6，根据视频 [00:16:38–00:18:28](https://www.youtube.com/watch?v=Qh7Oxvo5sJI&t=998s) 整理。评测和迭代环节是笔记对字幕未展开部分的显式补充。左上角的效用函数由企业提供，对应本段说的“业务效用的定义”。*
 
 ## 容量是上界，成本要在同一期间比较
 

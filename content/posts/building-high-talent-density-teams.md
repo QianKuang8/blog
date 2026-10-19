@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
-lastmod: '2026-09-23T14:26:11+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: "高人才密度团队怎样招聘：岗位定义、人才地图与双向评估"
 summary: "Adam Ward 从招聘样本偏差出发，说明岗位界定、人才地图与持续联系怎样配合，以及招聘经理、recruiter 和候选人各自需要什么决策依据。"
 description: "解读 Adam Ward 的招聘方法论：末日漏斗失败机制、三步框架、双向评估、成交与人才密度组织设计"
@@ -27,6 +27,10 @@ learning_status: done
 
 Ward 的反问很简单：联系 100 人，假设 20 人回复，为什么这 20 人恰好是能力最强的 20%？回复受时机、风险偏好、家庭安排和对陌生消息的信任影响，并不等同于能力排名。[00:13:15–00:13:40](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=795s)
 
+![两种招聘模型对比：左侧漏斗从 100 人触达、20 人回复，到逐层淘汰、录用剩余者；右侧从定义卓越、有限人才地图，到集中激活、评估验证。](/images/video-notes/building-high-talent-density-teams/funnel-vs-target.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/standalone/building-high-talent-density-teams.pdf) 第 7 页图 3，根据视频 [00:13:15–00:18:20](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=795s) 整理。左侧的起点是收到回复的人，右侧的起点是事先定义的目标；本段质疑的正是左侧第二格。*
+
 后端面试即使设计得很严谨，也只能评估已经进入流程的人。如果前端样本有偏，层层筛选只会产生"剩余者招聘"：公司录用的是漏斗里最后留下的人，而不是预先定义并主动争取的最佳目标。[00:13:40–00:14:13](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=820s)
 
 这是一个容易被忽略的因果倒置。"我们面试流程很严格"不能推出"我们招到的是市场上最好的人"。严格评估只提高对现有样本的辨别力；若想提高人才密度，必须先改善样本从哪里来、为什么进入流程。
@@ -45,6 +49,10 @@ Ward 提出的替代方案——"卓越之柱"——把逻辑反过来：先形�
 
 没有岗位界定，人才地图会退化成名企名单；没有人才地图，激活会退化成批量群发；没有持续激活，再准确的名单也只是静态文档。
 
+![三步框架闭环：1. 岗位界定，定义卓越；2. 人才地图，收敛目标；3. 持续激活，赢得对话；评估验证与双方匹配的结果再回到岗位界定。](/images/video-notes/building-high-talent-density-teams/three-step-loop.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/standalone/building-high-talent-density-teams.pdf) 第 8 页图 4，根据视频 [00:16:20–00:25:42](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=980s) 整理。少了任何一步，就会出现本段描述的退化；评估结果还会回头修正岗位界定。*
+
 ## 谁收集证据，谁对录用负责
 
 Ward 把 recruiter（招聘专员）称为"信心引擎"而非"决策引擎"。这里的招聘经理是最终用人的负责人，不是招聘部门经理。[00:28:13–00:29:17](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=1693s) 招聘团队负责定义流程、汇集信号、暴露未知、推动节奏，并帮助决策者相信现有证据足以支持选择；招聘经理则拥有业务判断与录用结果。这一区分避免两个极端：recruiter 代替业务负责人作出不属于自己的产品或组织判断，以及招聘经理把失败归因于"招聘没给够简历"却不投入岗位界定。
@@ -52,6 +60,10 @@ Ward 把 recruiter（招聘专员）称为"信心引擎"而非"决策引擎"。�
 他还用一句话强调关系维护："Caring is free。"[00:35:43–00:37:08](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=2143s) 关怀不是昂贵礼物，而是认真理解候选人：他为什么会考虑变化、担心什么、希望和谁合作。被需要、被理解、能够想象自己属于这里，是公司可以主动创造、竞争者却很难复制的体验。
 
 成交不是 offer 出现后才启动。第一次接触就应理解候选人为什么可能变化，后续见谁、谈什么、怎样消除疑虑，都围绕这些动机展开。[00:54:41–00:55:36](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=3281s) Ward 把谈到最后才第一次询问"你在乎什么"视为流程失败的信号。
+
+![成交机制从首次接触开始：首次接触理解动机，安排对的人提供真实信息，持续处理疑虑，团队协作保持上下文，薪酬与条件逻辑一致，最后才是共同决定的 offer。](/images/video-notes/building-high-talent-density-teams/closing-starts-early.png)
+
+*图 3：重绘，裁剪自本站[学习笔记 PDF](/pdfs/standalone/building-high-talent-density-teams.pdf) 第 14 页图 8，根据视频 [00:54:41–01:04:45](https://www.youtube.com/watch?v=zegYJ6dhIg4&t=3281s) 整理。Offer 是这条链的最后一格；第一格就要弄清候选人在乎什么。*
 
 ## 双向评估和工作试炼
 

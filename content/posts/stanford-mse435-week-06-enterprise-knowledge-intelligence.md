@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
-lastmod: '2026-09-23T14:26:11+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: "企业专用化如何形成反馈闭环：Eval、上下文与运行框架"
 summary: "企业先用 eval 明确合格标准，再把纠错与业务结果用于改进。Model、Context 与 Harness 在任务中交换信息，经验也可进入不同更新位置；关键在于反馈能否反映业务成败，以及每次更新能否验证与撤回。"
 description: "解读 Stanford MS&E 435 Week 6 讲座：通用模型与企业知识的结构性距离、RLVR、DoorDash 案例、持续学习与三层系统协同"
@@ -50,6 +50,10 @@ Patil 用山峰类比：eval 先定义目标，训练管线再用结构相近却
 
 企业系统不是一次模型调用。Patil 把能力拆成三层：模型提供推理；context 提供当前任务需要的企业资料、历史与状态；harness 负责工具、流程、编排和状态管理。[00:34:08–00:35:42](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2048s)
 
+![企业 Agent 的三个协同部分：Model 为通用推理模型加任务级专用模型；Context 为私有文档、历史轨迹、配置、权限与当前任务状态；Harness 负责工具调用、工作流、路由、状态与安全边界；三层之间以双向箭头相连。](/images/video-notes/stanford-mse435-week-06-enterprise-knowledge-intelligence/model-context-harness.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf) 第 15 页图 9，根据视频 [00:34:08–00:35:42](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2048s) 与 [00:39:55–00:40:08](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2395s) 整理。双向箭头表示信息交互，下一段会说明这不是固定的执行顺序。*
+
 三层描述的是分工与信息交互，不能读成 Model → Context → Harness 的固定执行顺序。按这一分工理解一次任务，模型读取上下文后可以提出工具调用，运行框架执行并返回结果，结果又成为模型下一步使用的上下文。这段过程是帮助理解协作关系的教学展开，视频没有展示某个产品的完整调用架构。
 
 由这个分层可以提出一种工程取舍：企业专用化的不同部分可以落在不同更新位置。例如一条新审批规则，如果只是供模型查阅，适合放入版本化的 context；如果必须强制约束操作次序和权限，则应由 harness 执行。稳定且重复的能力才值得另行评估权重更新。这是编者据分层整理的实施建议，具体选择仍取决于任务和部署条件。
@@ -69,6 +73,10 @@ Patil 把持续学习描述为模型进入生产后，从使用过程、稀疏�
 ## 让经验能够指向下一次更新
 
 沿着课程的例子，可以整理出一条工作路径：先定义企业任务与 eval，再用验证器、人工纠错或用户反馈取得信号，最后选择更新模型、上下文或运行框架。每次更新之后，仍要回到代表性任务检查质量和退化。
+
+![企业经验闭环：通用模型能力底座经企业 eval 定义“好”，由奖励与环境提供反馈，形成“模型 + context + harness”的专用系统；生产轨迹与业务后果再回到企业 eval。](/images/video-notes/stanford-mse435-week-06-enterprise-knowledge-intelligence/enterprise-learning-loop.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-06-enterprise-knowledge-intelligence.pdf) 第 5 页图 1，综合视频 [00:05:07–00:05:40](https://www.youtube.com/watch?v=LRGX-gTegVA&t=307s)、[00:23:57–00:29:17](https://www.youtube.com/watch?v=LRGX-gTegVA&t=1437s) 与 [00:35:43–00:40:08](https://www.youtube.com/watch?v=LRGX-gTegVA&t=2143s) 整理，视频中没有这张整合图。回路接回的是 eval：每次更新之后，都要先回到代表性任务检查质量和退化。*
 
 这条路径要求把三类资料连起来：文档记录组织规则，轨迹记录执行过程，下游结果说明是否达到目标。它们可能互相冲突，用户一次接受或撤销也未必说明业务成败。因此，持续学习的难点包括反馈归因、环境变化和更新验证。课堂展示的是局部实践与方向，尚未证明一套能在所有企业任务上稳定自我改进的系统。
 

@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
-lastmod: '2026-09-23T14:26:11+08:00'
+lastmod: '2026-10-19T20:18:09+08:00'
 title: "GPU 经济：把推理硬件、任务成本与用户价值放在一起看"
 summary: "传统软件复制接近免费，AI 每次推理都要消耗新的计算。这场 Stanford 课堂把 GPU 经济拆成三层：token 怎样被生产、一次任务的智能为何值得付费、基础设施扩张后的收益与转型成本如何分配。"
 description: "解读 Stanford MS&E 435 Week 2：token 经济、Groq 推理芯片、异构推理工厂、代理单位经济与 100× 共设计"
@@ -26,6 +26,10 @@ learning_status: pending
 ## 从软件复制到 Token 经济
 
 传统软件最强大的经济特征是复制与分发的边际成本接近零；而生成式 AI 每服务一次新请求，都要实际执行新的计算、搬运新的数据并生成新的 token。[00:00:09–00:00:32](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=9s) "更多用户"不再只是一次服务器扩容后的纯软件增长，而会持续牵动芯片、内存、互联、电力和模型效率。
+
+![累计增量成本随累计服务量变化的概念示意：传统软件复制的成本线几乎持平，AI 推理服务的成本线随服务量持续上升，因为每次新增使用都要生成新的 token。](/images/video-notes/stanford-mse435-week-02-gpu-economics/marginal-cost-curves.png)
+
+*图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-02-gpu-economics.pdf) 第 4 页图 1，根据视频 [00:00:09–00:00:32](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=9s) 整理。两轴都是概念尺度，不是测量数据；要看的只是两条线的斜率差别。*
 
 Gerstner 用长期全球人均 GDP 曲线建立起点：科技在经济中的份额持续上升，而 AI 有可能把这条线再推一个量级——前提是推理成本能够持续下降到足以支撑大规模使用。[00:02:00–00:08:55](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=120s) 他把以数万亿美元计的知识工作市场作为潜在影响范围；这种量级讨论并不等于可直接获得的 AI 收入。
 
@@ -55,9 +59,17 @@ Gerstner 将早期的自动补全与问答，和能够推进完整行动的 Agen
 
 Madra 随后谈到 harness（代理运行框架）：它把模型嵌入一个能够读取上下文、调用工具、保持状态并根据反馈继续的循环。长时任务会增加计算消耗，经济性仍取决于这些循环最终完成了什么；无效重试和重复读取也要计入成本。[00:31:16–00:33:51](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1876s)
 
+![harness 的执行循环：目标进入计划与分解，再读取上下文、调用工具，然后检查结果；达标则完成并交付，受阻则请求人类反馈后恢复，其余情况保留状态、调整计划继续执行。](/images/video-notes/stanford-mse435-week-02-gpu-economics/harness-loop.png)
+
+*图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-02-gpu-economics.pdf) 第 27 页图 11，根据视频 [00:31:51–00:32:48](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1911s) 整理。“完成并交付”分支是笔记补出的任务终点。每绕一圈都要消耗算力，所以本段说经济性取决于循环最终完成了什么。*
+
 ## 100× 共设计与社会契约
 
 Madra 转述 Jensen Huang 要求团队探索“100×”改善的组织目标。这不是已实现的单芯片倍数，而是促使团队同时检查电路、内存、互联、编译器和工作负载。组合收益仍需要端到端验证。[00:36:12–00:36:58](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=2172s)
+
+![跨层共设计示意：模型与工作负载、编译器与运行时、系统、硅与制造四层以双向箭头相连，共同对端到端任务结果负责。](/images/video-notes/stanford-mse435-week-02-gpu-economics/co-design-stack.png)
+
+*图 3：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-02-gpu-economics.pdf) 第 29 页图 12，根据视频 [00:36:12–00:37:12](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=2172s) 整理。“100×”是对右侧端到端结果的搜索目标，不是其中某一层已经实现的倍数。*
 
 关于 AI 辅助芯片设计，回答者同样是 Madra。他表示团队已在使用 AI，但没有给出独立完成设计的比例或测得的增益。随后，他用既有互联网基础设施说明通用投入可能产生外溢价值；是否产生收益，仍受兼容性、复用和利用率约束。[00:36:58–00:38:00](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=2218s)
 
