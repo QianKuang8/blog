@@ -37,6 +37,9 @@ class Page(HTMLParser):
         for name in ("href", "src"):
             if attributes.get(name) and tag != "base":
                 self.references.append((tag, name, attributes[name]))
+        for candidate in (attributes.get("srcset") or "").split(","):
+            if candidate.split():
+                self.references.append((tag, "srcset", candidate.split()[0]))
         if tag == "link" and "canonical" in (attributes.get("rel") or "").split():
             self.canonical_urls.append(attributes.get("href") or "")
         elif tag == "meta":
