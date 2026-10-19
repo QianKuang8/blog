@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T14:00:00+08:00'
-lastmod: "2026-09-21T10:10:01+08:00"
+lastmod: '2026-10-19T10:27:51+08:00'
 title: "Cursor Instant Apply：用原文件加速完整重写"
 summary: "Cursor 将修改规划与文件应用分开，用专门训练的模型完整输出新文件，再通过 speculative edits 复用原文件的可预测内容。本文说明这套组合的收益与评估边界。"
 description: "解读 Cursor Instant Apply 的两阶段编辑、数据构建与 speculative edits。"
@@ -19,6 +19,10 @@ Cursor 的 [Instant Apply](https://web.archive.org/web/20240823050616/https://ww
 ## 从修改草图到完整文件
 
 规划阶段需要解释需求、比较方案，可以用代码片段表达变化；应用阶段的要求更窄，却更严格：把片段放到正确位置，保留其余内容，输出可直接写回的文件。原文观察到，通用模型在这一步会省略代码，或者顺手清理注释和空行。即使逻辑意图正确，这些行为也会改变任务范围。
+
+![Cursor 聊天中的修改草图：回答用 “// ... existing code ...” 省略未改动的部分，只写出与 UUID 相关的新代码，还需要应用到完整文件中。](/images/cursor-instant-apply/apply-sketch-example.png)
+
+*图 1：原图，来源：[Near-Instant Full-File Edits](https://web.archive.org/web/20240823050616/https://www.cursor.com/blog/instant-apply)。代码块用注释省略了未改动的部分，不能直接复制替换原文件，这正是 apply 步骤要补全的工作。*
 
 完整重写简化了工具侧的输出契约：工具拿到的就是新文件，不必再解释复杂补丁。但代价也明显，改几行可能仍要生成几百行。Cursor 的方案需要同时解决准确性和输出延迟，单独选择全文件格式并不能带来文中效果。
 
@@ -45,6 +49,10 @@ Cursor 的 [Instant Apply](https://web.archive.org/web/20240823050616/https://ww
 原文的评估包含约 450 次全文件编辑，文件少于 400 行，并使用 Claude 3 Opus 评分。作者承认 judge 可能偏向 Claude 输出。文末把支持约 2,500 行文件的长上下文训练列为后续方向，因此不应把当前实验外推到任意长度文件。
 
 速度测量还把首 token 等待计入延迟，并用字符数帮助比较不同 tokenizer。这个口径比只展示生成阶段的峰值速度更接近应用体验，但用户完成一项任务仍需要经历规划、应用、检查与可能的重试。
+
+![各模型评分与速度散点图：横轴为速度（字符/秒），纵轴为评分；llama-3-70b-ft-spec 约 3,500 字符/秒，评分与 llama-3-70b-ft 相同，claude-3-opus 评分最高但速度最慢。](/images/cursor-instant-apply/score-vs-speed-spec.png)
+
+*图 2：原图，来源同上。横轴是计入首 token 等待的速度（字符/秒），纵轴是 Claude 3 Opus 给出的评分。微调模型加上 speculative edits 后（llama-3-70b-ft-spec）速度约 3,500 字符/秒，评分与未加速的 llama-3-70b-ft 相同；评分可能偏向 Claude 系模型，见上文。*
 
 对于编辑工具的设计，文章提供了一种可测试的组合：固定任务与文件分布，分别比较输出格式、专用训练和推理加速，再检查最终文件是否只包含预期变化。这样才能知道收益来自哪一环，也能避免把“生成更快”误当作“交付更可靠”。
 

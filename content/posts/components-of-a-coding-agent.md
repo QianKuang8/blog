@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: "2026-09-21T10:22:33+08:00"
+lastmod: '2026-10-19T10:27:51+08:00'
 title: "Coding Agent 的六个组件怎样接成执行循环"
 summary: "仓库上下文、稳定提示、工具校验、输出压缩、会话记忆与子任务委派共同决定 Agent 怎样继续工作。本文沿一次执行循环解释这些组件的输入输出，以及示例 Harness 能证明的范围。"
 description: "解读 Components of A Coding Agent 的上下文、工具、缓存、会话状态和有边界的委派。"
@@ -20,6 +20,10 @@ Sebastian Raschka 的 [《Components of A Coding Agent》](https://magazine.seba
 
 模型负责生成回答或动作，Agent 循环把它放进反复观察和执行的过程，Harness 则提供组织上下文、调用工具、保存状态和控制流程的软件。
 
+![Coding harness 的三层：模型族提供基础能力，Agent 循环按观察、分析、选择、执行反复推进，运行时支持提供仓库上下文、工具、权限、记忆和缓存。](/images/components-of-a-coding-agent/harness-layers.png)
+
+*图 1：原图，来源：[Components of A Coding Agent](https://magazine.sebastianraschka.com/p/components-of-a-coding-agent) Figure 3。左侧模型提供“引擎”，中间的循环逐步推进任务，右侧的运行时支持对应本文讨论的大部分组件。*
+
 第一类组件先收集工作区事实，例如仓库根目录、分支、Git 状态、项目说明和测试约定。这些材料帮助 Agent 找到正确入口，也能提醒它当前已有未提交变化。Live repo context 强调与实际工作区一致，并不要求一次性读完整仓库。
 
 第二类组件决定如何包装这些信息。稳定规则、工具说明和较稳定的工作区背景可以构成前缀，当前请求、近期历史与工作记忆随后进入输入。这样既给模型提供任务依据，也为重复调用保留缓存复用机会。事实收集和提示布局是不同工作：前者决定信息是否正确，后者决定如何高效传递。
@@ -27,6 +31,10 @@ Sebastian Raschka 的 [《Components of A Coding Agent》](https://magazine.seba
 ## 动作先经过校验，再成为环境变化
 
 第三类组件是工具链。模型输出一个命名动作及参数，Harness 检查工具是否存在、参数是否合法、路径是否在允许范围内，以及是否需要批准，然后执行并把结果送回循环。
+
+![工具调用流程：模型输出结构化动作，Harness 校验工具与参数，必要时请求批准，执行后裁剪结果，再写入压缩后的历史，进入下一轮提示。](/images/components-of-a-coding-agent/tool-call-flow.png)
+
+*图 2：原图，来源同上 Figure 8。编号 3–6 对应本节说的执行层：校验、批准、运行和裁剪都发生在模型之外，裁剪后的结果再进入历史，供下一轮使用。*
 
 这些程序化检查可以拒绝部分无效操作，却不自动理解全部意图。参数合法的命令仍可能实现错误目标，允许执行的测试也可能没有覆盖问题。因此，工具反馈需要让下一轮看清实际发生了什么，而不能仅返回一句泛化的成功。
 
@@ -37,6 +45,10 @@ Sebastian Raschka 的 [《Components of A Coding Agent》](https://magazine.seba
 第四类组件控制工具输出和历史的体积。一次搜索可能返回很多文件，一条命令也可能产生长日志。示例通过裁剪大段文本、减少重复文件读取和压缩历史，避免一个冗长结果占满提示预算，并为近期事件保留更多细节。
 
 第五类组件则解决存储与恢复。原文区分完整 transcript 和较小的 working memory：前者保留请求、模型回复和工具结果，后者维护当前任务、关键文件及重要笔记。压缩后的对话负责构造下一次输入，工作记忆负责延续任务状态，两者可以相关但不必完全相同。
+
+![会话状态：新事件追加到磁盘上的完整 transcript，并整理进 working memory；下一次提示由稳定前缀、压缩后的历史、工作记忆和最新请求组装。](/images/components-of-a-coding-agent/session-memory.png)
+
+*图 3：原图，来源同上 Figure 11。左侧是保存在磁盘上的会话状态，右侧是下一次实际进入提示的内容：完整记录不会整段重放，而是以压缩历史和工作记忆的形式参与组装。[查看完整图](/images/components-of-a-coding-agent/session-memory.png)。*
 
 这个区分很实用。屏幕或模型只看到截断日志，并不意味着原始结果应该被永久丢弃；会话从磁盘恢复，也不意味着当前文件还与保存时相同。可以据此推导出恢复时的检查要求：读取必要记录，同时重新确认变化敏感的工作区事实。
 

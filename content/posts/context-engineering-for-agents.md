@@ -1,6 +1,6 @@
 ---
 date: '2026-04-09T22:11:00+08:00'
-lastmod: "2026-09-21T10:12:27+08:00"
+lastmod: '2026-10-19T10:27:51+08:00'
 title: "Context Engineering：管理 Agent 每一步能看到的信息"
 summary: "Write、Select、Compress、Isolate 分别处理信息保存、取回、缩减与隔离。本文把四类方法接成信息流，解释长任务中哪些状态应进入上下文，以及压缩和委派会丢失什么。"
 description: "解读 Lance Martin 的上下文工程分类、检索和压缩机制及信息交接边界。"
@@ -16,11 +16,19 @@ Agent 连续搜索、读文件和运行工具以后，上下文会积累许多�
 
 Lance Martin 的 [《Context Engineering for Agents》](https://rlancemartin.github.io/2025/06/23/context_engineering/) 用四类动作整理这个问题：Write、Select、Compress、Isolate。它们分别回答信息存在哪里、何时取回、如何缩减，以及由哪个上下文负责处理。把上下文窗口类比为工作内存有助于理解容量约束，但其中的信息会影响模型判断，管理它还需要检查内容质量。
 
+![上下文工程的四类做法：Write 把信息写到窗口之外，Select 把相关内容取回，Compress 通过摘要或裁剪保留相关 token，Isolate 把上下文分到状态、环境或多个 Agent 中。](/images/context-engineering-for-agents/context-engineering-overview.png)
+
+*图 1：原图，来源：[Context Engineering for Agents](https://rlancemartin.github.io/2025/06/23/context_engineering/)。每一列是一类动作，列内是原文讨论的具体手段，例如长期记忆、scratchpad、检索工具、摘要、裁剪和多 Agent 分区。[查看完整图](/images/context-engineering-for-agents/context-engineering-overview.png)。*
+
 ## 先决定什么值得保存，再决定何时读回来
 
 Write 是把有用信息放到当前窗口之外。原文区分了任务内的 scratchpad 与跨会话记忆：前者可保存计划和阶段发现，后者可保存未来任务仍可能需要的事实、偏好或经验。它们既可以是文件，也可以是运行时状态字段。
 
 保存不会自动让信息在下一步生效。Select 负责把相关内容重新放回模型输入。少量稳定的项目规则可以固定加载；更大的记忆集合则需要检索。文章区分了用于示范行为的经历记忆、指导操作的流程记忆和提供事实的语义记忆，这些材料进入上下文后承担的作用不同。
+
+![三类记忆对照表：语义记忆保存事实，情景记忆保存经历，程序记忆保存指令，并分别给出人类与 Agent 的例子。](/images/context-engineering-for-agents/memory-types.webp)
+
+*图 2：原图，来源同上。表中的 Semantic、Episodic、Procedural 即本节所说的语义、经历和流程记忆；Agent 一列给出各自的例子：用户事实、过往动作和系统提示。*
 
 这一拆分暴露出两个独立问题：写入内容是否正确，以及检索出来是否与当前任务有关。错误记录被反复读取，会让原来的误判延续；真实但无关的偏好也会干扰结果。原文引用了位置信息被意外带入图片请求的例子，说明“记得住”与“该不该使用”需要分别评估。
 
