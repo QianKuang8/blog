@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
-lastmod: '2026-09-21T10:31:48+08:00'
+lastmod: '2026-10-19T19:59:42+08:00'
 title: "读懂 LLM 架构差异：缓存、专家与长上下文的取舍"
 summary: "GQA、MLA、MoE 和混合注意力优化的是不同资源。本文从 KV 缓存、激活计算和训练稳定性解释这些设计，并说明为什么结构图不能直接推出模型质量与服务速度。"
 description: "基于 Sebastian Raschka 的架构比较，解释注意力、MoE、归一化与多 token 预测的机制边界。"
@@ -22,19 +22,39 @@ Sebastian Raschka 的 [《The Big LLM Architecture Comparison》](https://magazi
 
 Grouped-Query Attention（GQA）让多组 query head 共享较少的 key/value head。它减少要保存和读取的 K/V 表示，保留多组查询。Multi-Head Latent Attention（MLA）则将 K/V 信息压到较低维的 latent 表示中，再结合投影参与注意力计算。前者减少头的重复，后者改变历史信息的表示空间。
 
+![多头注意力与分组查询注意力对比：MHA 中四个 query head 各有一组 key 和 value；GQA 中每两个 query head 共享一组 key 和 value。](/images/big-llm-architecture-comparison/mha-vs-gqa.png)
+
+*图 1：原图，来源：[The Big LLM Architecture Comparison](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison) Figure 2。GQA 少的是 K/V 头数，query 头数不变；缓存随之减少的就是 k、v 两行。*
+
 原文以 DeepSeek V3 的 MLA 和多款模型的 GQA 展示这一区别。缓存更小可以降低内存压力，但 MLA 的投影与实现方式也会影响计算路径。因此，从缓存大小推导响应速度时，还要考虑具体算子和推理引擎，不能把节省的字节直接换算为加速倍数。
+
+![DeepSeek V3/R1 的多头潜在注意力（MLA）与常规多头注意力对比：MLA 先把输入投影成压缩后的 key/value 表示，推理时再投影出 key 和 value；常规 MHA 直接投影出 query、key、value。](/images/big-llm-architecture-comparison/mla-vs-mha.png)
+
+*图 2：原图，来源同上 Figure 3。蓝色的 Compressed Key and Value 就是被缓存的低维表示，多出的投影步骤也是本段提到的计算代价。*
 
 ## 局部窗口与递归状态保留不同的历史
 
 Gemma 3 使用局部与全局注意力混合：原文介绍的比例为五层局部注意力配一层全局注意力，局部窗口为 1,024 token。局部层限制直接访问范围，降低历史缓存需求，全局层保留跨远距离位置建立联系的机会。
 
+![常规因果注意力与滑动窗口注意力的掩码对比：常规注意力中每个 token 可以看到之前所有 token；滑动窗口中只能看到一定范围内的前序 token，更早的位置不参与计算。](/images/big-llm-architecture-comparison/sliding-window-attention.png)
+
+*图 3：原图，来源同上 Figure 12。右图红框里的 0 就是窗口之外被跳过的位置；Gemma 3 只在局部层使用这种掩码，全局层仍看完整历史。*
+
 Qwen3-Next 展示另一条路径：以 3:1 比例混合 Gated DeltaNet 与 gated attention。DeltaNet 类模块用更新规则把过去信息积累进状态，避免每一步都以相同方式读取完整历史；保留的注意力层则补充较精确的内容检索能力。Kimi Linear 在相关思路上进一步使用逐通道门控的 KDA，并与 MLA 层混合。
+
+![Qwen3-Next 80B-A3B 的混合注意力结构：每 3 个 Gated DeltaNet 块之后接 1 个 Gated Attention 块，右侧分别展开两种模块的内部结构。](/images/big-llm-architecture-comparison/gated-deltanet-hybrid.png)
+
+*图 4：原图，来源同上 Figure 36，右侧结构图出自 Qwen 官方博客。注意 3× 与 1× 的标记：多数层用 Gated DeltaNet 把历史累积进状态，少数层保留标准注意力。图中细节较多，可点击查看原图。*
 
 这两类设计不能简单归为“都减少上下文”。局部窗口明确限制某些层看哪些位置，递归状态则压缩历史表示，丢失信息的方式不同。它们还可以与 GQA、MLA 等机制组合。判断长上下文质量，需要用任务检查远处事实是否仍可被准确找回。
 
 ## MoE 降低激活计算，不等于只存激活参数
 
 Mixture-of-Experts 将前馈模块换成多个专家，由路由器为每个 token 选择其中一部分。原文以 DeepSeek V3 的 671B 总参数、约 37B 激活参数为例，说明模型容量和单 token 参与计算的参数量可以分离。
+
+![稠密结构与 DeepSeek V3/R1 MoE 结构对比：MoE 层由路由器把每个 token 分给部分前馈专家；图注说明模型共 671B 参数，每个 token 激活 1 个共享专家和 8 个路由专家，约 37B 参数。](/images/big-llm-architecture-comparison/dense-vs-moe.png)
+
+*图 5：原图，来源同上 Figure 5。右下角的 Resource savings 就是本段的两个数字：总参数 671B，单个 token 只激活约 37B。*
 
 但未被这个 token 选中的专家，仍属于模型权重。总参数、激活参数、缓存和运行中的中间状态对应不同资源，不能拿 37B 激活量当成整套部署的权重规模。
 

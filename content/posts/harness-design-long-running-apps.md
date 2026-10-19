@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-19T19:59:42+08:00'
 title: "长任务 Harness：把生成、验收与返工连成循环"
 summary: "Anthropic 用前端设计和全栈应用实验，展示独立 evaluator 如何提供可执行反馈，也展示模型升级后哪些编排可以移除。收益需要连同预算、任务范围和评价器盲点一起看。"
 description: "分析长时间应用开发中的 evaluator 校准、sprint contract、上下文交接与 Harness 简化实验。"
@@ -48,6 +48,14 @@ QA 随后通过界面、API 和数据库状态检查行为。原文列出的反�
 | 完整 Harness | 6 小时 | 200 美元 |
 
 单 Agent 产物中，实体可以显示，却不能响应输入。完整 Harness 的 planner 则扩展出 16 项功能、10 个 sprint，加入动画、声音、AI 辅助生成和分享导出等内容；最终核心 play mode 可以运行，但仍有流程提示不清、物理表现和关卡可通行性问题。
+
+![单 Agent 运行生成的复古游戏制作器初始界面：深色背景上只有项目标题、空项目列表和新建按钮，大部分区域留空。](/images/harness-design-long-running-apps/solo-harness-app.png)
+
+*图 1：原图，来源：[Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)。原文指出这一版布局浪费空间，固定高度的面板让大部分视口空着；截图只展示初始界面，不能说明其后的功能是否可用。*
+
+![完整 Harness 生成的复古游戏制作器：新建游戏对话框中可以填写项目名称、描述、画布分辨率、图块大小和调色板。](/images/harness-design-long-running-apps/full-harness-app.png)
+
+*图 2：原图，来源同上。同一提示下，完整 Harness 的版本在新建时就要求配置画布、图块和配色，对应正文所说 planner 扩展出的功能范围。*
 
 这个对比说明该配置在案例中产出了更完整的结果，却没有把多 Agent 分工、更多执行时间、更高费用和扩大需求范围的贡献分别隔离。不能据此宣布增加 evaluator 就能获得同样提升，更不能只比较是否“做出了应用”。它也提示产品目标要事先确定：自动扩充功能在本实验中是刻意要求，实际项目未必愿意承担对应范围和维护成本。
 
