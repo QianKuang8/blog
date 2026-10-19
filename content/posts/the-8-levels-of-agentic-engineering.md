@@ -1,6 +1,6 @@
 ---
 date: '2026-04-09T23:20:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-19T10:27:51+08:00'
 title: "Agentic Engineering 的八个层级：从上下文到后台协作"
 summary: "作者用八个层级梳理 AI 编程实践：先让 Agent 获取信息和工具，再建立验证反馈，最后讨论后台执行与团队协作。它适合查找工作流短板，不宜当作人人必须逐级升级的标准。"
 description: "解读 Agentic Engineering 八级框架中的经验沉淀、反馈机制、后台执行与多 Agent 协作边界。"
@@ -35,6 +35,10 @@ Bassim Eledath 在 [The 8 Levels of Agentic Engineering](https://www.bassimeleda
 
 作者用 plan、delegate、assess、codify 描述经验沉淀循环：明确任务、委派执行、检查结果，再把有价值的发现写回规则或文档。最后一步决定一次纠正能否影响以后的会话。
 
+![复利循环：Plan 规划任务，Delegate 交给 Agent 执行，Assess 用测试和审查确认结果，Codify 记录学到的内容，再进入下一轮。](/images/the-8-levels-of-agentic-engineering/compounding-loop.png)
+
+*图 1：原图，来源：[The 8 Levels of Agentic Engineering](https://www.bassimeledath.com/blog/levels-of-agentic-engineering)。四步首尾相接；Codify 把本轮发现写回规则或文档，下一轮规划就能直接用上。*
+
 原文举例，模型可能重新引入昨天已经移除的依赖。如果新的会话没有看到移除原因，它无法仅凭过去被纠正过，就知道这是一项持续约束。把决策依据保存到可发现的项目资料里，才能为下一次选择提供输入。
 
 但规则文件不能无限膨胀。作者建议把可复用知识分散到结构清楚、保持更新的文档中，让简洁的入口指向它们。这里需要同时处理“保存”与“发现”：有文档却找不到，和根本没记录，都会使 Agent 重走旧路。
@@ -48,6 +52,10 @@ Harness 这一层把注意力转向工作环境。作者称自动化反馈为 ba
 原文提供了一个具体实践：作者的团队开发语音与聊天排障 Agent，并通过自建 `converse` CLI 与后端进行逐轮对话。编码 Agent 改完实现后调用它，检查对话是否遵守规定流程、是否在应转人工时调用相应工具，再继续迭代。这里的反馈直接覆盖产品行为，比只看源代码更接近验收目标。
 
 反馈也有覆盖边界。测试只验证已表达的条件，模型自述“全部完成”不能替代检查。作者因此强调把实现者与审查者分开，使用另一模型或独立会话检查产物。这可以减少沿用实现阶段假设的倾向，但并不保证两个模型不会共享同一种盲点。
+
+![实现与审查分离：不要让同一个模型既实现又审查并自评通过；由模型 A 实现并提交 PR，再由模型 B 审查并找出问题。](/images/the-8-levels-of-agentic-engineering/implementer-reviewer-separation.jpg)
+
+*图 2：原图，来源同上。左侧同一模型实现后自评“LGTM”，右侧换另一个模型审查同一个 PR 并找出问题，对应本节所说的实现者与审查者分离。*
 
 环境权限则限制出错后的动作范围。原文把 Agent、生成代码和秘密信息的隔离放进同一讨论：可靠性既需要告诉系统什么算正确，也需要限定它能影响什么。
 
