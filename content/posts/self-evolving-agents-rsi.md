@@ -1,6 +1,6 @@
 ---
 date: '2026-10-15T14:04:56+08:00'
-lastmod: '2026-10-15T14:08:29+08:00'
+lastmod: '2026-10-19T10:55:03+08:00'
 title: 'Agent 自进化与 RSI：改进对象、反馈回路和递归证据'
 summary: "从产物、Harness 和模型参数三类改进对象出发，理解反馈怎样改变后续执行，以及如何用预算对等、留出任务和改进能力验证区分局部提分与递归自我改进。"
 description: "解读 Agent 自进化的三类路径、RHI 的反馈机制，以及判断收益能否迁移、是否具有递归性质的评测边界。"
@@ -25,6 +25,10 @@ Agent 修复代码后测试通过，把失败经验写进 Skill，或者生成�
 | Harness | prompt、工具、Skill、记忆、路由与协作流程 | 后续任务加载新的执行方法 |
 | Model | 模型参数 | 后续推理使用更新后的模型 |
 
+![自进化的三个方向：Harness 自我改进，Models 在没有标准答案时学习，Artifacts 优化产出，每个方向都画成指向自身的循环。](/images/self-evolving-agents-rsi/rsi-three-layers.jpg)
+
+*图 1：原图，来源：[自进化（Self-evolving／RSI），一篇就够了](https://zhuanlan.zhihu.com/p/2065227313973825752)。三个循环分别对应上表的三层：改进执行方法（Harness）、在没有标准答案时学习（Models）、优化产出物（Artifacts）。*
+
 例如，原文中的 autoresearch 让 Agent 修改 `train.py`，运行训练，再依据验证指标决定保留或丢弃改动。优化对象是训练程序和配置，执行研究的 Agent 可以始终使用同一个模型。这里需要分清研究者与实验对象：实验中发生训练，不等于研究者自己的参数也更新了。
 
 Harness 则改变执行者可调用的方法。一次错误若被归纳进 Skill，下一次任务便有机会读取新的判断条件。这个“有机会”很关键：写入文件之后，还要确认它能被正确检索、在合适情形下触发，并帮助模型完成任务。原文把改 Harness 概括为后续任务都会受益，这更适合视为设计目标，实际收益仍有任务范围。
@@ -34,6 +38,10 @@ Harness 则改变执行者可调用的方法。一次错误若被归纳进 Skill
 ## 反馈怎样进入下一版 Harness
 
 原文对 RHI（Recursive Harness Self-Improvement）的介绍，给出了一个具体回路：用当前 Harness 执行任务，将本轮与上一轮输出交给评估器成对比较，保存偏好反馈，再由优化器读取历史、提出下一版 Harness。
+
+![RHI 循环示意（论文 Figure 2）：第 i 轮 Harness 执行任务得到输出，评估器把它与上一轮输出成对比较，偏好反馈存入自我比较历史，优化器据此更新出下一轮 Harness。](/images/self-evolving-agents-rsi/rhi-loop.jpg)
+
+*图 2：原图，来源同上，为原文转引的 Sakana RHI 论文 Figure 2。编号 ①–⑤ 依次是：执行任务、得到输出、与上一轮输出成对比较、把偏好写入历史、优化器据历史生成下一版 Harness。图中文字较小，可点击查看原图。*
 
 这条链里有两个不同产物：执行者交付任务结果，优化器交付执行方法的修改。当前答案变好，只能直接说明本轮结果改善；若要判断 Harness 是否更好，还要在其他输入上重新执行。
 
@@ -58,6 +66,10 @@ RHI 对执行方法的拆分也有启发。除了角色与指令，它还区分 
 自动优化会消耗额外的候选生成、任务执行与评估预算。若新版系统搜索了很多次，基线只执行一次，两者分数的差距就混合了方法变化与搜索投入。
 
 原文转述 Ai2 的研究指出，在其 Terminal-Bench 2.1 实验中，自动 Harness evolution 没有稳定超过预算对等的简单 test-time scaling 方法。另一个问题是，若搜索时用于挑选 Harness 的任务，也是最终汇报成绩的任务，改进可能只适应该任务集合。
+
+![Terminal-Bench 2.1 预算对等对照柱状图：Parallel Sampling 72.3，Sequential Refinement 69.3，Harness Evolution 67.4，Harness Scaling 71.8，虚线为初始 harness 基线 68.2。](/images/self-evolving-agents-rsi/terminal-bench-budget-matched.jpg)
+
+*图 3：原图，来源同上。虚线是初始 Harness 的 68.2 分；在相同预算下，Harness Evolution（67.4）低于基线，并行采样（72.3）最高。*
 
 这给工程评测提供了两个相互独立的问题：同样的预算，用来修改方法是否比多采样、反复完善答案更划算？冻结方法后，未参与搜索的任务能否继续受益？前者检查投入的去向，后者检查迁移。
 
