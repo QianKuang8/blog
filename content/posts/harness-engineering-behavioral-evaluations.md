@@ -1,6 +1,6 @@
 ---
 date: '2026-09-10T16:36:54+08:00'
-lastmod: '2026-09-21T10:32:28+08:00'
+lastmod: '2026-10-19T11:01:49+08:00'
 title: 'Harness Engineering：用行为评估守住 Agent 的关键动作'
 summary: "一次工具调用能证明 Agent 尝试过什么，却未必能证明任务已经完成。由 Google 的行为评估文章出发，梳理怎样为关键动作设计断言、处理运行波动，并与端到端评测形成互补。"
 description: "解读 coding agent 的行为评估思路，讨论执行证据、断言边界与回归检查的工程取舍。"
@@ -58,6 +58,10 @@ Taylor Mullen 和 Christian Gunderman 在 2026 年 9 月 9 日发表于 Google D
 ## 局部行为通过后，还要回到完整任务
 
 原文明确把行为评估与端到端评测视为互补：前者支持细粒度迭代，后者验证完整任务的结果。
+
+![端到端基准与行为评估对照表：端到端基准运行慢、成本高、只给一个综合分数；行为评估是离散断言，快速便宜，逐个动作给出通过或失败。](/images/harness-engineering-behavioral-evaluations/macro-vs-micro-evals.png)
+
+*图 1：原图，来源：[Google Developers Blog](https://developers.googleblog.com/the-anatomy-of-harness-engineering-how-to-evaluate-iterate-and-guard-ai-coding-agents/)。左栏如 Terminal-Bench、SWE-bench，每次运行要上百美元且只给一个综合分；右栏的行为评估成本低、结果可直接定位，适合驱动提示迭代。*
 
 构建配置的场景能说明两者为什么都需要。Agent 可以按要求运行验证，却没有正确接入新模块；也可能这次碰巧改对了，却留下一个长期跳过检查的工作方式。行为记录和最终产物回答的是不同问题，需要一起看。
 

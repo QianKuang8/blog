@@ -1,6 +1,6 @@
 ---
 date: '2026-04-09T22:12:00+08:00'
-lastmod: "2026-09-21T10:14:36+08:00"
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "文件系统与 Agent 上下文：保存、检索和重新读取"
 summary: "LangChain 用可用信息、必要信息和实际检索结果的关系解释上下文失效。文件系统让 Agent 卸载长输出、读取局部内容并保存任务状态，但不会自动解决信息选择与记忆质量。"
 description: "解读文件系统如何参与 Agent 的上下文检索、工作记忆和知识更新。"
@@ -19,6 +19,10 @@ learning_status: done
 ## 先区分三种信息集合
 
 原文用三种颜色表示可用信息、完成当前任务所需的信息，以及 Agent 实际检索到的信息。上下文工程的目标，是让检索结果覆盖必要内容，同时尽量少带入无关材料。
+
+![三个信息集合：蓝色是 Agent 可获取的全部上下文，红色是回答问题 X 所需的信息，绿色是 Agent 实际检索进上下文窗口的信息。](/images/filesystems-for-context-engineering/context-sets.png)
+
+*图 1：原图，来源：[How agents can use filesystems for context engineering](https://blog.langchain.com/how-agents-can-use-filesystems-for-context-engineering/)。理想情况是绿色恰好覆盖红色；绿色超出红色意味着带进了无关内容，红色有部分落在绿色之外意味着漏取了必要信息。*
 
 这个视角能区分三种失败。第一，必要文档根本没有接入，检索再好也找不到；第二，文档已经存在，却没有被召回；第三，只需要一页内容，却读入了上百页。它们分别对应数据接入、查找能力和检索范围，不能都归结为“模型没理解”。
 

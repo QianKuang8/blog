@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "Seeing Like an Agent：工具如何随模型能力调整"
 summary: "Claude Code 团队通过提问工具、任务管理和搜索接口的演进，说明工具设计需要观察模型实际怎样行动。清晰的动作边界与按需发现，可以减少选择和上下文负担。"
 description: "解读 AskUserQuestion、TodoWrite 到 Tasks、渐进披露和 Guide 子 Agent 的设计经验。"
@@ -26,6 +26,10 @@ Thariq Shihipar 的 [Seeing like an Agent](https://x.com/trq212/status/202746379
 
 最终方案是独立 AskUserQuestion。工具调用提供结构化问题与选项，界面显示弹窗，Agent 循环等待用户回答后再继续。它可以在需要时调用，团队尤其在计划阶段引导使用。这个边界把“获取尚缺的信息”从“提交已有计划”里分离出来，也让 SDK 和 Skills 能复用同一动作。
 
+![提问方式的取舍：从无结构到过于刚性，依次是修改 Markdown 输出、AskUserQuestion 工具和 ExitPlanTool 参数，AskUserQuestion 位于中间的平衡点。](/images/claude-code-seeing-like-an-agent/askuserquestion-sweet-spot.jpg)
+
+*图 1：原图，来源：[Seeing like an Agent](https://x.com/trq212/status/2027463795355095314)。三个方案对应本节的三版尝试：Markdown 格式难以解析，计划工具的参数提问来得太晚，独立工具结构化且界面清晰。*
+
 原文强调，工具设计还需要模型愿意且能够调用。结构化 schema 提供约束，但好的命名或完备参数，并不能单独保证正确使用；实际调用轨迹仍是验证入口。
 
 ## Todo 与 Task 服务于不同协作需要
@@ -33,6 +37,10 @@ Thariq Shihipar 的 [Seeing like an Agent](https://x.com/trq212/status/202746379
 Claude Code 早期用 TodoWrite 保存并显示待办，还每五轮插入一次系统提醒，帮助模型维持目标。随着模型能力提升，提醒反而可能让它认为必须遵守旧清单，不能调整计划。
 
 与此同时，子 Agent 使用增加，单份待办需要承载的不再只是“我接下来做什么”，还包括“谁在做什么”“哪些任务等待其他结果”。团队因此用 Task 工具取代 TodoWrite，支持依赖、跨子 Agent 状态更新，以及修改和删除任务。
+
+![从 Todos 到 Tasks：左侧单个 Agent 维护一份待办清单；右侧多个 Agent 共享带依赖关系的任务。](/images/claude-code-seeing-like-an-agent/todos-to-tasks.jpg)
+
+*图 2：原图，来源同上。模型能力提升后，单 Agent 的待办清单换成可在多个 Agent 之间分配、带依赖的任务。*
 
 这个变化说明，旧工具可能继续正常工作，却已经不再匹配主要问题。单 Agent 防遗忘与多 Agent 协调，都可以显示为列表，底层所需的状态语义却不同。只把旧清单做得更详细，未必能补足协作能力。
 

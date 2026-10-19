@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T15:00:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "Assisted Generation：小模型草拟，大模型批量验证"
 summary: "Hugging Face 的 Assisted Generation 用小模型提出连续候选，再让目标模型一次验证多步，减少大模型的串行调用。收益取决于候选命中率、辅助开销及硬件条件。"
 description: "解释 Assisted Generation 的因果验证、候选接受规则、动态长度和延迟收益边界。"
@@ -49,6 +49,10 @@ assistant 也需要逐 token 生成，并不是免费的草稿机。候选太长
 greedy 场景中，只需比较每个位置的最大概率 token。采样则可能从目标分布中选出其他 token，使 assistant 的 greedy 候选更容易失配。
 
 原文在这套实现中观察到，低温度更接近 greedy，因而较容易保留速度收益；高温度让候选更难连续命中。它据此指出，语音识别、摘要等受输入约束较强的任务通常更有利。这里的有利指这套候选策略的命中情况，不应推广为开放式生成无法使用其他推测采样方法。
+
+![延迟随采样温度变化的折线图：普通采样的延迟基本不变；使用 assisted generation 时，FP16 与 INT8 两种配置的延迟都随温度升高而上升。](/images/huggingface-assisted-generation/latency-vs-temperature.png)
+
+*图 1：原图，来源：[Assisted Generation](https://huggingface.co/blog/assisted-generation)。虚线是普通采样的延迟；实线随温度上升，说明温度越高，候选越难被接受，assisted generation 的加速越小。图注说明测试使用 OPT 6.7B 搭配 OPT 125M 作辅助模型。*
 
 算法还要保留目标模型的选取规则。对 greedy，可以检查最终序列与目标模型独立生成是否一致；对采样，验证目标应包括分布正确性，不能只比较一次输出文本。原文的介绍提供了理解入口，实际实现仍需按所用算法检查接受规则和缓存处理。
 

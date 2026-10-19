@@ -1,6 +1,6 @@
 ---
 date: '2026-05-08T09:36:20+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "Claude Code 早期访谈：薄 Harness 怎样接入开发流程"
 summary: "Boris Cherny 与 Cat Wu 用上下文压缩、语义 lint 和非交互运行解释 Claude Code 的早期设计：让模型承担推理，让简单接口接入现有工具链，并为执行与验收保留明确边界。"
 description: "解读 Claude Code 团队早期访谈中的功能分层、CLI 组合、权限、上下文搜索和人工审查。"
@@ -15,6 +15,10 @@ learning_status: done
 把 coding agent 做进终端，除了改变界面，还会改变它与现有工程系统的关系。文本输入输出可以接脚本，命令可以进入 CI，同一能力也可以由开发者交互调用。
 
 Latent Space 对 Boris Cherny 和 Cat Wu 的 [Claude Code 访谈](https://www.latent.space/p/claude-code) 记录了团队早期的设计取舍。Boris 将它描述为可组合的 Unix utility：提供模型与本地工具之间的接口，让用户将其放进自己的流程。访谈处于 Sonnet 3.7 和 Claude Code 早期产品阶段，以下功能、权限和团队经验均按当时语境理解，不作为当前版本使用说明。
+
+![1978 年《贝尔系统技术期刊》中的 Unix 风格准则：每个程序只做好一件事；预期每个程序的输出会成为另一个程序的输入；尽早构建和试用；优先用工具减轻编程工作。](/images/claude-code-anthropic-agent-terminal/unix-style-1978.png)
+
+*图 1：原文配图，来源：[Latent Space 访谈](https://www.latent.space/p/claude-code)，为原文转引的 1978 年《贝尔系统技术期刊》Unix 风格准则。第 (ii) 条“预期每个程序的输出会成为另一个程序的输入”，就是 Boris 所说“可组合的 Unix utility”的出处。*
 
 ## 功能应该放在哪一层
 

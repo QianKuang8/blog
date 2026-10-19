@@ -1,6 +1,6 @@
 ---
 date: '2026-04-09T23:24:00+08:00'
-lastmod: "2026-09-21T10:14:43+08:00"
+lastmod: '2026-10-19T11:01:49+08:00'
 title: "减少人工读 diff，需要先建立哪些验证"
 summary: "Ankit Jain 主张把人类检查前移到规范与验收标准，并用测试、权限和独立验证承担更多质量检查。本文解释这些层如何配合，以及为什么增加检查层数仍不能自动保证正确。"
 description: "解读 How to Kill the Code Review 的上游规范、确定性验证与权限分工。"
@@ -13,6 +13,10 @@ learning_status: done
 ---
 
 当 Agent 生成修改的速度高于团队阅读 diff 的速度，审查队列就会增长。增加一个自动评论工具可以帮助发现问题，但仍需回答：团队究竟依据什么证据批准这次变化？
+
+![Faros 数据柱状图：AI 采用度从低到高时，人均任务吞吐增加 21.4%，人均 PR 合并率增加 97.8%，PR 审查时间中位数增加 91.1%。](/images/how-to-kill-the-code-review/ai-adoption-review-bottleneck.png)
+
+*图 1：原图，来源：[How to Kill the Code Review](https://www.latent.space/p/reviews-dead)，数据来自 Faros。前两项是产出增长，第三项是审查等待增长：合并的 PR 多了近一倍，审查时间也几乎翻倍。*
 
 Ankit Jain 在 Latent Space 的客座文章 [《How to Kill the Code Review》](https://www.latent.space/p/reviews-dead) 中提出，把人类检查前移到 spec、约束和验收标准，并让机器执行更大部分验证。这个激进主张代表作者的立场；编辑按语明确表示尚未完全认同。文章可以作为工作流设计提案阅读，不能当作人工代码审查已经失去作用的事实结论。
 
@@ -43,6 +47,10 @@ Ankit Jain 在 Latent Space 的客座文章 [《How to Kill the Code Review》](
 ## 多层检查需要防止共同盲点
 
 作者用“瑞士奶酪”比喻多个不完美的防线：单层有孔洞，组合后可能截住更多失败。这个比喻成立的前提，是各层能够补充彼此，而非重复同一个判断。
+
+![瑞士奶酪模型：spec 与 Agent 依次穿过多方案比较、确定性护栏、验收标准、权限系统和对抗式验证五层，每层都有孔洞，叠在一起才建立信任。](/images/how-to-kill-the-code-review/swiss-cheese-layers.png)
+
+*图 2：原图，来源同上。箭头只有在五层的孔洞恰好对齐时才能一路穿过；本节讨论的共同盲点，正是让多层孔洞对齐的那类错误。*
 
 假如需求遗漏了时区边界，实现与所有测试都按同一遗漏展开，再多一次“按 spec 审查”也可能看不到问题。这是依据原文框架可以推导出的限制：团队还需要检查规范本身是否完整，必要时保留对高风险实现和设计的直接阅读。
 

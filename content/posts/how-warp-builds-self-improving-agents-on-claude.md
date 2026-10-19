@@ -1,6 +1,6 @@
 ---
 date: '2026-09-17T15:22:26+08:00'
-lastmod: '2026-09-17T15:22:26+08:00'
+lastmod: '2026-10-19T11:01:49+08:00'
 title: 'Warp 如何把团队反馈变成 Agent 的 Skill 改进'
 summary: "Warp 用执行任务与改进 Skill 两条流程，把 Issue、PR 中的反馈转成可审查的文件修改。通过一次漏打标签的案例，理解经验如何进入后续任务，以及为什么还需要人工审核和效果验证。"
 description: "解读 Warp 基于 Claude 的 Agent 自我改进机制：领域 Skill、定时反馈归纳、最小修改与人工审核，以及持续改进的证据边界。"
@@ -25,6 +25,10 @@ Warp 把领域知识放在基础 Skill，也就是原文的 inner/base skill 中
 | 任务执行 | 任务与领域 Skill | 评审或分类 |
 | 方法改进 | 反馈与旧 Skill | 修改 PR |
 | 人工审核 | 修改及反馈依据 | 合并决定 |
+
+![Warp 的自我改进循环：Agent 用基础 Skill 执行任务，人审查输出并给出反馈，Agent 再用自我改进 Skill 审查反馈、改进自己，然后回到任务执行。](/images/how-warp-builds-self-improving-agents-on-claude/self-improvement-loop.jpg)
+
+*图 1：原图，来源：[How Warp builds self-improving agents on Claude](https://claude.com/blog/how-warp-builds-self-improving-agents-on-claude)。上下两个粉色框分别是基础 Skill 和改进 Skill，中间的人工反馈把两条流程连起来。*
 
 改进者对照原有行为与反馈，提出聚焦某个问题的修改；合并后，后续任务再使用新版 Skill。这样拆分带来的一个工程性质是：执行者可以完成眼前的工作，方法更新则拥有单独的审查入口。反馈出现、修改提出、规则生效，成为可以分别检查的状态。把它们都称为“Agent 学会了”，会掩盖系统究竟走到了哪一步。
 
