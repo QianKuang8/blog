@@ -80,6 +80,20 @@ class ContentValidationTests(unittest.TestCase):
         )
         self.write_post(self.body)
 
+    def add_image(self, name):
+        image = self.repo / "static/images" / name
+        image.parent.mkdir(parents=True, exist_ok=True)
+        image.write_bytes(b"<svg xmlns='http://www.w3.org/2000/svg'/>")
+        return f"/images/{name}"
+
+    def record_image(self, path, **changes):
+        entry = {
+            "title": "Figure 1", "path": path, "source_url": "https://example.com/figure.png",
+            "method": "原图文件，未改动", "retrieved_at": "2026-01-01T12:00:00+08:00", **changes,
+        }
+        self.record.setdefault("image_sources", []).append(entry)
+        self.write_markdown(self.source, self.record, "")
+
     def assert_failure(self, expected, site=None):
         self.assertIn(expected, "\n".join(validate_content(self.repo, site)))
 
@@ -218,12 +232,73 @@ class ContentValidationTests(unittest.TestCase):
                 self.assert_failure(message)
 
     def test_links_must_not_hardcode_the_site_path(self):
+        self.add_image("example.svg")
         for body in ("![Figure](/blog/images/example.svg)", '<a href="/blog/posts/other/">Other</a>'):
             with self.subTest(body=body):
                 self.write_post(body)
                 self.assert_failure("hardcodes the site path /blog")
         self.write_post("![Figure](/images/example.svg)\n\n`[code](/blog/x)`")
         self.assertEqual(validate_content(self.repo), [])
+
+    def test_images_need_alt_text_and_a_local_file(self):
+        self.write_post("![](/images/example/figure.png)")
+        self.assert_failure("image /images/example/figure.png needs descriptive alt text")
+        self.assert_failure("image file is missing: static/images/example/figure.png")
+        for body in ("![Figure](https://example.com/figure.png)", '<img alt="Figure" src="https://example.com/figure.png">'):
+            with self.subTest(body=body):
+                self.write_post(body)
+                self.assert_failure("must be stored under static/images/")
+        path = self.add_image("example/figure.png")
+        for body in (f"![Figure]({path})", f'<img alt="Figure" src="{path}">', "`![](/images/example/missing.png)`"):
+            with self.subTest(body=body):
+                self.write_post(body + f"\n\n![Figure]({path})")
+                self.assertEqual(validate_content(self.repo), [])
+
+    def test_unreferenced_image_file_fails(self):
+        self.add_image("example/unused.png")
+        self.assert_failure("static/images/example/unused.png: no page uses this image")
+        self.write_post("![Figure](/images/example/unused.png)")
+        self.assertEqual(validate_content(self.repo), [])
+
+    def test_sourced_figures_need_an_italic_caption(self):
+        path = self.add_image("example/figure.png")
+        self.write_post(f"![Figure]({path})\n\nPlain paragraph.")
+        self.assertEqual(validate_content(self.repo), [], "original articles may explain figures in the text")
+        self.add_source()
+        self.record_image(path)
+        for caption, ok in (("Plain paragraph.", False), ("**图 1：加粗不算图注。**", False), ("*图 1：原图，来源：[Original](https://example.com/original)。*", True)):
+            with self.subTest(caption=caption):
+                self.write_post(f"![Figure]({path})\n\n{caption}")
+                failures = validate_content(self.repo)
+                self.assertEqual(not failures, ok, failures)
+                if not ok:
+                    self.assert_failure("needs an italic caption paragraph right after it")
+
+    def test_article_images_and_image_sources_must_match(self):
+        path = self.add_image("example/figure.png")
+        self.add_source()
+        self.write_post(f"![Figure]({path})\n\n*图 1：原图。*")
+        self.assert_failure(f"image {path} is missing from image_sources in sources/orig/example.md")
+        self.record_image(path)
+        self.assertEqual(validate_content(self.repo), [])
+        self.record_image(self.add_image("example/other.png"))
+        self.assert_failure("image_sources lists /images/example/other.png, but the article does not use it")
+
+    def test_image_sources_entries_are_validated(self):
+        path = self.add_image("example/figure.png")
+        self.add_source()
+        self.write_post(f"![Figure]({path})\n\n*图 1：原图。*")
+        self.record_image(path, title="", source_url="figure.png", retrieved_at="2026-01-01T12:00:00")
+        self.record_image("/images/example/missing.png")
+        self.record_image("static/figure.png")
+        for message in ("image_sources[1].title must be a nonempty string", "image_sources[1].source_url must be an absolute HTTP(S) URL",
+                        "image_sources[1].retrieved_at must be an ISO 8601 datetime with a timezone",
+                        "image_sources[2].path does not exist: static/images/example/missing.png", "image_sources[3].path must start with /images/"):
+            with self.subTest(message=message):
+                self.assert_failure(message)
+        self.record["image_sources"] = "figure.png"
+        self.write_markdown(self.source, self.record, "")
+        self.assert_failure("image_sources must be a list of mappings")
 
     def test_malformed_source_url_is_reported(self):
         self.add_source()
