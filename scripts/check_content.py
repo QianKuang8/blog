@@ -19,6 +19,8 @@ import yaml
 FRONTMATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|$)(.*)\Z", re.S)
 LEARNING_STATUSES = {"pending", "done"}
 PDF_REPOSITORY = "https://github.com/QianKuang8/blog-pdfs/blob/"
+# Captions in sourced articles name the figure and how it was obtained (see BLOG_PROMPTS.md).
+CAPTION_LABEL = re.compile(r"[*_]图 (\d+)：(?:原图|原页面图表截图|局部截取|重绘|本文绘制)[，。]")
 # Post frontmatter keys that the templates or Hugo read (compared case-insensitively).
 POST_KEYS = {
     "date", "lastmod", "title", "summary", "description", "tags", "categories", "author",
@@ -180,18 +182,18 @@ class ImageParser(HTMLParser):
             self.images.append((values.get("alt") or "", values.get("src") or ""))
 
 
-def figures(body: str) -> list[tuple[str, str, bool]]:
-    """(alt, destination, captioned) for each image; captioned means the next paragraph is italic."""
+def figures(body: str) -> list[tuple[str, str, str]]:
+    """(alt, destination, caption) for each image; caption is the next paragraph if italic, else empty."""
     lines = without_code(body).splitlines()
     found = []
     for index, line in enumerate(lines):
         following = next((text.strip() for text in lines[index + 1:] if text.strip()), "")
-        captioned = bool(re.fullmatch(r"(\*|_)(?!\1).*\S\1", following))
+        caption = following if re.fullmatch(r"(\*|_)(?!\1).*\S\1", following) else ""
         for match in re.finditer(r"!\[([^\]\n]*)\]\(\s*<?([^\s)>]+)>?(?:\s+[\"'][^\n]*?[\"'])?\s*\)", line):
-            found.append((match[1], match[2], captioned))
+            found.append((match[1], match[2], caption))
         parser = ImageParser()
         parser.feed(line)
-        found.extend((alt, src, captioned) for alt, src in parser.images)
+        found.extend((alt, src, caption) for alt, src in parser.images)
     return found
 
 
@@ -388,9 +390,13 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         source_dir = categories[terms[0]].get("source")
         if not source_dir:
             continue
-        for _, destination, captioned in images:
-            if not captioned:
+        for number, (_, destination, caption) in enumerate(images, 1):
+            if not caption:
                 fail(post, f"image {destination} needs an italic caption paragraph right after it, stating what it shows and where it comes from")
+            elif not (label := CAPTION_LABEL.match(caption)):
+                fail(post, f"caption of {destination} must start with 图 N：followed by 原图, 原页面图表截图, 局部截取, 重绘 or 本文绘制")
+            elif int(label[1]) != number:
+                fail(post, f"caption of {destination} should be numbered 图 {number} (figures are numbered in order)")
         if not isinstance(slug, str) or not re.fullmatch(r"[^/\\.][^/\\]*", slug):
             fail(post, "slug must be a single nonempty path segment")
             continue

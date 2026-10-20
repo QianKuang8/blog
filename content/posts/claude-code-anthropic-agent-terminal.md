@@ -18,7 +18,7 @@ Latent Space 对 Boris Cherny 和 Cat Wu 的 [Claude Code 访谈](https://www.la
 
 ![1978 年《贝尔系统技术期刊》中的 Unix 风格准则：每个程序只做好一件事；预期每个程序的输出会成为另一个程序的输入；尽早构建和试用；优先用工具减轻编程工作。](/images/claude-code-anthropic-agent-terminal/unix-style-1978.png)
 
-*图 1：原文配图，来源：[Latent Space 访谈](https://www.latent.space/p/claude-code)，为原文转引的 1978 年《贝尔系统技术期刊》Unix 风格准则。第 (ii) 条“预期每个程序的输出会成为另一个程序的输入”，就是 Boris 所说“可组合的 Unix utility”的出处。*
+*图 1：原图，来源：[Latent Space 访谈](https://www.latent.space/p/claude-code)，为原文转引的 1978 年《贝尔系统技术期刊》Unix 风格准则。第 (ii) 条“预期每个程序的输出会成为另一个程序的输入”，就是 Boris 所说“可组合的 Unix utility”的出处。*
 
 ## 功能应该放在哪一层
 

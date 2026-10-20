@@ -274,6 +274,20 @@ class ContentValidationTests(unittest.TestCase):
                 if not ok:
                     self.assert_failure("needs an italic caption paragraph right after it")
 
+    def test_sourced_captions_name_figure_number_and_label(self):
+        path = self.add_image("example/figure.png")
+        self.add_source()
+        self.record_image(path)
+        for caption, message in (("*图：重绘。*", "must start with 图 N："), ("*图 1：原文配图，来源同上。*", "must start with 图 N："),
+                                 ("*根据原文整理。*", "must start with 图 N："), ("*图 2：原图。*", "should be numbered 图 1")):
+            with self.subTest(caption=caption):
+                self.write_post(f"![Figure]({path})\n\n{caption}")
+                self.assert_failure(message)
+        for label in ("原图", "原页面图表截图", "局部截取", "重绘", "本文绘制"):
+            with self.subTest(label=label):
+                self.write_post(f"![Figure]({path})\n\n*图 1：{label}，来源：[Original](https://example.com/original)。*")
+                self.assertEqual(validate_content(self.repo), [])
+
     def test_article_images_and_image_sources_must_match(self):
         path = self.add_image("example/figure.png")
         self.add_source()
