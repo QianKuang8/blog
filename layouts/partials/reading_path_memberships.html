@@ -1,0 +1,22 @@
+{{- /* Topic paths that list this post: its position, the path length and the next entry, if any. */ -}}
+{{- $page := . -}}
+{{- $memberships := slice -}}
+{{- range hugo.Data.reading_paths.paths -}}
+  {{- $path := . -}}
+  {{- $entries := slice -}}
+  {{- range .groups -}}
+    {{- range .entries -}}
+      {{- $entries = $entries | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $index, $entry := $entries -}}
+    {{- if eq $entry.post $page.Path -}}
+      {{- $next := false -}}
+      {{- if lt (add $index 1) (len $entries) -}}
+        {{- $next = index $entries (add $index 1) -}}
+      {{- end -}}
+      {{- $memberships = $memberships | append (dict "topic" (site.GetPage $path.topic) "position" (add $index 1) "total" (len $entries) "next" $next) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $memberships -}}

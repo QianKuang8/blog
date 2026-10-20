@@ -237,6 +237,47 @@ class ReadingPathTests(SiteFixture):
         self.assertTrue(self.failures())
 
 
+class RelatedPostTests(SiteFixture):
+    def setUp(self):
+        super().setUp()
+        shutil.copy(REPO / "data/tag_groups.json", self.repo / "data/tag_groups.json")
+        for slug, tags in (("one", ["agent", "anthropic"]), ("two", ["agent"]), ("three", ["anthropic"]), ("four", ["context-engineering"])):
+            self.write_source(f"content/posts/{slug}.md", f"---\ntitle: {slug}\ncategories: [原创文章]\ntags: {json.dumps(tags)}\n---\nBody.\n")
+            self.write(f"posts/{slug}/index.html", "")
+        self.write("posts/one/index.html", self.related("two"))
+        self.write("posts/two/index.html", self.related("one"))
+
+    def related(self, *slugs):
+        return "".join(f'<a href="/blog/posts/{slug}/" data-related-post>{slug}</a>' for slug in slugs)
+
+    def failures(self):
+        failures = []
+        check_site.check_related_posts(self.site(), self.repo, self.posts(), failures)
+        return failures
+
+    def test_posts_sharing_topic_tags_link_each_other(self):
+        self.assertEqual(self.failures(), [])
+
+    def test_source_tag_alone_or_self_link_does_not_qualify(self):
+        for related in (self.related("two", "three"), self.related("one")):
+            with self.subTest(related=related):
+                self.write("posts/one/index.html", related)
+                self.assertIn("should be another article sharing a topic tag", "\n".join(self.failures()))
+
+    def test_missing_section_and_duplicates_fail(self):
+        self.write("posts/two/index.html", "")
+        self.assertIn("related posts are missing", "\n".join(self.failures()))
+        self.write("posts/two/index.html", self.related("one", "one"))
+        self.assertIn("at most three distinct articles", "\n".join(self.failures()))
+
+    def test_next_read_is_not_repeated(self):
+        next_read = '<a data-reading-path-next="example" href="/blog/posts/two/">Two</a>'
+        self.write("posts/one/index.html", next_read + self.related("two"))
+        self.assertIn("not a next read", "\n".join(self.failures()))
+        self.write("posts/one/index.html", next_read)
+        self.assertEqual(self.failures(), [])
+
+
 class LearningListTests(SiteFixture):
     def setUp(self):
         super().setUp()

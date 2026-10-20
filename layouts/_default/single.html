@@ -26,6 +26,7 @@
     {{- if $isPost }}
     <div class="bc-article-end">— 本文完 —</div>
     {{ partial "reading_paths.html" . }}
+    {{ partial "related_posts.html" . }}
     <footer class="post-footer bc-article-footer">{{ partial "post_tags.html" . }}</footer>
     {{- end }}
   </article>

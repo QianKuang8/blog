@@ -229,6 +229,24 @@ def check_reading_paths(site: Site, repo: Path, failures: list[str]) -> None:
             failures.append(f"{post}: reading navigation should match its topic memberships")
 
 
+def check_related_posts(site: Site, repo: Path, posts: list[dict], failures: list[str]) -> None:
+    """Related posts share a topic tag, skip next reads, and appear whenever a candidate exists."""
+    sources = set(json.loads((repo / "data/tag_groups.json").read_text(encoding="utf-8")).get("sources", []))
+    topics = {post["output"]: set(post["metadata"].get("tags") or []) - sources for post in posts}
+    for post in posts:
+        page = site.page(post["output"])
+        nexts = {site.resolve(attrs.get("href") or "", post["output"]) for attrs, _ in page.links_with("data-reading-path-next")}
+        related = [site.resolve(attrs.get("href") or "", post["output"]) for attrs, _ in page.links_with("data-related-post")]
+        candidates = {output for output, tags in topics.items() if tags & topics[post["output"]]} - {post["output"]} - nexts
+        if len(related) > 3 or len(related) != len(set(related)):
+            failures.append(f"{post['output']}: related posts should list at most three distinct articles")
+        for target in related:
+            if target not in candidates:
+                failures.append(f"{post['output']}: related post {target} should be another article sharing a topic tag, not a next read")
+        if candidates and not related:
+            failures.append(f"{post['output']}: related posts are missing although other articles share its topic tags")
+
+
 def check_learning_list(site: Site, repo: Path, posts: list[dict], failures: list[str]) -> None:
     """Learning state comes from source metadata; article pages stay free of it."""
     config = yaml.safe_load((repo / "config/_default/config.yaml").read_text(encoding="utf-8"))
@@ -310,6 +328,7 @@ def check_site(site_dir: Path, repo: Path = REPO, base_url: str | None = None) -
     check_search_index(site, posts, categories, failures)
     check_article_types(site, repo, posts, categories, failures)
     check_reading_paths(site, repo, failures)
+    check_related_posts(site, repo, posts, failures)
     check_learning_list(site, repo, posts, failures)
     check_legacy_entries(site, repo, failures)
     return failures

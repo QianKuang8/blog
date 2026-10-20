@@ -1,25 +1,5 @@
 {{- if eq .Section "posts" -}}
-  {{- $page := . -}}
-  {{- $memberships := slice -}}
-  {{- range hugo.Data.reading_paths.paths -}}
-    {{- $path := . -}}
-    {{- $entries := slice -}}
-    {{- range .groups -}}
-      {{- range .entries -}}
-        {{- $entries = $entries | append . -}}
-      {{- end -}}
-    {{- end -}}
-    {{- range $index, $entry := $entries -}}
-      {{- if eq $entry.post $page.Path -}}
-        {{- $next := false -}}
-        {{- if lt (add $index 1) (len $entries) -}}
-          {{- $next = index $entries (add $index 1) -}}
-        {{- end -}}
-        {{- $memberships = $memberships | append (dict "topic" (site.GetPage $path.topic) "position" (add $index 1) "total" (len $entries) "next" $next) -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-  {{- with $memberships }}
+  {{- with partial "reading_path_memberships.html" . }}
   <nav class="reading-paths bc-reading-paths" aria-labelledby="reading-paths-heading">
     <h2 id="reading-paths-heading">沿专题继续阅读</h2>
     {{- range . }}
