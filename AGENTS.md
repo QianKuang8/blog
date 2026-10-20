@@ -5,7 +5,7 @@
 ## 项目概述
 
 - Hugo 静态博客，模板与样式在仓库内（`layouts/`、`assets/`），不依赖外部主题。
-- 通过 GitHub Pages 部署。日常修改直接提交到 `main`，推送后由 `.github/workflows/hugo.yaml` 构建部署；不要求 PR。
+- 通过 GitHub Pages 部署。所有修改直接在 `main` 上提交并推送，推送后由 `.github/workflows/hugo.yaml` 构建部署。
 - 仓库公开。第三方文章全文只放私有仓库 `QianKuang8/blog-sources`，书籍资料只放私有仓库 `QianKuang8/books`。
 
 ## 常用命令
@@ -94,6 +94,7 @@ showToc: true
 - 站点以桌面阅读为准，日常只检查桌面显示；窄屏只有单栏回退样式，除非用户要求，不做手机适配或验证。
 
 **提交**
+- 直接在 `main` 上修改、提交并 `git push origin main`；不新建分支，不开 PR，也不做 merge。`blog-sources` 与 `blog-pdfs` 两个仓库同样直接提交到各自的 `main`。
 - 只用单行 git commit 信息。
 - 更新博文后主动提交；不适合直接提交时，先询问用户。
 
