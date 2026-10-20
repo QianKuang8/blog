@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T14:45:00+08:00'
-lastmod: '2026-09-23T14:26:11+08:00'
+lastmod: '2026-10-20T10:55:09+08:00'
 title: '下一波 AI 的分水岭：组织能否兑现模型能力'
 summary: "从 Tibo 的访谈出发，沿产品编排、推理基础设施和反馈流程，观察模型能力怎样转化为实际任务收益，并区分团队经验、产品愿景与已验证结果。"
 description: "解读 Tibo 关于 AI agent、ChatGPT 与 Codex 合流、系统级递归改进、ultra-fast 和能力普及的访谈"
@@ -26,7 +26,7 @@ learning_status: done
 
 ![访谈五层教学主线：组织、产品、供给、治理与社会边界](/images/video-notes/understanding-next-ai-wave/system-delivery-layers.png)
 
-*根据访谈内容整理重绘，覆盖 [00:00:45–00:44:24](https://www.youtube.com/watch?v=4qjEgPojjzM&t=45s)。箭头表示整理者归纳的关系，不是已测得的业务因果。*
+*图 1：重绘，根据访谈 [00:00:45–00:44:24](https://www.youtube.com/watch?v=4qjEgPojjzM&t=45s) 的内容整理。箭头表示整理者归纳的关系，不是已测得的业务因果。*
 
 ## 能力出现之后，发布机制决定它能否形成影响
 
@@ -62,7 +62,7 @@ Tibo 对当前 agent 体验的批评很具体：skill 需要维护，memory 不�
 
 ![系统级递归自我改进：模型、执行、产品与工作流构成反馈环](/images/video-notes/understanding-next-ai-wave/recursive-improvement-loop.png)
 
-*根据访谈内容重绘。来源范围：[00:30:25–00:31:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=1825s)。*
+*图 2：重绘，根据访谈 [00:30:25–00:31:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=1825s) 的内容整理。*
 
 按访谈讨论的具体范围，“递归自我改进”可以理解为模型帮助改进推理栈与内核，让服务运行得更快或更便宜；团队再改进产品交互和研发流程，把使用结果用于下一轮研究。收益真正被下一轮工作采用，反馈才接得上。视频没有给出闭环周期，也没有证明每轮改进都有效，因此这里只能解释可能的改进路径。
 
@@ -78,7 +78,7 @@ ultra-fast 最有价值的例子，不是聊天窗口里的数字，而是时延
 
 ![共享画布反馈环：生成、选择、实时引导与持续修改](/images/video-notes/understanding-next-ai-wave/shared-canvas-loop.png)
 
-*根据受访者描述的产品愿景重绘。来源范围：[00:38:51–00:39:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=2331s)。*
+*图 3：重绘，根据受访者在 [00:38:51–00:39:55](https://www.youtube.com/watch?v=4qjEgPojjzM&t=2331s) 描述的产品愿景整理。*
 
 当反馈足够快，产品形态也会变化。共享画布的想象不是让模型一次生成最终答案，而是先给出多个候选，人直接选择，再通过语音或文字实时引导一个可操控原型。速度在这里改变的是人与模型共同修正结果的方式，而不只是减少等待。
 

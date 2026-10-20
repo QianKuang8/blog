@@ -1,6 +1,6 @@
 ---
 date: '2026-09-20T17:58:16+08:00'
-lastmod: '2026-09-21T10:32:28+08:00'
+lastmod: '2026-10-20T10:55:09+08:00'
 title: 'GLM 的 Infra Agent：用密集反馈优化推理基础设施'
 summary: "Z.ai 用三个推理系统案例说明，Agent 如何把数值偏差、并发异常和性能瓶颈变成可验证的假设。关键在于组织局部对照、执行时间线与端到端验收，让每轮实验都能指导下一步。"
 description: "解读 GLM Infra Agent 的密集反馈机制，以及 KDA 精度修复、KV Transfer 并发排障和 Kernel 优化背后的验证方法与适用边界。"
@@ -24,7 +24,7 @@ Z.ai 的 [《How GLM Built Its Own Inference Infrastructure》](https://z.ai/blo
 
 ![Infra Agent 的反馈循环：工程师定义目标与边界，Agent 提出假设和修改，实验环境提供数值、时序与性能证据；候选修改经过端到端验收，结果继续反馈给 Agent。](/images/glm-built-its-inference-infrastructure/dense-feedback-loop.svg)
 
-*根据原文整理的职责与反馈关系。三类局部验证按当前假设选择，没有固定执行顺序；通过局部验证的修改仍需端到端验收。*
+*图 1：重绘，依据 [How GLM Built Its Own Inference Infrastructure](https://z.ai/blog/glm-built-its-inference-infrastructure) 整理职责与反馈关系，原文 Figure 2 为同一优化循环的示意图。三类局部验证按当前假设选择，没有固定执行顺序；通过局部验证的修改仍需端到端验收。*
 
 这也改变了测试的用途。测试既是验收手段，也是选择下一步动作的依据：数值对照缩小错误范围，时间线揭示等待关系，性能实验判断一个改法在哪些条件下成立。Agent 每轮拿到的应当是足以保留、修订或推翻当前假设的证据。
 

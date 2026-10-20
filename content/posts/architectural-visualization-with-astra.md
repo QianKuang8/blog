@@ -1,6 +1,6 @@
 ---
 date: '2026-09-21T15:11:39+08:00'
-lastmod: '2026-09-21T15:11:39+08:00'
+lastmod: '2026-10-20T10:55:09+08:00'
 title: 'Astra 建筑可视化：从可编辑场景到交互漫游'
 summary: "从 Blender 场景到 Unreal 实时漫游，Astra 的建筑案例展示了 Coding Agent 怎样参与视觉创作。本文讨论可编辑产物、分阶段反馈，以及画面、几何和交互需要怎样分别验收。"
 description: "解读 OpenAI 的 Astra 建筑可视化案例，分析 Blender 与 Unreal 工作流中的场景编辑、视觉反馈、跨工具迁移和交付验证。"
@@ -34,7 +34,7 @@ learning_status: done
 
 ![围绕可编辑场景的反馈循环：输入设计目标，修改场景，查看预览，再将问题定位回场景；交付时分别检查渲染成片与实时交互。](/images/architectural-visualization-with-astra/editable-scene-loop.svg)
 
-*图：本文根据案例整理的工作模型。上方表示迭代循环，下方表示两种交付形式各自需要的检查，不代表原项目的精确执行时序。*
+*图 1：重绘，依据 [Architectural visualization with Astra](https://developers.openai.com/blog/architectural-visualization-with-astra) 的案例整理工作模型，原文没有对应示意图。上方表示迭代循环，下方表示两种交付形式各自需要的检查，不代表原项目的精确执行时序。*
 
 ## 在合适的阶段问合适的问题
 

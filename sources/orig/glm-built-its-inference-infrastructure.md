@@ -11,6 +11,6 @@ image_sources:
   - title: "推理基础设施的职责与反馈关系（重绘）"
     path: "/images/glm-built-its-inference-infrastructure/dense-feedback-loop.svg"
     source_url: "https://z.ai/blog/glm-built-its-inference-infrastructure"
-    method: "重绘：依据原文对职责分工与验证反馈的文字说明绘制，原文无对应示意图"
+    method: "重绘：依据原文对职责分工与验证反馈的说明整理绘制；原文 Figure 2 为同一优化循环的示意图"
     retrieved_at: "2026-09-20T18:02:26+08:00"
 ---

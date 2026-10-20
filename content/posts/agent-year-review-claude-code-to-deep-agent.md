@@ -30,7 +30,7 @@ learning_status: done
 
 ![Skills 与上下文窗口：系统提示中只放各 Skill 的简短描述；用户请求处理 PDF 后，Claude 读取 pdf/SKILL.md，再按需读取 forms.md，每次读取都作为工具结果进入上下文。](/images/agent-year-review-claude-code-to-deep-agent/skills-context-window.jpg)
 
-*图 1：原文配图，来源：[Agent 元年复盘](https://zhuanlan.zhihu.com/p/1983512173549483912)，为原文转引的 Anthropic Agent Skills 示意图。从上到下是一次会话中上下文的增长顺序：先有简短描述，确认相关后读取 SKILL.md，遇到填表再读取 forms.md。图中文字较小，可点击查看原图。*
+*图 1：原图，来源：[Agent 元年复盘](https://zhuanlan.zhihu.com/p/1983512173549483912)，为原文转引的 Anthropic Agent Skills 示意图。从上到下是一次会话中上下文的增长顺序：先有简短描述，确认相关后读取 SKILL.md，遇到填表再读取 forms.md。图中文字较小，可点击查看原图。*
 
 这样的组织把发现、理解和执行分开了。通用上下文不必包含所有细节，专业流程又能在需要时进入当前决策。确定性操作交给脚本，也能减少每次重新生成同一段处理逻辑的需要。
 
@@ -42,7 +42,7 @@ learning_status: done
 
 ![deepagents 包的四个组成部分：规划工具、子 Agent、文件系统和系统提示，围绕中间的 Deep Agents。](/images/agent-year-review-claude-code-to-deep-agent/deepagents-package.jpg)
 
-*图 2：原文配图，来源同上，为原文转引的 LangChain deepagents 介绍图。左侧列出四个关键元素，与本节讨论的规划、子 Agent、文件系统和系统提示一一对应。*
+*图 2：原图，来源同上，为原文转引的 LangChain deepagents 介绍图。左侧列出四个关键元素，与本节讨论的规划、子 Agent、文件系统和系统提示一一对应。*
 
 主 Agent 委派子任务后，局部搜索和试错可以留在子上下文，只把结果传回负责人。这减少了主上下文的负担，也支持独立任务并行。但高度压缩的返回内容可能遗漏限制条件。因而从这种结构可以进一步推导：委派时需要清楚的完成标准，回传时需要保留能够检查的依据，不能只传一句成功结论。
 
@@ -54,7 +54,7 @@ learning_status: done
 
 ![三层工具金字塔：底层约 20 个原子工具，稳定且利于缓存；中层是在沙箱中通过 bash 调用的命令行程序；顶层是用代码和软件包处理复杂逻辑。](/images/agent-year-review-claude-code-to-deep-agent/layered-action-space-pyramid.jpg)
 
-*图 3：原文配图，来源同上，为原文转引的 Manus 分享图。越往上能力越强，调用方式越间接：底层保持少量稳定的原子工具，上层通过 shell 和代码组合更多操作，而不是增加工具定义。*
+*图 3：原图，来源同上，为原文转引的 Manus 分享图。越往上能力越强，调用方式越间接：底层保持少量稳定的原子工具，上层通过 shell 和代码组合更多操作，而不是增加工具定义。*
 
 例如，视频处理可以通过 shell 调用已有程序，不必为每个参数组合增加独立工具；一组重复查询与换算可以写成脚本，减少模型逐步往返。两者分别降低工具定义占用与调用轮次，但也要求环境里已经具备程序、依赖和可理解的使用说明。
 

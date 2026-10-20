@@ -1,6 +1,6 @@
 ---
 date: '2026-09-17T16:53:20+08:00'
-lastmod: '2026-09-17T16:53:20+08:00'
+lastmod: '2026-10-20T10:55:09+08:00'
 title: 'Devin Fusion：双 Agent 的分工与成本'
 summary: "Cognition 的 Fusion 让规划审查与代码执行分工，并保留各自上下文。本文从委派契约、审查证据和任务成本出发，分析这种架构的收益与适用边界。"
 description: "解读 Devin Fusion 的 Lead–Sidekick 架构，讨论双 Agent 如何交换任务与结果，以及怎样结合质量衡量降本收益。"
@@ -20,7 +20,7 @@ Coding Agent 的成本优化需要回答一个具体问题：哪些工作值得�
 
 ![Fusion 分工示意：用户与 Lead 交互，Lead 向 Sidekick 下发任务并审查返回结果，两个 Agent 各自保留上下文。](/images/cognition-local-fusion/lead-sidekick.svg)
 
-*根据原文架构说明整理。图中表示职责和信息流，不表示底层调度时序。*
+*图 1：重绘，依据 [Introducing Fusion in Devin Desktop & CLI](https://cognition.com/blog/local-fusion) 的架构说明整理。图中表示职责和信息流，不表示底层调度时序。*
 
 从工程上理解，两份上下文让系统可以决定信息的接收者。搜索中遇到的无关文件、一次失败命令的完整输出，可能对执行过程有用，却未必需要全部进入最终审查。不过，减少传递也带来一个新问题：执行者如何判断哪些信息必须向负责人报告？如果筛选掉的恰好是反例，审查者就可能依据一份过于乐观的摘要作决定。
 
