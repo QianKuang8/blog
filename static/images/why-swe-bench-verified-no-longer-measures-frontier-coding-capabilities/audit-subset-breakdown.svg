@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="646" viewBox="0 0 1000 646" role="img" aria-labelledby="title desc">
+  <title id="title">SWE-bench Verified 审查的样本范围与缺陷构成</title>
+  <desc id="desc">上方条形表示 SWE-bench Verified 的 500 题，其中 o3 在 64 次独立运行中反复未能解决的 138 题占 27.6%，构成审查子集。下方条形把这 138 题展开为 100%：过窄测试 35.5%，过宽测试 18.8%，其他问题 5.1%，三者合计 59.4% 存在测试设计或任务描述的实质缺陷，其余题目未计入缺陷类别。</desc>
+  <rect width="1000" height="646" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">59.4% 的分母是 138 道难题</text>
+    <text x="40" y="86" font-size="19" fill="#526478">条宽按原文比例绘制；各类缺陷比例都以审查子集为分母，不是全部 500 题</text>
+
+    <!-- bar 1: all Verified tasks -->
+    <text x="40" y="134" font-size="19" font-weight="700" fill="#182b40">SWE-bench Verified：500 题</text>
+    <rect x="40" y="148" width="920" height="48" rx="8" fill="#fff" stroke="#c8d2de"/>
+    <path d="M48 148 H293.9 V196 H48 A8 8 0 0 1 40 188 V156 A8 8 0 0 1 48 148 Z" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="167" y="178" text-anchor="middle" font-size="17" fill="#254d7a">138 题 · 27.6%</text>
+    <text x="627" y="178" text-anchor="middle" font-size="17" fill="#526478">其余题目：不在此次审查范围</text>
+
+    <!-- zoom -->
+    <path d="M40 196 H293.9 L960 356 H40 Z" fill="#e9f0fb" fill-opacity="0.45"/>
+    <path d="M293.9 196 L960 356" fill="none" stroke="#a9bfdc" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="60" y="250" font-size="18" font-weight="700" fill="#254d7a">展开：138 题审查子集</text>
+    <g font-size="17" fill="#344d68">
+      <text x="60" y="278">选取：o3 在 64 次独立运行中反复未能解决</text>
+      <text x="60" y="304">审查：每题至少六位工程师独立审查，</text>
+      <text x="60" y="330">被标记的问题再交另一团队复核</text>
+    </g>
+    <text x="563" y="344" text-anchor="middle" font-size="16" fill="#725025">其他问题 5.1%</text>
+
+    <!-- bar 2: audited subset = 100% -->
+    <rect x="40" y="356" width="920" height="56" rx="8" fill="#fff" stroke="#c8d2de"/>
+    <path d="M48 356 H366.6 V412 H48 A8 8 0 0 1 40 404 V364 A8 8 0 0 1 48 356 Z" fill="#fff4df" stroke="#d9c397"/>
+    <rect x="366.6" y="356" width="172.96" height="56" fill="#f7e3bb" stroke="#d9c397"/>
+    <rect x="539.56" y="356" width="46.92" height="56" fill="#f0d8a6" stroke="#d9c397"/>
+    <g font-size="17" text-anchor="middle">
+      <text x="203.3" y="390" fill="#725025">过窄测试 35.5%</text>
+      <text x="453.1" y="390" fill="#725025">过宽测试 18.8%</text>
+      <text x="773.2" y="390" fill="#526478">其余题目：未计入缺陷类别</text>
+    </g>
+
+    <!-- 59.4% bracket -->
+    <path d="M41 420 V430 H585.5 V420" fill="none" stroke="#9a7d45" stroke-width="1.5"/>
+    <text x="313" y="458" text-anchor="middle" font-size="18" font-weight="700" fill="#725025">59.4%：测试设计或任务描述存在实质缺陷</text>
+
+    <!-- category cards -->
+    <rect x="40" y="482" width="293" height="104" rx="10" fill="#fff4df" stroke="#d9c397"/>
+    <rect x="353" y="482" width="294" height="104" rx="10" fill="#f7e3bb" stroke="#d9c397"/>
+    <rect x="667" y="482" width="293" height="104" rx="10" fill="#f0d8a6" stroke="#d9c397"/>
+    <g font-size="17" font-weight="700" fill="#725025">
+      <text x="58" y="512">过窄测试 · 35.5%</text>
+      <text x="371" y="512">过宽测试 · 18.8%</text>
+      <text x="685" y="512">其他问题 · 5.1%</text>
+    </g>
+    <g font-size="16" fill="#5b4220">
+      <text x="58" y="540">把实现细节当成需求</text>
+      <text x="58" y="566">例：pylint 的 get_annotation</text>
+      <text x="371" y="540">检查题面未提及的额外功能</text>
+      <text x="371" y="566">例：SymPy 的 nthroot_mod</text>
+      <text x="685" y="540">难以归入上述两类</text>
+    </g>
+
+    <text x="500" y="620" text-anchor="middle" font-size="16" fill="#64758a">根据原文的审查说明重绘；原文只给出比例，未列出各类题目的具体数量</text>
+  </g>
+</svg>

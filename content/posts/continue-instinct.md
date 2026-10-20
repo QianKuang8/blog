@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T11:00:00+08:00'
-lastmod: "2026-09-21T10:10:01+08:00"
+lastmod: '2026-10-20T10:11:31+08:00'
 title: "Continue Instinct：从编辑轨迹训练 Next Edit 模型"
 summary: "Instinct 把连续按键整理成编辑样本，再用稀疏微调适配 Next Edit。本文解释样本边界、多语言数据与质量评估，并区分推理加速估算和实际开发效率。"
 description: "解读 Continue Instinct 的编辑轨迹数据、SeleKT 训练与 Next Edit 评估方法。"
@@ -23,6 +23,10 @@ Continue 的 [Instinct](https://blog.continue.dev/instinct/) 围绕这个问题�
 这里首先要解决的事情，是把按键变成有意义的动作。一次按键太碎，保存文件又可能把几个不同意图混在一起。团队用基于行和时间的启发式规则，把连续输入聚合为相对完整的 diff，并过滤在一两行之间反复来回修改的序列。模型学到的目标因此受数据清洗规则影响：训练集偏向能够推进工作、较少重复的编辑。
 
 可编辑区域也经过约束：从光标上一行开始，到光标下五行结束。这是根据当时数据分布作出的选择，不能由此推导模型已经具备任意跨文件重构能力。上下文可以来自其他文件，输出仍是指定区域的替换内容。清楚区分“模型看到了什么”和“模型可以改哪里”，才能复现这项任务。
+
+![左侧三个输入框依次是最近五次编辑、其他文件的相关上下文和当前文件，当前文件中从光标上一行到光标下第五行标为黄色的可编辑区域。三者汇入中间的 Instinct 7B 模型，右侧输出重写后的可编辑区域，训练时与开发者随后对该区域的实际修改对照。](/images/continue-instinct/training-sample-editable-region.svg)
+
+*图 1：重绘，依据 [Introducing Instinct: the world's best open Next Edit model, built by Continue](https://blog.continue.dev/instinct/) 对训练样本组成与可编辑区域的说明整理，原文没有对应示意图。左侧都是输入，只有黄色区域由模型重写；代码行只是示意，不代表真实文件长度。*
 
 ## 多语言适配与参数更新解决不同问题
 

@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="636" viewBox="0 0 1000 636" role="img" aria-labelledby="title desc">
+  <title id="title">五个 Skill 的交接链</title>
+  <desc id="desc">尚未定型的想法进入 /grill-me，得到已澄清的决策；/to-prd 把它整理成产品规格；/to-issues 拆成带依赖的任务；/tdd 产出经过验证的实现；/improve-codebase-architecture 提出待评估的架构改进，并与 TDD 互相反馈。底部列出每次交接时可以检查的问题。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+    <marker id="arrow-start" markerWidth="9" markerHeight="9" refX="1" refY="4" orient="auto"><path d="M8 0 L0 4 L8 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="636" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">每个 Skill 都为下一步留下输入</text>
+    <text x="40" y="86" font-size="19" fill="#526478">产物逐个交给下一阶段；不必每次全部调用，小修复也不必走完全程</text>
+    <g font-size="16" fill="#526478">
+      <rect x="40" y="106" width="16" height="16" rx="3" fill="#e7f4ee" stroke="#a3cdbb"/>
+      <text x="64" y="120">交给下一阶段的产物</text>
+      <rect x="244" y="106" width="16" height="16" rx="3" fill="#fff4df" stroke="#d9c397"/>
+      <text x="268" y="120">交接时可检查的问题（本文归纳）</text>
+    </g>
+
+    <!-- input -->
+    <rect x="40" y="140" width="196" height="36" rx="8" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="138" y="164" text-anchor="middle" font-size="17" fill="#344d68">输入：尚未定型的想法</text>
+
+    <!-- TDD <-> architecture feedback -->
+    <text x="758" y="164" text-anchor="middle" font-size="16" fill="#526478">边界帮助写测试 · 测试暴露抽象问题</text>
+
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M117 176 V198" marker-end="url(#arrow)"/>
+      <path d="M657 198 V178 H860 V198" stroke-dasharray="5 4" marker-start="url(#arrow-start)" marker-end="url(#arrow)"/>
+      <path d="M186 414 H218" marker-end="url(#arrow)"/>
+      <path d="M366 414 H398" marker-end="url(#arrow)"/>
+      <path d="M546 414 H578" marker-end="url(#arrow)"/>
+      <path d="M726 414 H758" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- cards -->
+    <g fill="#fff" stroke="#c8d2de">
+      <rect x="40" y="200" width="154" height="262" rx="12"/>
+      <rect x="220" y="200" width="154" height="262" rx="12"/>
+      <rect x="400" y="200" width="154" height="262" rx="12"/>
+      <rect x="580" y="200" width="154" height="262" rx="12"/>
+      <rect x="760" y="200" width="200" height="262" rx="12"/>
+    </g>
+    <g stroke="#dfe5ec">
+      <path d="M52 292 H182"/>
+      <path d="M232 292 H362"/>
+      <path d="M412 292 H542"/>
+      <path d="M592 292 H722"/>
+      <path d="M772 292 H948"/>
+    </g>
+    <g font-size="17" font-weight="700" fill="#254d7a" text-anchor="middle">
+      <text x="117" y="240">/grill-me</text>
+      <text x="297" y="240">/to-prd</text>
+      <text x="477" y="240">/to-issues</text>
+      <text x="657" y="240">/tdd</text>
+      <text x="860" y="230">/improve-codebase-</text>
+      <text x="860" y="252">architecture</text>
+    </g>
+    <g font-size="16" fill="#526478" text-anchor="middle">
+      <text x="117" y="268">追问澄清</text>
+      <text x="297" y="268">整理成 PRD</text>
+      <text x="477" y="268">拆成工作项</text>
+      <text x="657" y="268">测试驱动开发</text>
+      <text x="860" y="278">架构改进</text>
+    </g>
+    <g font-size="16" fill="#344d68">
+      <text x="54" y="324">沿设计依赖追问</text>
+      <text x="54" y="348">能查代码就先查</text>
+      <text x="234" y="324">核对仓库事实</text>
+      <text x="234" y="348">勾勒主要模块</text>
+      <text x="234" y="372">用户故事写行为</text>
+      <text x="414" y="324">纵向薄切片</text>
+      <text x="414" y="348">尽早跑通行为</text>
+      <text x="414" y="372">记录阻塞关系</text>
+      <text x="594" y="324">确认要测的行为</text>
+      <text x="594" y="348">一次一个测试</text>
+      <text x="594" y="372">红 → 绿 → 重构</text>
+      <text x="774" y="324">查找结构摩擦</text>
+      <text x="774" y="348">提出 deep module 候选</text>
+      <text x="774" y="372">讨论哪些边界要调整</text>
+    </g>
+
+    <!-- artifacts -->
+    <g fill="#e7f4ee" stroke="#a3cdbb">
+      <rect x="48" y="392" width="138" height="44" rx="8"/>
+      <rect x="228" y="392" width="138" height="44" rx="8"/>
+      <rect x="408" y="392" width="138" height="44" rx="8"/>
+      <rect x="588" y="392" width="138" height="44" rx="8"/>
+      <rect x="768" y="392" width="184" height="44" rx="8"/>
+    </g>
+    <g font-size="17" fill="#21624a" text-anchor="middle">
+      <text x="117" y="420">已澄清的决策</text>
+      <text x="297" y="420">产品规格</text>
+      <text x="477" y="420">带依赖的任务</text>
+      <text x="657" y="420">经过验证的实现</text>
+      <text x="860" y="420">待评估的架构改进</text>
+    </g>
+
+    <!-- handoff checks -->
+    <g fill="none" stroke="#b5a37c" stroke-width="1.3" stroke-dasharray="3 3">
+      <path d="M117 462 V490"/>
+      <path d="M297 462 V490"/>
+      <path d="M477 462 V490"/>
+      <path d="M657 462 V490"/>
+      <path d="M860 462 V490"/>
+    </g>
+    <g fill="#fff4df" stroke="#d9c397">
+      <rect x="40" y="490" width="334" height="72" rx="10"/>
+      <rect x="400" y="490" width="154" height="72" rx="10"/>
+      <rect x="580" y="490" width="154" height="72" rx="10"/>
+      <rect x="760" y="490" width="200" height="72" rx="10"/>
+    </g>
+    <g font-size="17" fill="#725025" text-anchor="middle">
+      <text x="207" y="532">实现前是否知道要完成什么</text>
+      <text x="477" y="520">拆分后是否仍能</text>
+      <text x="477" y="544">验证使用行为</text>
+      <text x="657" y="520">测试是否覆盖</text>
+      <text x="657" y="544">真实要求</text>
+      <text x="860" y="520">改进建议是否针对</text>
+      <text x="860" y="544">已观察到的结构问题</text>
+    </g>
+
+    <text x="500" y="606" text-anchor="middle" font-size="16" fill="#64758a">根据原文对五个 Skill 的说明重绘；卡片内为摘要，检查问题与阶段的对应为本文归纳</text>
+  </g>
+</svg>

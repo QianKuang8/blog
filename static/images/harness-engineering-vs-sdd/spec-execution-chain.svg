@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" role="img" aria-labelledby="title desc">
+  <title id="title">约束怎样被找到、执行和验证</title>
+  <desc id="desc">任务从短的 AGENTS.md 入口进入，沿指针读取系统概览、接口契约和行为场景。Agent 按需读取定义，用工具实现并观察行为；检查以行为场景和契约为验收依据，构造该错误响应并观察后续行为。检查结果分三路：需求遗漏时补充接口契约；规范正确但实现违反时修复实现或执行流程；符合定义时参与任务验收。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="700" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">约束怎样被找到、执行和验证</text>
+    <text x="40" y="86" font-size="19" fill="#526478">入口只做导航；检查指出偏差后，按原因把修复送回对应层级</text>
+
+    <g font-size="19" font-weight="700" fill="#182b40">
+      <text x="72" y="140">仓库中的 Spec</text>
+      <text x="568" y="140">任务的执行与检查</text>
+    </g>
+
+    <!-- connectors -->
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M568 191 H438" marker-end="url(#arrow)"/>
+      <path d="M252 224 V250" marker-end="url(#arrow)"/>
+      <path d="M432 301 H562" marker-end="url(#arrow)"/>
+      <path d="M432 449 H562" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+      <path d="M748 332 V368" marker-end="url(#arrow)"/>
+      <path d="M748 480 V550" marker-end="url(#arrow)"/>
+      <path d="M748 520 H222 V550" marker-end="url(#arrow)"/>
+      <path d="M470 520 V550" marker-end="url(#arrow)"/>
+      <path d="M72 592 H52 V375 H82" marker-end="url(#arrow)"/>
+      <path d="M928 592 H952 V301 H934" marker-end="url(#arrow)"/>
+    </g>
+    <g font-size="16" fill="#526478">
+      <text x="500" y="180" text-anchor="middle">从短入口进入</text>
+      <text x="266" y="245">沿指针读取</text>
+      <text x="500" y="290" text-anchor="middle">按需读取</text>
+      <text x="500" y="438" text-anchor="middle">验收依据</text>
+    </g>
+
+    <!-- left lane: spec -->
+    <rect x="72" y="158" width="360" height="66" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="90" y="185" font-size="18" font-weight="700" fill="#254d7a">AGENTS.md · 入口</text>
+    <text x="90" y="211" font-size="17" fill="#254d7a">保持短，负责导航和行动入口</text>
+
+    <rect x="72" y="256" width="360" height="238" rx="12" fill="none" stroke="#a9bfdc" stroke-dasharray="5 4"/>
+    <g fill="#e9f0fb" stroke="#a9bfdc">
+      <rect x="88" y="270" width="328" height="62" rx="8"/>
+      <rect x="88" y="344" width="328" height="62" rx="8"/>
+      <rect x="88" y="418" width="328" height="62" rx="8"/>
+    </g>
+    <g font-size="18" font-weight="700" fill="#254d7a">
+      <text x="106" y="296">系统概览</text>
+      <text x="106" y="370">接口契约</text>
+      <text x="106" y="444">行为场景</text>
+    </g>
+    <g font-size="17" fill="#254d7a">
+      <text x="106" y="320">服务职责与边界</text>
+      <text x="106" y="394">字段、状态和错误语义</text>
+      <text x="106" y="468">某个条件下应得到什么结果</text>
+    </g>
+
+    <!-- right lane: execution -->
+    <rect x="568" y="158" width="360" height="66" rx="10" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="586" y="185" font-size="18" font-weight="700" fill="#344d68">任务</text>
+    <text x="586" y="211" font-size="17" fill="#526478">例：服务 B 处理服务 A 定义的错误码</text>
+
+    <rect x="568" y="270" width="360" height="62" rx="8" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="586" y="296" font-size="18" font-weight="700" fill="#21624a">Agent 实现</text>
+    <text x="586" y="320" font-size="17" fill="#21624a">用工具实现并观察行为</text>
+
+    <rect x="568" y="374" width="360" height="106" rx="8" fill="#fff4df" stroke="#d9c397"/>
+    <text x="586" y="402" font-size="18" font-weight="700" fill="#725025">检查</text>
+    <text x="586" y="430" font-size="17" fill="#725025">构造该错误响应，观察后续行为</text>
+    <text x="586" y="458" font-size="17" fill="#725025">契约测试或专用检查</text>
+
+    <!-- outcomes -->
+    <rect x="72" y="556" width="300" height="72" rx="8" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="90" y="584" font-size="18" font-weight="700" fill="#254d7a">偏差：需求遗漏</text>
+    <text x="90" y="610" font-size="17" fill="#254d7a">补充到接口契约</text>
+
+    <rect x="392" y="556" width="156" height="72" rx="8" fill="#ffffff" stroke="#c8d2de"/>
+    <text x="470" y="584" text-anchor="middle" font-size="18" font-weight="700" fill="#344d68">符合定义</text>
+    <text x="470" y="610" text-anchor="middle" font-size="17" fill="#526478">参与任务验收</text>
+
+    <rect x="568" y="556" width="360" height="72" rx="8" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="586" y="584" font-size="18" font-weight="700" fill="#21624a">偏差：规范正确，实现违反</text>
+    <text x="586" y="610" font-size="17" fill="#21624a">修复实现或执行流程</text>
+
+    <text x="500" y="672" text-anchor="middle" font-size="16" fill="#64758a">根据原文与本文的文字说明重绘；检查方式与两路归因为本文整理，原文没有对应示意图</text>
+  </g>
+</svg>

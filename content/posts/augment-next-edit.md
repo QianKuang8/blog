@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T11:40:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-20T10:11:31+08:00'
 title: "Augment Next Edit：从编辑意图到跨文件修改"
 summary: "Augment 将 Next Edit 拆成意图推断、位置检索和修改生成。编辑历史、专用 retriever 与紧凑 diff 各自解决不同错误，也共同决定建议能否在大型代码库里及时出现。"
 description: "解读 Augment Next Edit 的训练数据、跨文件定位、RAG 上下文与 diff 解码。"
@@ -15,6 +15,10 @@ learning_status: done
 一处代码修改经常需要其他位置跟进：定义变了，使用它的代码可能也要调整；当前文件改完，工作区里还可能残留旧写法。编辑建议若只盯着光标，能减少输入，却难以减少寻找遗漏的工作。
 
 Augment 的 [The AI research behind Next Edit](https://www.augmentcode.com/blog/the-ai-research-behind-next-edit) 围绕这一问题介绍了三项设计：从编辑历史推断任务，用检索模型定位需要变化的代码，再生成可以应用的修改。原文披露的是这条处理链的设计与定性结果，没有提供足以独立复现的完整模型、训练集或性能评测协议。
+
+![三张卡片从左到右依次是推断编辑意图、用专用 retriever 定位候选位置、生成紧凑 diff，上方分别接入近期编辑历史、整个工作区和代码库 RAG 检索，最后输出可超出光标的编辑建议。卡片底部注明各段针对的错误，左下虚线框列出原文的后续方向。](/images/augment-next-edit/next-edit-pipeline.svg)
+
+*图 1：重绘，依据 [The AI research behind Next Edit](https://www.augmentcode.com/blog/the-ai-research-behind-next-edit) 对意图推断、位置检索与修改生成的说明整理，原文没有对应示意图。两处黄色都是检索，一处找位置、一处补写法；卡片底部的“针对”是本文归纳，不是原文给出的分工。*
 
 ## 编辑历史先要成为可解释的输入
 

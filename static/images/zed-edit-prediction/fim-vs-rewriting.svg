@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="732" viewBox="0 0 1000 732" role="img" aria-labelledby="title desc">
+  <title id="title">从补全中间到重写附近片段</title>
+  <desc id="desc">上半部分是 Fill-in-the-Middle：前缀、光标处的待补内容和后缀交给代码模型，模型只生成中间缺少的内容，适合在指定位置插入，修改已有内容或涉及多处时显得局促。下半部分是 Zeta 的 Editing by Rewriting：近期编辑、光标位置和光标附近片段一起输入 Zeta，输出重写后的完整片段，其中多数行与输入相同，少数行是替换、插入或删除。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="732" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">从补全中间到重写附近片段</text>
+    <text x="40" y="86" font-size="19" fill="#526478">FIM 只生成光标处缺少的文本；Zeta 结合近期编辑与光标位置，重写光标附近的代码片段</text>
+    <rect x="40" y="112" width="920" height="202" rx="14" fill="#fff" stroke="#c8d2de"/>
+    <text x="64" y="150" font-size="21" font-weight="700" fill="#182b40">Fill-in-the-Middle（FIM）</text>
+    <rect x="64" y="170" width="260" height="36" rx="8" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="80" y="194" font-size="17" fill="#344d68">前缀：光标前的文本</text>
+    <rect x="64" y="214" width="260" height="36" rx="8" fill="#fffaf0" stroke="#d9c397" stroke-dasharray="5 4"/>
+    <text x="80" y="238" font-size="17" fill="#725025">待补内容：光标处</text>
+    <rect x="64" y="258" width="260" height="36" rx="8" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="80" y="282" font-size="17" fill="#344d68">后缀：光标后的文本</text>
+    <rect x="374" y="214" width="150" height="36" rx="8" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="449" y="238" text-anchor="middle" font-size="17" fill="#254d7a">代码模型</text>
+    <rect x="574" y="214" width="362" height="36" rx="8" fill="#fff4df" stroke="#d9c397"/>
+    <text x="590" y="238" font-size="17" fill="#725025">只生成中间缺少的内容</text>
+    <text x="574" y="270" font-size="16" fill="#344d68">适合在指定位置插入文本</text>
+    <text x="574" y="294" font-size="16" fill="#526478">修改已有内容或涉及多处时显得局促</text>
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M330 232 H366" marker-end="url(#arrow)"/>
+      <path d="M530 232 H566" marker-end="url(#arrow)"/>
+    </g>
+    <rect x="40" y="330" width="920" height="346" rx="14" fill="#fff" stroke="#c8d2de"/>
+    <text x="64" y="368" font-size="21" font-weight="700" fill="#182b40">Editing by Rewriting（Zeta）</text>
+    <rect x="64" y="388" width="260" height="58" rx="8" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="80" y="413" font-size="17" fill="#344d68">近期编辑</text>
+    <text x="80" y="436" font-size="16" fill="#526478">提供意图线索</text>
+    <rect x="64" y="460" width="260" height="58" rx="8" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="80" y="485" font-size="17" fill="#344d68">光标位置</text>
+    <text x="80" y="508" font-size="16" fill="#526478">限定当前工作区域</text>
+    <rect x="64" y="532" width="260" height="58" rx="8" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="80" y="557" font-size="17" fill="#344d68">光标附近片段</text>
+    <text x="80" y="580" font-size="16" fill="#526478">给出需要保留的结构</text>
+    <rect x="374" y="471.0" width="150" height="36" rx="8" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="449" y="495.0" text-anchor="middle" font-size="17" fill="#254d7a">Zeta</text>
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M330 417.0 L366 481.0" marker-end="url(#arrow)"/>
+      <path d="M330 489.0 H366" marker-end="url(#arrow)"/>
+      <path d="M330 561.0 L366 497.0" marker-end="url(#arrow)"/>
+      <path d="M530 489.0 H566" marker-end="url(#arrow)"/>
+    </g>
+    <text x="574" y="368" font-size="17" font-weight="700" fill="#182b40">输出：重写后的完整片段</text>
+    <rect x="574" y="388" width="362" height="212" rx="8" fill="#fff" stroke="#c8d2de"/>
+    <rect x="590" y="400" width="200" height="22" rx="5" fill="#dde4ec"/>
+    <rect x="614" y="428" width="230" height="22" rx="5" fill="#dde4ec"/>
+    <rect x="614" y="456" width="210" height="22" rx="5" fill="#fff4df" stroke="#d9c397"/>
+    <text x="626" y="473" font-size="16" fill="#725025">替换已有内容</text>
+    <rect x="614" y="484" width="170" height="22" rx="5" fill="#dde4ec"/>
+    <rect x="614" y="512" width="210" height="22" rx="5" fill="#fff4df" stroke="#d9c397"/>
+    <text x="626" y="529" font-size="16" fill="#725025">插入新内容</text>
+    <rect x="614" y="540" width="210" height="22" rx="5" fill="none" stroke="#d9c397" stroke-dasharray="4 3"/>
+    <text x="626" y="557" font-size="16" fill="#725025" text-decoration="line-through">删除原有内容</text>
+    <rect x="590" y="568" width="110" height="22" rx="5" fill="#dde4ec"/>
+    <text x="574" y="630" font-size="16" fill="#344d68">灰色行与输入相同，变化集中在少数位置</text>
+    <text x="574" y="654" font-size="16" fill="#526478">一次输出可同时表达插入、删除与替换</text>
+    <text x="500" y="710" text-anchor="middle" font-size="16" fill="#64758a">依据 Zed 原文重绘；代码行为示意，修改的位置与数量不代表真实输出，预测范围限于光标附近片段</text>
+  </g>
+</svg>

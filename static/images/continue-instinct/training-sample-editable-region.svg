@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="710" viewBox="0 0 1000 710" role="img" aria-labelledby="title desc">
+  <title id="title">一条 Instinct 训练样本的结构</title>
+  <desc id="desc">左侧是模型看到的输入：最近五次编辑（由按键按行与时间规则聚合成 diff，并过滤来回修改）、其他文件的相关上下文和当前文件；当前文件中从光标上一行到光标下五行是可编辑区域。中间的 7B 模型读取这些输入，右侧输出重写后的可编辑区域，训练时与开发者随后对该区域的实际修改对照。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="710" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">一条训练样本：模型看到什么、可以改哪里</text>
+    <text x="40" y="86" font-size="19" fill="#526478">上下文可以来自其他文件，输出只是可编辑区域的重写内容</text>
+    <g font-size="16" fill="#526478">
+      <rect x="40" y="105" width="16" height="16" rx="3" fill="#e9f0fb" stroke="#a9bfdc"/>
+      <text x="64" y="119">模型输入</text>
+      <rect x="170" y="105" width="16" height="16" rx="3" fill="#fff4df" stroke="#d9c397"/>
+      <text x="194" y="119">可编辑区域</text>
+      <rect x="316" y="105" width="16" height="16" rx="3" fill="#e7f4ee" stroke="#a3cdbb"/>
+      <text x="340" y="119">训练目标</text>
+    </g>
+
+    <g font-size="19" font-weight="700" fill="#182b40">
+      <text x="40" y="160">模型看到的</text>
+      <text x="640" y="160">模型可以改的</text>
+    </g>
+
+    <!-- inputs -->
+    <rect x="40" y="176" width="360" height="104" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="56" y="205" font-size="18" font-weight="700" fill="#254d7a">最近五次编辑</text>
+    <g font-size="16" fill="#526478">
+      <text x="56" y="234">按键按行与时间规则聚合成 diff</text>
+      <text x="56" y="260">过滤一两行间来回修改的序列</text>
+    </g>
+    <rect x="40" y="296" width="360" height="56" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="56" y="330" font-size="18" font-weight="700" fill="#254d7a">其他文件的相关上下文</text>
+
+    <rect x="40" y="368" width="360" height="278" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="56" y="396" font-size="18" font-weight="700" fill="#254d7a">当前文件</text>
+    <rect x="52" y="424" width="336" height="168" rx="8" fill="#fff4df" stroke="#d9c397"/>
+    <g fill="#c4d2e3">
+      <rect x="64" y="408" width="150" height="8" rx="4"/>
+      <rect x="64" y="600" width="170" height="8" rx="4"/>
+      <rect x="64" y="622" width="120" height="8" rx="4"/>
+    </g>
+    <g fill="#e3cfa6">
+      <rect x="64" y="438" width="120" height="8" rx="4"/>
+      <rect x="64" y="460" width="170" height="8" rx="4"/>
+      <rect x="64" y="482" width="190" height="8" rx="4"/>
+      <rect x="64" y="504" width="110" height="8" rx="4"/>
+      <rect x="64" y="526" width="160" height="8" rx="4"/>
+      <rect x="64" y="548" width="140" height="8" rx="4"/>
+      <rect x="64" y="570" width="90" height="8" rx="4"/>
+    </g>
+    <path d="M241 455 V473" stroke="#254d7a" stroke-width="2.4"/>
+    <g font-size="16" fill="#725025">
+      <text x="272" y="448">光标上一行</text>
+      <text x="272" y="470" fill="#254d7a">光标所在行</text>
+      <text x="272" y="514" font-weight="700">可编辑区域</text>
+      <text x="272" y="580">光标下第五行</text>
+    </g>
+    <text x="272" y="632" font-size="16" fill="#526478">区域外只作输入</text>
+
+    <!-- model -->
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M402 228 L446 360" marker-end="url(#arrow)"/>
+      <path d="M402 324 L446 378" marker-end="url(#arrow)"/>
+      <path d="M402 507 L446 398" marker-end="url(#arrow)"/>
+      <path d="M592 380 H634" marker-end="url(#arrow)"/>
+    </g>
+    <rect x="452" y="332" width="136" height="96" rx="12" fill="#fff" stroke="#8fa3b8"/>
+    <text x="520" y="372" text-anchor="middle" font-size="19" font-weight="700" fill="#182b40">Instinct</text>
+    <text x="520" y="401" text-anchor="middle" font-size="17" fill="#526478">7B 模型</text>
+
+    <!-- outputs -->
+    <rect x="640" y="176" width="320" height="128" rx="10" fill="#f3f6f9" stroke="#c8d2de"/>
+    <text x="656" y="205" font-size="17" font-weight="700" fill="#344d68">区域边界</text>
+    <g font-size="16" fill="#526478">
+      <text x="656" y="233">光标上一行至光标下五行</text>
+      <text x="656" y="259">依据当时数据中 diff 的特点选定</text>
+      <text x="656" y="285">不代表能做任意跨文件重构</text>
+    </g>
+    <rect x="640" y="332" width="320" height="96" rx="10" fill="#fff4df" stroke="#d9c397"/>
+    <text x="656" y="368" font-size="18" font-weight="700" fill="#725025">模型输出</text>
+    <text x="656" y="398" font-size="17" fill="#725025">重写后的可编辑区域</text>
+    <path d="M800 434 V474" fill="none" stroke="#50647a" stroke-width="1.7" stroke-dasharray="4 4"/>
+    <text x="814" y="460" font-size="16" fill="#526478">训练时对照</text>
+    <rect x="640" y="480" width="320" height="96" rx="10" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="656" y="516" font-size="18" font-weight="700" fill="#21624a">真实标签</text>
+    <text x="656" y="546" font-size="16" fill="#21624a">开发者随后对该区域的实际修改</text>
+
+    <text x="500" y="686" text-anchor="middle" font-size="16" fill="#64758a">根据 Continue 原文的样本说明重绘；代码行为示意，行数与长度不代表真实文件</text>
+  </g>
+</svg>

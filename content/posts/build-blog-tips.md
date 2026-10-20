@@ -1,6 +1,6 @@
 ---
 date: '2024-12-08T00:00:00+08:00'
-lastmod: '2026-10-10T11:04:19+08:00'
+lastmod: '2026-10-20T10:22:37+08:00'
 title: "维护这个 Hugo 博客：从本地写作到 GitHub Pages 发布"
 summary: "记录本站从准备环境、写文章、本地预览、正式构建到 GitHub Pages 部署的操作顺序，以及 PDF 子模块和私有原文归档的处理方式。"
 description: "自建模板的 Hugo 博客日常维护步骤，涵盖环境准备、文章元信息、站内链接、构建检查和部署验收。"
@@ -13,6 +13,10 @@ learning_status: done
 ---
 
 这个博客使用 Hugo 生成静态页面，GitHub Pages 负责托管。页面模板在 `layouts/`，样式和脚本在 `assets/`，都直接放在仓库里，不依赖外部主题。日常写作主要修改 Markdown 文件，但从“文章写完”到“读者能看到”，还要经过本地构建、自动检查和线上部署。这里把这条路径记下来，便于以后维护。
+
+![左侧自上而下依次是写文章、本地预览、正式构建、推送到 main 和验收五个阶段；正式构建一行展开 build_site.py 的检查文章和来源记录、临时目录干净构建、检查产物、全部通过才替换 public/，任何一步失败都保留上一次通过检查的产物；推送后 GitHub Actions 依次校验 Hugo 安装包 checksum、运行测试、用同一个 build_site.py 构建并部署，最后确认 workflow 部署成功和线上页面显示本次修改。](/images/original/build-blog-tips/blog-publish-pipeline.svg)
+
+*图 1：本文绘制，依据 2026 年 10 月 10 日的仓库配置与本文步骤整理。本地正式构建和 GitHub Actions 调用同一个 build_site.py，检查不通过时不会替换 public/。*
 
 以下步骤按 2026 年 10 月 10 日的仓库配置整理。环境准备、预览、正式构建和测试命令当天用 Hugo 0.157.0 与 Python 3.13 实际跑通；推送后的部署部分依据仓库 workflow 整理，没有在当天单独复跑。迁移到别的 Hugo 项目时，需要重新核对目录和部署路径。
 

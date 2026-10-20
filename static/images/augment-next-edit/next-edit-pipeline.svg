@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="590" viewBox="0 0 1000 590" role="img" aria-labelledby="title desc">
+  <title id="title">Next Edit 处理链：做什么、改哪里、怎么改</title>
+  <desc id="desc">近期编辑历史进入意图推断；意图推断之后由专用 retriever 在整个工作区里定位可能要更新的文件与片段，光标周围代码始终入选并优先处理；修改生成结合代码库 RAG 检索到的自定义 API 与代码模式，输出紧凑、可无歧义应用的 diff，得到可超出光标的编辑建议。更大规模变化与跨多文件批量编辑被原文列为后续方向。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="590" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">Next Edit 处理链：做什么、改哪里、怎么改</text>
+    <text x="40" y="86" font-size="19" fill="#526478">黄色为两次检索：一次找可能要改的位置，一次补充项目里的写法</text>
+
+    <!-- inputs -->
+    <rect x="40" y="112" width="284" height="70" rx="10" fill="#f3f6f9" stroke="#c8d2de"/>
+    <rect x="358" y="112" width="284" height="70" rx="10" fill="#f3f6f9" stroke="#c8d2de"/>
+    <rect x="676" y="112" width="284" height="70" rx="10" fill="#fff4df" stroke="#d9c397"/>
+    <g font-size="17" font-weight="700">
+      <text x="56" y="141" fill="#344d68">近期编辑历史</text>
+      <text x="374" y="141" fill="#344d68">整个工作区</text>
+      <text x="692" y="141" fill="#725025">代码库 RAG 检索</text>
+    </g>
+    <g font-size="16">
+      <text x="56" y="168" fill="#526478">复制改写、切换文件、撤销重做</text>
+      <text x="374" y="168" fill="#526478">monorepo 可达数万文件</text>
+      <text x="692" y="168" fill="#725025">自定义 API、代码模式</text>
+    </g>
+
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M182 184 V210" marker-end="url(#arrow)"/>
+      <path d="M500 184 V210" marker-end="url(#arrow)"/>
+      <path d="M818 184 V210" marker-end="url(#arrow)"/>
+      <path d="M326 316 H352" marker-end="url(#arrow)"/>
+      <path d="M644 316 H670" marker-end="url(#arrow)"/>
+      <path d="M818 432 V454" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- stage cards -->
+    <g fill="#fff" stroke="#c8d2de">
+      <rect x="40" y="216" width="284" height="214" rx="12"/>
+      <rect x="358" y="216" width="284" height="214" rx="12"/>
+      <rect x="676" y="216" width="284" height="214" rx="12"/>
+    </g>
+    <g font-size="21" font-weight="700" fill="#182b40">
+      <text x="56" y="250">① 做什么</text>
+      <text x="374" y="250">② 改哪里</text>
+      <text x="692" y="250">③ 怎么改</text>
+    </g>
+    <g font-size="17" fill="#526478">
+      <text x="164" y="250">推断编辑意图</text>
+      <text x="482" y="250">定位候选位置</text>
+      <text x="800" y="250">生成修改</text>
+    </g>
+    <rect x="374" y="268" width="252" height="36" rx="8" fill="#fff4df" stroke="#d9c397"/>
+    <text x="388" y="292" font-size="17" fill="#725025">专用 retriever 模型</text>
+    <g font-size="17" fill="#344d68">
+      <text x="56" y="292">由 commit / PR 合成编辑场景</text>
+      <text x="56" y="324">调整 diff 粒度</text>
+      <text x="56" y="356">抑制撤销用户最新修改</text>
+      <text x="374" y="332">返回可能要更新的文件与片段</text>
+      <text x="374" y="362">光标周围代码始终入选、先处理</text>
+      <text x="692" y="292">紧凑、可无歧义应用的 diff</text>
+      <text x="692" y="324">只描述必要变化</text>
+      <text x="692" y="356">延迟：数秒 → 数百毫秒</text>
+    </g>
+    <g stroke="#dfe5ec">
+      <path d="M56 384 H308"/>
+      <path d="M374 384 H626"/>
+      <path d="M692 384 H944"/>
+    </g>
+    <g font-size="16" fill="#526478">
+      <text x="56" y="412">针对：意图误读</text>
+      <text x="374" y="412">针对：搜索范围</text>
+      <text x="692" y="412">针对：项目用法、修改表达与延迟</text>
+    </g>
+
+    <!-- boundary + output -->
+    <rect x="40" y="460" width="602" height="66" rx="10" fill="none" stroke="#a7b4c2" stroke-dasharray="5 4"/>
+    <text x="56" y="487" font-size="17" font-weight="700" fill="#526478">原文列为后续方向</text>
+    <text x="56" y="512" font-size="16" fill="#526478">更大规模变化、跨多文件批量编辑、更深的 chat 集成</text>
+    <rect x="676" y="460" width="284" height="66" rx="10" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <text x="692" y="487" font-size="17" font-weight="700" fill="#21624a">编辑建议</text>
+    <text x="692" y="512" font-size="16" fill="#21624a">可超出光标、覆盖整个工作区</text>
+
+    <text x="500" y="566" text-anchor="middle" font-size="16" fill="#64758a">根据 Augment 原文重绘；“针对”一行按本文归纳，原文未公开模型、diff 格式与评测细节</text>
+  </g>
+</svg>

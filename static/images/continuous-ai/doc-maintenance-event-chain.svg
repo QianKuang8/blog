@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="688" viewBox="0 0 1000 688" role="img" aria-labelledby="title desc">
+  <title id="title">持续文档维护：从代码变化到团队检查</title>
+  <desc id="desc">左列是以文档维护为例的四步：代码变化触发任务，系统提供相关 diff 与文档，模型判断是否需要更新，结果交给团队检查。右列是需要分别确认的三处边界：触发条件，输入范围，输出去向。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="688" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">持续文档维护：从代码变化到团队检查</text>
+    <text x="40" y="86" font-size="19" fill="#526478">按原文场景整理的四步思路；触发、输入和输出三处需要分别确认</text>
+
+    <g font-size="19" font-weight="700" fill="#182b40">
+      <text x="40" y="142">工作流步骤（以文档维护为例）</text>
+      <text x="500" y="142">需要分别确认</text>
+    </g>
+
+    <!-- arrows between steps -->
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M240 252 V278" marker-end="url(#arrow)"/>
+      <path d="M240 374 V400" marker-end="url(#arrow)"/>
+      <path d="M240 496 V522" marker-end="url(#arrow)"/>
+    </g>
+    <!-- dashed connectors to notes -->
+    <g fill="none" stroke="#9aabbd" stroke-width="1.5" stroke-dasharray="5 4">
+      <path d="M440 206 H500"/>
+      <path d="M440 328 H500"/>
+      <path d="M440 450 H500"/>
+      <path d="M440 572 H500"/>
+    </g>
+
+    <!-- step 1: event -->
+    <rect x="40" y="160" width="400" height="92" rx="10" fill="#f3f6f9" stroke="#c8d2de"/>
+    <rect x="58" y="176" width="54" height="28" rx="14" fill="#fff" stroke="#c8d2de"/>
+    <text x="85" y="196" text-anchor="middle" font-size="16" fill="#344d68">事件</text>
+    <text x="128" y="197" font-size="19" font-weight="700" fill="#344d68">① 代码变化触发任务</text>
+    <text x="128" y="230" font-size="16" fill="#526478">触发点明确，由仓库事件启动</text>
+
+    <!-- step 2: system -->
+    <rect x="40" y="282" width="400" height="92" rx="10" fill="#e7f4ee" stroke="#a3cdbb"/>
+    <rect x="58" y="298" width="54" height="28" rx="14" fill="#fff" stroke="#a3cdbb"/>
+    <text x="85" y="318" text-anchor="middle" font-size="16" fill="#21624a">系统</text>
+    <text x="128" y="319" font-size="19" font-weight="700" fill="#21624a">② 提供相关 diff 与文档</text>
+    <text x="128" y="352" font-size="16" fill="#3d6f5b">工作流决定模型能读取什么</text>
+
+    <!-- step 3: model -->
+    <rect x="40" y="404" width="400" height="92" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <rect x="58" y="420" width="54" height="28" rx="14" fill="#fff" stroke="#a9bfdc"/>
+    <text x="85" y="440" text-anchor="middle" font-size="16" fill="#254d7a">模型</text>
+    <text x="128" y="441" font-size="19" font-weight="700" fill="#254d7a">③ 判断是否需要更新</text>
+    <text x="128" y="474" font-size="16" fill="#46668c">模型提供内容判断</text>
+
+    <!-- step 4: team -->
+    <rect x="40" y="526" width="400" height="92" rx="10" fill="#f3f6f9" stroke="#c8d2de"/>
+    <rect x="58" y="542" width="54" height="28" rx="14" fill="#fff" stroke="#c8d2de"/>
+    <text x="85" y="562" text-anchor="middle" font-size="16" fill="#344d68">团队</text>
+    <text x="128" y="563" font-size="19" font-weight="700" fill="#344d68">④ 结果交给团队检查</text>
+    <text x="128" y="596" font-size="16" fill="#526478">修改建议或可供审查的更新</text>
+
+    <!-- note: trigger -->
+    <rect x="500" y="160" width="460" height="92" rx="10" fill="#fff4df" stroke="#d9c397"/>
+    <text x="520" y="190" font-size="18" font-weight="700" fill="#725025">触发条件</text>
+    <text x="520" y="215" font-size="17" fill="#725025">无关 commit 也启动完整检查，运行成本会增长</text>
+    <text x="520" y="239" font-size="17" fill="#725025">持续运行不等于高频运行所有任务</text>
+
+    <!-- note: input scope (spans steps 2 and 3) -->
+    <rect x="500" y="282" width="460" height="214" rx="10" fill="#fff4df" stroke="#d9c397"/>
+    <text x="520" y="312" font-size="18" font-weight="700" fill="#725025">输入范围</text>
+    <text x="520" y="337" font-size="17" fill="#725025">工作流要明确模型能读取什么</text>
+    <path d="M520 389 H940" fill="none" stroke="#e6d6b4" stroke-width="1.2"/>
+    <text x="520" y="441" font-size="17" fill="#725025">模型没有得到相关文档时，</text>
+    <text x="520" y="465" font-size="17" fill="#725025">即使执行成功也可能遗漏更新</text>
+
+    <!-- note: output destination -->
+    <rect x="500" y="526" width="460" height="92" rx="10" fill="#fff4df" stroke="#d9c397"/>
+    <text x="520" y="556" font-size="18" font-weight="700" fill="#725025">输出去向</text>
+    <text x="520" y="581" font-size="17" fill="#725025">进入已有工作界面，交给团队检查</text>
+    <text x="520" y="605" font-size="17" fill="#725025">明确可以写到哪里、结果由谁接收</text>
+
+    <text x="500" y="662" text-anchor="middle" font-size="16" fill="#64758a">依据 GitHub Next 原文的场景说明重绘；四步链条为本文整理，并非官方工作流的执行协议</text>
+  </g>
+</svg>

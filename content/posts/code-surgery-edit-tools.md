@@ -1,6 +1,6 @@
 ---
 date: '2026-04-05T15:30:00+08:00'
-lastmod: "2026-09-21T10:10:01+08:00"
+lastmod: '2026-10-20T10:22:37+08:00'
 title: "Code Surgery：模型生成的修改怎样落到文件里"
 summary: "一段正确的修改建议仍可能在定位、缩进或重试时失败。本文比较上下文补丁、搜索替换与专用 Apply 模型，说明编辑工具需要怎样的输入契约和失败反馈。"
 description: "基于 Code Surgery 比较 Codex、Aider、RooCode、OpenHands 与 Cursor 的文件编辑机制。"
@@ -19,6 +19,10 @@ Fabian Hertwig 的 [《Code Surgery》](https://fabianhertwig.com/blog/coding-as
 ## 编辑工具要完成三次转换
 
 模型先把意图转成一种文本协议，工具再把协议解析成文件操作，最后将执行结果反馈给模型。任一阶段都可能失败：格式无法解析、目标片段不匹配，或者部分修改已成功但重试又把它重复执行。
+
+![三张卡片从左到右依次是“意图 → 文本协议”“协议 → 文件操作”“执行结果 → 反馈”，每张列出这一步要交代的内容、可能的失败和原文中的系统示例；底部箭头把反馈送回第一张，进入下一轮。](/images/code-surgery-edit-tools/edit-handoff-stages.svg)
+
+*图 1：重绘，依据 [Code Surgery: How AI Assistants Make Precise Edits to Your Files](https://fabianhertwig.com/blog/coding-assistants-file-edits/) 对文件编辑流程与各系统做法的说明整理，原文没有对应示意图。三张卡片对应三次转换，下半部分的系统示例在后文展开；失败与阶段的对应、各系统所在的位置为本文归纳。*
 
 因此，编辑成功至少需要三个条件：知道操作哪个文件，能够在当前内容中定位目标，以及明确保留与替换的边界。行号直接，却容易随着文件变化失效；上下文片段能抵抗位置移动，却可能重复或已经过时。工具格式的选择实际是在分配这些约束由谁承担。
 
