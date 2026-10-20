@@ -1,0 +1,49 @@
+{{- /* Up to three other posts that share topic tags. Each shared tag weighs 100 / (posts with
+  that tag), so rare tags count more than broad ones; source tags count half and cannot
+  qualify a post alone. Ties go to the newer post. Next reads of this post's topic paths
+  are already linked above and are skipped. */ -}}
+{{- if eq .Section "posts" -}}
+  {{- $page := . -}}
+  {{- $own := $page.Params.tags | default slice -}}
+  {{- $sources := hugo.Data.tag_groups.sources -}}
+  {{- $counts := partialCached "tag_counts.html" site -}}
+  {{- $skip := slice $page.RelPermalink -}}
+  {{- range partial "reading_path_memberships.html" $page -}}
+    {{- with .next }}{{ with site.GetPage .post }}{{ $skip = $skip | append .RelPermalink }}{{ end }}{{ end -}}
+  {{- end -}}
+  {{- $ranked := slice -}}
+  {{- range where site.RegularPages "Section" "posts" -}}
+    {{- if not (in $skip .RelPermalink) -}}
+      {{- $score := 0.0 -}}
+      {{- $topical := false -}}
+      {{- range .Params.tags -}}
+        {{- if in $own . -}}
+          {{- $weight := div 100.0 (index $counts .) -}}
+          {{- if in $sources . }}{{ $weight = div $weight 2 }}{{ else }}{{ $topical = true }}{{ end -}}
+          {{- $score = add $score $weight -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $topical -}}
+        {{- $ranked = $ranked | append (dict "page" . "rank" (add (mul $score 10000000000) .Date.Unix)) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with first 3 (sort $ranked "rank" "desc") }}
+  <nav class="bc-related" aria-labelledby="related-heading">
+    <h2 id="related-heading">相关文章</h2>
+    <ul>
+      {{- range . }}
+        {{- $related := .page }}
+        {{- $shared := slice }}
+        {{- range $page.GetTerms "tags" }}
+          {{- if and (in $related.Params.tags .Data.Term) (not (in $sources .Data.Term)) }}{{ $shared = $shared | append .LinkTitle }}{{ end }}
+        {{- end }}
+      <li>
+        <a href="{{ $related.RelPermalink }}" data-related-post>{{ $related.Title }}</a>
+        <span><time datetime="{{ $related.Date.Format "2006-01-02" }}">{{ $related.Date.Format "2006.01.02" }}</time> · 共同主题：{{ delimit $shared "、" }}</span>
+      </li>
+      {{- end }}
+    </ul>
+  </nav>
+  {{- end -}}
+{{- end -}}

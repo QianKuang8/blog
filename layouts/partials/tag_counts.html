@@ -1,0 +1,8 @@
+{{- /* Number of published posts per tag, used to weight rare tags above broad ones. */ -}}
+{{- $counts := dict -}}
+{{- range where site.RegularPages "Section" "posts" -}}
+  {{- range .Params.tags -}}
+    {{- $counts = merge $counts (dict . (add (index $counts . | default 0) 1)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $counts -}}
