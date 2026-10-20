@@ -248,6 +248,10 @@ git commit -m "add: 文章标题"
 - 优先取得清晰的原图文件；交互图表可截取原页面中的完整图表区域，保留标题、坐标、单位、图例和必要注释，并在图注注明“原页面图表截图”。
 - 在私有归档 frontmatter 的 `image_sources` 中记录图片标题、站内路径、原图或页面 URL、取得方式和时间，再运行 `scripts/source_record.py <slug>` 同步公开元信息。重绘或局部截取须说明处理方式。
 - 发布前检查桌面正文宽度下的可读性、图文对应关系与图片加载情况，再执行正式构建。新增配图或图注属于正文修订，保留 `date` 并更新 `lastmod`。
+- `scripts/check_content.py` 会拒绝以下情况：
+  - 所有文章：图片没有 alt；不是 `/images/...` 下实际存在的文件；`static/images/` 中有无人引用的文件。
+  - 文章解读与视频笔记：图片后面一段不是斜体图注。
+  - 文章解读：用到的站内图片没有列入 `image_sources`；`image_sources` 条目字段不全，或指向文章没有用到的图片。书籍导读的来源记录手工维护，`image_sources` 直接写在 `sources/orig/<slug>.md`。
 
 ## 视频笔记与 PDF
 

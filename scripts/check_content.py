@@ -167,6 +167,38 @@ def linked_urls(body: str) -> list[str]:
     return urls
 
 
+class ImageParser(HTMLParser):
+    """Collect (alt, src) for <img> tags outside inert HTML content."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.images: list[tuple[str, str]] = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "img":
+            values = dict(attrs)
+            self.images.append((values.get("alt") or "", values.get("src") or ""))
+
+
+def figures(body: str) -> list[tuple[str, str, bool]]:
+    """(alt, destination, captioned) for each image; captioned means the next paragraph is italic."""
+    lines = without_code(body).splitlines()
+    found = []
+    for index, line in enumerate(lines):
+        following = next((text.strip() for text in lines[index + 1:] if text.strip()), "")
+        captioned = bool(re.fullmatch(r"(\*|_)(?!\1).*\S\1", following))
+        for match in re.finditer(r"!\[([^\]\n]*)\]\(\s*<?([^\s)>]+)>?(?:\s+[\"'][^\n]*?[\"'])?\s*\)", line):
+            found.append((match[1], match[2], captioned))
+        parser = ImageParser()
+        parser.feed(line)
+        found.extend((alt, src, captioned) for alt, src in parser.images)
+    return found
+
+
+def image_file(repo: Path, destination: str) -> Path:
+    return repo / "static" / unquote(urlsplit(destination).path).lstrip("/")
+
+
 def local_destinations(body: str) -> list[str]:
     """Root-relative link and image destinations written in Markdown or HTML."""
     body = without_code(body)
@@ -241,6 +273,35 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         elif body.strip():
             fail(source, "keep only metadata here; store the article text in the private archive (sources/archive/orig/)")
 
+    def check_image_sources(source: Path, record: dict) -> set[str]:
+        """Validate image provenance entries and return the image paths they cover."""
+        entries = record.get("image_sources", [])
+        if not isinstance(entries, list) or any(not isinstance(entry, dict) for entry in entries):
+            fail(source, "image_sources must be a list of mappings")
+            return set()
+        paths = set()
+        for number, entry in enumerate(entries, 1):
+            label = f"image_sources[{number}]"
+            for key in ("title", "path", "method"):
+                if not isinstance(entry.get(key), str) or not entry[key].strip():
+                    fail(source, f"{label}.{key} must be a nonempty string")
+            if not is_http_url(entry.get("source_url")):
+                fail(source, f"{label}.source_url must be an absolute HTTP(S) URL")
+            try:
+                if aware_datetime(entry.get("retrieved_at")) > datetime.now(timezone.utc):
+                    fail(source, f"{label}.retrieved_at must not be in the future")
+            except (ValueError, TypeError) as exc:
+                fail(source, f"{label}.retrieved_at must be an ISO 8601 datetime with a timezone ({exc})")
+            path = entry.get("path")
+            if not isinstance(path, str) or not path.strip():
+                continue
+            if not path.startswith("/images/"):
+                fail(source, f"{label}.path must start with /images/")
+            elif not image_file(repo, path).is_file():
+                fail(source, f"{label}.path does not exist: static{path}")
+            paths.add(path)
+        return paths
+
     def video_links(post: Path, urls: list[str], expected_site_path: str, pdf_path: str, source_url, context: str = "") -> list[str]:
         parsed_urls = []
         for url in urls:
@@ -298,6 +359,14 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
             for destination in local_destinations(body):
                 if destination == prefix or destination.startswith(f"{prefix}/"):
                     fail(post, f"link {destination} hardcodes the site path {prefix}; write it relative to the site root")
+        images = figures(body)
+        for alt, destination, _ in images:
+            if not alt.strip():
+                fail(post, f"image {destination} needs descriptive alt text")
+            if not destination.startswith("/images/"):
+                fail(post, f"image {destination} must be stored under static/images/ and written as /images/...")
+            elif not image_file(repo, destination).is_file():
+                fail(post, f"image file is missing: static{unquote(urlsplit(destination).path)}")
         published = date_field(post, data, "date")
         modified = date_field(post, data, "lastmod")
         if published and modified and modified < published:
@@ -319,6 +388,9 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         source_dir = categories[terms[0]].get("source")
         if not source_dir:
             continue
+        for _, destination, captioned in images:
+            if not captioned:
+                fail(post, f"image {destination} needs an italic caption paragraph right after it, stating what it shows and where it comes from")
         if not isinstance(slug, str) or not re.fullmatch(r"[^/\\.][^/\\]*", slug):
             fail(post, "slug must be a single nonempty path segment")
             continue
@@ -328,6 +400,8 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
             continue
         record, source_body = result
         check_record(source, record, source_body)
+        own_recorded = check_image_sources(source, record)
+        recorded = set(own_recorded)
         related = record.get("related_sources", [])
         if not isinstance(related, list) or any(not isinstance(name, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", name) for name in related):
             fail(source, "related_sources must be a list of source record slugs")
@@ -338,9 +412,15 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
             related_result = read(related_source)
             if related_result is not None:
                 check_record(related_source, *related_result)
+                recorded |= check_image_sources(related_source, related_result[0])
         source_url = record.get("source_url")
         if source_dir == "orig":
             required_text(source, record, ("domain", "description", "extractor"))
+            used = {destination for _, destination, _ in images if destination.startswith("/images/")}
+            for destination in sorted(used - recorded):
+                fail(post, f"image {destination} is missing from image_sources in {source.relative_to(repo)}; for articles, record it in the private archive and run scripts/source_record.py")
+            for path in sorted(own_recorded - used):
+                fail(source, f"image_sources lists {path}, but the article does not use it")
             continue
         required_text(source, record, ("channel", "duration", "pdf_path"))
         if record.get("source_type") != "video":
@@ -408,6 +488,14 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         for record in sorted((repo / "sources" / source_dir).glob("*.md")):
             if record not in referenced_sources:
                 fail(record, "no article uses this source record; delete it or list it in related_sources")
+    referenced_images = {
+        unquote(urlsplit(destination).path)
+        for page in (repo / "content").rglob("*.md")
+        for _, destination, _ in figures(page.read_text(encoding="utf-8"))
+    }
+    for image in sorted((repo / "static/images").rglob("*")):
+        if image.is_file() and f"/{image.relative_to(repo / 'static').as_posix()}" not in referenced_images:
+            fail(image, "no page uses this image; delete it or reference it from an article")
     return failures
 
 

@@ -6,6 +6,12 @@ description: "John Ousterhout《软件设计的哲学》第二版的书籍信息
 retrieved_at: "2026-09-22T14:25:06+08:00"
 source_type: "book"
 extractor: "manual-book-evidence"
+image_sources:
+  - title: "深模块与浅模块（本文绘制）"
+    path: "/images/a-philosophy-of-software-design/deep-vs-shallow-module.svg"
+    source_url: "https://web.stanford.edu/~ouster/cgi-bin/book.php"
+    method: "本文绘制：依据原书第 4、5 章对深模块与信息隐藏的讨论，用正文自拟的发布文件例子绘制"
+    retrieved_at: "2026-10-20T10:31:43+08:00"
 ---
 
 # 来源与版本
