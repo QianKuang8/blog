@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="712" viewBox="0 0 1000 712" role="img" aria-labelledby="title desc">
+  <title id="title">并行还是顺序交接，取决于依赖关系</title>
+  <desc id="desc">左侧为并行修改：主会话分派三个 subagent，分别按 auth.ts 的模式修改 users.ts、orders.ts、products.ts，结果回到主会话整合。右侧为阶段式交接：第一个 subagent 设计 API 契约并写入 docs/api-spec.md，第二个依据契约实现后端端点，第三个为实现编写集成测试，阶段之间经输出文件交接。下方列出不宜直接拆分的两种情况：同一文件并行修改，以及每步依赖大量隐含细节。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="712" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">并行还是顺序交接，取决于依赖关系</text>
+    <text x="40" y="86" font-size="19" fill="#526478">没有阻塞关系时并行；分阶段的工作按顺序经文件交接；耦合过紧时不拆</text>
+
+    <!-- Panel A: parallel -->
+    <g transform="translate(40 112)">
+      <rect width="450" height="398" rx="14" fill="#fff" stroke="#c8d2de"/>
+      <text x="20" y="38" font-size="21" font-weight="700" fill="#182b40">并行：没有阻塞关系</text>
+      <text x="20" y="66" font-size="16" fill="#526478">原文示例：按 auth.ts 的模式调整错误处理</text>
+      <g fill="none" stroke="#50647a" stroke-width="1.7">
+        <path d="M225 120 L91 160" marker-end="url(#arrow)"/>
+        <path d="M225 120 V160" marker-end="url(#arrow)"/>
+        <path d="M225 120 L359 160" marker-end="url(#arrow)"/>
+        <path d="M85 224 L219 270" marker-end="url(#arrow)"/>
+        <path d="M225 224 V270" marker-end="url(#arrow)"/>
+        <path d="M365 224 L231 270" marker-end="url(#arrow)"/>
+      </g>
+      <rect x="140" y="84" width="170" height="36" rx="8" fill="#e9f0fb" stroke="#a9bfdc"/>
+      <text x="225" y="108" text-anchor="middle" font-size="17" fill="#254d7a">主会话分派</text>
+      <g fill="#e7f4ee" stroke="#a3cdbb">
+        <rect x="21" y="166" width="128" height="58" rx="8"/>
+        <rect x="161" y="166" width="128" height="58" rx="8"/>
+        <rect x="301" y="166" width="128" height="58" rx="8"/>
+      </g>
+      <g text-anchor="middle">
+        <g font-size="16" fill="#3d6f5b">
+          <text x="85" y="189">subagent</text>
+          <text x="225" y="189">subagent</text>
+          <text x="365" y="189">subagent</text>
+        </g>
+        <g font-size="17" fill="#21624a">
+          <text x="85" y="213">users.ts</text>
+          <text x="225" y="213">orders.ts</text>
+          <text x="365" y="213">products.ts</text>
+        </g>
+      </g>
+      <rect x="140" y="276" width="170" height="36" rx="8" fill="#e9f0fb" stroke="#a9bfdc"/>
+      <text x="225" y="300" text-anchor="middle" font-size="17" fill="#254d7a">主会话整合结果</text>
+      <text x="20" y="352" font-size="16" fill="#344d68">前提：遵循共同参考实现，且不修改同一文件</text>
+      <text x="20" y="378" font-size="16" fill="#526478">实际耗时还受任务大小、工具等待和整合影响</text>
+    </g>
+
+    <!-- Panel B: pipeline -->
+    <g transform="translate(510 112)">
+      <rect width="450" height="398" rx="14" fill="#fff" stroke="#c8d2de"/>
+      <text x="20" y="38" font-size="21" font-weight="700" fill="#182b40">顺序：阶段式交接</text>
+      <text x="20" y="66" font-size="16" fill="#526478">原文示例：每一阶段完成后再开始下一阶段</text>
+      <g fill="none" stroke="#50647a" stroke-width="1.7">
+        <path d="M225 120 V146" marker-end="url(#arrow)"/>
+        <path d="M225 182 V208" marker-end="url(#arrow)"/>
+        <path d="M225 248 V274" marker-end="url(#arrow)"/>
+      </g>
+      <g font-size="16" fill="#526478">
+        <text x="238" y="139">写入</text>
+        <text x="238" y="201">读取</text>
+        <text x="238" y="267">经输出文件</text>
+      </g>
+      <g fill="#e7f4ee" stroke="#a3cdbb">
+        <rect x="60" y="84" width="330" height="36" rx="8"/>
+        <rect x="60" y="212" width="330" height="36" rx="8"/>
+        <rect x="60" y="278" width="330" height="36" rx="8"/>
+      </g>
+      <rect x="120" y="150" width="210" height="32" rx="6" fill="#fff4df" stroke="#d9c397"/>
+      <g text-anchor="middle">
+        <g font-size="17" fill="#21624a">
+          <text x="225" y="108">① 设计 API 契约</text>
+          <text x="225" y="236">② 依据契约实现后端端点</text>
+          <text x="225" y="302">③ 为实现编写集成测试</text>
+        </g>
+        <text x="225" y="172" font-size="17" fill="#725025">docs/api-spec.md</text>
+      </g>
+      <text x="20" y="352" font-size="16" fill="#344d68">subagent 之间不直接对话，经输出文件交接</text>
+      <text x="20" y="378" font-size="16" fill="#526478">契约文件承担跨上下文传递状态的作用</text>
+    </g>
+
+    <!-- Bottom: when not to split -->
+    <g transform="translate(40 528)">
+      <rect width="920" height="126" rx="14" fill="#fffaf0" stroke="#d9c397"/>
+      <text x="20" y="36" font-size="19" font-weight="700" fill="#725025">不宜直接拆分</text>
+      <text x="20" y="72" font-size="18" font-weight="700" fill="#182b40">同一文件并行修改</text>
+      <text x="20" y="102" font-size="17" fill="#344d68">会制造冲突；先划分所有权，明确共享接口何时稳定</text>
+      <text x="480" y="72" font-size="18" font-weight="700" fill="#182b40">每步依赖大量隐含细节</text>
+      <text x="480" y="102" font-size="17" fill="#344d68">拆分会增加补问和信息丢失，留在同一会话更简单</text>
+    </g>
+
+    <text x="500" y="688" text-anchor="middle" font-size="16" fill="#64758a">依据 Claude 原文的并行修改与 pipeline 示例重绘；文件名取自原文示例提示</text>
+  </g>
+</svg>

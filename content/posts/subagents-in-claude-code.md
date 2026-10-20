@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
-lastmod: "2026-09-21T10:18:05+08:00"
+lastmod: '2026-10-20T10:11:31+08:00'
 title: "Claude Code Subagents：怎样拆分任务与交接结果"
 summary: "Subagent 用独立上下文承担探索、修改或审查，再将结果交回主会话。本文说明哪些任务值得委派、怎样定义交接，以及自然语言、配置和 Hooks 分别解决什么问题。"
 description: "解读 Claude Code subagents 的任务边界、并行条件、独立审查和自动化层次。"
@@ -31,6 +31,10 @@ Claude 的 [《How and when to use subagents in Claude Code》](https://claude.c
 阶段式工作也可以委派，但应顺序交接。文章的 pipeline 示例先把 API 契约写到文件，再由下一位实现后端，最后检查集成行为。契约文件承担了跨上下文传递状态的作用。
 
 如果每一步都要理解此前大量隐含细节，拆分反而可能增加补问和信息丢失。这时连续保留在同一会话更简单。两个 Agent 同时修改同一文件也会制造冲突；并行前应先划分所有权，并明确共享接口何时稳定。
+
+![左栏为并行：主会话分派三个 subagent 分别修改 users.ts、orders.ts、products.ts，再由主会话整合；右栏为顺序交接：先设计 API 契约并写入 docs/api-spec.md，下一阶段读取后实现后端端点，再为实现编写集成测试。底部列出同一文件并行修改和每步依赖大量隐含细节两种不宜直接拆分的情况。](/images/subagents-in-claude-code/parallel-vs-pipeline-handoff.svg)
+
+*图 1：重绘，依据 [How and when to use subagents in Claude Code](https://claude.com/blog/subagents-in-claude-code) 对并行修改、pipeline 和不宜使用 subagent 情形的说明整理，原文没有对应示意图。文件名取自原文的示例提示；底部只列出与依赖关系有关的两种情况。*
 
 ## 独立审查要有独立的依据
 

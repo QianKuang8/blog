@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="730" viewBox="0 0 1000 730" role="img" aria-labelledby="title desc">
+  <title id="title">深模块与浅模块：以发布文章到本地文件为例</title>
+  <desc id="desc">浅模块把选择编码、创建临时文件、写入内容、原子替换旧文件和失败时清理都放在接口上，每个调用者都要按固定顺序拼装这些步骤；深模块只接收文章与目标位置，同样的步骤在模块内部统一处理，以后替换写入策略时调用者无须跟着修改。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="730" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">深模块把知识留在边界以内</text>
+    <text x="40" y="86" font-size="19" fill="#526478">以本文自拟的“发布文章到本地文件”为例：同样的步骤，放在接口上还是藏进模块</text>
+    <g font-size="16" fill="#526478">
+      <rect x="40" y="107" width="16" height="16" rx="3" fill="#fff4df" stroke="#d9c397"/>
+      <text x="64" y="121">接口：调用者必须理解的部分</text>
+      <rect x="320" y="107" width="16" height="16" rx="3" fill="#e9f0fb" stroke="#a9bfdc"/>
+      <text x="344" y="121">实现：模块替调用者承担的工作</text>
+    </g>
+
+    <!-- Shallow module -->
+    <text x="40" y="170" font-size="21" font-weight="700" fill="#182b40">浅模块</text>
+    <text x="114" y="170" font-size="16" fill="#526478">接口暴露的复杂度与实现提供的价值相差无几</text>
+    <rect x="40" y="186" width="920" height="114" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <path d="M40 196 A10 10 0 0 1 50 186 H950 A10 10 0 0 1 960 196 V252 H40 Z" fill="#fff4df" stroke="#d9c397"/>
+    <text x="58" y="225" font-size="16" fill="#725025">接口</text>
+    <text x="58" y="283" font-size="16" fill="#254d7a">实现</text>
+    <g fill="#fff" stroke="#d9c397">
+      <rect x="150" y="200" width="96" height="38" rx="7"/>
+      <rect x="290" y="200" width="130" height="38" rx="7"/>
+      <rect x="460" y="200" width="96" height="38" rx="7"/>
+      <rect x="596" y="200" width="148" height="38" rx="7"/>
+      <rect x="784" y="200" width="114" height="38" rx="7" stroke-dasharray="4 3"/>
+    </g>
+    <g font-size="17" fill="#725025" text-anchor="middle">
+      <text x="198" y="225">选择编码</text>
+      <text x="355" y="225">创建临时文件</text>
+      <text x="508" y="225">写入内容</text>
+      <text x="670" y="225">原子替换旧文件</text>
+      <text x="841" y="225">失败时清理</text>
+    </g>
+    <g fill="none" stroke="#50647a" stroke-width="1.7">
+      <path d="M250 219 H284" marker-end="url(#arrow)"/>
+      <path d="M424 219 H454" marker-end="url(#arrow)"/>
+      <path d="M560 219 H590" marker-end="url(#arrow)"/>
+      <path d="M748 219 H778" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    </g>
+    <text x="150" y="283" font-size="17" fill="#254d7a">每个步骤都很简单，没有真正隐藏知识</text>
+    <text x="40" y="330" font-size="17" fill="#344d68">调用者要按固定顺序拼装这些步骤：每个调用者都要知道完整协议</text>
+
+    <!-- Deep module -->
+    <text x="40" y="384" font-size="21" font-weight="700" fill="#182b40">深模块</text>
+    <text x="114" y="384" font-size="16" fill="#526478">接口相对简单，背后提供的能力足够丰富</text>
+    <rect x="40" y="400" width="340" height="266" rx="10" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <path d="M40 410 A10 10 0 0 1 50 400 H370 A10 10 0 0 1 380 410 V454 H40 Z" fill="#fff4df" stroke="#d9c397"/>
+    <text x="58" y="433" font-size="16" fill="#725025">接口</text>
+    <text x="58" y="490" font-size="16" fill="#254d7a">实现</text>
+    <rect x="108" y="410" width="252" height="34" rx="7" fill="#fff" stroke="#d9c397"/>
+    <text x="234" y="433" text-anchor="middle" font-size="17" fill="#725025">发布(文章, 目标位置)</text>
+    <g fill="#fff" stroke="#a9bfdc">
+      <rect x="108" y="468" width="252" height="32" rx="7"/>
+      <rect x="108" y="507" width="252" height="32" rx="7"/>
+      <rect x="108" y="546" width="252" height="32" rx="7"/>
+      <rect x="108" y="585" width="252" height="32" rx="7"/>
+      <rect x="108" y="624" width="252" height="32" rx="7" stroke-dasharray="4 3"/>
+    </g>
+    <g font-size="17" fill="#254d7a" text-anchor="middle">
+      <text x="234" y="490">选择编码</text>
+      <text x="234" y="529">创建临时文件</text>
+      <text x="234" y="568">写入内容</text>
+      <text x="234" y="607">原子替换旧文件</text>
+      <text x="234" y="646">失败时清理</text>
+    </g>
+
+    <g fill="none" stroke="#a9b6c4" stroke-width="1.5">
+      <path d="M388 427 H410"/>
+      <path d="M388 468 H398 V656 H388"/>
+      <path d="M398 562 H410"/>
+    </g>
+    <text x="420" y="433" font-size="17" fill="#344d68">调用者只需提供文章与目标位置</text>
+    <text x="420" y="494" font-size="17" fill="#254d7a">编码、临时文件和清理在模块内部统一处理</text>
+    <text x="420" y="520" font-size="16" fill="#526478">调用者依赖模块承诺的行为，不依赖具体实现</text>
+    <text x="420" y="568" font-size="17" fill="#21624a">以后替换写入策略，调用者无须跟着修改</text>
+    <text x="420" y="594" font-size="16" fill="#526478">设计决定变化时，影响停留在模块内部</text>
+    <path d="M420 614 H960" stroke="#d5dde6" stroke-width="1"/>
+    <text x="420" y="638" font-size="16" fill="#526478">取舍：不同调用者确实需要选择编码或覆盖策略时，</text>
+    <text x="420" y="662" font-size="16" fill="#526478">这些差异就是接口的一部分</text>
+
+    <text x="500" y="708" text-anchor="middle" font-size="16" fill="#64758a">示例为本文自拟，不来自原书；方框大小只示意接口与实现的相对多少，不是度量</text>
+  </g>
+</svg>

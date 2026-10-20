@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
+lastmod: '2026-10-20T10:22:37+08:00'
 title: "五个 Agent Skills：从需求澄清到可测试的实现"
 summary: "Matt Pocock 用五个 Skills 串起追问、PRD、任务拆分、TDD 和架构改进。可复用的重点是每个阶段的输入、产物与交接条件，而不是命令名称或提示长度。"
 description: "解读五个 Agent Skills 的职责、纵向任务切片、测试循环和模块边界，区分实践经验与效果证据。"
@@ -53,6 +53,10 @@ Matt Pocock 的 [5 Agent Skills I Use Every Day](https://www.aihero.dev/5-agent-
 ## 每个 Skill 都要留下下一阶段可用的产物
 
 把五个流程连起来，交接物依次是已澄清的决策、产品规格、带依赖的任务、经过验证的实现，以及待评估的架构改进。它们不必每次全部调用，也没有必要让小修复经过完整仪式。
+
+![示意图从左到右排列五个 Skill：尚未定型的想法进入 /grill-me 得到已澄清的决策，/to-prd 整理成产品规格，/to-issues 拆成带依赖的任务，/tdd 产出经过验证的实现，/improve-codebase-architecture 提出待评估的架构改进，并用虚线双向箭头与 /tdd 相连。每个阶段下方的黄色框列出交接时可检查的问题。](/images/five-agent-skills-i-use-every-day/skill-handoff-chain.svg)
+
+*图 1：重绘，依据 [5 Agent Skills I Use Every Day](https://www.aihero.dev/5-agent-skills-i-use-every-day) 对五个 Skill 的说明整理，原文没有对应示意图。卡片内的动作是摘要；底部检查问题及其与各阶段的对应是本文归纳，不是原文内容。*
 
 更适合复用的是这些交接条件：实现前是否知道要完成什么，拆分后是否仍能验证使用行为，测试是否覆盖真实要求，改进建议是否针对已观察到的结构问题。Skill 把习惯写下来以后，还需要用实际任务检查它是否减少误解和返工。若某个步骤持续没有提供新信息，就应调整它，而不是因为已经成为 Skill 就永久保留。
 
