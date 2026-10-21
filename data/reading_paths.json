@@ -169,6 +169,10 @@
               "reason": "把规约、执行过程与验收结果连起来，判断哪些度量能够指向流程改进。"
             },
             {
+              "post": "/posts/demystifying-evals-for-ai-agents",
+              "reason": "明确任务结果、评分器与重复试验分别回答什么，再检查分数能否支持可靠性判断。"
+            },
+            {
               "post": "/posts/improving-deep-agents-with-harness-engineering",
               "reason": "沿失败轨迹检查验证机会、环境信息和推理预算的调整，以及提分的归因边界。"
             },
