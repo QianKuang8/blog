@@ -173,6 +173,10 @@
               "reason": "明确任务结果、评分器与重复试验分别回答什么，再检查分数能否支持可靠性判断。"
             },
             {
+              "post": "/posts/product-evals",
+              "reason": "用知识库问答场景区分样本用途、评分误差与配置变化，理解产品评估怎样支持可复查的实验。"
+            },
+            {
               "post": "/posts/improving-deep-agents-with-harness-engineering",
               "reason": "沿失败轨迹检查验证机会、环境信息和推理预算的调整，以及提分的归因边界。"
             },
