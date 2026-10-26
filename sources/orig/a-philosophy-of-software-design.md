@@ -2,6 +2,8 @@
 title: "A Philosophy of Software Design, Second Edition"
 source_url: "https://web.stanford.edu/~ouster/cgi-bin/book.php"
 domain: "web.stanford.edu"
+author: "John Ousterhout"
+published_at: "2021"
 description: "John Ousterhout《软件设计的哲学》第二版的书籍信息、章节证据与导读范围。"
 retrieved_at: "2026-09-22T14:25:06+08:00"
 source_type: "book"

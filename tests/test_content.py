@@ -54,7 +54,7 @@ class ContentValidationTests(unittest.TestCase):
         self.record = {
             "title": "Original", "source_url": "https://example.com/original",
             "retrieved_at": "2026-01-01T12:00:00+08:00", "description": "Original description",
-            "domain": "example.com", "extractor": "defuddle",
+            "domain": "example.com", "extractor": "defuddle", "published_at": "2026-01-01",
         }
         # Public article records hold metadata only; the article text stays private.
         self.write_markdown(self.source, self.record, "" if not video else "Chapters and evidence.")
@@ -259,6 +259,26 @@ class ContentValidationTests(unittest.TestCase):
         self.assert_failure("static/images/example/unused.png: no page uses this image")
         self.write_post("![Figure](/images/example/unused.png)")
         self.assertEqual(validate_content(self.repo), [])
+
+    def test_source_records_state_their_publication_date(self):
+        self.add_source()
+        self.assertEqual(validate_content(self.repo), [])
+        for value in ("2025", "2025-11", None):
+            with self.subTest(value=value):
+                self.record["published_at"] = value
+                self.write_markdown(self.source, self.record, "")
+                self.assertEqual(validate_content(self.repo), [])
+        del self.record["published_at"]
+        self.write_markdown(self.source, self.record, "")
+        self.assert_failure("published_at is required")
+        for value in ("Nov 23, 2025", "2025-11-23T00:00:00+00:00", 20251123):
+            with self.subTest(value=value):
+                self.record["published_at"] = value
+                self.write_markdown(self.source, self.record, "")
+                self.assert_failure('published_at must be a quoted "YYYY-MM-DD"')
+        self.record.update(published_at="2025-11-23", author=["Someone"])
+        self.write_markdown(self.source, self.record, "")
+        self.assert_failure("author must be a nonempty string")
 
     def test_hidden_files_under_images_are_not_site_images(self):
         for name in (".DS_Store", "example/.DS_Store", ".cache/figure.png"):

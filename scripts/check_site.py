@@ -200,6 +200,17 @@ def check_article_types(site: Site, repo: Path, posts: list[dict], categories: d
             failures.append(f"{post['output']}: article type should link to categories/{post['term']}/")
 
 
+def check_source_lines(site: Site, repo: Path, posts: list[dict], categories: dict, failures: list[str]) -> None:
+    """A post with a source record links it once under the heading; other posts show no source line."""
+    for post in posts:
+        source = (categories.get(post["term"]) or {}).get("source")
+        record = repo / "sources" / str(source) / f"{post['slug']}.md"
+        url = read_markdown(record)[0].get("source_url") if source and record.is_file() else None
+        links = [unquote(attrs.get("href") or "") for attrs, _ in site.page(post["output"]).links_with("data-source-link")]
+        if links != ([unquote(url)] if url else []):
+            failures.append(f"{post['output']}: source line should link {url} once" if url else f"{post['output']}: should not show a source line")
+
+
 def check_reading_paths(site: Site, repo: Path, failures: list[str]) -> None:
     """Topic directories, backlinks and next reads follow data/reading_paths.json."""
     definitions = json.loads((repo / "data/reading_paths.json").read_text(encoding="utf-8"))
@@ -327,6 +338,7 @@ def check_site(site_dir: Path, repo: Path = REPO, base_url: str | None = None) -
     check_structured_data(site, posts, failures)
     check_search_index(site, posts, categories, failures)
     check_article_types(site, repo, posts, categories, failures)
+    check_source_lines(site, repo, posts, categories, failures)
     check_reading_paths(site, repo, failures)
     check_related_posts(site, repo, posts, failures)
     check_learning_list(site, repo, posts, failures)

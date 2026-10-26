@@ -1,0 +1,16 @@
+{{- /* "原文 / 原书 / 原视频: title · author · date" under the article heading, from the public
+  source record. Long author lists keep the first name; unknown fields are left out. */ -}}
+{{- $record := partialCached "source_record.html" . .RelPermalink -}}
+{{- with $record.source_url -}}
+  {{- $isVideo := eq $record.source_type "video" -}}
+  {{- $by := $record.author -}}
+  {{- if $isVideo }}{{ $by = $record.channel }}{{ end -}}
+  {{- $names := split ($by | default "" | string) ", " -}}
+  {{- if gt (len $names) 2 }}{{ $by = printf "%s 等" (index $names 0) }}{{ end -}}
+  <p class="bc-source-line" data-source-line>
+    <span>{{ if $isVideo }}原视频{{ else if eq $record.source_type "book" }}原书{{ else }}原文{{ end }}</span>
+    <a href="{{ . }}" data-source-link>{{ $record.title }}</a>
+    {{- with $by }}<span>{{ . }}</span>{{ end }}
+    {{- with $record.published_at }}<time datetime="{{ . }}">{{ . }}</time>{{ end }}
+  </p>
+{{- end -}}

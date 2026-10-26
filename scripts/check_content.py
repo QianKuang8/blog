@@ -18,6 +18,7 @@ import yaml
 
 FRONTMATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|$)(.*)\Z", re.S)
 LEARNING_STATUSES = {"pending", "done"}
+PUBLISHED_DATE = re.compile(r"\d{4}(?:-\d{2}(?:-\d{2})?)?")
 PDF_REPOSITORY = "https://github.com/QianKuang8/blog-pdfs/blob/"
 # Captions in sourced articles name the figure and how it was obtained (see BLOG_PROMPTS.md).
 CAPTION_LABEL = re.compile(r"[*_]图 (\d+)：(?:原图|原页面图表截图|局部截取|重绘|本文绘制)[，。]")
@@ -269,6 +270,14 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
             fail(source, "retrieved_at must not be in the future")
         if not is_http_url(record.get("source_url")):
             fail(source, "source_url must be an absolute HTTP(S) URL")
+        # Shown under the article heading; null records that the source gives no date.
+        published = record.get("published_at", "missing")
+        if published == "missing":
+            fail(source, "published_at is required: the source's own publication date, or null when it shows none")
+        elif published is not None and not (isinstance(published, str) and PUBLISHED_DATE.fullmatch(published)):
+            fail(source, 'published_at must be a quoted "YYYY-MM-DD" (or "YYYY-MM", "YYYY" when the source is that coarse), or null')
+        if "author" in record and (not isinstance(record["author"], str) or not record["author"].strip()):
+            fail(source, "author must be a nonempty string; omit it when unknown")
         if source.parent.name == "video" or record.get("source_type") == "book":
             if not body.strip():
                 fail(source, "source record body must not be empty")

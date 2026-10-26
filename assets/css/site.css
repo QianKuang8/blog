@@ -148,6 +148,9 @@ p { text-wrap: pretty; }
 .bc-article-heading h1 { font-size: 32px; font-weight: 600; line-height: 1.5; letter-spacing: -.4px; margin: 15px 0 19px; word-break: keep-all; overflow-wrap: anywhere; }
 .bc-title-sub { display: block; font-size: .8em; }
 .bc-article-heading > p { font-size: 16px; line-height: 1.9; color: var(--muted); margin: 0; }
+.bc-article-heading > .bc-source-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin-top: 14px; font-size: 13px; line-height: 1.7; color: var(--subtle); }
+.bc-source-line a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--accent) 45%, var(--paper)); }
+.bc-source-line time { font: 12px var(--mono); }
 .bc-toc { position: sticky; top: 34px; max-height: calc(100vh - 68px); overflow-y: auto; padding: 2px 5px 0 0; scrollbar-width: thin; }
 .bc-toc > p { font-size: 12px; color: var(--subtle); margin: 0 0 13px; }
 .bc-toc ul { list-style: none; margin: 0; padding: 0; }

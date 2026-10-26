@@ -167,6 +167,8 @@ frontmatter 推荐字段：
 title: "原文标题"
 source_url: "https://..."
 domain: "example.com"
+author: "作者或发布机构"
+published_at: "2025-11-23"
 description: "原文描述"
 retrieved_at: "2026-04-08T21:01:02+08:00"
 extractor: "defuddle"
@@ -174,6 +176,8 @@ extractor: "defuddle"
 ```
 
 - `source_url` 指向原文；书籍记录使用作者或出版社的官方书籍页面。
+- `published_at` 必填，写原文页面标明的发布日期（加引号的 `"YYYY-MM-DD"`）。defuddle 的 `--json` 输出里的 `published` 通常可用；剪藏或抓取日期不能代替。页面只能确定到月或年时写 `"YYYY-MM"` 或 `"YYYY"`，确实没有发布日期（持续更新的网站、仓库）时写 `null`。
+- `author` 写作者姓名；没有署名时写发布机构或公众号名，多位作者用英文逗号加空格分隔，不知道时省略。文章页标题下方会显示“原文 / 原书 / 原视频：标题、作者、日期”，视频记录取 `channel` 与 `published_at`。
 - `domain` 优先取提取工具的元信息，为空时从 URL 主域名补齐。
 - `retrieved_at` 必须带时区。
 - 正文之前不额外插入“Metadata”标题；抓取说明写在 frontmatter 的 `extraction_note`。

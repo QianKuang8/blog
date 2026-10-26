@@ -2,8 +2,8 @@
 title: Demystifying evals for AI agents
 source_url: https://www.anthropic.com/research/demystifying-evals-for-ai-agents
 domain: anthropic.com
-author: Mikaela Grace, Jeremy Hadfield, Rodrigo Olivares, Jiri De Jonghe
-published_at: '2026-01-09'
+author: "Mikaela Grace, Jeremy Hadfield, Rodrigo Olivares, Jiri De Jonghe"
+published_at: "2026-01-09"
 description: Practical guidance for designing agent evaluations, selecting graders,
   interpreting repeated trials, and maintaining trustworthy evaluation suites.
 retrieved_at: '2026-10-21T16:48:44+08:00'

@@ -2,7 +2,8 @@
 title: 自进化（Self-evolving／RSI），一篇就够了
 source_url: https://zhuanlan.zhihu.com/p/2065227313973825752
 domain: zhuanlan.zhihu.com
-author: 周星星
+author: "周星星"
+published_at: "2026-07"
 description: 梳理 Artifacts、Harness 与 Model 三类自进化路径，以及递归自我改进的机制和评测边界。
 retrieved_at: '2026-10-15T14:07:13+08:00'
 extractor: defuddle

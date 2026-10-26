@@ -161,6 +161,23 @@ class ArticleTests(SiteFixture):
         self.replace("posts/book/index.html", ">书籍导读<", ">文章解读<")
         self.assertIn("posts/book/index.html", "\n".join(self.type_failures()))
 
+    def source_line_failures(self):
+        failures = []
+        check_site.check_source_lines(self.site(), self.repo, self.posts(), self.categories(), failures)
+        return failures
+
+    def test_source_line_links_the_source_record_once(self):
+        self.assertEqual(self.source_line_failures(), [])
+        self.write_source("sources/orig/reading.md", "---\nsource_url: https://example.com/original\n---\n")
+        self.assertIn("posts/reading/index.html: source line should link", "\n".join(self.source_line_failures()))
+        line = '<p data-source-line><a href="https://example.com/original" data-source-link>Original</a></p>'
+        self.replace("posts/reading/index.html", "</a>", "</a>" + line)
+        self.assertEqual(self.source_line_failures(), [])
+        self.replace("posts/reading/index.html", line, line * 2)
+        self.assertIn("posts/reading/index.html", "\n".join(self.source_line_failures()))
+        self.replace("posts/original/index.html", "</a>", "</a>" + line)
+        self.assertIn("posts/original/index.html: should not show a source line", "\n".join(self.source_line_failures()))
+
     def test_type_link_must_keep_category_identity_and_url(self):
         for before, after in (('data-category-term="原创文章"', 'data-category-term="好文分享"'),
                               ("/blog/categories/原创文章/", "/blog/categories/研究与实践/")):

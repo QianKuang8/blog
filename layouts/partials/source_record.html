@@ -1,0 +1,18 @@
+{{- /* Frontmatter of a post's public source record (sources/orig or sources/video, per
+  data/categories.json), or an empty dict for categories without one. Only the frontmatter
+  is read; book evidence records also carry a public body. */ -}}
+{{- $page := . -}}
+{{- $record := dict -}}
+{{- with .GetTerms "categories" -}}
+  {{- $config := partial "category_config.html" (index . 0).Data.Term -}}
+  {{- with $config.source -}}
+    {{- $path := printf "sources/%s/%s.md" . ($page.Slug | default $page.File.ContentBaseName) -}}
+    {{- if fileExists $path -}}
+      {{- $frontmatterPattern := `(?s)^---\r?\n(.*?)\r?\n---(?:\r?\n|$)` -}}
+      {{- with findRE $frontmatterPattern (readFile $path) 1 -}}
+        {{- $record = transform.Unmarshal (dict "format" "yaml") (replaceRE $frontmatterPattern "${1}" (index . 0)) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $record -}}

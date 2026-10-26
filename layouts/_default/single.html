@@ -25,6 +25,7 @@
       {{- with .Description }}
       <p class="post-description">{{ . }}</p>
       {{- end }}
+      {{- if $isPost }}{{ partial "source_line.html" . }}{{ end }}
     </header>
     {{- with .Content }}
     <div class="post-content prose bc-prose">{{ . }}</div>
