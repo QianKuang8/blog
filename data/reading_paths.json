@@ -373,7 +373,7 @@
             },
             {
               "post": "/posts/useful-skills",
-              "reason": "按要解决的问题挑选现成 Skill：创建技能、组织开发流程、澄清设计决定，或维护本地仓库索引。"
+              "reason": "按要解决的问题挑选 Skill：Skill Creator、Superpowers、Grill Me 三个现成工具，以及一个自建本地仓库索引 Skill 的需求记录。"
             }
           ]
         },
