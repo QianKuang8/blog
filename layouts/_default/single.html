@@ -13,7 +13,7 @@
   <article class="post-single bc-article">
     <header class="post-header bc-article-heading">
       {{- if and $isPost (not (.Param "hideMeta")) }}
-      <div class="post-meta bc-article-meta">{{ partial "post_meta.html" . }}</div>
+      <div class="post-meta bc-article-meta">{{ partial "post_meta.html" . }}{{ partial "copy_button.html" (dict "text" (printf "%s %s" .Title .Permalink) "label" "复制本文标题和链接" "icon" "link") }}</div>
       {{- end }}
       <h1 class="post-title">
         {{- with findRESubmatch `^(.+?：)(.+)$` .Title 1 -}}

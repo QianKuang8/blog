@@ -76,24 +76,6 @@ function httpURL(value) {
     }
 }
 
-// Copies "title URL", ready to paste into a chat.
-function copyButton(label, text) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'search-copy';
-    button.textContent = label;
-    button.addEventListener('click', async () => {
-        try {
-            await navigator.clipboard.writeText(text);
-            button.textContent = '已复制';
-        } catch {
-            button.textContent = '复制失败';
-        }
-        setTimeout(() => { button.textContent = label; }, 1500);
-    });
-    return button;
-}
-
 function resultSnippet(item, query) {
     const sources = [
         { text: item.summary, label: '摘要' },
@@ -152,12 +134,7 @@ function createResult(item, query) {
         appendHighlighted(excerpt, snippet.text, query);
         link.append(excerpt);
     }
-    const actions = document.createElement('div');
-    actions.className = 'search-result-actions';
-    const original = item.source_url && httpURL(item.source_url);
-    if (original) actions.append(copyButton('复制原文', `${item.source_title || item.title} ${original.href}`));
-    actions.append(copyButton('复制本文', `${item.title} ${url.href}`));
-    li.append(link, actions);
+    li.append(link);
     return li;
 }
 
@@ -199,7 +176,7 @@ async function loadIndex() {
             typeof item.title !== 'string' || typeof item.permalink !== 'string' ||
             typeof item.summary !== 'string' || typeof item.content !== 'string' ||
             !Array.isArray(item.tags) || item.tags.some(tag => typeof tag !== 'string') ||
-            ['source_title', 'source_url'].some(key => key in item && typeof item[key] !== 'string'))) {
+            ('source_title' in item && typeof item.source_title !== 'string'))) {
             throw new Error('Invalid search index');
         }
         entries = prepare(data);

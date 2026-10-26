@@ -12,5 +12,6 @@
     <a href="{{ . }}" data-source-link>{{ $record.title }}</a>
     {{- with $by }}<span>{{ . }}</span>{{ end }}
     {{- with $record.published_at }}<time datetime="{{ . }}">{{ . }}</time>{{ end }}
+    {{- partial "copy_button.html" (dict "text" (printf "%s %s" $record.title .) "label" (printf "复制%s标题和链接" (cond $isVideo "原视频" (cond (eq $record.source_type "book") "原书" "原文"))) "icon" "copy") }}
   </p>
 {{- end -}}

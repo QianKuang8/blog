@@ -23,6 +23,7 @@ class Page(HTMLParser):
         self.learning_groups: list[dict] = []
         self.learning_controls: list[dict[str, str | None]] = []
         self.lang: str | None = None
+        self.copy_texts: list[str] = []
         self._containers: list[dict | None] = []
         self._json_ld: list[str] | None = None
         self._link: dict[str, str | None] | None = None
@@ -35,6 +36,8 @@ class Page(HTMLParser):
         attributes = dict(attrs)
         if tag == "html":
             self.lang = attributes.get("lang")
+        if "data-copy" in attributes:
+            self.copy_texts.append(attributes["data-copy"] or "")
         if LEARNING_CONTROLS.intersection(attributes):
             self.learning_controls.append(attributes)
         for name in ("href", "src"):

@@ -211,6 +211,22 @@ class ArticleTests(SiteFixture):
         check_site.check_structured_data(self.site(), self.posts(), failures)
         self.assertEqual(len(failures), 2, failures)
 
+    def test_copy_buttons_copy_the_post_and_its_original(self):
+        def failures():
+            found = []
+            check_site.check_copy_buttons(self.site(), self.repo, self.posts(), self.categories(), found)
+            return found
+        self.write_source("content/posts/reading.md", "---\ntitle: 解读\ncategories: ['好文分享']\n---\nArticle\n")
+        self.write_source("sources/orig/reading.md", "---\ntitle: Original\nsource_url: https://example.com/original\n---\n")
+        own = '<button data-copy="解读 https://example.org/blog/posts/reading/"></button>'
+        original = '<button data-copy="Original https://example.com/original"></button>'
+        self.replace("posts/reading/index.html", "</a>", "</a>" + own + original)
+        self.assertNotIn("posts/reading/index.html", "\n".join(failures()))
+        self.replace("posts/reading/index.html", original, "")
+        self.assertIn("posts/reading/index.html: copy buttons should copy", "\n".join(failures()))
+        # Posts without a source record copy only themselves.
+        self.assertIn("posts/original/index.html: copy buttons should copy", "\n".join(failures()))
+
     def search_failures(self, index):
         self.write("index.json", json.dumps(index, ensure_ascii=False))
         failures = []
@@ -230,16 +246,16 @@ class ArticleTests(SiteFixture):
         self.assertTrue(self.search_failures([*items, items[0]]))
         self.assertTrue(self.search_failures([{**items[0], "category": "原创文章"}, *items[1:]]))
 
-    def test_search_index_carries_each_articles_source_url(self):
-        self.write_source("sources/orig/reading.md", "---\nsource_url: https://example.com/original\n---\n")
+    def test_search_index_carries_each_articles_source_title(self):
+        self.write_source("sources/orig/reading.md", "---\ntitle: Original\nsource_url: https://example.com/original\n---\n")
         items = [self.search_item("original", "研究与实践"), self.search_item("book", "阅读与解读"),
-                 {**self.search_item("reading", "阅读与解读"), "source_url": "https://example.com/original"}]
+                 {**self.search_item("reading", "阅读与解读"), "source_title": "Original"}]
         self.assertEqual(self.search_failures(items), [])
-        items[2]["source_url"] = ""
-        self.assertIn("source_url should be https://example.com/original", "\n".join(self.search_failures(items)))
-        items[2]["source_url"] = "https://example.com/original"
-        items[0]["source_url"] = "https://example.com/original"
-        self.assertIn("source_url should be empty", "\n".join(self.search_failures(items)))
+        items[2]["source_title"] = ""
+        self.assertIn("source_title should be Original", "\n".join(self.search_failures(items)))
+        items[2]["source_title"] = "Original"
+        items[0]["source_title"] = "Original"
+        self.assertIn("source_title should be empty", "\n".join(self.search_failures(items)))
 
 
 class ReadingPathTests(SiteFixture):

@@ -151,6 +151,15 @@ p { text-wrap: pretty; }
 .bc-article-heading > .bc-source-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin-top: 14px; font-size: 13px; line-height: 1.7; color: var(--subtle); }
 .bc-source-line a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--accent) 45%, var(--paper)); }
 .bc-source-line time { font: 12px var(--mono); }
+/* Small icon buttons copying "title URL" of the post or its original. */
+.bc-copy { display: inline-flex; align-items: center; justify-content: center; align-self: center; width: 22px; height: 22px; margin: -3px 0; padding: 0; border: 0; border-radius: 5px; background: transparent; color: var(--subtle); vertical-align: middle; cursor: pointer; }
+.bc-article-meta .bc-copy { margin-left: 4px; }
+.bc-copy[hidden] { display: none; }
+.bc-copy:hover, .bc-copy:focus-visible { color: var(--accent); background: var(--surface); }
+.bc-copy svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.bc-copy .bc-icon-done, .bc-copy.is-copied .bc-icon-copy { display: none; }
+.bc-copy.is-copied .bc-icon-done { display: block; }
+.bc-copy.is-copied { color: var(--accent); }
 .bc-toc { position: sticky; top: 34px; max-height: calc(100vh - 68px); overflow-y: auto; padding: 2px 5px 0 0; scrollbar-width: thin; }
 .bc-toc > p { font-size: 12px; color: var(--subtle); margin: 0 0 13px; }
 .bc-toc ul { list-style: none; margin: 0; padding: 0; }
@@ -300,9 +309,6 @@ p { text-wrap: pretty; }
 .search-result-meta { display: flex; gap: 16px; font-size: 12px; color: var(--subtle); }
 .search-result-snippet { font-size: 15px; line-height: 1.85; color: var(--muted); margin: 10px 0 0; }
 .search-snippet-label { font-size: 12px; }
-.search-result-actions { display: flex; gap: 8px; margin: -10px 0 20px; }
-.search-copy { border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--accent); font-size: 12px; line-height: 1.6; padding: 2px 10px; cursor: pointer; }
-.search-copy:hover, .search-copy:focus-visible { border-color: var(--accent); }
 #searchResults mark { color: var(--ink); background: var(--surface); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 

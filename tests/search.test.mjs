@@ -7,9 +7,7 @@ const source = readFileSync(new URL('../assets/js/fastsearch.js', import.meta.ur
 
 // Small DOM boundary for event regressions. The production search code runs
 // unchanged; browser rendering/focus rings need visual QA.
-function fixture(href = 'https://example.test/blog/search/', clipboard = null) {
-    const copied = [];
-    clipboard ??= { writeText: async text => { copied.push(text); } };
+function fixture(href = 'https://example.test/blog/search/') {
     let activeElement;
     class Element {
         constructor(tagName) {
@@ -72,7 +70,6 @@ function fixture(href = 'https://example.test/blog/search/', clipboard = null) {
     };
     const context = vm.createContext({
         document,
-        navigator: { clipboard },
         window: { location, history },
         URL, AbortController,
         setTimeout(callback) { timers.add(callback); return callback; },
@@ -87,7 +84,7 @@ function fixture(href = 'https://example.test/blog/search/', clipboard = null) {
     vm.runInContext(source, context);
     const flush = () => new Promise(resolve => setImmediate(resolve));
     return {
-        ...elements, document, requests, timers, location, history, copied, flush,
+        ...elements, document, requests, timers, location, history,
         setInput(value, properties = {}) {
             elements.searchInput.value = value;
             elements.searchInput.dispatch('input', properties);
@@ -325,44 +322,9 @@ test('rank follows where the keyword occurs, then newer first', async () => {
         ['Newer Harness notes', 'Older Harness notes', 'Source hit', 'Tagged', 'Summary hit', 'Body only']);
 });
 
-test('copy buttons copy the original or this post as title and link', async () => {
+test('a non-string original title rejects the index', async () => {
     const page = fixture();
-    await page.respond([
-        article('产品评估如何支持迭代', { source_title: 'Product Evals in Three Simple Steps', source_url: 'https://eugeneyan.com/writing/product-evals/' }),
-        article('原创笔记', { source_title: '', source_url: '' }),
-        article('可疑来源', { source_url: 'javascript:alert(1)' })
-    ]);
-    page.setInput('product evals');
-    assert.equal(page.links().length, 1);
-    let buttons = page.searchResults.querySelectorAll('button');
-    assert.deepEqual(buttons.map(button => button.textContent), ['复制原文', '复制本文']);
-    buttons[0].dispatch('click');
-    await page.flush();
-    assert.equal(page.copied.at(-1), 'Product Evals in Three Simple Steps https://eugeneyan.com/writing/product-evals/');
-    assert.equal(buttons[0].textContent, '已复制');
-    buttons[1].dispatch('click');
-    await page.flush();
-    assert.equal(page.copied.at(-1), `产品评估如何支持迭代 https://example.test/blog/posts/${encodeURIComponent('产品评估如何支持迭代')}/`);
-    for (const query of ['原创笔记', '可疑来源']) {
-        page.setInput(query);
-        buttons = page.searchResults.querySelectorAll('button');
-        assert.deepEqual(buttons.map(button => button.textContent), ['复制本文']);
-    }
-});
-
-test('a failed copy says so instead of claiming success', async () => {
-    const page = fixture(undefined, { writeText: async () => { throw new Error('denied'); } });
-    await page.respond([article('Alpha')]);
-    page.setInput('Alpha');
-    const [button] = page.searchResults.querySelectorAll('button');
-    button.dispatch('click');
-    await page.flush();
-    assert.equal(button.textContent, '复制失败');
-});
-
-test('non-string source fields reject the index', async () => {
-    const page = fixture();
-    await page.respond([article('Alpha', { source_url: 42 })]);
+    await page.respond([article('Alpha', { source_title: 42 })]);
     assert.match(page.searchStatus.textContent, /暂时无法搜索/);
 });
 

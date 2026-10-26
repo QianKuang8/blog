@@ -85,6 +85,29 @@
         wrapper.append(button);
     });
 
+    // Small copy buttons under an article heading: "title URL" of this post or its original.
+    document.querySelectorAll('[data-copy]').forEach(button => {
+        if (!navigator.clipboard) return;
+        button.hidden = false;
+        const label = button.getAttribute('aria-label');
+        button.addEventListener('click', async () => {
+            let message = '已复制';
+            try {
+                await navigator.clipboard.writeText(button.dataset.copy);
+                button.classList.add('is-copied');
+            } catch {
+                message = '复制失败，请手动复制';
+            }
+            button.setAttribute('aria-label', message);
+            button.title = message;
+            setTimeout(() => {
+                button.classList.remove('is-copied');
+                button.setAttribute('aria-label', label);
+                button.title = label;
+            }, 1500);
+        });
+    });
+
     // Native anchors remain usable without JavaScript; copy adds a shareable URL.
     document.querySelectorAll('[data-heading-anchor]').forEach(anchor => {
         anchor.addEventListener('click', () => {

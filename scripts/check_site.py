@@ -156,13 +156,13 @@ def check_search_index(site: Site, repo: Path, posts: list[dict], categories: di
         unquote(site.url_of(post["output"])): categories[post["term"]]["label"]
         for post in posts if post["term"] in categories
     }
-    # Search copies the original's link, so each article carries its source record's source_url.
+    # Search also matches the original's title, so each article carries its source record's title.
     sources = {}
     for post in posts:
         source = (categories.get(post["term"]) or {}).get("source")
         record = repo / "sources" / str(source) / f"{post['slug']}.md"
-        url = read_markdown(record)[0].get("source_url") if source and record.is_file() else None
-        sources[unquote(site.url_of(post["output"]))] = url or ""
+        title = read_markdown(record)[0].get("title") if source and record.is_file() else None
+        sources[unquote(site.url_of(post["output"]))] = title or ""
     seen = []
     for number, item in enumerate(index):
         fields = ("title", "content", "summary", "permalink", "category", "date")
@@ -183,8 +183,8 @@ def check_search_index(site: Site, repo: Path, posts: list[dict], categories: di
                 date.fromisoformat(item["date"])
             except ValueError:
                 failures.append(f"index.json item {number}: should include the publication date")
-            if item.get("source_url", "") != sources.get(url, ""):
-                failures.append(f"index.json item {number}: source_url should be {sources.get(url) or 'empty'}, as in its source record")
+            if item.get("source_title", "") != sources.get(url, ""):
+                failures.append(f"index.json item {number}: source_title should be {sources.get(url) or 'empty'}, as in its source record")
         elif item["category"] != "专题" or "/topics/" not in urlsplit(url).path:
             failures.append(f"index.json item {number}: should be an article or a topic")
     if len(seen) != len(set(seen)):
@@ -225,6 +225,19 @@ def check_source_lines(site: Site, repo: Path, posts: list[dict], categories: di
         links = [unquote(attrs.get("href") or "") for attrs, _ in site.page(post["output"]).links_with("data-source-link")]
         if links != ([unquote(url)] if url else []):
             failures.append(f"{post['output']}: source line should link {url} once" if url else f"{post['output']}: should not show a source line")
+
+
+def check_copy_buttons(site: Site, repo: Path, posts: list[dict], categories: dict, failures: list[str]) -> None:
+    """Each post copies "title URL" of itself, and of its original when it has a source record."""
+    for post in posts:
+        expected = [f"{post['metadata'].get('title')} {unquote(site.url_of(post['output']))}"]
+        source = (categories.get(post["term"]) or {}).get("source")
+        record = repo / "sources" / str(source) / f"{post['slug']}.md"
+        if source and record.is_file() and (data := read_markdown(record)[0]).get("source_url"):
+            expected.append(f"{data.get('title')} {data['source_url']}")
+        actual = [unquote(text) for text in site.page(post["output"]).copy_texts]
+        if sorted(actual) != sorted(unquote(text) for text in expected):
+            failures.append(f"{post['output']}: copy buttons should copy {expected}, found {actual}")
 
 
 def check_reading_paths(site: Site, repo: Path, failures: list[str]) -> None:
@@ -356,6 +369,7 @@ def check_site(site_dir: Path, repo: Path = REPO, base_url: str | None = None) -
     check_search_index(site, repo, posts, categories, failures)
     check_article_types(site, repo, posts, categories, failures)
     check_source_lines(site, repo, posts, categories, failures)
+    check_copy_buttons(site, repo, posts, categories, failures)
     check_reading_paths(site, repo, failures)
     check_related_posts(site, repo, posts, failures)
     check_learning_list(site, repo, posts, failures)
