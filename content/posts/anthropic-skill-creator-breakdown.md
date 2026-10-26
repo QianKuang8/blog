@@ -4,7 +4,7 @@ lastmod: '2026-10-19T20:20:27+08:00'
 title: "拆解 skill-creator：分别验证触发、产物与改进效果"
 summary: "Riba 对 skill-creator 的拆解展示了两条评估线：技能能否被正确触发，以及加载后是否改善产物。本文解释基线、断言、盲评和描述优化怎样配合，也指出评分不能覆盖全部质量。"
 description: "解读 2026 年 2 月版 skill-creator 的任务评估、基准比较、描述优化与人工反馈。"
-tags: ["agent", "harness-engineering"]
+tags: ["skills", "evals"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

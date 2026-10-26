@@ -4,7 +4,7 @@ lastmod: '2026-10-19T11:01:49+08:00'
 title: 'Harness Engineering：用行为评估守住 Agent 的关键动作'
 summary: "一次工具调用能证明 Agent 尝试过什么，却未必能证明任务已经完成。由 Google 的行为评估文章出发，梳理怎样为关键动作设计断言、处理运行波动，并与端到端评测形成互补。"
 description: "解读 coding agent 的行为评估思路，讨论执行证据、断言边界与回归检查的工程取舍。"
-tags: ["harness-engineering", "agentic-coding"]
+tags: ["evals", "harness-engineering", "agentic-coding"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

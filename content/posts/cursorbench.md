@@ -4,7 +4,7 @@ lastmod: '2026-10-19T11:08:10+08:00'
 title: "CursorBench：把真实开发会话变成评测任务"
 summary: "CursorBench 从团队实际会话中提取请求与提交结果，并用线上实验检查离线分数是否对应更好的体验。本文讨论任务来源、开放式评分和受控实验各自能提供什么证据。"
 description: "解读 CursorBench 的会话采样、正确性评估与线上线下校验方法。"
-tags: ["agentic-coding", "cursor"]
+tags: ["evals", "agentic-coding", "cursor"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

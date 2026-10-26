@@ -4,7 +4,7 @@ lastmod: '2026-09-21T10:32:28+08:00'
 title: '从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill'
 summary: "比较 Codex Record & Replay 与 Claude Record a Skill 如何把一次桌面演示变成可复用 Skill，以及两种证据形态、执行机制和安全边界的差异。"
 description: "从录制证据、Skill 生成、再次执行和安全边界四个方面，比较 Codex Record & Replay 与 Claude Record a Skill。"
-tags: ["agent", "harness-engineering"]
+tags: ["skills", "agent"]
 categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true

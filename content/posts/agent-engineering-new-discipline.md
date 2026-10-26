@@ -4,7 +4,7 @@ lastmod: '2026-10-19T11:01:49+08:00'
 title: "Agent Engineering：把生产轨迹接回评估与迭代"
 summary: "Agent 的接口可以正常返回，行为却仍偏离目标。LangChain 提出的工程循环把生产 trace、任务评估与提示和工具调整连起来，让每次改动回应可观察的失败。"
 description: "解读 LangChain Agent Engineering 的生产反馈循环、跨职能分工与可靠性边界。"
-tags: ["agent", "langchain"]
+tags: ["agent", "evals", "langchain"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

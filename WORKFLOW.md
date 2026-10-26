@@ -58,6 +58,8 @@ Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与�
 | `harness-engineering` | 细 tag | Harness Engineering |
 | `context-engineering` | 细 tag | Context Engineering |
 | `prompt-engineering` | 细 tag | Prompt Engineering |
+| `skills` | 细 tag | Agent Skills：Skill 的设计、触发、分发、录制与改进 |
+| `evals` | 细 tag | 评估方法：任务与评分器设计、benchmark 有效性、评估结果怎样支持迭代与上线判断 |
 | `行业动向` | 主题 tag | 行业趋势、开源生态、商业变化、跨模型发展趋势；不作为课程、新闻或单一产品实现文章的兜底标签 |
 | `software-design` | 工程主题 | 软件设计、模块边界、信息隐藏与复杂性管理 |
 | `架构迁移` | 工程主题 | 基础设施或系统架构迁移 |
@@ -68,7 +70,8 @@ Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与�
 ### 标签选择
 
 - 先选最能描述文章内容的主题，再按需补充；来源标签按下方规则单独添加。
-- `agent` 适合跨任务的 Agent 机制，例如 Computer History 和 Skill 复用；`agentic-coding` 适合 AI 编程产品、工作流和工程实践。只有两条主线都独立成立时才同时使用。
+- `agent` 适合跨任务的 Agent 机制，例如 Computer History；`agentic-coding` 适合 AI 编程产品、工作流和工程实践。只有两条主线都独立成立时才同时使用。
+- `skills` 只用于以 Skill 本身为主题的文章，正文顺带提到 Skill 时不加；`evals` 只用于以评估方法为主题的文章，仅用评测分数说明某项改进时不加。它们比 `agent`、`harness-engineering` 更准确时替换宽标签，主题标签仍保持 1-3 个。
 - 视频笔记只用栏目表示内容形式，按正文另选主题。沟通、组织管理等非技术文章没有合适主题时用 `tags: []`，同类内容积累后再考虑新增主题。
 - `行业动向` 只在正文充分展开趋势、生态、产业经济或竞争格局时使用；单一产品功能和实现文章优先用具体技术主题。不为减少数量而移除有依据的标签。
 - `next-edit`、`apply`、`speculative-edit` 是代码编辑的细分入口，即使文章少也保留。Context、Harness、Agent 等交叉主题不强制归入单一父级。
@@ -77,7 +80,7 @@ Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与�
 ### 标签展示与兼容入口
 
 - `data/tag_groups.json` 维护主题分组、细分技术、来源、站点与环境和停用标签；`content/tags/<tag>/_index.md` 的 `title` 维护显示名称。新增标签先登记分组，否则构建检查会失败。
-- 主题浏览页默认展开 Agent 系统、AI 编程、模型与产业、软件工程；`software-design`、`架构迁移`、`arm` 在软件工程组。分组锚点为 `group-<id>`，供首页主题入口跳转。
+- 主题浏览页默认展开 Agent 系统、AI 编程、模型与产业、软件工程；`skills`、`evals` 在 Agent 系统组，`software-design`、`架构迁移`、`arm` 在软件工程组。分组锚点为 `group-<id>`，供首页主题入口跳转。
 - 来源放在主题索引之后，显示为“已维护来源”，并说明不是完整来源索引；只含 `blog`、`init` 的“站点与环境”折叠展示。文章底部将主题与来源分行显示。`init` 显示为“开发环境”，`blog` 为“博客维护”，`apply` 为“代码应用（Apply）”。
 - `视频笔记` 标签已停用：`/tags/视频笔记/` 及其分页跳转到对应栏目页（`legacyCategory`）。
 - `博客推荐` 标签已停用：`/tags/博客推荐/` 保留两篇历史文章链接（`legacyPosts`），旧分页入口继续可用。

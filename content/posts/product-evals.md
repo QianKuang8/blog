@@ -4,7 +4,7 @@ lastmod: '2026-10-23T10:59:41+08:00'
 title: '产品评估如何支持迭代：校准判断，保留实验依据'
 summary: "从 Eugene Yan 的产品评估方法出发，用知识库问答的假设场景说明判断标准、样本用途与实验记录之间的关系，避免把评估器分数直接当作产品质量。"
 description: "解读产品评估的基本流程，并讨论缺陷样本集、评估器误差和配置变更如何影响上线判断。"
-tags: ["harness-engineering"]
+tags: ["evals"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

@@ -4,7 +4,7 @@ lastmod: '2026-10-19T10:39:19+08:00'
 title: "Claude Code 团队的 Skills 实践：把反复踩坑的经验变成任务包"
 summary: "Thariq Shihipar 从内部实践整理了 Skill 的任务分类、触发描述、渐进加载和分发方式。本文结合验证与运行手册例子，说明怎样保存可复用经验，并区分使用频率和实际效果。"
 description: "解读 Claude Code 团队的 Skill 编写经验、配置与数据管理、分发及使用观察。"
-tags: ["agentic-coding", "agent", "harness-engineering"]
+tags: ["skills", "agentic-coding"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

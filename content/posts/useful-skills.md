@@ -4,7 +4,7 @@ lastmod: '2026-09-21T10:12:54+08:00'
 title: "按任务选择 Skill：创建、开发、设计追问与仓库索引"
 summary: "整理 Skill Creator、Superpowers、Grill Me 与个人 GitHub KB 的用途，说明适用场景、预期产物和核验范围。"
 description: "面向重复工作选择 Agent Skills，并保留一个本地 GitHub 仓库知识库的历史创建需求。"
-tags: ["agent", "harness-engineering"]
+tags: ["skills"]
 categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
