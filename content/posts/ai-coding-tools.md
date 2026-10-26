@@ -4,7 +4,7 @@ lastmod: '2026-09-21T10:12:54+08:00'
 title: "ccstatusline 配置笔记：在 Claude Code 中查看模型、上下文与 Git 状态"
 summary: "保留一份包含模型、上下文长度、Git 分支和变更统计的个人状态栏配置，并说明启动、接入与恢复检查。"
 description: "ccstatusline 的组件选择、历史 JSON 配置与 Claude Code 状态栏恢复步骤。"
-tags: ["agentic-coding", "code-editing"]
+tags: ["agentic-coding"]
 categories: ["原创文章"]
 author: "Qian"
 isCJKLanguage: true
