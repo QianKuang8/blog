@@ -6,7 +6,7 @@
     {{- range .groups -}}{{- $count = add $count (len .entries) -}}{{- end -}}
     {{- with site.GetPage .topic }}
     <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $current }} aria-current="page"{{ end }}>
-      {{- replaceRE "：.*$| 阅读路径$" "" .Title -}}<span>{{ $count }}</span>
+      {{- replaceRE "：.*$| ?(阅读路径|课程笔记目录)$" "" .Title -}}<span>{{ $count }}</span>
     </a>
     {{- else -}}
       {{- errorf "reading path topic %q does not exist" $path.topic -}}

@@ -1,6 +1,6 @@
 ---
 date: '2026-09-08T15:33:34+08:00'
-lastmod: '2026-10-26T12:21:49+08:00'
+lastmod: '2026-10-26T16:30:41+08:00'
 title: 'Claude Code 团队如何工作：目标委派、动态工作流与验证反馈'
 summary: "Claude Code 团队把产品目标和背景交给代理，让它在开发环境中执行，再用逐项复核、测试、人工试用与真实反馈检查结果。本文解释这些步骤的输入、输出，以及各步由谁负责。"
 description: "解读 Claude Code 团队如何使用 Claude Tag、远端执行、动态工作流与反馈闭环完成日常开发"
@@ -91,4 +91,4 @@ Slack 中的消息界面也没有展示全部执行细节。按受访者描述�
 - [原视频：How the Claude Code team uses Claude Code](https://www.youtube.com/watch?v=S-sYlFiGFv8)
 - [完整中文学习讲义 PDF：14 页](/pdfs/standalone/how-claude-code-team-uses-claude-code.pdf)
 - [在 GitHub 查看发布源文件](https://github.com/QianKuang8/blog-pdfs/blob/5fe326dc06c33ec0577f6b9c92becabf01412eec/standalone/how-claude-code-team-uses-claude-code.pdf)
-- [Coding Agent 阅读路径]({{< relref "/topics/coding-agent.md" >}})：继续了解编辑循环、代理产品与评测方法。
+- [Coding Agent 阅读路径]({{< relref "/topics/coding-agent.md" >}})：继续了解执行循环、代理产品与交付验收。

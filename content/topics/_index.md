@@ -2,7 +2,7 @@
 title: "专题"
 aliases: ["/topics/page/1/"]
 description: "按问题选择 AI 工程阅读路径，或按周浏览 Stanford MS&E 435 课程笔记。"
-summary: "从 Coding Agent、上下文、Harness、记忆与 Skill 到 Stanford AI 经济课程，按问题选择阅读入口。"
+summary: "从 Coding Agent、代码编辑、上下文、Harness、Agent 评估、记忆与 Skill 到 Stanford AI 经济课程，按问题选择阅读入口。"
 hideMeta: true
 ---
 
@@ -10,9 +10,11 @@ hideMeta: true
 
 ## AI 工程阅读路径
 
-- [Coding Agent：从编辑循环到自主编排]({{< relref "/topics/coding-agent.md" >}})：了解产品形态、开发工作流，以及怎样评测交付结果。
+- [Coding Agent：从编辑循环到自主编排]({{< relref "/topics/coding-agent.md" >}})：了解产品形态、开发工作流，以及怎样验收交付结果。
+- [代码编辑：让修改准确、及时地写回文件]({{< relref "/topics/code-editing.md" >}})：从编辑格式、Apply 模型读到下一处编辑预测。
 - [Context Engineering：让 Agent 拿到正确上下文]({{< relref "/topics/context-engineering.md" >}})：理解信息选择、历史线索、上下文隔离与缓存成本。
 - [Harness Engineering：把 Agent 放进可控工程系统]({{< relref "/topics/harness-engineering.md" >}})：从工具、权限和 Skill 复用，读到验证、反馈与成本改进。
+- [Agent 评估：让分数支持工程决策]({{< relref "/topics/agent-evals.md" >}})：从评分器和重复试验，读到公开基准的误差与开发流程中的回归检查。
 - [Agent 记忆与 Skill：找回工作，复用方法]({{< relref "/topics/agent-memory-and-skills.md" >}})：从桌面活动与演示出发，分清工作线索怎样找回、操作方法怎样保存和检验。
 
 ## 课程目录

@@ -58,16 +58,8 @@
           ]
         },
         {
-          "title": "最后看评测和边界",
+          "title": "最后看验收与审查",
           "entries": [
-            {
-              "post": "/posts/cursorbench",
-              "reason": "看真实开发会话怎样成为评测任务，以及离线分数怎样与线上体验相互校验。"
-            },
-            {
-              "post": "/posts/why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities",
-              "reason": "从测试错配和数据污染理解公开评测的误差，并检查审计结论的样本边界。"
-            },
             {
               "post": "/posts/agentic-coding-boundary",
               "reason": "把注意力转向复杂度、领域知识与审查带宽，理解验收标准怎样影响交付。"
@@ -75,6 +67,58 @@
             {
               "post": "/posts/how-to-kill-the-code-review",
               "reason": "顺着审查带宽的问题，看怎样把人工检查前移到规范与验收标准，以及多层自动检查为何仍可能有共同盲点。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "/topics/code-editing",
+      "groups": [
+        {
+          "title": "先看修改怎样落到文件里",
+          "entries": [
+            {
+              "post": "/posts/code-surgery-edit-tools",
+              "reason": "比较上下文补丁、搜索替换与专用 Apply 模型，看一段修改怎样定位到当前文件、保留缩进，并在部分失败时把结果反馈给下一轮。"
+            },
+            {
+              "post": "/posts/aider-unified-diffs",
+              "reason": "用 89 个重构任务看编辑格式怎样影响代码省略：去掉行号、扩大修改块，再让应用层容忍格式上的小错误。"
+            }
+          ]
+        },
+        {
+          "title": "再看完整修改怎样快速应用",
+          "entries": [
+            {
+              "post": "/posts/huggingface-assisted-generation",
+              "reason": "先理解推测解码的基本做法：小模型草拟候选，目标模型一次验证多个位置，收益取决于命中率与硬件条件。"
+            },
+            {
+              "post": "/posts/cursor-instant-apply",
+              "reason": "看专用 Apply 模型怎样输出完整文件，并把原文件当作推测候选，加速大段未改动的内容。"
+            }
+          ]
+        },
+        {
+          "title": "最后看下一处编辑怎样预测",
+          "entries": [
+            {
+              "post": "/posts/copilot-next-edit-suggestions",
+              "reason": "从刚做的修改推测下一处编辑，并看建议粒度、展示顺序和延迟怎样影响开发者逐步接受。"
+            },
+            {
+              "post": "/posts/zed-edit-prediction",
+              "reason": "看 Zeta 怎样根据近期编辑重写光标附近的代码，训练时同时学习继续修改和保留无关内容，并把延迟压到交互预算内。"
+            },
+            {
+              "post": "/posts/augment-next-edit",
+              "reason": "把 Next Edit 拆成意图推断、位置检索与紧凑 diff 生成，看每个环节分别对应哪类错误。"
+            },
+            {
+              "post": "/posts/continue-instinct",
+              "reason": "看真实编辑序列怎样整理成训练样本，以及允许替代答案的评分和速度估算各自采用什么口径。"
             }
           ]
         }
@@ -221,24 +265,12 @@
               "reason": "看规范、评审触发器和 CI 放进同一生命周期视图后，怎样分清规则已经配置、已经进入流程和这次确实执行。"
             },
             {
-              "post": "/posts/demystifying-evals-for-ai-agents",
-              "reason": "明确任务结果、评分器与重复试验分别回答什么，再检查分数能否支持可靠性判断。"
-            },
-            {
-              "post": "/posts/product-evals",
-              "reason": "用知识库问答场景区分样本用途、评分误差与配置变化，理解产品评估怎样支持可复查的实验。"
-            },
-            {
               "post": "/posts/improving-deep-agents-with-harness-engineering",
               "reason": "沿失败轨迹检查验证机会、环境信息和推理预算的调整，以及提分的归因边界。"
             },
             {
               "post": "/posts/harness-engineering-behavioral-evaluations",
               "reason": "理解行为断言能证明什么，以及它怎样与端到端评测共同检查回归。"
-            },
-            {
-              "post": "/posts/uber-efficient-software-factory",
-              "reason": "看模型分工与工具流程的改进，怎样用同一组真实任务检查质量和成本。"
             },
             {
               "post": "/posts/cognition-local-fusion",
@@ -251,6 +283,54 @@
             {
               "post": "/posts/self-evolving-agents-rsi",
               "reason": "从产物、执行方法与参数三类改动出发，检查自进化的预算、迁移与递归证据。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topic": "/topics/agent-evals",
+      "groups": [
+        {
+          "title": "先看分数怎样支持判断",
+          "entries": [
+            {
+              "post": "/posts/demystifying-evals-for-ai-agents",
+              "reason": "明确任务结果、评分器与重复试验分别回答什么，再检查分数能否支持可靠性判断。"
+            },
+            {
+              "post": "/posts/product-evals",
+              "reason": "用知识库问答场景区分样本用途、评分误差与配置变化，理解产品评估怎样支持可复查的实验。"
+            }
+          ]
+        },
+        {
+          "title": "再看公开基准与产品评测",
+          "entries": [
+            {
+              "post": "/posts/why-swe-bench-verified-no-longer-measures-frontier-coding-capabilities",
+              "reason": "从测试错配和数据污染理解公开评测的误差，并检查审计结论的样本边界。"
+            },
+            {
+              "post": "/posts/cursorbench",
+              "reason": "看真实开发会话怎样成为评测任务，以及离线分数怎样与线上体验相互校验。"
+            }
+          ]
+        },
+        {
+          "title": "最后看评估怎样进入开发流程",
+          "entries": [
+            {
+              "post": "/posts/agent-engineering-new-discipline",
+              "reason": "看生产 trace 怎样帮助定位失败，再把问题案例补进回归集，让每次修改都能用同一组任务复测。"
+            },
+            {
+              "post": "/posts/harness-engineering-behavioral-evaluations",
+              "reason": "理解行为断言能证明什么，以及它怎样与端到端评测共同检查回归。"
+            },
+            {
+              "post": "/posts/anthropic-skill-creator-breakdown",
+              "reason": "把评估用在 Skill 上：分别检查触发是否准确、产物是否优于不用 Skill 的基线，以及留出样例怎样参与候选选择。"
             }
           ]
         }

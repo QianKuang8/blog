@@ -2,7 +2,7 @@
 title: "Harness Engineering 阅读路径"
 description: "从工具、权限、反馈、评估和可观测性，串起 Qian's blog 中关于 Harness Engineering 的文章。"
 summary: "从工具、权限、反馈、评估和可观测性，串起 Qian's blog 中关于 Harness Engineering 的文章。"
-lastmod: "2026-09-21T10:57:26+08:00"
+lastmod: "2026-10-26T16:30:41+08:00"
 hideMeta: true
 showToc: true
 isCJKLanguage: true
@@ -16,3 +16,4 @@ isCJKLanguage: true
 
 - [harness-engineering 标签]({{< relref "/tags/harness-engineering" >}})
 - [agent 标签]({{< relref "/tags/agent" >}})
+- [Agent 评估阅读路径]({{< relref "/topics/agent-evals.md" >}})：继续看评分方法、公开基准的误差和回归检查。
