@@ -278,304 +278,238 @@ def local_destinations(body: str) -> list[str]:
     ]
 
 
-def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | None = None) -> list[str]:
-    """Return actionable failures; never fetch remote data or modify the checkout.
+class ContentChecker:
+    """Publication checks over the source tree; each check_* method appends to failures."""
 
-    Valid YAML drafts (draft: true) may be incomplete. Every other post must
-    satisfy publication requirements, including future-dated posts.
-    """
-    repo = repo.resolve()
-    failures: list[str] = []
-    pdf_root = repo / "static/pdfs"
-    pdf_git_checked = False
-    pdf_git_available = False
-    try:
-        config = yaml.safe_load((repo / "config/_default/config.yaml").read_text())
-        site_url = urlsplit(base_url or config["baseURL"])
-        prefix = site_prefix(site_url.geturl())
-    except (OSError, KeyError, TypeError, yaml.YAMLError) as exc:
-        return [f"config/_default/config.yaml: cannot read baseURL: {exc}"]
-    try:
-        categories = load_categories(repo)
-        tag_groups = json.loads((repo / "data/tag_groups.json").read_text(encoding="utf-8"))
-    except (OSError, KeyError, TypeError, ValueError, yaml.YAMLError) as exc:
-        return [f"data/: cannot read category or tag settings: {exc}"]
-    registered_tags = [*tag_groups.get("sources", []), *tag_groups.get("other", [])]
-    for group in tag_groups.get("topics", []):
-        registered_tags.extend([*group.get("tags", []), *group.get("details", [])])
-    if len(registered_tags) != len(set(registered_tags)):
-        failures.append("data/tag_groups.json: a tag is registered in more than one group")
-    retired_tags = set(tag_groups.get("retired", []))
-    referenced_sources: set[Path] = set()
+    def __init__(self, repo: Path, site_url, categories: dict[str, dict], tag_groups: dict, site_dir: Path | None) -> None:
+        self.repo = repo
+        self.site_url = site_url
+        self.prefix = site_prefix(site_url.geturl())
+        self.categories = categories
+        self.tag_groups = tag_groups
+        self.site_dir = site_dir
+        self.failures: list[str] = []
+        self.registered_tags = [*tag_groups.get("sources", []), *tag_groups.get("other", [])]
+        for group in tag_groups.get("topics", []):
+            self.registered_tags.extend([*group.get("tags", []), *group.get("details", [])])
+        self.retired_tags = set(tag_groups.get("retired", []))
+        self.referenced_sources: set[Path] = set()
+        self.pdf_root = repo / "static/pdfs"
+        self.pdf_git_checked = False
+        self.pdf_git_available = False
 
-    def fail(path: Path, message: str) -> None:
-        failures.append(f"{path.relative_to(repo)}: {message}")
+    # Helpers shared by the checks.
 
-    def read(path: Path) -> tuple[dict, str] | None:
+    def fail(self, path: Path, message: str) -> None:
+        self.failures.append(f"{path.relative_to(self.repo)}: {message}")
+
+    def read(self, path: Path) -> tuple[dict, str] | None:
         try:
             return read_markdown(path)
         except (OSError, ValueError, TypeError, yaml.YAMLError) as exc:
-            fail(path, str(exc))
+            self.fail(path, str(exc))
             return None
 
-    def required_text(path: Path, data: dict, keys: tuple[str, ...]) -> None:
+    def required_text(self, path: Path, data: dict, keys: tuple[str, ...]) -> None:
         for key in keys:
             if not isinstance(data.get(key), str) or not data[key].strip():
-                fail(path, f"{key} must be a nonempty string")
+                self.fail(path, f"{key} must be a nonempty string")
 
-    def date_field(path: Path, data: dict, key: str) -> datetime | None:
+    def date_field(self, path: Path, data: dict, key: str) -> datetime | None:
         try:
             return aware_datetime(data.get(key))
         except (ValueError, TypeError) as exc:
-            fail(path, f"{key} must be an ISO 8601 datetime with a timezone ({exc})")
+            self.fail(path, f"{key} must be an ISO 8601 datetime with a timezone ({exc})")
             return None
 
-    def check_record(source: Path, record: dict, body: str) -> None:
-        required_text(source, record, ("title", "source_url"))
-        retrieved = date_field(source, record, "retrieved_at")
+    # Settings.
+
+    def check_tag_registry(self) -> None:
+        if len(self.registered_tags) != len(set(self.registered_tags)):
+            self.failures.append("data/tag_groups.json: a tag is registered in more than one group")
+
+    # Articles.
+
+    def check_post(self, post: Path) -> None:
+        result = self.read(post)
+        if result is None:
+            return
+        data, body = result
+        if "draft" in data and not isinstance(data["draft"], bool):
+            self.fail(post, "draft must be a YAML boolean")
+        terms = data.get("categories")
+        slug = post_slug(post, data)
+        if isinstance(terms, list) and len(terms) == 1 and isinstance(terms[0], str) and self.categories.get(terms[0], {}).get("source") and isinstance(slug, str):
+            self.referenced_sources.add(self.repo / "sources" / self.categories[terms[0]]["source"] / f"{slug}.md")
+        if data.get("draft") is True:
+            return
+        images, published = self.check_post_fields(post, data, body)
+        if not isinstance(terms, list) or len(terms) != 1 or not isinstance(terms[0], str) or terms[0] not in self.categories:
+            self.fail(post, f"categories must be a list containing exactly one of {', '.join(self.categories)}")
+            return
+        source_dir = self.categories[terms[0]].get("source")
+        if not source_dir:
+            return
+        self.check_captions(post, images)
+        if not isinstance(slug, str) or not re.fullmatch(r"[^/\\.][^/\\]*", slug):
+            self.fail(post, "slug must be a single nonempty path segment")
+            return
+        self.check_post_source(post, slug, source_dir, body, images, published)
+
+    def check_post_fields(self, post: Path, data: dict, body: str) -> tuple[list[tuple[str, str, str]], datetime | None]:
+        """Frontmatter, wording, links and images of a published post; returns its figures and date."""
+        unknown = sorted(key for key in data if str(key).lower() not in POST_KEYS)
+        if unknown:
+            self.fail(post, f"unknown frontmatter keys {unknown}; remove them, or add them to POST_KEYS in scripts/check_content.py when a template reads them")
+        if "learning_status" in data and (
+            not isinstance(data["learning_status"], str) or data["learning_status"] not in LEARNING_STATUSES
+        ):
+            self.fail(post, "learning_status must be pending or done; omit the field for an unmarked article")
+        self.required_text(post, data, ("title", "summary", "description", "author"))
+        for message in wording_failures(data, body):
+            self.fail(post, message)
+        if not body.strip():
+            self.fail(post, "article body must not be empty")
+        if self.prefix:
+            for destination in local_destinations(body):
+                if destination == self.prefix or destination.startswith(f"{self.prefix}/"):
+                    self.fail(post, f"link {destination} hardcodes the site path {self.prefix}; write it relative to the site root")
+        images = figures(body)
+        for alt, destination, _ in images:
+            if not alt.strip():
+                self.fail(post, f"image {destination} needs descriptive alt text")
+            if not destination.startswith("/images/"):
+                self.fail(post, f"image {destination} must be stored under static/images/ and written as /images/...")
+            elif not image_file(self.repo, destination).is_file():
+                self.fail(post, f"image file is missing: static{unquote(urlsplit(destination).path)}")
+        published = self.date_field(post, data, "date")
+        modified = self.date_field(post, data, "lastmod")
+        if published and modified and modified < published:
+            self.fail(post, "lastmod must not precede date")
+        for key in ("isCJKLanguage", "showToc"):
+            if not isinstance(data.get(key), bool):
+                self.fail(post, f"{key} must be a YAML boolean")
+        tags = data.get("tags")
+        if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
+            self.fail(post, "tags must be a YAML list of nonempty strings (an empty list is allowed)")
+        else:
+            if self.retired_tags.intersection(tags):
+                self.fail(post, f"retired tags are no longer assigned: {sorted(self.retired_tags.intersection(tags))}")
+            if set(tags) - set(self.registered_tags):
+                self.fail(post, f"register new tags in data/tag_groups.json: {sorted(set(tags) - set(self.registered_tags))}")
+        return images, published
+
+    def check_captions(self, post: Path, images: list[tuple[str, str, str]]) -> None:
+        """Sourced articles caption every figure as 图 N：<label>, numbered in order."""
+        for number, (_, destination, caption) in enumerate(images, 1):
+            if not caption:
+                self.fail(post, f"image {destination} needs an italic caption paragraph right after it, stating what it shows and where it comes from")
+            elif not (label := CAPTION_LABEL.match(caption)):
+                self.fail(post, f"caption of {destination} must start with 图 N：followed by 原图, 原页面图表截图, 局部截取, 重绘 or 本文绘制")
+            elif int(label[1]) != number:
+                self.fail(post, f"caption of {destination} should be numbered 图 {number} (figures are numbered in order)")
+
+    # Source records.
+
+    def check_post_source(self, post: Path, slug: str, source_dir: str, body: str, images: list[tuple[str, str, str]], published: datetime | None) -> None:
+        source = self.repo / "sources" / source_dir / f"{slug}.md"
+        result = self.read(source)
+        if result is None:
+            return
+        record, source_body = result
+        self.check_record(source, record, source_body)
+        own_recorded = self.check_image_sources(source, record)
+        recorded = set(own_recorded)
+        related = record.get("related_sources", [])
+        if not isinstance(related, list) or any(not isinstance(name, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", name) for name in related):
+            self.fail(source, "related_sources must be a list of source record slugs")
+            related = []
+        for name in related:
+            related_source = source.parent / f"{name}.md"
+            self.referenced_sources.add(related_source)
+            related_result = self.read(related_source)
+            if related_result is not None:
+                self.check_record(related_source, *related_result)
+                recorded |= self.check_image_sources(related_source, related_result[0])
+        if source_dir == "orig":
+            self.required_text(source, record, ("domain", "description", "extractor"))
+            used = {destination for _, destination, _ in images if destination.startswith("/images/")}
+            for destination in sorted(used - recorded):
+                self.fail(post, f"image {destination} is missing from image_sources in {source.relative_to(self.repo)}; for articles, record it in the private archive and run scripts/source_record.py")
+            for path in sorted(own_recorded - used):
+                self.fail(source, f"image_sources lists {path}, but the article does not use it")
+            return
+        self.check_video(post, slug, body, source, record, published)
+
+    def check_record(self, source: Path, record: dict, body: str) -> None:
+        self.required_text(source, record, ("title", "source_url"))
+        retrieved = self.date_field(source, record, "retrieved_at")
         if retrieved and retrieved > datetime.now(timezone.utc):
-            fail(source, "retrieved_at must not be in the future")
+            self.fail(source, "retrieved_at must not be in the future")
         if not is_http_url(record.get("source_url")):
-            fail(source, "source_url must be an absolute HTTP(S) URL")
+            self.fail(source, "source_url must be an absolute HTTP(S) URL")
         # Shown under the article heading; null records that the source gives no date.
         published = record.get("published_at", "missing")
         if published == "missing":
-            fail(source, "published_at is required: the source's own publication date, or null when it shows none")
+            self.fail(source, "published_at is required: the source's own publication date, or null when it shows none")
         elif published is not None and not (isinstance(published, str) and PUBLISHED_DATE.fullmatch(published)):
-            fail(source, 'published_at must be a quoted "YYYY-MM-DD" (or "YYYY-MM", "YYYY" when the source is that coarse), or null')
+            self.fail(source, 'published_at must be a quoted "YYYY-MM-DD" (or "YYYY-MM", "YYYY" when the source is that coarse), or null')
         if "author" in record and (not isinstance(record["author"], str) or not record["author"].strip()):
-            fail(source, "author must be a nonempty string; omit it when unknown")
+            self.fail(source, "author must be a nonempty string; omit it when unknown")
         if source.parent.name == "video" or record.get("source_type") == "book":
             if not body.strip():
-                fail(source, "source record body must not be empty")
+                self.fail(source, "source record body must not be empty")
         elif body.strip():
-            fail(source, "keep only metadata here; store the article text in the private archive (sources/archive/orig/)")
+            self.fail(source, "keep only metadata here; store the article text in the private archive (sources/archive/orig/)")
 
-    def check_image_sources(source: Path, record: dict) -> set[str]:
+    def check_image_sources(self, source: Path, record: dict) -> set[str]:
         """Validate image provenance entries and return the image paths they cover."""
         entries = record.get("image_sources", [])
         if not isinstance(entries, list) or any(not isinstance(entry, dict) for entry in entries):
-            fail(source, "image_sources must be a list of mappings")
+            self.fail(source, "image_sources must be a list of mappings")
             return set()
         paths = set()
         for number, entry in enumerate(entries, 1):
             label = f"image_sources[{number}]"
             for key in ("title", "path", "method"):
                 if not isinstance(entry.get(key), str) or not entry[key].strip():
-                    fail(source, f"{label}.{key} must be a nonempty string")
+                    self.fail(source, f"{label}.{key} must be a nonempty string")
             if not is_http_url(entry.get("source_url")):
-                fail(source, f"{label}.source_url must be an absolute HTTP(S) URL")
+                self.fail(source, f"{label}.source_url must be an absolute HTTP(S) URL")
             try:
                 if aware_datetime(entry.get("retrieved_at")) > datetime.now(timezone.utc):
-                    fail(source, f"{label}.retrieved_at must not be in the future")
+                    self.fail(source, f"{label}.retrieved_at must not be in the future")
             except (ValueError, TypeError) as exc:
-                fail(source, f"{label}.retrieved_at must be an ISO 8601 datetime with a timezone ({exc})")
+                self.fail(source, f"{label}.retrieved_at must be an ISO 8601 datetime with a timezone ({exc})")
             path = entry.get("path")
             if not isinstance(path, str) or not path.strip():
                 continue
             if not path.startswith("/images/"):
-                fail(source, f"{label}.path must start with /images/")
-            elif not image_file(repo, path).is_file():
-                fail(source, f"{label}.path does not exist: static{path}")
+                self.fail(source, f"{label}.path must start with /images/")
+            elif not image_file(self.repo, path).is_file():
+                self.fail(source, f"{label}.path does not exist: static{path}")
             paths.add(path)
         return paths
 
-    def video_links(post: Path, urls: list[str], expected_site_path: str, pdf_path: str, source_url, context: str = "") -> list[str]:
-        parsed_urls = []
-        for url in urls:
+    def check_unused_records(self) -> None:
+        for record_path in list(self.referenced_sources):
             try:
-                parsed_urls.append((url, urlsplit(url)))
-            except ValueError:
-                fail(post, f"{context}malformed link URL: {url}")
-        if not any(
-            unquote(parsed.path) == expected_site_path
-            and parsed.netloc in {"", site_url.netloc}
-            and parsed.scheme in {"", "http", "https"}
-            for _, parsed in parsed_urls
-        ):
-            fail(post, f"{context}missing site PDF link: {expected_site_path}")
-        # Other PDF links may be useful further reading. Only this article's
-        # PDF satisfies its publication contract and undergoes blob comparison.
-        github_links = [
-            url for url, parsed in parsed_urls
-            if url.startswith(PDF_REPOSITORY)
-            and unquote(parsed.path).split("/blob/", 1)[1].partition("/")[2] == pdf_path
-        ]
-        if not github_links:
-            fail(post, f"{context}missing fixed GitHub PDF link: {PDF_REPOSITORY}<commit>/{pdf_path}")
-        if isinstance(source_url, str) and source_url not in urls:
-            fail(post, f"{context}missing original video link matching source_url")
-        return github_links
+                related = read_markdown(record_path)[0].get("related_sources") or []
+            except (OSError, ValueError, TypeError, yaml.YAMLError):
+                continue
+            if isinstance(related, list):
+                self.referenced_sources.update(record_path.parent / f"{name}.md" for name in related if isinstance(name, str))
+        for source_dir in sorted({entry["source"] for entry in self.categories.values() if entry.get("source")}):
+            for record in sorted((self.repo / "sources" / source_dir).glob("*.md")):
+                if record not in self.referenced_sources:
+                    self.fail(record, "no article uses this source record; delete it or list it in related_sources")
 
-    posts = post_paths(repo)
-    if not posts:
-        return ["content/posts: no Markdown articles found"]
-    for post in posts:
-        result = read(post)
-        if result is None:
-            continue
-        data, body = result
-        if "draft" in data and not isinstance(data["draft"], bool):
-            fail(post, "draft must be a YAML boolean")
-        terms = data.get("categories")
-        slug = post_slug(post, data)
-        if isinstance(terms, list) and len(terms) == 1 and isinstance(terms[0], str) and categories.get(terms[0], {}).get("source") and isinstance(slug, str):
-            referenced_sources.add(repo / "sources" / categories[terms[0]]["source"] / f"{slug}.md")
-        if data.get("draft") is True:
-            continue
-        unknown = sorted(key for key in data if str(key).lower() not in POST_KEYS)
-        if unknown:
-            fail(post, f"unknown frontmatter keys {unknown}; remove them, or add them to POST_KEYS in scripts/check_content.py when a template reads them")
-        if "learning_status" in data and (
-            not isinstance(data["learning_status"], str) or data["learning_status"] not in LEARNING_STATUSES
-        ):
-            fail(post, "learning_status must be pending or done; omit the field for an unmarked article")
-        required_text(post, data, ("title", "summary", "description", "author"))
-        for message in wording_failures(data, body):
-            fail(post, message)
-        if not body.strip():
-            fail(post, "article body must not be empty")
-        if prefix:
-            for destination in local_destinations(body):
-                if destination == prefix or destination.startswith(f"{prefix}/"):
-                    fail(post, f"link {destination} hardcodes the site path {prefix}; write it relative to the site root")
-        images = figures(body)
-        for alt, destination, _ in images:
-            if not alt.strip():
-                fail(post, f"image {destination} needs descriptive alt text")
-            if not destination.startswith("/images/"):
-                fail(post, f"image {destination} must be stored under static/images/ and written as /images/...")
-            elif not image_file(repo, destination).is_file():
-                fail(post, f"image file is missing: static{unquote(urlsplit(destination).path)}")
-        published = date_field(post, data, "date")
-        modified = date_field(post, data, "lastmod")
-        if published and modified and modified < published:
-            fail(post, "lastmod must not precede date")
-        for key in ("isCJKLanguage", "showToc"):
-            if not isinstance(data.get(key), bool):
-                fail(post, f"{key} must be a YAML boolean")
-        tags = data.get("tags")
-        if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
-            fail(post, "tags must be a YAML list of nonempty strings (an empty list is allowed)")
-        else:
-            if retired_tags.intersection(tags):
-                fail(post, f"retired tags are no longer assigned: {sorted(retired_tags.intersection(tags))}")
-            if set(tags) - set(registered_tags):
-                fail(post, f"register new tags in data/tag_groups.json: {sorted(set(tags) - set(registered_tags))}")
-        if not isinstance(terms, list) or len(terms) != 1 or not isinstance(terms[0], str) or terms[0] not in categories:
-            fail(post, f"categories must be a list containing exactly one of {', '.join(categories)}")
-            continue
-        source_dir = categories[terms[0]].get("source")
-        if not source_dir:
-            continue
-        for number, (_, destination, caption) in enumerate(images, 1):
-            if not caption:
-                fail(post, f"image {destination} needs an italic caption paragraph right after it, stating what it shows and where it comes from")
-            elif not (label := CAPTION_LABEL.match(caption)):
-                fail(post, f"caption of {destination} must start with 图 N：followed by 原图, 原页面图表截图, 局部截取, 重绘 or 本文绘制")
-            elif int(label[1]) != number:
-                fail(post, f"caption of {destination} should be numbered 图 {number} (figures are numbered in order)")
-        if not isinstance(slug, str) or not re.fullmatch(r"[^/\\.][^/\\]*", slug):
-            fail(post, "slug must be a single nonempty path segment")
-            continue
-        source = repo / "sources" / source_dir / f"{slug}.md"
-        result = read(source)
-        if result is None:
-            continue
-        record, source_body = result
-        check_record(source, record, source_body)
-        own_recorded = check_image_sources(source, record)
-        recorded = set(own_recorded)
-        related = record.get("related_sources", [])
-        if not isinstance(related, list) or any(not isinstance(name, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", name) for name in related):
-            fail(source, "related_sources must be a list of source record slugs")
-            related = []
-        for name in related:
-            related_source = source.parent / f"{name}.md"
-            referenced_sources.add(related_source)
-            related_result = read(related_source)
-            if related_result is not None:
-                check_record(related_source, *related_result)
-                recorded |= check_image_sources(related_source, related_result[0])
-        source_url = record.get("source_url")
-        if source_dir == "orig":
-            required_text(source, record, ("domain", "description", "extractor"))
-            used = {destination for _, destination, _ in images if destination.startswith("/images/")}
-            for destination in sorted(used - recorded):
-                fail(post, f"image {destination} is missing from image_sources in {source.relative_to(repo)}; for articles, record it in the private archive and run scripts/source_record.py")
-            for path in sorted(own_recorded - used):
-                fail(source, f"image_sources lists {path}, but the article does not use it")
-            continue
-        required_text(source, record, ("channel", "duration", "pdf_path"))
-        if record.get("source_type") != "video":
-            fail(source, "source_type must be video")
-        if not re.fullmatch(r"(?:\d+:)?\d{1,2}:[0-5]\d", str(record.get("duration", ""))):
-            fail(source, "duration must use MM:SS or HH:MM:SS")
-        pdf_path = record.get("pdf_path")
-        if not isinstance(pdf_path, str) or not re.fullmatch(r"(?:standalone|stanford-mse435)/[a-z0-9][a-z0-9-]*\.pdf", pdf_path):
-            fail(source, "pdf_path must be standalone/<slug>.pdf or stanford-mse435/<slug>.pdf")
-            continue
-        pdf = pdf_root / pdf_path
-        if not pdf.is_file() or not pdf.resolve().is_relative_to(pdf_root.resolve()):
-            fail(source, f"PDF is missing from static/pdfs: {pdf_path}; initialize the PDF submodule")
-            continue
-        github_links = video_links(post, linked_urls(body), f"/pdfs/{pdf_path}", pdf_path, source_url)
-        if site_dir is not None:
-            output_page = site_dir / "posts" / slug / "index.html"
-            if output_page.is_file():
-                github_links.extend(video_links(
-                    post, html_linked_urls(output_page.read_text(encoding="utf-8")),
-                    f"{prefix}/pdfs/{pdf_path}", pdf_path, source_url, "rendered page: ",
-                ))
-            elif not published or published <= datetime.now(timezone.utc):
-                fail(post, f"missing generated video page: posts/{slug}/index.html")
-        if not pdf_git_checked:
-            pdf_git_checked = True
-            try:
-                entry = git(repo, "ls-files", "--stage", "static/pdfs")
-                if not entry.startswith("160000 ") or Path(git(pdf_root, "rev-parse", "--show-toplevel")).resolve() != pdf_root.resolve():
-                    raise ValueError("static/pdfs must be an initialized Git submodule")
-                pdf_git_available = True
-            except ValueError as exc:
-                fail(source, str(exc))
-        if pdf_git_available:
-            try:
-                actual_blob = git(pdf_root, "hash-object", "--", pdf_path)
-                if git(pdf_root, "rev-parse", f"HEAD:{pdf_path}") != actual_blob:
-                    fail(source, "PDF bytes differ from the PDF submodule HEAD; commit the PDF repository first")
-                for url in set(github_links):
-                    fixed_path = unquote(urlsplit(url).path).split("/blob/", 1)[1]
-                    commit, _, linked_path = fixed_path.partition("/")
-                    if linked_path != pdf_path or not re.fullmatch(r"[0-9a-f]{7,40}", commit):
-                        fail(post, f"GitHub PDF link must pin a commit and match pdf_path: {url}")
-                        continue
-                    try:
-                        git(pdf_root, "rev-parse", "--verify", f"{commit}^{{commit}}")
-                        if git(pdf_root, "rev-parse", f"{commit}:{pdf_path}") != actual_blob:
-                            fail(post, f"GitHub PDF link points to different PDF bytes: {url}")
-                    except ValueError:
-                        fail(post, f"cannot resolve PDF commit/file locally: {commit}:{pdf_path}; if shallow, run git -C static/pdfs fetch --unshallow")
-            except ValueError as exc:
-                fail(source, str(exc))
-        if site_dir is not None:
-            output_pdf = site_dir / "pdfs" / pdf_path
-            if not output_pdf.is_file() or not filecmp.cmp(pdf, output_pdf, shallow=False):
-                fail(source, f"generated PDF is missing or differs from source bytes: pdfs/{pdf_path}")
-    for record_path in list(referenced_sources):
-        try:
-            related = read_markdown(record_path)[0].get("related_sources") or []
-        except (OSError, ValueError, TypeError, yaml.YAMLError):
-            continue
-        if isinstance(related, list):
-            referenced_sources.update(record_path.parent / f"{name}.md" for name in related if isinstance(name, str))
-    for source_dir in sorted({entry["source"] for entry in categories.values() if entry.get("source")}):
-        for record in sorted((repo / "sources" / source_dir).glob("*.md")):
-            if record not in referenced_sources:
-                fail(record, "no article uses this source record; delete it or list it in related_sources")
-    # Public article records are generated from the private archive; compare them when it is cloned.
-    archive = repo / "sources/archive/orig"
-    if archive.is_dir():
-        for record in sorted((repo / "sources/orig").glob("*.md")):
+    def check_archive_sync(self) -> None:
+        """Public article records are generated from the private archive; compare them when it is cloned."""
+        archive = self.repo / "sources/archive/orig"
+        if not archive.is_dir():
+            return
+        for record in sorted((self.repo / "sources/orig").glob("*.md")):
             try:
                 # Book records hold their own evidence; malformed records are reported above.
                 if read_markdown(record)[0].get("source_type") == "book":
@@ -585,49 +519,180 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
             text = record.read_text(encoding="utf-8")
             archived = archive / record.name
             if not archived.is_file():
-                fail(record, f"the private archive has no {archived.relative_to(repo)}; archive the article text there first")
+                self.fail(record, f"the private archive has no {archived.relative_to(self.repo)}; archive the article text there first")
                 continue
             try:
                 expected = public_record(archived.read_text(encoding="utf-8"))
             except ValueError as exc:
-                fail(archived, str(exc))
+                self.fail(archived, str(exc))
                 continue
             if text != expected:
-                fail(record, f"differs from the frontmatter of {archived.relative_to(repo)}; edit the archive, then run scripts/source_record.py {record.stem} (or pull blog-sources if it is behind)")
-    # Topic pages and reading-path reasons are published prose too.
-    for page in sorted((repo / "content/topics").glob("*.md")):
-        if (result := read(page)) is not None:
-            for message in wording_failures(*result):
-                fail(page, message)
-            # Without a date, Hugo publishes a page at its lastmod; buildFuture is off, so a future one hides the page.
-            for key in ("date", "lastmod"):
-                if key in result[0] and (moment := date_field(page, result[0], key)) and moment > datetime.now(timezone.utc):
-                    fail(page, f"{key} is in the future, so Hugo would skip this page; use the current time")
+                self.fail(record, f"differs from the frontmatter of {archived.relative_to(self.repo)}; edit the archive, then run scripts/source_record.py {record.stem} (or pull blog-sources if it is behind)")
+
+    # Video notes and their PDFs.
+
+    def check_video(self, post: Path, slug: str, body: str, source: Path, record: dict, published: datetime | None) -> None:
+        self.required_text(source, record, ("channel", "duration", "pdf_path"))
+        if record.get("source_type") != "video":
+            self.fail(source, "source_type must be video")
+        if not re.fullmatch(r"(?:\d+:)?\d{1,2}:[0-5]\d", str(record.get("duration", ""))):
+            self.fail(source, "duration must use MM:SS or HH:MM:SS")
+        pdf_path = record.get("pdf_path")
+        if not isinstance(pdf_path, str) or not re.fullmatch(r"(?:standalone|stanford-mse435)/[a-z0-9][a-z0-9-]*\.pdf", pdf_path):
+            self.fail(source, "pdf_path must be standalone/<slug>.pdf or stanford-mse435/<slug>.pdf")
+            return
+        pdf = self.pdf_root / pdf_path
+        if not pdf.is_file() or not pdf.resolve().is_relative_to(self.pdf_root.resolve()):
+            self.fail(source, f"PDF is missing from static/pdfs: {pdf_path}; initialize the PDF submodule")
+            return
+        source_url = record.get("source_url")
+        github_links = self.video_links(post, linked_urls(body), f"/pdfs/{pdf_path}", pdf_path, source_url)
+        if self.site_dir is not None:
+            output_page = self.site_dir / "posts" / slug / "index.html"
+            if output_page.is_file():
+                github_links.extend(self.video_links(
+                    post, html_linked_urls(output_page.read_text(encoding="utf-8")),
+                    f"{self.prefix}/pdfs/{pdf_path}", pdf_path, source_url, "rendered page: ",
+                ))
+            elif not published or published <= datetime.now(timezone.utc):
+                self.fail(post, f"missing generated video page: posts/{slug}/index.html")
+        self.check_pdf_history(post, source, pdf_path, github_links)
+        if self.site_dir is not None:
+            output_pdf = self.site_dir / "pdfs" / pdf_path
+            if not output_pdf.is_file() or not filecmp.cmp(pdf, output_pdf, shallow=False):
+                self.fail(source, f"generated PDF is missing or differs from source bytes: pdfs/{pdf_path}")
+
+    def video_links(self, post: Path, urls: list[str], expected_site_path: str, pdf_path: str, source_url, context: str = "") -> list[str]:
+        parsed_urls = []
+        for url in urls:
+            try:
+                parsed_urls.append((url, urlsplit(url)))
+            except ValueError:
+                self.fail(post, f"{context}malformed link URL: {url}")
+        if not any(
+            unquote(parsed.path) == expected_site_path
+            and parsed.netloc in {"", self.site_url.netloc}
+            and parsed.scheme in {"", "http", "https"}
+            for _, parsed in parsed_urls
+        ):
+            self.fail(post, f"{context}missing site PDF link: {expected_site_path}")
+        # Other PDF links may be useful further reading. Only this article's
+        # PDF satisfies its publication contract and undergoes blob comparison.
+        github_links = [
+            url for url, parsed in parsed_urls
+            if url.startswith(PDF_REPOSITORY)
+            and unquote(parsed.path).split("/blob/", 1)[1].partition("/")[2] == pdf_path
+        ]
+        if not github_links:
+            self.fail(post, f"{context}missing fixed GitHub PDF link: {PDF_REPOSITORY}<commit>/{pdf_path}")
+        if isinstance(source_url, str) and source_url not in urls:
+            self.fail(post, f"{context}missing original video link matching source_url")
+        return github_links
+
+    def check_pdf_history(self, post: Path, source: Path, pdf_path: str, github_links: list[str]) -> None:
+        """The PDF matches the submodule HEAD, and each pinned GitHub link resolves to the same bytes."""
+        if not self.pdf_git_checked:
+            self.pdf_git_checked = True
+            try:
+                entry = git(self.repo, "ls-files", "--stage", "static/pdfs")
+                if not entry.startswith("160000 ") or Path(git(self.pdf_root, "rev-parse", "--show-toplevel")).resolve() != self.pdf_root.resolve():
+                    raise ValueError("static/pdfs must be an initialized Git submodule")
+                self.pdf_git_available = True
+            except ValueError as exc:
+                self.fail(source, str(exc))
+        if not self.pdf_git_available:
+            return
+        try:
+            actual_blob = git(self.pdf_root, "hash-object", "--", pdf_path)
+            if git(self.pdf_root, "rev-parse", f"HEAD:{pdf_path}") != actual_blob:
+                self.fail(source, "PDF bytes differ from the PDF submodule HEAD; commit the PDF repository first")
+            for url in set(github_links):
+                fixed_path = unquote(urlsplit(url).path).split("/blob/", 1)[1]
+                commit, _, linked_path = fixed_path.partition("/")
+                if linked_path != pdf_path or not re.fullmatch(r"[0-9a-f]{7,40}", commit):
+                    self.fail(post, f"GitHub PDF link must pin a commit and match pdf_path: {url}")
+                    continue
+                try:
+                    git(self.pdf_root, "rev-parse", "--verify", f"{commit}^{{commit}}")
+                    if git(self.pdf_root, "rev-parse", f"{commit}:{pdf_path}") != actual_blob:
+                        self.fail(post, f"GitHub PDF link points to different PDF bytes: {url}")
+                except ValueError:
+                    self.fail(post, f"cannot resolve PDF commit/file locally: {commit}:{pdf_path}; if shallow, run git -C static/pdfs fetch --unshallow")
+        except ValueError as exc:
+            self.fail(source, str(exc))
+
+    # Topic pages, reading paths and images.
+
+    def check_topics(self) -> None:
+        """Topic pages are published prose too, and must not be dated in the future."""
+        for page in sorted((self.repo / "content/topics").glob("*.md")):
+            if (result := self.read(page)) is not None:
+                for message in wording_failures(*result):
+                    self.fail(page, message)
+                # Without a date, Hugo publishes a page at its lastmod; buildFuture is off, so a future one hides the page.
+                for key in ("date", "lastmod"):
+                    if key in result[0] and (moment := self.date_field(page, result[0], key)) and moment > datetime.now(timezone.utc):
+                        self.fail(page, f"{key} is in the future, so Hugo would skip this page; use the current time")
+
+    def check_reading_path_reasons(self) -> None:
+        try:
+            reading_paths = json.loads((self.repo / "data/reading_paths.json").read_text(encoding="utf-8")).get("paths", [])
+        except FileNotFoundError:
+            reading_paths = []
+        except (OSError, ValueError) as exc:
+            reading_paths = []
+            self.failures.append(f"data/reading_paths.json: {exc}")
+        for reading_path in reading_paths:
+            for group in reading_path.get("groups", []):
+                for entry in group.get("entries", []):
+                    for message in wording_failures({}, entry.get("reason") or ""):
+                        self.failures.append(f"data/reading_paths.json: reason for {entry.get('post')}: {message}")
+
+    def check_unused_images(self) -> None:
+        referenced_images = {
+            unquote(urlsplit(destination).path)
+            for page in (self.repo / "content").rglob("*.md")
+            for _, destination, _ in figures(page.read_text(encoding="utf-8"))
+        }
+        images_root = self.repo / "static/images"
+        for image in sorted(images_root.rglob("*")):
+            # Hidden files such as macOS .DS_Store are not site images.
+            if any(part.startswith(".") for part in image.relative_to(images_root).parts):
+                continue
+            if image.is_file() and f"/{image.relative_to(self.repo / 'static').as_posix()}" not in referenced_images:
+                self.fail(image, "no page uses this image; delete it or reference it from an article")
+
+
+def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | None = None) -> list[str]:
+    """Return actionable failures; never fetch remote data or modify the checkout.
+
+    Valid YAML drafts (draft: true) may be incomplete. Every other post must
+    satisfy publication requirements, including future-dated posts.
+    """
+    repo = repo.resolve()
     try:
-        reading_paths = json.loads((repo / "data/reading_paths.json").read_text(encoding="utf-8")).get("paths", [])
-    except FileNotFoundError:
-        reading_paths = []
-    except (OSError, ValueError) as exc:
-        reading_paths = []
-        failures.append(f"data/reading_paths.json: {exc}")
-    for reading_path in reading_paths:
-        for group in reading_path.get("groups", []):
-            for entry in group.get("entries", []):
-                for message in wording_failures({}, entry.get("reason") or ""):
-                    failures.append(f"data/reading_paths.json: reason for {entry.get('post')}: {message}")
-    referenced_images = {
-        unquote(urlsplit(destination).path)
-        for page in (repo / "content").rglob("*.md")
-        for _, destination, _ in figures(page.read_text(encoding="utf-8"))
-    }
-    images_root = repo / "static/images"
-    for image in sorted(images_root.rglob("*")):
-        # Hidden files such as macOS .DS_Store are not site images.
-        if any(part.startswith(".") for part in image.relative_to(images_root).parts):
-            continue
-        if image.is_file() and f"/{image.relative_to(repo / 'static').as_posix()}" not in referenced_images:
-            fail(image, "no page uses this image; delete it or reference it from an article")
-    return failures
+        config = yaml.safe_load((repo / "config/_default/config.yaml").read_text())
+        site_url = urlsplit(base_url or config["baseURL"])
+    except (OSError, KeyError, TypeError, yaml.YAMLError) as exc:
+        return [f"config/_default/config.yaml: cannot read baseURL: {exc}"]
+    try:
+        categories = load_categories(repo)
+        tag_groups = json.loads((repo / "data/tag_groups.json").read_text(encoding="utf-8"))
+    except (OSError, KeyError, TypeError, ValueError, yaml.YAMLError) as exc:
+        return [f"data/: cannot read category or tag settings: {exc}"]
+    checker = ContentChecker(repo, site_url, categories, tag_groups, site_dir)
+    checker.check_tag_registry()
+    posts = post_paths(repo)
+    if not posts:
+        return ["content/posts: no Markdown articles found"]
+    for post in posts:
+        checker.check_post(post)
+    checker.check_unused_records()
+    checker.check_archive_sync()
+    checker.check_topics()
+    checker.check_reading_path_reasons()
+    checker.check_unused_images()
+    return checker.failures
 
 
 def main() -> int:
