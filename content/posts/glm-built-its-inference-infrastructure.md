@@ -1,9 +1,9 @@
 ---
 date: '2026-09-20T17:58:16+08:00'
-lastmod: '2026-10-20T10:55:09+08:00'
+lastmod: '2026-10-26T12:21:49+08:00'
 title: 'GLM 的 Infra Agent：用密集反馈优化推理基础设施'
 summary: "Z.ai 用三个推理系统案例说明，Agent 如何把数值偏差、并发异常和性能瓶颈变成可验证的假设。关键在于组织局部对照、执行时间线与端到端验收，让每轮实验都能指导下一步。"
-description: "解读 GLM Infra Agent 的密集反馈机制，以及 KDA 精度修复、KV Transfer 并发排障和 Kernel 优化背后的验证方法与适用边界。"
+description: "解读 GLM Infra Agent 的密集反馈机制，以及 KDA 精度修复、KV Transfer 并发排障和 Kernel 优化背后的验证方法与适用条件。"
 tags: ["model-engineering", "agentic-coding", "harness-engineering"]
 categories: ["好文分享"]
 author: "Qian"
@@ -54,7 +54,7 @@ Z.ai 的 [《How GLM Built Its Own Inference Infrastructure》](https://z.ai/blo
 
 第三个案例涉及 KDA Decode kernel 的优化。团队让 Agent 从 SGLang、Flash Linear Attention、DeepGEMM 等项目的既有实现中学习，并通过增量和消融实验，整理出包含适用条件、变换方法、资源约束及验证证据的“优化骨架”。新任务可以从这些候选方法出发，再按目标硬件和负载重新测量。
 
-原文给出的版本演进尤其能说明局部指标的边界：
+原文给出的版本演进说明，读局部指标时要带上基线和优化目标：
 
 | 变化 | 原文报告的局部结果 | 阅读时应保留的条件 |
 | --- | --- | --- |
@@ -66,7 +66,7 @@ Z.ai 的 [《How GLM Built Its Own Inference Infrastructure》](https://z.ai/blo
 
 但这些局部收益不能直接等同于整套服务的提升。一个计算 kernel 占用更多资源，也可能挤压 KV Transfer 的资源，拖慢整体流水线。因此，优化骨架需要保存“在什么条件下成立”，候选修改仍须放回真实执行环境测量。单个 kernel 的 1.71 倍，与整套服务约 3 倍吞吐，是不同范围、不同基线的结果。
 
-## 自我改进的边界仍由工程流程决定
+## 自我改进的范围仍由工程流程决定
 
 原文用 Recursive Self-Improvement（RSI，递归自我改进）描述更远的方向，同时明确表示尚未达到这一阶段。当前展示的是模型参与优化推理基础设施，以及经验被整理后支持下一轮工程工作。目标选择、系统边界和风险评估仍由人负责。
 

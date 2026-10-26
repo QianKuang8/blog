@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from html import escape
+import json
 import os
 import shutil
 import subprocess
@@ -14,7 +15,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scripts"))
-from check_content import validate_content
+from check_content import style_warnings, validate_content
 
 
 class ContentValidationTests(unittest.TestCase):
@@ -279,6 +280,51 @@ class ContentValidationTests(unittest.TestCase):
         self.record.update(published_at="2025-11-23", author=["Someone"])
         self.write_markdown(self.source, self.record, "")
         self.assert_failure("author must be a nonempty string")
+
+    def test_avoided_wording_is_rejected_outside_quotes_code_and_links(self):
+        for body, expected in (
+            ("这才是真正的问题。", "uses “真正” 1 times (allowed 0)"),
+            ("把四类方法接成信息流。", "uses “接成/接回/连成” 1 times (allowed 0)"),
+            ("不是 A，而是 B。不是 C，而是 D。", "uses “不是……而是” 2 times (allowed 1)"),
+            ("适用边界、证据边界、责任边界和统计边界。", "uses “边界” 4 times (allowed 3)"),
+        ):
+            with self.subTest(body=body):
+                self.write_post(body)
+                self.assert_failure(expected)
+        allowed = "\n\n".join((
+            "> 原文：真正的问题在于接回上下文。",
+            "`真正` 只是代码。",
+            "参见[Agentic Coding 的边界](https://example.com/boundary)。",
+            "直接成本、交接成本、拼接成本，不能直接回答；两条曲线连成一条线。",
+            "模块边界、服务边界、边界条件和边界情况都是术语。不是 A，而是 B。",
+        ))
+        self.write_post(allowed)
+        self.assertEqual(validate_content(self.repo), [])
+
+    def test_topic_pages_and_reading_path_reasons_follow_the_wording_rules(self):
+        topic = self.repo / "content/topics/example.md"
+        topic.parent.mkdir(parents=True)
+        self.write_markdown(topic, {"title": "Example path"}, "这才是真正的入口。")
+        self.assert_failure("content/topics/example.md: uses “真正” 1 times")
+        self.write_markdown(topic, {"title": "Example path"}, "从这里开始读。")
+        reason = {"paths": [{"topic": "/topics/example", "groups": [{"title": "Start", "entries": [
+            {"post": "/posts/example", "reason": "把两段工作接成一个循环。"}]}]}]}
+        (self.repo / "data/reading_paths.json").write_text(json.dumps(reason, ensure_ascii=False), encoding="utf-8")
+        self.assert_failure("data/reading_paths.json: reason for /posts/example: uses “接成/接回/连成” 1 times")
+
+    def test_title_template_is_rejected(self):
+        for title in ("CursorBench：把真实开发会话变成评测任务", "AI 研发度量：把规约与验收结果连起来"):
+            with self.subTest(title=title):
+                self.metadata["title"] = title
+                self.write_post()
+                self.assert_failure("title follows the 把…接成/接回/连成/连起来/变成 template")
+
+    def test_dense_hedging_is_a_warning_not_a_failure(self):
+        self.write_post("这不能说明问题，也不等于结论，并不意味着成立，未必如此。" * 3)
+        self.assertEqual(validate_content(self.repo), [])
+        self.assertIn("content/posts/example.md", "\n".join(style_warnings(self.repo)))
+        self.write_post("这一段只解释机制，写出具体条件和结果。" * 3)
+        self.assertEqual(style_warnings(self.repo), [])
 
     def test_hidden_files_under_images_are_not_site_images(self):
         for name in (".DS_Store", "example/.DS_Store", ".cache/figure.png"):

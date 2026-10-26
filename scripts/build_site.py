@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 
-from check_content import validate_content
+from check_content import style_warnings, validate_content
 
 
 def build_site(repo: Path, base_url: str | None = None) -> None:
@@ -20,6 +20,8 @@ def build_site(repo: Path, base_url: str | None = None) -> None:
     failures = validate_content(repo, base_url=base_url)
     if failures:
         raise ValueError("Content validation failed:\n" + "\n".join(f"- {failure}" for failure in failures))
+    for warning in style_warnings(repo):
+        print(f"Style warning: {warning}", file=sys.stderr)
     # Keep staging beside public so renames stay on the same filesystem.
     with tempfile.TemporaryDirectory(prefix=".public-build-", dir=repo) as staging:
         staging_path = Path(staging)

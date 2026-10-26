@@ -1,6 +1,6 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
-lastmod: '2026-10-19T20:18:09+08:00'
+lastmod: '2026-10-26T12:21:49+08:00'
 title: "GPU 经济：把推理硬件、任务成本与用户价值放在一起看"
 summary: "传统软件复制接近免费，AI 每次推理都要消耗新的计算。这场 Stanford 课堂把 GPU 经济拆成三层：token 怎样被生产、一次任务的智能为何值得付费、基础设施扩张后的收益与转型成本如何分配。"
 description: "解读 Stanford MS&E 435 Week 2：token 经济、Groq 推理芯片、异构推理工厂、代理单位经济与 100× 共设计"
@@ -65,7 +65,7 @@ Madra 随后谈到 harness（代理运行框架）：它把模型嵌入一个能
 
 ## 100× 共设计与社会契约
 
-Madra 转述 Jensen Huang 要求团队探索“100×”改善的组织目标。这不是已实现的单芯片倍数，而是促使团队同时检查电路、内存、互联、编译器和工作负载。组合收益仍需要端到端验证。[00:36:12–00:36:58](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=2172s)
+Madra 转述 Jensen Huang 要求团队探索“100×”改善的组织目标。它不是已实现的单芯片倍数，作用是促使团队同时检查电路、内存、互联、编译器和工作负载。组合收益仍需要端到端验证。[00:36:12–00:36:58](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=2172s)
 
 ![跨层共设计示意：模型与工作负载、编译器与运行时、系统、硅与制造四层以双向箭头相连，共同对端到端任务结果负责。](/images/video-notes/stanford-mse435-week-02-gpu-economics/co-design-stack.png)
 

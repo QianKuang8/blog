@@ -10,7 +10,7 @@
 
 发布前运行 `.venv/bin/python scripts/build_site.py`。它依次执行：
 
-1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录）、站内链接不写死 `/blog/`，以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
+1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录）、站内链接不写死 `/blog/`，文章、专题页和推荐理由中超出限额的套话（见 BLOG_PROMPTS.md“避免的表达”，限定语过密只提示不阻塞），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
 2. 在新的临时目录做干净的 Hugo 构建，并比对产物中的 PDF 字节。
 3. `scripts/check_site.py` 检查产物：站内链接与资源存在、每页唯一且指向自身的 canonical、sitemap 不收录 noindex 或跳转页、文章 JSON-LD、搜索索引覆盖全部文章、文章类型标签、专题目录与文末导航、学习清单分组与编辑链接、停用标签的兼容入口。
 

@@ -143,6 +143,65 @@ def without_code(body: str) -> str:
     return re.sub(r"(?<!`)(`+)(?!`)(.*?)\1(?!`)", "", body, flags=re.S)
 
 
+# Wording ruled out by BLOG_PROMPTS.md ("避免的表达"): (pattern, allowed per post, reason).
+# Code, blockquotes and link text are exempt, so quoted sources and titles keep their words;
+# so are ordinary words that contain the phrase (直接成本, 交接成本, 连成一条线, 模块边界, 边界条件).
+WORDING_LIMITS = (
+    ("真正", re.compile(r"真正"), 0, "vague emphasis; state the concrete difference"),
+    ("接成/接回/连成", re.compile(r"(?<![直交拼衔承迎对])接(?:成|回)|连成(?!一?条?线)"), 0, "vague metaphor; say who hands what to whom"),
+    ("不是……而是", re.compile(r"不是[^。！？；\n]{0,40}?而是"), 1, "a contrast template"),
+    ("边界", re.compile(r"(?<!模块|服务|进程|信任)边界(?!条件|情况)"), 3, "name the concrete condition or limit instead"),
+)
+TITLE_TEMPLATE = re.compile(r"把[^：:]{0,30}?(?:接成|接回|连成|连起来|变成)")
+HEDGES = re.compile(r"不能|不等于|并不|未必|不代表|不意味着|边界")
+HEDGES_PER_THOUSAND = 6
+
+
+def prose_text(body: str) -> str:
+    """Article prose without code, blockquotes, links, images, HTML tags or shortcodes."""
+    body = without_code(body)
+    body = re.sub(r"(?m)^ {0,3}>.*$", "", body)
+    body = re.sub(r"\{\{[<%].*?[>%]\}\}", "", body, flags=re.S)
+    body = re.sub(r"!?\[[^\]\n]*\]\([^)\n]*\)", "", body)
+    return re.sub(r"<[^>]+>", "", body)
+
+
+def wording_failures(metadata: dict, body: str) -> list[str]:
+    fields = [metadata.get(key) for key in ("title", "summary", "description")]
+    text = "\n".join([*(field for field in fields if isinstance(field, str)), prose_text(body)])
+    failures = []
+    for label, pattern, allowed, reason in WORDING_LIMITS:
+        count = len(pattern.findall(text))
+        if count > allowed:
+            failures.append(f"uses “{label}” {count} times (allowed {allowed}): {reason}; see BLOG_PROMPTS.md 避免的表达")
+    if isinstance(metadata.get("title"), str) and TITLE_TEMPLATE.search(metadata["title"]):
+        failures.append("title follows the 把…接成/接回/连成/连起来/变成 template; name the subject and question instead")
+    return failures
+
+
+def hedge_density(body: str) -> float:
+    """Hedging words per 1,000 CJK characters of prose."""
+    text = prose_text(body)
+    characters = len(re.findall(r"[\u4e00-\u9fff]", text))
+    return len(HEDGES.findall(text)) * 1000 / characters if characters else 0.0
+
+
+def style_warnings(repo: Path) -> list[str]:
+    """Non-blocking advice: articles whose limitations crowd out the explanation."""
+    warnings = []
+    for path in post_paths(repo.resolve()):
+        try:
+            metadata, body = read_markdown(path)
+        except (OSError, ValueError, TypeError, yaml.YAMLError):
+            continue
+        if metadata.get("draft") is not True and (density := hedge_density(body)) > HEDGES_PER_THOUSAND:
+            warnings.append(
+                f"{path.relative_to(repo.resolve())}: {density:.1f} hedges per 1,000 characters "
+                f"(above {HEDGES_PER_THOUSAND}); gather limitations in one place, see BLOG_PROMPTS.md 避免的表达"
+            )
+    return warnings
+
+
 def linked_urls(body: str) -> list[str]:
     # The generated HTML is checked separately after Hugo has applied its full
     # Markdown rules. This pre-build check supports inline and reference links.
@@ -364,6 +423,8 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         ):
             fail(post, "learning_status must be pending or done; omit the field for an unmarked article")
         required_text(post, data, ("title", "summary", "description", "author"))
+        for message in wording_failures(data, body):
+            fail(post, message)
         if not body.strip():
             fail(post, "article body must not be empty")
         if prefix:
@@ -503,6 +564,23 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         for record in sorted((repo / "sources" / source_dir).glob("*.md")):
             if record not in referenced_sources:
                 fail(record, "no article uses this source record; delete it or list it in related_sources")
+    # Topic pages and reading-path reasons are published prose too.
+    for page in sorted((repo / "content/topics").glob("*.md")):
+        if (result := read(page)) is not None:
+            for message in wording_failures(*result):
+                fail(page, message)
+    try:
+        reading_paths = json.loads((repo / "data/reading_paths.json").read_text(encoding="utf-8")).get("paths", [])
+    except FileNotFoundError:
+        reading_paths = []
+    except (OSError, ValueError) as exc:
+        reading_paths = []
+        failures.append(f"data/reading_paths.json: {exc}")
+    for reading_path in reading_paths:
+        for group in reading_path.get("groups", []):
+            for entry in group.get("entries", []):
+                for message in wording_failures({}, entry.get("reason") or ""):
+                    failures.append(f"data/reading_paths.json: reason for {entry.get('post')}: {message}")
     referenced_images = {
         unquote(urlsplit(destination).path)
         for page in (repo / "content").rglob("*.md")
@@ -523,7 +601,10 @@ def main() -> int:
     parser.add_argument("--site-dir", type=Path, help="also compare generated PDF bytes")
     parser.add_argument("--base-url", help="the baseURL the site was built with (default: config baseURL)")
     args = parser.parse_args()
-    failures = validate_content(Path(__file__).resolve().parents[1], args.site_dir, args.base_url)
+    repo = Path(__file__).resolve().parents[1]
+    for warning in style_warnings(repo):
+        print(f"Style warning: {warning}")
+    failures = validate_content(repo, args.site_dir, args.base_url)
     if failures:
         print("Content validation failed:\n" + "\n".join(f"- {failure}" for failure in failures))
         return 1

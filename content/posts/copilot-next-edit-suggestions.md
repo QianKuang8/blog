@@ -1,7 +1,7 @@
 ---
 date: '2026-04-05T11:30:00+08:00'
-lastmod: '2026-10-19T11:01:49+08:00'
-title: "Copilot Next Edit Suggestions：把一次修改接成后续编辑"
+lastmod: '2026-10-26T12:21:49+08:00'
+title: "Copilot Next Edit Suggestions：根据刚做的修改预测下一处编辑"
 summary: "NES 根据近期编辑推测下一处修改。本文结合 GitHub Next 的原型案例，说明编辑历史如何提供意图线索，以及建议粒度、顺序和延迟怎样影响使用体验。"
 description: "解读 Copilot NES 的历史编辑输入、修改预测和逐步接受交互，区分原型能力与研究方向。"
 tags: ["code-editing", "next-edit", "github"]

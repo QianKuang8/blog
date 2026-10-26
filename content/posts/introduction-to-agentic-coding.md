@@ -1,7 +1,7 @@
 ---
 date: '2026-04-06T10:40:00+08:00'
-lastmod: '2026-10-19T11:01:49+08:00'
-title: "Agentic Coding：把目标、代码修改与验证接成循环"
+lastmod: '2026-10-26T12:21:49+08:00'
+title: "Agentic Coding 怎样执行修改循环，开发者还要定义什么"
 summary: "Agentic coding 将搜索上下文、跨文件修改和测试反馈交给同一个执行循环。本文以 Anthropic 的介绍为线索，说明开发者仍需定义哪些约束，以及工具执行结果怎样支持任务验收。"
 description: "解读 Anthropic 对 agentic coding 工作流的介绍，以及 Claude Code 的环境访问和案例边界。"
 tags: ["agentic-coding", "anthropic"]

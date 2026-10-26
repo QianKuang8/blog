@@ -68,7 +68,7 @@
             },
             {
               "post": "/posts/context-engineering-for-agents",
-              "reason": "把四类方法接成信息流，继续检查检索、压缩和委派分别保留与丢失了什么。"
+              "reason": "沿一条信息流依次看四类方法，再检查检索、压缩和委派分别保留与丢失了什么。"
             },
             {
               "post": "/posts/from-activity-to-action",
@@ -166,7 +166,7 @@
           "entries": [
             {
               "post": "/posts/ai-native-software-engineering-observability-control",
-              "reason": "把规约、执行过程与验收结果连起来，判断哪些度量能够指向流程改进。"
+              "reason": "对照规约、执行过程与验收结果，判断哪些度量能够指向流程改进。"
             },
             {
               "post": "/posts/demystifying-evals-for-ai-agents",
