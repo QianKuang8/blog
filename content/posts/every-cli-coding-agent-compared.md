@@ -1,6 +1,6 @@
 ---
 date: '2026-04-09T23:16:00+08:00'
-lastmod: "2026-10-26T12:21:49+08:00"
+lastmod: "2026-10-26T16:46:44+08:00"
 title: "CLI Coding Agent 选型：从功能表读出运行边界"
 summary: "一份包含 36 个终端 Agent 的历史盘点，提供了比较工具的几个维度：模型接入、上下文、执行隔离和并发组织。本文提炼这些维度，并说明功能清单不能代替真实任务验证。"
 description: "基于 2026 年 4 月归档的 CLI Agent 盘点，讨论选型维度及数据时效边界。"
@@ -12,7 +12,7 @@ showToc: true
 learning_status: done
 ---
 
-面对几十种终端 Coding Agent，按功能数量挑选很容易遗漏实际工作中的限制。Michael Livs 的 [Every CLI coding agent, compared](https://michaellivs.com/blog/cli-coding-agents-compared) 收集了 36 个项目，并按模型、许可证、工具扩展、隔离与协作能力展开比较。它适合作为寻找候选产品的索引，也提供了分析 Agent 运行环境的线索。
+面对几十种终端 Coding Agent，按功能数量挑选很容易遗漏实际工作中的限制。Michael Livshits 的 [Every CLI coding agent, compared](https://michaellivs.com/blog/cli-coding-agents-compared) 收集了 36 个项目，并按模型、许可证、工具扩展、隔离与协作能力展开比较。它适合作为寻找候选产品的索引，也提供了分析 Agent 运行环境的线索。
 
 本文依据 2026 年 4 月 9 日保存的原文归档整理，没有重新安装或逐项测试这些产品。原文中的 Star、免费额度、版本能力和推荐排序属于当时的盘点，不作为当前购买或部署依据。下面保留的是比较方法。
 
@@ -62,4 +62,4 @@ learning_status: done
 
 ## 原文
 
-- [Every CLI coding agent, compared — Michael Livs](https://michaellivs.com/blog/cli-coding-agents-compared)
+- [Every CLI coding agent, compared — Michael Livshits](https://michaellivs.com/blog/cli-coding-agents-compared)
