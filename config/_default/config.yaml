@@ -32,19 +32,6 @@ params:
   DateFormat: "2006-01-02"
   ShowReadingTime: true
 
-  fuseOpts:
-    threshold: 0.3
-    minMatchCharLength: 1
-    keys:
-      - name: title
-        weight: 0.45
-      - name: summary
-        weight: 0.25
-      - name: content
-        weight: 0.15
-      - name: tags
-        weight: 0.15
-
   homeInfoParams:
     Content: "记录 AI 工程、Coding Agent、Context Engineering 和一些个人折腾。"
 

@@ -23,8 +23,7 @@
 {{ $css := slice (resources.Get "css/site.css") (resources.Get "css/syntax.css") | resources.Concat "assets/site.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
 {{ if eq .Layout "search" }}
-  {{ $search := resources.Get "js/fastsearch.js" | js.Build (dict "params" (dict "fuseOpts" site.Params.fuseOpts)) | minify }}
-  {{ $bundle := slice (resources.Get "js/vendor/fuse.basic.min.js") $search | resources.Concat "assets/search.js" | fingerprint }}
+  {{ $bundle := resources.Get "js/fastsearch.js" | js.Build (dict "targetPath" "assets/search.js") | minify | fingerprint }}
   <script defer src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" crossorigin="anonymous"></script>
 {{ end }}
 {{ partial "templates/opengraph.html" . }}

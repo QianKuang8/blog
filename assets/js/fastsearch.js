@@ -1,12 +1,13 @@
-import * as params from '@params';
-
 // Input-driven search, readable results and native focus.
 const searchBox = document.getElementById('searchbox');
 const input = document.getElementById('searchInput');
 const resultsList = document.getElementById('searchResults');
 const status = document.getElementById('searchStatus');
 const retry = document.getElementById('searchRetry');
-let fuse;
+// Every space-separated keyword must occur somewhere; where it occurs decides the rank.
+const FIELDS = [['title', 8], ['source_title', 6], ['tags', 4], ['summary', 2], ['content', 1]];
+const HINT = '输入关键词，搜索标题、原文标题、标签、摘要和全文；多个关键词用空格分开。';
+let entries = [];
 let indexState = 'idle';
 let composing = false;
 
@@ -38,6 +39,61 @@ function appendHighlighted(element, text, query) {
     element.append(document.createTextNode(text.slice(offset)));
 }
 
+function prepare(data) {
+    return data.map(item => ({
+        item,
+        fields: FIELDS.map(([key, weight]) => [(key === 'tags' ? item.tags.join(' ') : item[key] || '').toLowerCase(), weight])
+    }));
+}
+
+function matches(query) {
+    const terms = [...new Set(query.toLowerCase().split(/\s+/).filter(Boolean))];
+    const found = [];
+    for (const entry of entries) {
+        let score = 0;
+        for (const term of terms) {
+            const best = Math.max(0, ...entry.fields.filter(([text]) => text.includes(term)).map(([, weight]) => weight));
+            if (!best) {
+                score = 0;
+                break;
+            }
+            score += best;
+        }
+        if (score) found.push({ item: entry.item, score });
+    }
+    // Same rank: newer first.
+    return found
+        .sort((a, b) => b.score - a.score || (b.item.date || '').localeCompare(a.item.date || ''))
+        .map(result => result.item);
+}
+
+function httpURL(value) {
+    try {
+        const url = new URL(value, window.location.href);
+        return ['http:', 'https:'].includes(url.protocol) ? url : null;
+    } catch {
+        return null;
+    }
+}
+
+// Copies "title URL", ready to paste into a chat.
+function copyButton(label, text) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'search-copy';
+    button.textContent = label;
+    button.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(text);
+            button.textContent = '已复制';
+        } catch {
+            button.textContent = '复制失败';
+        }
+        setTimeout(() => { button.textContent = label; }, 1500);
+    });
+    return button;
+}
+
 function resultSnippet(item, query) {
     const sources = [
         { text: item.summary, label: '摘要' },
@@ -52,20 +108,15 @@ function resultSnippet(item, query) {
     if (start && /[\uDC00-\uDFFF]/.test(source.text[start])) start -= 1;
     const excerpt = [...source.text.slice(start)].slice(0, 150).join('');
     return {
-        // Fuzzy matches may have no literal keyword; their text is only a summary.
+        // A match in the title, original title or tags shows the summary without highlights.
         label: matched ? source.label : '摘要',
         text: (start ? '…' : '') + excerpt + (start + excerpt.length < source.text.length ? '…' : '')
     };
 }
 
 function createResult(item, query) {
-    let url;
-    try {
-        url = new URL(item.permalink, window.location.href);
-    } catch {
-        return null;
-    }
-    if (!['http:', 'https:'].includes(url.protocol)) return null;
+    const url = httpURL(item.permalink);
+    if (!url) return null;
     const li = document.createElement('li');
     li.className = 'search-result';
     const link = document.createElement('a');
@@ -101,7 +152,12 @@ function createResult(item, query) {
         appendHighlighted(excerpt, snippet.text, query);
         link.append(excerpt);
     }
-    li.append(link);
+    const actions = document.createElement('div');
+    actions.className = 'search-result-actions';
+    const original = item.source_url && httpURL(item.source_url);
+    if (original) actions.append(copyButton('复制原文', `${item.source_title || item.title} ${original.href}`));
+    actions.append(copyButton('复制本文', `${item.title} ${url.href}`));
+    li.append(link, actions);
     return li;
 }
 
@@ -111,13 +167,13 @@ function search() {
     retainQuery(query);
     if (indexState !== 'ready') return;
     if (!query) {
-        status.textContent = '输入关键词，搜索标题、标签、摘要和全文。';
+        status.textContent = HINT;
         return;
     }
     const fragment = document.createDocumentFragment();
     let count = 0;
-    for (const result of fuse.search(query)) {
-        const card = createResult(result.item, query);
+    for (const item of matches(query)) {
+        const card = createResult(item, query);
         if (card) {
             fragment.append(card);
             count += 1;
@@ -142,27 +198,15 @@ async function loadIndex() {
         if (!Array.isArray(data) || data.some(item => !item ||
             typeof item.title !== 'string' || typeof item.permalink !== 'string' ||
             typeof item.summary !== 'string' || typeof item.content !== 'string' ||
-            !Array.isArray(item.tags) || item.tags.some(tag => typeof tag !== 'string'))) {
+            !Array.isArray(item.tags) || item.tags.some(tag => typeof tag !== 'string') ||
+            ['source_title', 'source_url'].some(key => key in item && typeof item[key] !== 'string'))) {
             throw new Error('Invalid search index');
         }
-        const options = params.fuseOpts || {};
-        fuse = new Fuse(data, {
-            isCaseSensitive: options.iscasesensitive ?? false,
-            minMatchCharLength: options.minmatchcharlength ?? 1,
-            shouldSort: true,
-            ignoreLocation: true,
-            threshold: options.threshold ?? 0.3,
-            keys: options.keys ?? [
-                { name: 'title', weight: 0.45 },
-                { name: 'summary', weight: 0.25 },
-                { name: 'content', weight: 0.15 },
-                { name: 'tags', weight: 0.15 }
-            ]
-        });
+        entries = prepare(data);
         indexState = 'ready';
         // A reader can type before the request finishes, or while retrying it.
         if (!composing) search();
-        else status.textContent = '输入关键词，搜索标题、标签、摘要和全文。';
+        else status.textContent = HINT;
     } catch {
         indexState = 'error';
         resultsList.replaceChildren();

@@ -22,7 +22,9 @@
                 {{- $tags = $tags | append .LinkTitle -}}
             {{- end -}}
         {{- end -}}
-        {{- $index = $index | append (dict "title" .Title "content" (.Plain | htmlUnescape) "permalink" .Permalink "summary" (.Summary | plainify | htmlUnescape) "category" $category "date" $date "tags" (uniq $tags)) -}}
+        {{- /* The original's title and link, for finding a post by its source and copying the source link. */ -}}
+        {{- $record := partialCached "source_record.html" . .RelPermalink -}}
+        {{- $index = $index | append (dict "title" .Title "content" (.Plain | htmlUnescape) "permalink" .Permalink "summary" (.Summary | plainify | htmlUnescape) "category" $category "date" $date "tags" (uniq $tags) "source_title" ($record.title | default "" | string) "source_url" ($record.source_url | default "" | string)) -}}
     {{- end -}}
 {{- end -}}
 {{- $index | jsonify -}}

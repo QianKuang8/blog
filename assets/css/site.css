@@ -300,6 +300,9 @@ p { text-wrap: pretty; }
 .search-result-meta { display: flex; gap: 16px; font-size: 12px; color: var(--subtle); }
 .search-result-snippet { font-size: 15px; line-height: 1.85; color: var(--muted); margin: 10px 0 0; }
 .search-snippet-label { font-size: 12px; }
+.search-result-actions { display: flex; gap: 8px; margin: -10px 0 20px; }
+.search-copy { border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--accent); font-size: 12px; line-height: 1.6; padding: 2px 10px; cursor: pointer; }
+.search-copy:hover, .search-copy:focus-visible { border-color: var(--accent); }
 #searchResults mark { color: var(--ink); background: var(--surface); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 

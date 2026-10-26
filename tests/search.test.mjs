@@ -3,13 +3,13 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../assets/js/fastsearch.js', import.meta.url), 'utf8')
-    .replace("import * as params from '@params';", 'const params = {};');
-const fuseSource = readFileSync(new URL('../assets/js/vendor/fuse.basic.min.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../assets/js/fastsearch.js', import.meta.url), 'utf8');
 
-// Small DOM boundary for event regressions. The production search code and the
-// bundled Fuse engine run unchanged; browser rendering/focus rings need visual QA.
-function fixture(href = 'https://example.test/blog/search/') {
+// Small DOM boundary for event regressions. The production search code runs
+// unchanged; browser rendering/focus rings need visual QA.
+function fixture(href = 'https://example.test/blog/search/', clipboard = null) {
+    const copied = [];
+    clipboard ??= { writeText: async text => { copied.push(text); } };
     let activeElement;
     class Element {
         constructor(tagName) {
@@ -72,6 +72,7 @@ function fixture(href = 'https://example.test/blog/search/') {
     };
     const context = vm.createContext({
         document,
+        navigator: { clipboard },
         window: { location, history },
         URL, AbortController,
         setTimeout(callback) { timers.add(callback); return callback; },
@@ -83,11 +84,10 @@ function fixture(href = 'https://example.test/blog/search/') {
             });
         }
     });
-    vm.runInContext(fuseSource, context);
     vm.runInContext(source, context);
     const flush = () => new Promise(resolve => setImmediate(resolve));
     return {
-        ...elements, document, requests, timers, location, history,
+        ...elements, document, requests, timers, location, history, copied, flush,
         setInput(value, properties = {}) {
             elements.searchInput.value = value;
             elements.searchInput.dispatch('input', properties);
@@ -292,13 +292,78 @@ test('malformed tag fields reject the index and keep retry available', async () 
     }
 });
 
-test('a fuzzy-only result shows a summary without fabricating literal highlights', async () => {
+test('every space-separated keyword must occur, in any field and in any order', async () => {
     const page = fixture();
-    await page.respond([article('Infrastructure', { summary: 'How serving works', content: 'Implementation details' })]);
-    page.setInput('Infrastructrue');
+    await page.respond([
+        article('Cursor Instant Apply：用原文件加速完整重写'),
+        article('Cursor 团队访谈', { summary: '预测编辑与验证' }),
+        article('产品评估如何支持迭代', { summary: '评估器也会出错', content: '校准以后仍有误报和漏报。' })
+    ]);
+    page.setInput('cursor apply');
     assert.equal(page.links().length, 1);
-    assert.match(page.links()[0].textContent, /摘要 · How serving works/);
-    assert.equal(page.searchResults.querySelectorAll('mark').length, 0);
+    assert.match(page.links()[0].textContent, /^Cursor Instant Apply/);
+    page.setInput('评估器 误报');
+    assert.equal(page.links().length, 1);
+    assert.match(page.links()[0].textContent, /^产品评估如何支持迭代/);
+    page.setInput('误报 评估器 cursor');
+    assert.equal(page.links().length, 0);
+    assert.match(page.searchStatus.textContent, /未找到/);
+});
+
+test('rank follows where the keyword occurs, then newer first', async () => {
+    const page = fixture();
+    await page.respond([
+        article('Body only', { content: 'mentions harness here', date: '2026-10-01' }),
+        article('Summary hit', { summary: 'about harness design', date: '2026-01-01' }),
+        article('Tagged', { tags: ['harness-engineering'], date: '2026-01-01' }),
+        article('Source hit', { source_title: 'Effective harness design', date: '2026-01-01' }),
+        article('Older Harness notes', { date: '2025-01-01' }),
+        article('Newer Harness notes', { date: '2026-05-01' })
+    ]);
+    page.setInput('harness');
+    assert.deepEqual(page.links().map(link => link.children[0].textContent),
+        ['Newer Harness notes', 'Older Harness notes', 'Source hit', 'Tagged', 'Summary hit', 'Body only']);
+});
+
+test('copy buttons copy the original or this post as title and link', async () => {
+    const page = fixture();
+    await page.respond([
+        article('产品评估如何支持迭代', { source_title: 'Product Evals in Three Simple Steps', source_url: 'https://eugeneyan.com/writing/product-evals/' }),
+        article('原创笔记', { source_title: '', source_url: '' }),
+        article('可疑来源', { source_url: 'javascript:alert(1)' })
+    ]);
+    page.setInput('product evals');
+    assert.equal(page.links().length, 1);
+    let buttons = page.searchResults.querySelectorAll('button');
+    assert.deepEqual(buttons.map(button => button.textContent), ['复制原文', '复制本文']);
+    buttons[0].dispatch('click');
+    await page.flush();
+    assert.equal(page.copied.at(-1), 'Product Evals in Three Simple Steps https://eugeneyan.com/writing/product-evals/');
+    assert.equal(buttons[0].textContent, '已复制');
+    buttons[1].dispatch('click');
+    await page.flush();
+    assert.equal(page.copied.at(-1), `产品评估如何支持迭代 https://example.test/blog/posts/${encodeURIComponent('产品评估如何支持迭代')}/`);
+    for (const query of ['原创笔记', '可疑来源']) {
+        page.setInput(query);
+        buttons = page.searchResults.querySelectorAll('button');
+        assert.deepEqual(buttons.map(button => button.textContent), ['复制本文']);
+    }
+});
+
+test('a failed copy says so instead of claiming success', async () => {
+    const page = fixture(undefined, { writeText: async () => { throw new Error('denied'); } });
+    await page.respond([article('Alpha')]);
+    page.setInput('Alpha');
+    const [button] = page.searchResults.querySelectorAll('button');
+    button.dispatch('click');
+    await page.flush();
+    assert.equal(button.textContent, '复制失败');
+});
+
+test('non-string source fields reject the index', async () => {
+    const page = fixture();
+    await page.respond([article('Alpha', { source_url: 42 })]);
+    assert.match(page.searchStatus.textContent, /暂时无法搜索/);
 });
 
 test('search keeps every match instead of silently applying a result limit', async () => {

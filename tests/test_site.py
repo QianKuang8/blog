@@ -214,7 +214,7 @@ class ArticleTests(SiteFixture):
     def search_failures(self, index):
         self.write("index.json", json.dumps(index, ensure_ascii=False))
         failures = []
-        check_site.check_search_index(self.site(), self.posts(), self.categories(), failures)
+        check_site.check_search_index(self.site(), self.repo, self.posts(), self.categories(), failures)
         return failures
 
     def search_item(self, slug, category):
@@ -229,6 +229,17 @@ class ArticleTests(SiteFixture):
         self.assertTrue(self.search_failures(items[1:]))
         self.assertTrue(self.search_failures([*items, items[0]]))
         self.assertTrue(self.search_failures([{**items[0], "category": "原创文章"}, *items[1:]]))
+
+    def test_search_index_carries_each_articles_source_url(self):
+        self.write_source("sources/orig/reading.md", "---\nsource_url: https://example.com/original\n---\n")
+        items = [self.search_item("original", "研究与实践"), self.search_item("book", "阅读与解读"),
+                 {**self.search_item("reading", "阅读与解读"), "source_url": "https://example.com/original"}]
+        self.assertEqual(self.search_failures(items), [])
+        items[2]["source_url"] = ""
+        self.assertIn("source_url should be https://example.com/original", "\n".join(self.search_failures(items)))
+        items[2]["source_url"] = "https://example.com/original"
+        items[0]["source_url"] = "https://example.com/original"
+        self.assertIn("source_url should be empty", "\n".join(self.search_failures(items)))
 
 
 class ReadingPathTests(SiteFixture):

@@ -143,7 +143,7 @@ def check_structured_data(site: Site, posts: list[dict], failures: list[str]) ->
             failures.append(f"{path}: BlogPosting needs real datePublished <= dateModified with timezones")
 
 
-def check_search_index(site: Site, posts: list[dict], categories: dict, failures: list[str]) -> None:
+def check_search_index(site: Site, repo: Path, posts: list[dict], categories: dict, failures: list[str]) -> None:
     try:
         index = json.loads(site.read("index.json"))
     except json.JSONDecodeError as error:
@@ -156,6 +156,13 @@ def check_search_index(site: Site, posts: list[dict], categories: dict, failures
         unquote(site.url_of(post["output"])): categories[post["term"]]["label"]
         for post in posts if post["term"] in categories
     }
+    # Search copies the original's link, so each article carries its source record's source_url.
+    sources = {}
+    for post in posts:
+        source = (categories.get(post["term"]) or {}).get("source")
+        record = repo / "sources" / str(source) / f"{post['slug']}.md"
+        url = read_markdown(record)[0].get("source_url") if source and record.is_file() else None
+        sources[unquote(site.url_of(post["output"]))] = url or ""
     seen = []
     for number, item in enumerate(index):
         fields = ("title", "content", "summary", "permalink", "category", "date")
@@ -176,6 +183,8 @@ def check_search_index(site: Site, posts: list[dict], categories: dict, failures
                 date.fromisoformat(item["date"])
             except ValueError:
                 failures.append(f"index.json item {number}: should include the publication date")
+            if item.get("source_url", "") != sources.get(url, ""):
+                failures.append(f"index.json item {number}: source_url should be {sources.get(url) or 'empty'}, as in its source record")
         elif item["category"] != "专题" or "/topics/" not in urlsplit(url).path:
             failures.append(f"index.json item {number}: should be an article or a topic")
     if len(seen) != len(set(seen)):
@@ -344,7 +353,7 @@ def check_site(site_dir: Path, repo: Path = REPO, base_url: str | None = None) -
     check_local_references(site, failures)
     check_sitemap(site, failures)
     check_structured_data(site, posts, failures)
-    check_search_index(site, posts, categories, failures)
+    check_search_index(site, repo, posts, categories, failures)
     check_article_types(site, repo, posts, categories, failures)
     check_source_lines(site, repo, posts, categories, failures)
     check_reading_paths(site, repo, failures)
