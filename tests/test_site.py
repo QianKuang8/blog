@@ -81,6 +81,22 @@ class CanonicalTests(SiteFixture):
         self.assertEqual(self.failures(), [])
 
 
+class LanguageTests(SiteFixture):
+    def failures(self):
+        failures = []
+        check_site.check_languages(self.site(), "zh-CN", failures)
+        return failures
+
+    def test_every_page_declares_the_configured_language(self):
+        self.write("index.html", '<html lang="zh-CN"><link rel="canonical" href="https://example.org/blog/"></html>')
+        self.write("posts/page/1/index.html", '<html lang="zh-CN"><meta http-equiv="refresh" content="0; url=/blog/posts/"></html>')
+        self.assertEqual(self.failures(), [])
+        for html in ('<html lang="zh">', "<html>"):
+            with self.subTest(html=html):
+                self.write("posts/page/1/index.html", html)
+                self.assertEqual(self.failures(), ["posts/page/1/index.html: <html lang> should be zh-CN (languageCode in config/_default/config.yaml)"])
+
+
 class LocalReferenceTests(SiteFixture):
     def failures(self):
         failures = []

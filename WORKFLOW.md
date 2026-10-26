@@ -10,11 +10,13 @@
 
 发布前运行 `.venv/bin/python scripts/build_site.py`。它依次执行：
 
-1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录）、站内链接不写死 `/blog/`，文章、专题页和推荐理由中超出限额的套话（见 BLOG_PROMPTS.md“避免的表达”，限定语过密只提示不阻塞），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
+1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录；本地克隆了私有归档时，公开记录须与归档 frontmatter 一致）、专题页的 `date`/`lastmod` 不晚于当前时间（专题页没有 `date` 时 Hugo 以 `lastmod` 为发布时间，未来时间会让页面被跳过）、站内链接不写死 `/blog/`，文章、专题页和推荐理由中超出限额的套话（见 BLOG_PROMPTS.md“避免的表达”，限定语过密只提示不阻塞），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
 2. 在新的临时目录做干净的 Hugo 构建，并比对产物中的 PDF 字节。
-3. `scripts/check_site.py` 检查产物：站内链接与资源存在、每页唯一且指向自身的 canonical、sitemap 不收录 noindex 或跳转页、文章 JSON-LD、搜索索引覆盖全部文章、文章类型标签、专题目录与文末导航、学习清单分组与编辑链接、停用标签的兼容入口。
+3. `scripts/check_site.py` 检查产物：站内链接与资源存在、每页唯一且指向自身的 canonical、每页 `<html lang>` 等于配置的 `languageCode`（`zh-CN`）、sitemap 不收录 noindex 或跳转页、文章 JSON-LD、搜索索引覆盖全部文章、文章类型标签、专题目录与文末导航、学习清单分组与编辑链接、停用标签的兼容入口。
 
 全部通过才替换 `public/`，失败时保留上次通过的产物。直接运行 `hugo` 只用于调试。检查不联网，也不能代替事实审校或线上链接核验。
+
+推送到 `main` 后，GitHub Actions 运行同样的测试和构建再部署。CI 缓存 `resources/_gen`（图片的 WebP 版本和 CSS），图片、`assets/`、图片渲染钩子或配置不变时直接复用；只改 `docs/` 或根目录说明文档（`*.md`）的提交不触发部署，需要时可在 Actions 页面手动运行。
 
 本站面向桌面阅读。新增或修改文章、图表和页面样式时只检查桌面显示；窄屏只保留单栏回退样式，除非用户明确要求，不做手机视口验证或移动端排版调整。
 

@@ -7,18 +7,10 @@ import argparse
 from pathlib import Path
 import sys
 
-from check_content import FRONTMATTER
+from check_content import public_record
 
 
 REPO = Path(__file__).resolve().parents[1]
-
-
-def public_record(text: str) -> str:
-    """Keep the frontmatter only; the archived article text stays private."""
-    match = FRONTMATTER.match(text)
-    if not match:
-        raise ValueError("missing YAML frontmatter")
-    return f"---\n{match[1]}\n---\n"
 
 
 def main() -> int:

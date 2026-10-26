@@ -312,6 +312,33 @@ class ContentValidationTests(unittest.TestCase):
         (self.repo / "data/reading_paths.json").write_text(json.dumps(reason, ensure_ascii=False), encoding="utf-8")
         self.assert_failure("data/reading_paths.json: reason for /posts/example: uses “接成/接回/连成” 1 times")
 
+    def test_topic_page_dates_must_not_be_in_the_future(self):
+        topic = self.repo / "content/topics/example.md"
+        topic.parent.mkdir(parents=True)
+        self.write_markdown(topic, {"title": "Example path", "lastmod": "2026-01-02T12:00:00+08:00"}, "从这里开始读。")
+        self.assertEqual(validate_content(self.repo), [])
+        for key in ("lastmod", "date"):
+            with self.subTest(key=key):
+                self.write_markdown(topic, {"title": "Example path", key: "2999-01-01T12:00:00+08:00"}, "从这里开始读。")
+                self.assert_failure(f"content/topics/example.md: {key} is in the future, so Hugo would skip this page")
+        self.write_markdown(topic, {"title": "Example path", "lastmod": "2026-01-02"}, "从这里开始读。")
+        self.assert_failure("content/topics/example.md: lastmod must be an ISO 8601 datetime with a timezone")
+
+    def test_public_records_match_the_private_archive_when_it_is_cloned(self):
+        self.add_source()
+        self.assertEqual(validate_content(self.repo), [])
+        archive = self.repo / "sources/archive/orig"
+        archive.mkdir(parents=True)
+        self.assert_failure("sources/orig/example.md: the private archive has no sources/archive/orig/example.md")
+        self.write_markdown(archive / "example.md", self.record, "Full archived text.")
+        self.assertEqual(validate_content(self.repo), [])
+        self.write_markdown(archive / "example.md", {**self.record, "author": "Someone"}, "Full archived text.")
+        self.assert_failure("sources/orig/example.md: differs from the frontmatter of sources/archive/orig/example.md")
+        # Book records keep their evidence publicly and have no archived text.
+        self.write_markdown(archive / "example.md", self.record, "Full archived text.")
+        self.write_markdown(self.repo / "sources/orig/book.md", {**self.record, "source_type": "book"}, "Chapter evidence.")
+        self.assertNotIn("sources/orig/book.md: the private archive", "\n".join(validate_content(self.repo)))
+
     def test_title_template_is_rejected(self):
         for title in ("CursorBench：把真实开发会话变成评测任务", "AI 研发度量：把规约与验收结果连起来"):
             with self.subTest(title=title):

@@ -22,6 +22,7 @@ class Page(HTMLParser):
         self.json_ld: list[str] = []
         self.learning_groups: list[dict] = []
         self.learning_controls: list[dict[str, str | None]] = []
+        self.lang: str | None = None
         self._containers: list[dict | None] = []
         self._json_ld: list[str] | None = None
         self._link: dict[str, str | None] | None = None
@@ -32,6 +33,8 @@ class Page(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
+        if tag == "html":
+            self.lang = attributes.get("lang")
         if LEARNING_CONTROLS.intersection(attributes):
             self.learning_controls.append(attributes)
         for name in ("href", "src"):

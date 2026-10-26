@@ -6,6 +6,10 @@ on:
   push:
     branches:
       - main
+    # Notes, plans and agent instructions are not published, so commits touching only them skip the deploy.
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -50,6 +54,14 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
+      # Hugo reuses processed images (WebP copies) and CSS from resources/_gen; a cold build regenerates all of them.
+      - name: Restore processed images
+        uses: actions/cache@v4
+        with:
+          path: resources/_gen
+          key: hugo-resources-${{ env.HUGO_VERSION }}-${{ hashFiles('static/images/**', 'assets/**', 'layouts/_default/_markup/render-image.html', 'config/_default/config.yaml') }}
+          restore-keys: |
+            hugo-resources-${{ env.HUGO_VERSION }}-
       - name: Install validation dependencies
         run: |
           python3 -m venv .venv

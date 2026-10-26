@@ -65,6 +65,13 @@ def check_canonicals(site: Site, failures: list[str]) -> None:
             failures.append(f"{path}: canonical URL should be {site.url_of(path)}")
 
 
+def check_languages(site: Site, language: str | None, failures: list[str]) -> None:
+    """Every page, redirects included, declares the configured languageCode."""
+    for path in site.html_paths():
+        if site.page(path).lang != language:
+            failures.append(f"{path}: <html lang> should be {language} (languageCode in config/_default/config.yaml)")
+
+
 def check_local_references(site: Site, failures: list[str]) -> None:
     home = urlsplit(site.home_url)
     root = site.root.resolve()
@@ -333,6 +340,7 @@ def check_site(site_dir: Path, repo: Path = REPO, base_url: str | None = None) -
     posts = generated_posts(site, repo, failures)
     check_required_outputs(site, categories, failures)
     check_canonicals(site, failures)
+    check_languages(site, config.get("languageCode"), failures)
     check_local_references(site, failures)
     check_sitemap(site, failures)
     check_structured_data(site, posts, failures)

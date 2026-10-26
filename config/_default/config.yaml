@@ -1,5 +1,6 @@
 baseURL: https://qiankuang8.github.io/blog/
 defaultContentLanguage: zh
+languageCode: zh-CN
 title: Qian's blog
 pagination:
   pagerSize: 10

@@ -49,6 +49,14 @@ def unique_mapping(loader, node, deep=False):
 UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, unique_mapping)
 
 
+def public_record(text: str) -> str:
+    """The public source record: the archived article's frontmatter, without its text."""
+    match = FRONTMATTER.match(text)
+    if not match:
+        raise ValueError("missing YAML frontmatter")
+    return f"---\n{match[1]}\n---\n"
+
+
 def read_markdown(path: Path) -> tuple[dict, str]:
     match = FRONTMATTER.match(path.read_text(encoding="utf-8"))
     if not match:
@@ -564,11 +572,37 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         for record in sorted((repo / "sources" / source_dir).glob("*.md")):
             if record not in referenced_sources:
                 fail(record, "no article uses this source record; delete it or list it in related_sources")
+    # Public article records are generated from the private archive; compare them when it is cloned.
+    archive = repo / "sources/archive/orig"
+    if archive.is_dir():
+        for record in sorted((repo / "sources/orig").glob("*.md")):
+            try:
+                # Book records hold their own evidence; malformed records are reported above.
+                if read_markdown(record)[0].get("source_type") == "book":
+                    continue
+            except (ValueError, TypeError, yaml.YAMLError):
+                continue
+            text = record.read_text(encoding="utf-8")
+            archived = archive / record.name
+            if not archived.is_file():
+                fail(record, f"the private archive has no {archived.relative_to(repo)}; archive the article text there first")
+                continue
+            try:
+                expected = public_record(archived.read_text(encoding="utf-8"))
+            except ValueError as exc:
+                fail(archived, str(exc))
+                continue
+            if text != expected:
+                fail(record, f"differs from the frontmatter of {archived.relative_to(repo)}; edit the archive, then run scripts/source_record.py {record.stem} (or pull blog-sources if it is behind)")
     # Topic pages and reading-path reasons are published prose too.
     for page in sorted((repo / "content/topics").glob("*.md")):
         if (result := read(page)) is not None:
             for message in wording_failures(*result):
                 fail(page, message)
+            # Without a date, Hugo publishes a page at its lastmod; buildFuture is off, so a future one hides the page.
+            for key in ("date", "lastmod"):
+                if key in result[0] and (moment := date_field(page, result[0], key)) and moment > datetime.now(timezone.utc):
+                    fail(page, f"{key} is in the future, so Hugo would skip this page; use the current time")
     try:
         reading_paths = json.loads((repo / "data/reading_paths.json").read_text(encoding="utf-8")).get("paths", [])
     except FileNotFoundError:
