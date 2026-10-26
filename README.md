@@ -37,7 +37,7 @@ Hugo 使用 extended 版本，版本号与 [hugo.yaml](.github/workflows/hugo.ya
 | `sources/orig/` | 外部文章的来源元信息；全文在私有仓库 `blog-sources`，按需克隆到被忽略的 `sources/archive/` |
 | `sources/video/` | 视频笔记的来源、时间戳与证据边界 |
 | `static/pdfs/` | 子模块，指向公开仓库 `blog-pdfs` |
-| `scripts/` | 构建入口、源文件与产物检查、来源记录生成 |
+| `scripts/` | 构建入口、源文件与产物检查、外部文章起稿与来源记录生成、提交前的 `lastmod` 提醒（`hooks/`） |
 | `docs/` | 历史决策记录与审查记录 |
 
 ## 文档

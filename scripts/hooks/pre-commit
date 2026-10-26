@@ -1,0 +1,8 @@
+#!/bin/sh
+# Remind, never block: articles or topic pages whose text changed while lastmod did not.
+# Enable once per clone: git config core.hooksPath scripts/hooks
+repo=$(git rev-parse --show-toplevel)
+python="$repo/.venv/bin/python"
+[ -x "$python" ] || python=python3
+"$python" "$repo/scripts/lastmod_reminder.py" || true
+exit 0

@@ -143,7 +143,7 @@ blog/
 ├── static/
 │   ├── images/<slug>/      # 文章配图
 │   └── pdfs/               # 子模块：公开仓库 blog-pdfs
-├── scripts/                # build_site.py、check_content.py、check_site.py、source_record.py
+├── scripts/                # build_site.py、check_*.py、new_post.py、source_record.py、lastmod_reminder.py、hooks/
 └── tests/
 ```
 
@@ -196,12 +196,11 @@ extractor: "defuddle"
 ```
 1. 收集：看到好文章 → 记录到 inbox.md（标题 + 链接）
 2. 批量处理（按主题分批，每批 5-10 篇）
-   ├─ 2a. defuddle 生成私有全文 sources/archive/orig/<slug>.md（必选）
-   ├─ 2b. 检查全文是否有完整 metadata + 正文
-   ├─ 2c. scripts/source_record.py <slug> 生成公开元信息
-   ├─ 2d. 确认 categories: ["好文分享"] 和 tags
-   ├─ 2e. 基于私有全文撰写博客文章，并检查原文图表、选取有解释价值的配图
-   └─ 2f. 按 BLOG_PROMPTS.md 做发布前 review
+   ├─ 2a. scripts/new_post.py 生成私有全文、公开元信息和文章草稿（必选）
+   ├─ 2b. 检查全文是否有完整 metadata + 正文，补齐脚本提示的字段
+   ├─ 2c. 确认 categories: ["好文分享"] 和 tags
+   ├─ 2d. 基于私有全文撰写博客文章，并检查原文图表、选取有解释价值的配图
+   └─ 2e. 按 BLOG_PROMPTS.md 做发布前 review
 3. 发布：hugo server -D 预览 → scripts/build_site.py → 分别提交两个仓库并推送
 4. 清理：从 inbox.md 移除已发布条目
 ```
@@ -209,23 +208,24 @@ extractor: "defuddle"
 单篇命令：
 
 ```bash
-# 1. 生成私有全文（必选），补齐 frontmatter
-defuddle parse "https://..." --md -o sources/archive/orig/<slug>.md
-# 失败则记录到 sources/failed/failed-sources.md，并暂停这篇文章
+# 1. 用 defuddle 抓取全文，写出私有全文、公开元信息和草稿 content/posts/<slug>.md（draft: true）
+.venv/bin/python scripts/new_post.py <slug> "https://..."
+# 输出的 check: 行列出需要手工确认的字段：没有发布日期、作者或描述。
+# defuddle 漏掉发布日期或作者时，用 --published YYYY-MM-DD、--author 补上；已保存的 defuddle JSON 可用 --from-json 读入。
+# 抓取失败则记录到 sources/failed/failed-sources.md，并暂停这篇文章。
+# 之后修改 frontmatter（补 related_sources、image_sources 等）时先改私有全文，再运行
+# .venv/bin/python scripts/source_record.py <slug>
 
-# 2. 生成公开元信息
-.venv/bin/python scripts/source_record.py <slug>
-
-# 3. 写 content/posts/<slug>.md，预览并正式构建
+# 2. 写草稿：换成中文标题，删去 draft 和开头注释，预览并正式构建
 hugo server -D
 .venv/bin/python scripts/build_site.py
 
-# 4. 私有仓库提交全文
+# 3. 私有仓库提交全文
 git -C sources/archive add orig/<slug>.md
 git -C sources/archive commit -m "add: <slug>"
 git -C sources/archive push
 
-# 5. 本仓库提交文章和元信息，从 inbox.md 移除对应条目
+# 4. 本仓库提交文章和元信息，从 inbox.md 移除对应条目
 git add content/posts/<slug>.md sources/orig/<slug>.md
 git commit -m "add: 文章标题"
 ```

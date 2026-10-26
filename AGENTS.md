@@ -18,14 +18,20 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 git submodule update --init static/pdfs
 
+# 首次：启用提交前的 lastmod 提醒（只提示，不阻止提交）
+git config core.hooksPath scripts/hooks
+
 # 写外部文章解读时：克隆私有原文归档（目录已被 git 忽略）
 git clone https://github.com/QianKuang8/blog-sources.git sources/archive
+
+# 外部文章：抓取全文写入私有归档，生成公开来源记录和文章草稿
+.venv/bin/python scripts/new_post.py <slug> <url>
 
 # 新文章 / 视频笔记（默认待学习）
 hugo new content content/posts/my-post.md
 hugo new content --kind video content/posts/my-video.md
 
-# 由私有归档生成公开的来源元数据记录
+# 修改私有归档的 frontmatter 后，重新生成公开的来源记录
 .venv/bin/python scripts/source_record.py <slug>
 
 # 本地预览（含草稿）
