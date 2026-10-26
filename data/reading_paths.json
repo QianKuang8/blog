@@ -63,6 +63,10 @@
           "title": "先理解核心问题",
           "entries": [
             {
+              "post": "/posts/the-rise-of-context-engineering",
+              "reason": "先看上下文工程的定义：Agent 出错时，沿输入的构造过程检查信息、工具和格式哪一处出了问题。"
+            },
+            {
               "post": "/posts/why-context-engineering-needed",
               "reason": "从写入、选择、压缩与隔离入手，理解各类动作怎样改变任务中的信息流。"
             },
@@ -80,6 +84,10 @@
           "title": "再看具体机制",
           "entries": [
             {
+              "post": "/posts/manus-context-engineering",
+              "reason": "从一个产品团队的完整做法看起：稳定缓存前缀、按状态限制可选动作、把文件当作外部记忆，并保留失败记录。"
+            },
+            {
               "post": "/posts/dynamic-context-discovery",
               "reason": "看长输出、会话历史和工具说明怎样留在文件中，让 Agent 按需找回细节。"
             },
@@ -96,6 +104,10 @@
         {
           "title": "最后看长程任务与成本",
           "entries": [
+            {
+              "post": "/posts/effective-agent-design",
+              "reason": "进入长程任务前，先看一份模式汇总：计算环境保存状态、按需发现能力、缓存与交接各自应对哪种资源约束。"
+            },
             {
               "post": "/posts/context-engineering-long-horizon-agents-langchain-harrison-chase",
               "reason": "把 context、planning、traces 和人类评估放在一起看。"

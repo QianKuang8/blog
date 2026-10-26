@@ -17,12 +17,8 @@
           {{- with site.GetPage .post -}}
         <li>
           {{- with $entry.label }}<span class="bc-course-label">{{ . }}</span>{{ end -}}
-          <a href="{{ .RelPermalink }}" data-reading-path-post="{{ .File.ContentBaseName }}"><h3>{{ .Title }}</h3><span aria-hidden="true">↗</span></a>
+          <a href="{{ .RelPermalink }}" data-reading-path-post="{{ .File.ContentBaseName }}"><h3>{{ .Title }}</h3></a>
           <p>{{ $entry.reason }}</p>
-          <div class="bc-post-meta">
-            {{- range .GetTerms "categories" }}<span>{{ .LinkTitle }}</span>{{ end -}}
-            {{- if .Param "ShowReadingTime" }}<span>{{ .ReadingTime }} 分钟</span>{{ end -}}
-          </div>
         </li>
           {{- else -}}
             {{- errorf "reading_path: %s refers to missing post %s" $page.Path .post -}}
