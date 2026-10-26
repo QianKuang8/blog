@@ -15,7 +15,13 @@
       {{- if and $isPost (not (.Param "hideMeta")) }}
       <div class="post-meta bc-article-meta">{{ partial "post_meta.html" . }}</div>
       {{- end }}
-      <h1 class="post-title">{{ .Title }}{{ if .Draft }} <span class="bc-draft">草稿</span>{{ end }}</h1>
+      <h1 class="post-title">
+        {{- with findRESubmatch `^(.+?：)(.+)$` .Title 1 -}}
+          {{- index . 0 1 }}<span class="bc-title-sub">{{ index . 0 2 }}{{ if $.Draft }} <span class="bc-draft">草稿</span>{{ end }}</span>
+        {{- else -}}
+          {{ .Title }}{{ if .Draft }} <span class="bc-draft">草稿</span>{{ end }}
+        {{- end -}}
+      </h1>
       {{- with .Description }}
       <p class="post-description">{{ . }}</p>
       {{- end }}

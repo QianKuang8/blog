@@ -260,6 +260,11 @@ class ContentValidationTests(unittest.TestCase):
         self.write_post("![Figure](/images/example/unused.png)")
         self.assertEqual(validate_content(self.repo), [])
 
+    def test_hidden_files_under_images_are_not_site_images(self):
+        for name in (".DS_Store", "example/.DS_Store", ".cache/figure.png"):
+            self.add_image(name)
+        self.assertEqual(validate_content(self.repo), [])
+
     def test_sourced_figures_need_an_italic_caption(self):
         path = self.add_image("example/figure.png")
         self.write_post(f"![Figure]({path})\n\nPlain paragraph.")

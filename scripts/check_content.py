@@ -499,7 +499,11 @@ def validate_content(repo: Path, site_dir: Path | None = None, base_url: str | N
         for page in (repo / "content").rglob("*.md")
         for _, destination, _ in figures(page.read_text(encoding="utf-8"))
     }
-    for image in sorted((repo / "static/images").rglob("*")):
+    images_root = repo / "static/images"
+    for image in sorted(images_root.rglob("*")):
+        # Hidden files such as macOS .DS_Store are not site images.
+        if any(part.startswith(".") for part in image.relative_to(images_root).parts):
+            continue
         if image.is_file() and f"/{image.relative_to(repo / 'static').as_posix()}" not in referenced_images:
             fail(image, "no page uses this image; delete it or reference it from an article")
     return failures

@@ -143,7 +143,10 @@ p { text-wrap: pretty; }
 .bc-article { min-width: 0; max-width: 720px; }
 .bc-article-heading { border-bottom: 1px solid var(--line); padding-bottom: 26px; margin-bottom: 32px; }
 .bc-article-meta { font-size: 12px; color: var(--subtle); line-height: 1.8; }
-.bc-article-heading h1 { font-size: 32px; font-weight: 600; line-height: 1.5; letter-spacing: -.4px; margin: 15px 0 19px; }
+/* keep-all lets balanced CJK titles break only at spaces and punctuation, never inside a word;
+   titles written as "主题：副题" put the subtitle on its own line. */
+.bc-article-heading h1 { font-size: 32px; font-weight: 600; line-height: 1.5; letter-spacing: -.4px; margin: 15px 0 19px; word-break: keep-all; overflow-wrap: anywhere; }
+.bc-title-sub { display: block; font-size: .8em; }
 .bc-article-heading > p { font-size: 16px; line-height: 1.9; color: var(--muted); margin: 0; }
 .bc-toc { position: sticky; top: 34px; max-height: calc(100vh - 68px); overflow-y: auto; padding: 2px 5px 0 0; scrollbar-width: thin; }
 .bc-toc > p { font-size: 12px; color: var(--subtle); margin: 0 0 13px; }
@@ -186,7 +189,9 @@ p { text-wrap: pretty; }
 .prose img[src$=".svg"] { background: #fff; }
 .prose a.bc-image-link { display: block; text-decoration: none; cursor: zoom-in; }
 .prose figure { margin: 28px 0; }
-.prose figcaption, .prose p:has(> em:only-child) { font-size: 14px; color: var(--muted); line-height: 1.7; }
+/* A caption is an italic-only paragraph right after an image or table (see check_content.py);
+   :only-child ignores text nodes, so other paragraphs with one <em> must not match. */
+.prose figcaption, .prose :is(p:has(> .bc-image-link, > img), table) + p:has(> em:only-child) { font-size: 14px; color: var(--muted); line-height: 1.7; }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 35px 0; }
 .prose details { margin: 22px 0; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .prose summary { cursor: pointer; }
