@@ -108,6 +108,25 @@
         });
     });
 
+    // Article images open their original file in an overlay over the article; Esc or a click closes it.
+    const viewer = document.createElement('dialog');
+    const viewerImage = document.createElement('img');
+    viewer.className = 'bc-image-viewer';
+    viewer.setAttribute('aria-label', '原图');
+    viewer.append(viewerImage);
+    viewer.addEventListener('click', () => viewer.close());
+    viewer.addEventListener('close', () => viewerImage.removeAttribute('src'));
+    document.querySelectorAll('.bc-image-link').forEach(link => {
+        link.addEventListener('click', event => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !viewer.showModal) return;
+            event.preventDefault();
+            viewerImage.src = link.href;
+            viewerImage.alt = link.querySelector('img')?.alt ?? '';
+            if (!viewer.isConnected) document.body.append(viewer);
+            viewer.showModal();
+        });
+    });
+
     // Native anchors remain usable without JavaScript; copy adds a shareable URL.
     document.querySelectorAll('[data-heading-anchor]').forEach(anchor => {
         anchor.addEventListener('click', () => {
