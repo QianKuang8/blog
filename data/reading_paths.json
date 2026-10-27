@@ -194,7 +194,7 @@
             },
             {
               "post": "/posts/cursor-improved-token-efficiency",
-              "reason": "继续看提示精简、工具加载、缓存前缀和子智能体委派怎样影响长任务成本，并区分各项降幅的统计口径。"
+              "reason": "继续看提示精简、工具加载、缓存前缀和子 Agent 委派怎样影响长任务成本，并区分各项降幅的统计口径。"
             },
             {
               "post": "/posts/reducing-cost-and-improving-performance-with-claude-platform",

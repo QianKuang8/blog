@@ -1,8 +1,8 @@
 ---
 date: '2026-08-31T15:45:00+08:00'
-lastmod: '2026-10-19T19:55:22+08:00'
+lastmod: '2026-10-27T17:29:38+08:00'
 title: "Claude Code 团队谈会话管理：继续、回退、压缩与委派"
-summary: "围绕任务连续性比较五种上下文操作，解释压缩的信息取舍、回退与外部状态的区别，以及子代理报告需要保留的验证依据。"
+summary: "围绕任务连续性比较五种上下文操作，解释压缩的信息取舍、回退与外部状态的区别，以及子 Agent 报告需要保留的验证依据。"
 description: "从 Claude Code 的上下文管理实践看 1M context window 下的 session 策略和 compaction 陷阱"
 tags: ["agentic-coding", "context-engineering", "anthropic"]
 categories: ["好文分享"]
@@ -16,7 +16,7 @@ learning_status: done
 
 本文依据 2026 年 8 月归档的文章讨论这些取舍。原文中的百万 token 窗口及命令属于当时介绍的 Claude Code 环境，不能据此推断所有模型、套餐和版本都采用同一配置。
 
-![五种会话操作按保留多少已有上下文排列：新会话只带用户写的简报，compact 留下有损摘要，子代理返回全部过程中的结果，rewind 保留前缀、截掉末尾，continue 全部保留。](/images/claude-code-session-management-1m-context/context-carry-forward-options.png)
+![五种会话操作按保留多少已有上下文排列：新会话只带用户写的简报，compact 留下有损摘要，子 Agent 返回全部过程中的结果，rewind 保留前缀、截掉末尾，continue 全部保留。](/images/claude-code-session-management-1m-context/context-carry-forward-options.png)
 
 *图 1：原图，来源：[Using Claude Code: session management and 1M context](https://claude.com/blog/using-claude-code-session-management-and-1m-context)。从左到右，带入下一步的已有上下文越来越多；下文各节分别讨论其中的取舍。*
 
@@ -50,15 +50,15 @@ learning_status: done
 
 主动压缩可以提供方向。例如原文给出 `/compact focus on the auth refactor, drop the test debugging`，明确保留认证重构、舍弃测试调试。更完整的交接还应保住任务目标、不可改变的约束、已确认结果和未完成验证；这是根据压缩用途提出的工程检查项。
 
-## 清空和子代理，把信息选择放到不同位置
+## 清空和子 Agent，把信息选择放到不同位置
 
 `/clear` 与压缩的差别，在于用户需要自己整理要带入新会话的 brief。它适合任务转向较大、旧轨迹大多不再相关的情形，但也要求手动保留必要条件。新会话减少了旧过程的影响，并不会自动保证输入完整或后续结果正确。
 
-子代理则把预计会膨胀的工作放到独立上下文。例如调查另一套代码库、按 spec 验证实现，或者根据差异写文档。主会话不必带回全部中间读取结果，而是接收整理后的报告。
+子 Agent 则把预计会膨胀的工作放到独立上下文。例如调查另一套代码库、按 spec 验证实现，或者根据差异写文档。主会话不必带回全部中间读取结果，而是接收整理后的报告。
 
-![父会话与子代理上下文：父会话派出探索任务，子代理读取 20 个文件、执行 12 次搜索、遇到 3 次死路，只把最终报告返回父会话。](/images/claude-code-session-management-1m-context/subagent-context.png)
+![父会话与子 Agent 上下文：父会话派出探索任务，子 Agent 读取 20 个文件、执行 12 次搜索、遇到 3 次死路，只把最终报告返回父会话。](/images/claude-code-session-management-1m-context/subagent-context.png)
 
-*图 3：原图，来源同上。子代理结束后，探索过程中的噪声随之丢弃，父会话只多了一条结论。*
+*图 3：原图，来源同上。子 Agent 结束后，探索过程中的噪声随之丢弃，父会话只多了一条结论。*
 
 原文提出的判断问题是：后面还需要工具输出本身，还是只需要结论？实践中还可以再补一层：结论能否被核查。验证任务返回“通过”通常不够，最好同时给出检查对象、关键证据和仍未确认的范围。上下文隔离减少了传输，也把报告质量变成了交接条件。
 
@@ -70,7 +70,7 @@ learning_status: done
 | 某条尝试已走错 | 回退后重新说明 | 失败教训与正确起点 |
 | 同一任务积累了大量旧过程 | 带方向的压缩 | 目标、进度和待验证项 |
 | 转向独立任务 | 清空并写 brief | 新任务所需前提 |
-| 下一步产生大量局部调查 | 子代理 | 可核查的结果与依据 |
+| 下一步产生大量局部调查 | 子 Agent | 可核查的结果与依据 |
 
 这张表依据原文整理，并补充了每种选择的交接重点。几种操作都在调整下一轮模型看到的材料，最终仍应检查同一个结果：它是否理解当前目标，保留必要约束，并继续完成尚未完成的工作。
 

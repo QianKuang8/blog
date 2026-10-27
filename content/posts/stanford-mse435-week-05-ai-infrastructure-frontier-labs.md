@@ -1,9 +1,9 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
-lastmod: '2026-10-26T12:21:49+08:00'
+lastmod: '2026-10-27T17:29:38+08:00'
 title: 'MS&E 435 Week 5：从名义算力到可用服务'
 summary: "Sachin Katti 从算力交付时间、模型生命周期中的推理负载和 Agent 计算图出发，说明怎样把名义容量转成可用服务，并区分规划目标、即席估算与远期设想。"
-description: "解读 Stanford MS&E 435 Week 5：算力交付、供应链同步、智能体计算图、TTFT 与全栈瓶颈迁移、价值迁移"
+description: "解读 Stanford MS&E 435 Week 5：算力交付、供应链同步、Agent 计算图、TTFT 与全栈瓶颈迁移、价值迁移"
 tags: ["model-engineering", "行业动向"]
 categories: ["视频笔记"]
 author: "Qian"
@@ -20,7 +20,7 @@ learning_status: pending
 
 1. 算力约束的不是采购合同而是交付时间：从投资决策到算力上线可用（time to compute）是关键路径。
 2. 按 Katti 的口径，推理包括 RL 后训练采样、合成数据和产品调用；他称当时已占多数，并预测未来可能超过 80%。
-3. 智能体工作负载把推理从单次模型调用扩展为包含工具、搜索、数据库和外部执行的计算图，改变了硬件需求。
+3. Agent 工作负载把推理从单次模型调用扩展为包含工具、搜索、数据库和外部执行的计算图，改变了硬件需求。
 4. 局部加速可能使其他环节成为主要约束，需要重新测量端到端路径。
 
 ## 算力为何先于收入
@@ -45,21 +45,21 @@ Katti 把 1 GW 用约 50 万 GPU 的口头估算建立规模直觉。[00:08:43�
 
 *图 1：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf) 第 10 页图 3，根据视频 [00:14:02–00:15:25](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=842s) 整理。横轴是对数刻度，相邻刻度相差十倍；三个点的状态不同，不能相加。*
 
-## 智能体计算图改变硬件需求
+## Agent 计算图改变硬件需求
 
-当产品从"单次问答"变成"代理完成一个任务"，推理就从单次模型调用变成一张包含多次模型调用、工具执行、搜索和数据库查询的计算图。[00:17:36–00:27:29](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1056s)
+当产品从"单次问答"变成"Agent 完成一个任务"，推理就从单次模型调用变成一张包含多次模型调用、工具执行、搜索和数据库查询的计算图。[00:17:36–00:27:29](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1056s)
 
 ![三类工作负载：Chatbot 由用户请求经一次推理得到答案；Reasoner 经过多步推理；Agent 在推理之间调用工具、搜索、数据库或虚拟机环境，再进入新的推理并产出结果，反馈迭代按时间展开后可表示为有限 DAG。](/images/video-notes/stanford-mse435-week-05-ai-infrastructure-frontier-labs/workload-graphs.png)
 
 *图 2：重绘，裁剪自本站[学习笔记 PDF](/pdfs/stanford-mse435/week-05-ai-infrastructure-frontier-labs.pdf) 第 12 页图 6，根据视频 [00:18:05–00:21:17](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1085s) 整理。Agent 一行多出的工具、数据库与环境节点是外部执行资源，计算特征与推理不同，这正是下文讨论异构计算的出发点。*
 
-Katti 引入"人的 flow"作为基础设施指标：如果用户正在连续工作，代理的响应延迟会打断这种状态。因此 TTFT（首 token 延迟）和端到端延迟不只是技术指标，而是产品体验指标。
+Katti 引入"人的 flow"作为基础设施指标：如果用户正在连续工作，Agent 的响应延迟会打断这种状态。因此 TTFT（首 token 延迟）和端到端延迟不只是技术指标，而是产品体验指标。
 
 异构计算由此成为一种设计方向——不同计算图节点有不同的计算特征（prefill 是计算密集、decode 是内存带宽密集、工具调用可能是 I/O 密集），用单一硬件服务所有节点不一定最优。
 
 ## 先分清首 token 等待，再看瓶颈迁移
 
-Katti 用约 400–500 ms 说明智能体负载处理输入上下文的量级，并在追问中澄清，部分应用与网络延迟还要另加。因此，这个数字不能写成完整端到端 TTFT 的测量值。[00:29:02–00:31:43](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1742s)
+Katti 用约 400–500 ms 说明 Agent 负载处理输入上下文的量级，并在追问中澄清，部分应用与网络延迟还要另加。因此，这个数字不能写成完整端到端 TTFT 的测量值。[00:29:02–00:31:43](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1742s)
 
 TTFT 是请求发出到首个输出 token 出现的全部等待；prefill 是处理输入的阶段；decode 的 tokens/s 则描述之后持续生成的速度。应用处理、分词、网络、路由，以及可能的排队和调度，都会影响首 token 等待。后续输出很快，仍可能让用户在开头等很久，这些指标需要分别测量。
 
@@ -83,7 +83,7 @@ Time to compute 关注从决策到算力可用的时间，任务级指标关注�
 
 - [00:00:09–00:08:43：算力、收入与 token 经济学](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=9s)
 - [00:08:43–00:15:38：一吉瓦算力的交付挑战](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=523s)
-- [00:17:36–00:27:29：智能体计算图与异构硬件](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1056s)
+- [00:17:36–00:27:29：Agent 计算图与异构硬件](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1056s)
 - [00:27:29–00:33:13：集中式推理与全栈瓶颈迁移](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=1649s)
 - [00:36:22–00:46:02：价值迁移与制造咽喉](https://www.youtube.com/watch?v=4k53z3Ysjg0&t=2182s)
 

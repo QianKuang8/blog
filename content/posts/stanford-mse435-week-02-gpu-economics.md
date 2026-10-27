@@ -1,9 +1,9 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
-lastmod: '2026-10-26T12:21:49+08:00'
+lastmod: '2026-10-27T17:29:38+08:00'
 title: "MS&E 435 Week 2：GPU 经济，从 token 生产到用户付费"
 summary: "传统软件复制接近免费，AI 每次推理都要消耗新的计算。这场 Stanford 课堂把 GPU 经济拆成三层：token 怎样被生产、一次任务的智能为何值得付费、基础设施扩张后的收益与转型成本如何分配。"
-description: "解读 Stanford MS&E 435 Week 2：token 经济、Groq 推理芯片、异构推理工厂、代理单位经济与 100× 共设计"
+description: "解读 Stanford MS&E 435 Week 2：token 经济、Groq 推理芯片、异构推理工厂、Agent 单位经济与 100× 共设计"
 tags: ["model-engineering", "行业动向"]
 categories: ["视频笔记"]
 author: "Qian"
@@ -12,7 +12,7 @@ showToc: true
 learning_status: pending
 ---
 
-[Stanford MS&E 435 Week 2](https://www.youtube.com/watch?v=BBl8bNJP6ds) 回答的核心问题是：当 AI 的边际成本不再接近零，芯片、互联、编译器、模型与代理工作流怎样共同决定能交付多少有用智能，以及这些智能能否产生足以覆盖资本开支的价值。
+[Stanford MS&E 435 Week 2](https://www.youtube.com/watch?v=BBl8bNJP6ds) 回答的核心问题是：当 AI 的边际成本不再接近零，芯片、互联、编译器、模型与 Agent 工作流怎样共同决定能交付多少有用智能，以及这些智能能否产生足以覆盖资本开支的价值。
 
 嘉宾是 Brad Gerstner（Altimeter）和 Sunny Madra（Groq，后加入 NVIDIA），由 Apoorv Agrawal 主持。视频由 Stanford Online 发布于 2026 年 7 月 23 日，时长 56 分 01 秒。本文依据 1238 条人工英文字幕及 2026 年 9 月 23 日修订的 40 页课程笔记整理。
 
@@ -20,7 +20,7 @@ learning_status: pending
 
 1. AI 的竞争单位已从一块芯片扩展为一座 token 工厂：在受限的功率、内存和时间内，系统各层共同决定交付效率。
 2. 推理不是训练的附属——它有不同的负载形状、不同的硬件最优点和不同的经济约束。
-3. 在 Gerstner 讨论的商业情景中，部分代理产品从负毛利起步，寄望成本下降与付费意愿提高；这不是所有 AI 产品的共同财务状态。
+3. 在 Gerstner 讨论的商业情景中，部分 Agent 产品从负毛利起步，寄望成本下降与付费意愿提高；这不是所有 AI 产品的共同财务状态。
 4. 100× 性能提升不是单一芯片目标，而是芯片、封装、互联、编译器和模型的跨层共设计挑战。
 
 ## 从软件复制到 Token 经济
@@ -51,13 +51,13 @@ Madra 的起点很直接：当算法已经可行，通用计算却还不够强�
 
 由此，经济目标转向固定功率下的有效产出。Madra 在前面的讨论中提到，推理时推理（inference-time reasoning）会增加计算需求；后续又把成本下降与更大模型、更多任务的需求放在一起看。单次计算更省，不保证整体算力需求下降。[00:14:24–00:14:56](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=864s)；[00:24:25–00:25:29](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1465s)
 
-## 代理如何改写单位经济
+## Agent 如何改写单位经济
 
 Gerstner 将早期的自动补全与问答，和能够推进完整行动的 Agent 作比较。行动任务需要规划、调用工具、检查结果和重试，因此 token 用量可能增加；若交付结果更有价值，用户的付费意愿也可能提高。[00:25:37–00:28:10](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1537s)
 
 他用一个成本高于售价的示例解释早期商业压力：企业寄望单位推理成本下降，同时任务能力提高，使用户愿意支付更多。这是示意性经济推理，不能用来计算相关公司的实际毛利。接着讨论的“能力阈值”，也只是对产品进入可靠工作流后需求可能加速的解释。[00:28:10–00:29:09](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1690s)
 
-Madra 随后谈到 harness（代理运行框架）：它把模型嵌入一个能够读取上下文、调用工具、保持状态并根据反馈继续的循环。长时任务会增加计算消耗，经济性仍取决于这些循环最终完成了什么；无效重试和重复读取也要计入成本。[00:31:16–00:33:51](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1876s)
+Madra 随后谈到 harness（Agent 运行框架）：它把模型嵌入一个能够读取上下文、调用工具、保持状态并根据反馈继续的循环。长时任务会增加计算消耗，经济性仍取决于这些循环最终完成了什么；无效重试和重复读取也要计入成本。[00:31:16–00:33:51](https://www.youtube.com/watch?v=BBl8bNJP6ds&t=1876s)
 
 ![harness 的执行循环：目标进入计划与分解，再读取上下文、调用工具，然后检查结果；达标则完成并交付，受阻则请求人类反馈后恢复，其余情况保留状态、调整计划继续执行。](/images/video-notes/stanford-mse435-week-02-gpu-economics/harness-loop.png)
 
