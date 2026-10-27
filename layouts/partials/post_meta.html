@@ -14,7 +14,4 @@
 {{- if .Param "ShowReadingTime" -}}
 {{- $meta = $meta | append (printf "%d 分钟" .ReadingTime) -}}
 {{- end -}}
-{{- if not (.Param "hideAuthor") -}}
-{{- with partial "author.html" . }}{{ $meta = $meta | append . }}{{ end -}}
-{{- end -}}
 <span>{{ delimit $meta "&nbsp;·&nbsp;" | safeHTML }}</span>

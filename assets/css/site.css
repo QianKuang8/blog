@@ -76,9 +76,6 @@ p { text-wrap: pretty; }
 .bc-search button { flex: none; border: 0; background: transparent; font-size: 12px; color: var(--accent); padding: 0; white-space: nowrap; }
 .bc-search-key { flex: none; font: 11px/1 var(--mono); color: var(--subtle); border: 1px solid var(--line); border-radius: 4px; padding: 2px 5px; }
 .bc-search:focus-within { border-color: var(--accent); }
-.bc-newcomer { margin: -4px 0 22px; font-size: 13px; line-height: 1.8; color: var(--muted); }
-.bc-newcomer a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--line); }
-.bc-newcomer a:hover { text-decoration-color: var(--accent); }
 .bc-topic-strip { display: flex; align-items: baseline; gap: 22px; padding: 16px 0 17px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .bc-topic-strip > span { font-size: 12px; color: var(--subtle); flex: none; }
 .bc-topic-strip > a { font-size: 13px; line-height: 1.6; color: var(--accent); }

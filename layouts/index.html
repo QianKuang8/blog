@@ -3,7 +3,7 @@
 {{- $paginator := .Paginate $pages -}}
 <header class="bc-home-heading">
   <div>
-    <h1>文章与笔记</h1>
+    <h1>最新文章</h1>
     {{- with site.Params.homeInfoParams.Content }}<p>{{ . | plainify }}</p>{{ end }}
   </div>
   <form class="bc-search" action="{{ (site.GetPage "/search").RelPermalink }}" method="get" role="search">
@@ -12,7 +12,6 @@
     <button type="submit">搜索</button>
   </form>
 </header>
-<p class="bc-newcomer">第一次来，可以从<a href="{{ (site.GetPage "/topics").RelPermalink }}">阅读专题</a>开始。</p>
 <section class="bc-topic-strip" aria-label="按主题浏览">
   <span>按主题浏览</span>
   {{- range hugo.Data.tag_groups.topics }}
