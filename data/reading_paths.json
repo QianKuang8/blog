@@ -281,6 +281,10 @@
               "reason": "先按反馈落点区分产物搜索、执行方法与模型学习，并看工具扩张怎样引出专家路由问题。"
             },
             {
+              "post": "/posts/harness-engineering-for-self-improvement",
+              "reason": "沿上下文内容、管理方法与 Harness 代码逐层看优化对象，再用失败归因和回归验证理解候选改动怎样被接纳。"
+            },
+            {
               "post": "/posts/self-evolving-agents-rsi",
               "reason": "从产物、执行方法与参数三类改动出发，检查自进化的预算、迁移与递归证据。"
             }
