@@ -4,7 +4,7 @@ lastmod: '2026-10-19T19:55:22+08:00'
 title: 'Claude Platform 成本优化：缓存、指令与 effort 如何配合'
 summary: "从 Anthropic 的成本优化文章出发，理解缓存复用、提示词审计和 effort 调整分别改变什么，以及怎样判断节省是否来自有效优化。"
 description: "围绕 Claude Platform 的缓存、指令与 effort，梳理任务成本的来源、评估方法和适用边界。"
-tags: ["context-engineering", "prompt-engineering", "anthropic"]
+tags: ["context-engineering", "prompt-engineering", "caching-and-cost", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

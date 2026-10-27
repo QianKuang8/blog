@@ -4,7 +4,7 @@ lastmod: '2026-10-19T19:55:22+08:00'
 title: "Claude Auto-Caching：怎样复用 Agent 的稳定上下文"
 summary: "Prompt caching 复用相同前缀的计算，auto-caching 则随对话增长移动缓存断点。本文区分请求历史、缓存读写与自动断点，说明怎样判断长会话是否获得实际收益。"
 description: "解读 Claude prompt auto-caching 的前缀复用、缓存断点与上下文布局。"
-tags: ["context-engineering", "agent", "harness-engineering"]
+tags: ["context-engineering", "caching-and-cost", "harness-engineering"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true

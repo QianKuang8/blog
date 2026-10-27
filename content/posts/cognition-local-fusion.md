@@ -4,7 +4,7 @@ lastmod: '2026-10-20T10:55:09+08:00'
 title: 'Devin Fusion：双 Agent 的分工与成本'
 summary: "Cognition 的 Fusion 让规划审查与代码执行分工，并保留各自上下文。本文从委派契约、审查证据和任务成本出发，分析这种架构的收益与适用边界。"
 description: "解读 Devin Fusion 的 Lead–Sidekick 架构，讨论双 Agent 如何交换任务与结果，以及怎样结合质量衡量降本收益。"
-tags: ["agentic-coding", "harness-engineering", "context-engineering"]
+tags: ["agentic-coding", "harness-engineering", "caching-and-cost"]
 categories: ["好文分享"]
 author: "Qian"
 isCJKLanguage: true
