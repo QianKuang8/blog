@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Claude Code 团队的 Skills 实践：任务分类、触发描述与分发"
+title: "Claude Code 团队谈 Skills：任务分类、触发描述与分发"
 summary: "Thariq Shihipar 从内部实践整理了 Skill 的任务分类、触发描述、渐进加载和分发方式。本文结合验证与运行手册例子，说明怎样保存可复用经验，并区分使用频率和实际效果。"
 description: "解读 Claude Code 团队的 Skill 编写经验、配置与数据管理、分发及使用观察。"
 tags: ["skills", "agentic-coding"]

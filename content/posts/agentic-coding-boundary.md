@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: "2026-10-26T12:21:49+08:00"
-title: "Agentic Coding 的边界：验收标准与审查带宽"
+title: "tisonkun 谈 Agentic Coding 的边界：验收标准与审查带宽"
 summary: "tisonkun 从实际开发出发讨论过度抽象、测试指标和隐性知识。本文解释为什么生成更多代码未必减少交付工作，以及怎样把软件工程经验转成 Agent 可用的约束。"
 description: "解读 Agentic Coding 在复杂度控制、行为验证、领域知识和代码审查上的限制。"
 tags: ["agentic-coding", "harness-engineering"]

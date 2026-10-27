@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
 lastmod: "2026-10-16T18:09:33+08:00"
-title: "Coding Agent 推理排障：两种 KV Cache 竞态如何污染输出"
+title: "Z.ai 排查 GLM-5 推理故障：两种 KV Cache 竞态"
 summary: "GLM-5 的乱码、重复和罕见字符异常，在保留请求时序并施加负载后才得以复现。本文沿重现、检测、时序定位和修复验证，解释缓存回收与加载顺序如何影响生成结果。"
 description: "解读 Z.ai 的 GLM-5 Serving 排障：PD 分离缓存回收、HiCache 同步及 LayerSplit 的收益条件。"
 tags: ["model-engineering", "agentic-coding"]

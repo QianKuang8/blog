@@ -1,7 +1,7 @@
 ---
 date: '2026-10-27T11:13:31+08:00'
 lastmod: '2026-10-27T11:14:54+08:00'
-title: "哪些子 Agent 适合并回主循环"
+title: "Anthropic 谈子 Agent 合并：何时改用 Skill 与工具"
 summary: "用一个报价助手的假设案例，分析跨 Agent 交接的代价、Skill 与工具各自承担的职责，以及怎样验证合并是否保留了业务约束。"
 description: "解读子 Agent 合并的设计取舍，并用报价流程说明上下文共享、按需加载和迁移验证。"
 tags: ["agent", "context-engineering", "skills", "anthropic"]

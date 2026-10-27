@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
 lastmod: '2026-10-19T20:18:09+08:00'
-title: "生成式 AI 的价值分布：怎样理解收入与利润的倒三角"
+title: "MS&E 435 Week 1：生成式 AI 收入与利润的倒三角"
 summary: "Apoorv Agrawal 用课堂估计比较 AI 各层收入。本文区分讲者口述与课件重算，说明上下游收入为何不能直接当作市场规模，以及用户数和 ARPU 怎样保持同一口径。"
 description: "解读 Stanford MS&E 435 Week 1：AI 价值分配的倒三角、供给集中与推理边际成本、跨层公司拆分、消费 AI 的规模上限与广告变现"
 tags: ["model-engineering", "行业动向"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-05-07T21:14:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Harness Engineering：让 Agent 读取约束并验证运行结果"
+title: "OpenAI 的 Harness Engineering：不手写代码，改为设计 Agent 的工作环境"
 summary: "OpenAI 的内部产品实验把工具、知识、架构约束和反馈放进 Agent 可访问的环境。本文沿具体案例解释这些条件怎样支持自动执行，并保留团队投入与结果适用范围。"
 description: "解读 OpenAI 2026 年 2 月的 Harness Engineering 实验，包括运行反馈、仓库知识和持续治理。"
 tags: ["harness-engineering", "agentic-coding", "openai"]

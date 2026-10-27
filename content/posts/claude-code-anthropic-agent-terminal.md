@@ -1,7 +1,7 @@
 ---
 date: '2026-05-08T09:36:20+08:00'
 lastmod: '2026-10-19T11:01:49+08:00'
-title: "Claude Code 早期访谈：薄 Harness 怎样接入开发流程"
+title: "Latent Space 访谈 Claude Code 团队：早期的薄 Harness 设计"
 summary: "Boris Cherny 与 Cat Wu 用上下文压缩、语义 lint 和非交互运行解释 Claude Code 的早期设计：让模型承担推理，让简单接口接入现有工具链，并为执行与验收保留明确边界。"
 description: "解读 Claude Code 团队早期访谈中的功能分层、CLI 组合、权限、上下文搜索和人工审查。"
 tags: ["agentic-coding", "harness-engineering", "latent-space"]

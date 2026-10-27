@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T23:12:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "CursorBench 怎样用真实开发会话做评测"
+title: "CursorBench：用团队真实会话评测模型"
 summary: "CursorBench 从团队实际会话中提取请求与提交结果，并用线上实验检查离线分数是否对应更好的体验。本文讨论任务来源、开放式评分和受控实验各自能提供什么证据。"
 description: "解读 CursorBench 的会话采样、正确性评估与线上线下校验方法。"
 tags: ["evals", "agentic-coding", "cursor"]

@@ -84,7 +84,7 @@ learning_status: done
 
 当 Agent 能更快地产生代码时，“能否生成实现”与“生成的结构是否容易验证和继续修改”之间的差别会更明显。深模块能缩小一次任务需要读取的接口面，信息隐藏能减少必须同时放进上下文的设计细节，清楚的接口注释则为人和 Agent 提供可检查的行为契约。相反，信息泄漏和隐含依赖会让局部补丁看似正确，却把验证压力推到整个仓库。
 
-因此，AI 提高产出速度以后，本书的尺度仍然有用：不要只计算写出多少代码，还要计算理解、审查和安全修改这些代码需要多少工作。站内的[五个 Agent Skills：从需求澄清到可测试的实现]({{< relref "/posts/five-agent-skills-i-use-every-day.md" >}})也讨论了 deep module 如何降低理解成本；[Agentic Coding 的边界]({{< relref "/posts/agentic-coding-boundary.md" >}})则从验收与审查带宽解释了为什么生成完成不等于交付完成。
+因此，AI 提高产出速度以后，本书的尺度仍然有用：不要只计算写出多少代码，还要计算理解、审查和安全修改这些代码需要多少工作。站内的[Matt Pocock 的五个日常 Skills：从需求追问到架构改进]({{< relref "/posts/five-agent-skills-i-use-every-day.md" >}})也讨论了 deep module 如何降低理解成本；[Agentic Coding 的边界]({{< relref "/posts/agentic-coding-boundary.md" >}})则从验收与审查带宽解释了为什么生成完成不等于交付完成。
 
 ## 延伸阅读
 

@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "AI 生命科学的两层循环：分子设计如何连接实验验证"
+title: "MS&E 435 Week 9：AI 生命科学中的分子设计与实验验证"
 summary: "Chai 改进分子候选，通用 Agent 组织工具、实验与反馈。设计、实验和临床分别回答不同问题；靶点与模态探索、临床运营中的协作也不能画成一条固定流水线。"
 description: "解读 Stanford MS&E 435 Week 9：分子 CAD、Claude 研发外循环、药物发现全链条、zero-shot 设计、实验杰文斯悖论与工具经济"
 tags: ["model-engineering", "行业动向"]

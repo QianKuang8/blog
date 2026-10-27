@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: '2026-10-19T19:59:42+08:00'
-title: "读懂 LLM 架构差异：缓存、专家与长上下文的取舍"
+title: "Sebastian Raschka 的 LLM 架构对比：各项设计优化哪种资源"
 summary: "GQA、MLA、MoE 和混合注意力优化的是不同资源。本文从 KV 缓存、激活计算和训练稳定性解释这些设计，并说明为什么结构图不能直接推出模型质量与服务速度。"
 description: "基于 Sebastian Raschka 的架构比较，解释注意力、MoE、归一化与多 token 预测的机制边界。"
 tags: ["model-engineering", "行业动向"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-05-07T21:12:00+08:00'
 lastmod: '2026-10-19T11:08:10+08:00'
-title: "Deep Agents 提分：从失败轨迹调整 Harness"
+title: "LangChain Deep Agents 提分：只调 Harness，从 52.8 到 66.5"
 summary: "固定 gpt-5.2-codex 后，LangChain 通过退出前验证、环境注入和推理预算调整，将 Terminal Bench 2.0 得分从 52.8 提升到 66.5。本文沿失败模式解释这些干预，并保留评测与归因边界。"
 description: "解读 Deep Agents 的 trace 分析、中间件干预、验证循环与分阶段推理预算。"
 tags: ["harness-engineering", "agent", "langchain"]

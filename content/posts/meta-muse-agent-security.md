@@ -1,7 +1,7 @@
 ---
 date: '2026-09-28T15:38:42+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: 'Meta Muse 的 Agent 安全架构：隔离执行、独立授权与凭证保护'
+title: 'Meta Muse 的 Agent 安全设计：隔离执行，凭证不进模型'
 summary: "Muse 把执行环境、凭证和授权放进彼此隔离的组件。沿着一次工具调用，理解 Sentinel、凭证替身、污染出网与浏览器限制如何共同约束 Agent，以及这些机制仍然依赖哪些前提。"
 description: "解读 Meta Muse 的 runtime cell、Sentinel 授权、凭证替身、tainted egress 和浏览器防护，分析个人 Agent 的权限划分与工程取舍。"
 tags: ["agent", "harness-engineering"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-04-05T14:30:00+08:00'
 lastmod: '2026-10-19T11:08:10+08:00'
-title: "Aider Unified Diff：编辑格式与补丁容错如何减少代码省略"
+title: "Aider：用 Unified Diff 减少 GPT-4 Turbo 的代码省略"
 summary: "Aider 在 89 个 Python 重构任务上比较编辑格式，并通过简化 diff、扩大语义块和容错应用减少失败。本文解释具体机制，也保留评测未验证完整行为等价性的限制。"
 description: "解读 Aider 2023 年的 Unified Diff 实验、补丁应用策略及基准边界。"
 tags: ["code-editing", "apply"]

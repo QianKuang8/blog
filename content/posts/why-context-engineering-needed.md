@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
 lastmod: '2026-10-19T10:55:03+08:00'
-title: "上下文工程的四个动作：写入、选择、压缩与隔离"
+title: "周星星谈上下文工程：四个动作的收益与损失"
 summary: "周星星用 Write、Select、Compress、Isolate 梳理 Agent 的信息流。本文按任务状态的生命周期解释四种动作，讨论检索、摘要和子 Agent 交接各自的收益与损失。"
 description: "解读上下文工程四分法，分析持久状态、相关信息选择、压缩保真及多 Agent 隔离的边界。"
 tags: ["context-engineering", "agent", "prompt-engineering"]

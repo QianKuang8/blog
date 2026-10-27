@@ -1,7 +1,7 @@
 ---
 date: '2026-10-21T16:48:44+08:00'
 lastmod: '2026-10-21T16:53:48+08:00'
-title: 'Agent 评估如何可信：结果验证、评分器与重复试验'
+title: 'Anthropic 的 Agent 评估指南：评分器组合与重复试验'
 summary: "Agent 的成功率取决于任务、执行环境和评分方式。解读 Anthropic 的评估方法，说明怎样验证最终结果、组合评分器，并用重复试验区分解决能力与运行稳定性。"
 description: "从结果验证、评分器校准、pass@k 与 pass^k 到能力和回归套件，梳理可信 Agent 评估的工程条件。"
 tags: ["evals", "agent", "anthropic"]

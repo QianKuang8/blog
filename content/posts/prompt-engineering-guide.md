@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: "2026-09-21T10:20:14+08:00"
-title: "Prompt Engineering Guide：从具体问题查找提示工程资料"
+title: "DAIR.AI 的 Prompt Engineering Guide：带着具体问题查资料"
 summary: "这份指南将提示开发、模型能力和工具接入组织为学习入口。本文说明如何围绕一个失败案例使用它，以及首页导言能够支持的阅读范围。"
 description: "Prompt Engineering Guide 的资源定位、问题导向阅读方式与本次归档范围。"
 tags: ["prompt-engineering"]

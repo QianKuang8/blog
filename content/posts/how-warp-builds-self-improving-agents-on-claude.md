@@ -1,7 +1,7 @@
 ---
 date: '2026-09-17T15:22:26+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: 'Warp 怎样根据团队反馈改进 Agent 的 Skill'
+title: 'Warp 的自改进 Agent：把 Issue 与 PR 反馈写回 Skill'
 summary: "Warp 用执行任务与改进 Skill 两条流程，把 Issue、PR 中的反馈转成可审查的文件修改。通过一次漏打标签的案例，理解经验如何进入后续任务，以及为什么还需要人工审核和效果验证。"
 description: "解读 Warp 基于 Claude 的 Agent 自我改进机制：领域 Skill、定时反馈归纳、最小修改与人工审核，以及持续改进的证据边界。"
 tags: ["skills", "harness-engineering", "anthropic"]

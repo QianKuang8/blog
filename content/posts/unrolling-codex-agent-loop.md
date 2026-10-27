@@ -1,7 +1,7 @@
 ---
 date: '2026-04-06T10:30:00+08:00'
 lastmod: '2026-10-16T18:09:33+08:00'
-title: "Codex Agent Loop：工具结果如何进入下一轮推理"
+title: "拆解 Codex Agent Loop：从工具结果到下一轮推理"
 summary: "Codex 的 Agent Loop 把用户输入、模型输出和工具结果组织成可继续推理的状态。本文沿一轮调用说明结构化历史、前缀缓存和上下文压缩如何共同支撑长任务。"
 description: "解读 Codex Agent Loop 的输入构造、工具调用关联、无状态请求、提示缓存和上下文压缩。"
 tags: ["agent", "agentic-coding", "openai"]

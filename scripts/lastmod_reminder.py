@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Remind, without blocking, when a staged article or topic changes its text but keeps lastmod.
 
-AGENTS.md: editing the title, summary, description or body updates lastmod;
-tag, category, learning-status and formatting changes keep it. Whitespace-only
-body changes therefore do not trigger a reminder. Run from the pre-commit hook
-in scripts/hooks/ (enable with `git config core.hooksPath scripts/hooks`).
+AGENTS.md: editing the summary, description or body updates lastmod; title,
+tag, category, learning-status and formatting changes keep it. Title-only and
+whitespace-only body changes therefore do not trigger a reminder. Run from the
+pre-commit hook in scripts/hooks/ (enable with `git config core.hooksPath scripts/hooks`).
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import yaml
 from check_content import FRONTMATTER
 
 
-TEXT_FIELDS = ("title", "summary", "description")
+TEXT_FIELDS = ("summary", "description")
 
 
 def git(repo: Path, *args: str) -> str:
@@ -62,7 +62,7 @@ def main() -> int:
         print("lastmod reminder (not blocking):", file=sys.stderr)
         for line in found:
             print(f"  {line}", file=sys.stderr)
-        print("  Update lastmod for text changes; keep it for tag, category, status or formatting-only edits.", file=sys.stderr)
+        print("  Update lastmod for text changes; keep it for title, tag, category, status or formatting-only edits.", file=sys.stderr)
     return 0
 
 

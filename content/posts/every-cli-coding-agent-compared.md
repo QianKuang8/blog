@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T23:16:00+08:00'
 lastmod: "2026-10-26T16:46:44+08:00"
-title: "CLI Coding Agent 选型：从功能表读出运行边界"
+title: "CLI Coding Agent 盘点：36 个工具与四个比较维度"
 summary: "一份包含 36 个终端 Agent 的历史盘点，提供了比较工具的几个维度：模型接入、上下文、执行隔离和并发组织。本文提炼这些维度，并说明功能清单不能代替真实任务验证。"
 description: "基于 2026 年 4 月归档的 CLI Agent 盘点，讨论选型维度及数据时效边界。"
 tags: ["agentic-coding", "行业动向"]

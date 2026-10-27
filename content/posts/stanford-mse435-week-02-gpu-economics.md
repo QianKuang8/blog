@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "GPU 经济：把推理硬件、任务成本与用户价值放在一起看"
+title: "MS&E 435 Week 2：GPU 经济，从 token 生产到用户付费"
 summary: "传统软件复制接近免费，AI 每次推理都要消耗新的计算。这场 Stanford 课堂把 GPU 经济拆成三层：token 怎样被生产、一次任务的智能为何值得付费、基础设施扩张后的收益与转型成本如何分配。"
 description: "解读 Stanford MS&E 435 Week 2：token 经济、Groq 推理芯片、异构推理工厂、代理单位经济与 100× 共设计"
 tags: ["model-engineering", "行业动向"]

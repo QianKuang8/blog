@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Routa 的 Harness 可视化怎样展示规则在交付流程中的位置"
+title: "Routa 的 Harness 可视化：分清规则已配置、已接入与已执行"
 summary: "Routa 将规范、评审触发器、CI 和运行反馈放入同一生命周期视图，帮助人理解规则在哪里发挥作用。读懂这种界面，还需要区分配置存在、流程接入和实际执行。"
 description: "解读 Routa Harness 可视化中的多层反馈、治理对象与规则生效证据。"
 tags: ["harness-engineering", "agentic-coding"]

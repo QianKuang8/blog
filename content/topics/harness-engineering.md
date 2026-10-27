@@ -17,12 +17,12 @@ isCJKLanguage: true
 | 文章 | 原文 | 回答的问题 |
 | --- | --- | --- |
 | [Building Effective Agents]({{< relref "/posts/building-effective-agents.md" >}}) | Anthropic，2024-12 | 工作流和 Agent 怎样区分，什么时候值得增加调用次数和自主性，工具接口怎样设计 |
-| [长任务 Harness]({{< relref "/posts/harness-design-long-running-apps.md" >}}) | Anthropic，2026-03 | 一组实验：用独立的评价器检查生成结果、驱动返工，以及模型升级后怎样逐个移除组件 |
-| [让 Agent 读取约束并验证运行结果]({{< relref "/posts/harness-engineering-leveraging-codex-in-an-agent-first-world.md" >}}) | Ryan Lopopolo（OpenAI），2026-02 | 一个从空仓库开始、坚持由 Codex 写代码的五个月项目：怎样让 Agent 看到运行行为、找到长期约束 |
+| [先加评价器，模型升级后再拆编排]({{< relref "/posts/harness-design-long-running-apps.md" >}}) | Anthropic，2026-03 | 一组实验：用独立的评价器检查生成结果、驱动返工，以及模型升级后怎样逐个移除组件 |
+| [不手写代码，改为设计 Agent 的工作环境]({{< relref "/posts/harness-engineering-leveraging-codex-in-an-agent-first-world.md" >}}) | Ryan Lopopolo（OpenAI），2026-02 | 一个从空仓库开始、坚持由 Codex 写代码的五个月项目：怎样让 Agent 看到运行行为、找到长期约束 |
 | [Harness 与 SDD]({{< relref "/posts/harness-engineering-vs-sdd.md" >}}) | 何艺萍，2026-03 | 执行环境和规范各管什么：工具再齐全，也补不上缺失的业务语义 |
-| [Agent 自进化的三类路径]({{< relref "/posts/a-taxonomy-of-self-evolving-agents.md" >}}) | Shilong Liu，2026-07 | 按反馈改写的对象，区分产物搜索、Harness 改进和模型学习 |
-| [Agent 如何通过 Harness Engineering 改进自身]({{< relref "/posts/harness-engineering-for-self-improvement.md" >}}) | Lilian Weng，2026-07 | 从上下文管理到 Harness 代码，看失败证据、候选提案和回归验证怎样支持系统改进 |
-| [Agent 自进化与 RSI]({{< relref "/posts/self-evolving-agents-rsi.md" >}}) | 周星星，2026-07 | 沿相近的分类看具体研究，重点是预算对等、留出任务和递归改进的证据 |
+| [反馈写进产物、Harness 还是模型]({{< relref "/posts/a-taxonomy-of-self-evolving-agents.md" >}}) | Shilong Liu，2026-07 | 按反馈改写的对象，区分产物搜索、Harness 改进和模型学习 |
+| [Agent 能改进自己的 Harness 吗]({{< relref "/posts/harness-engineering-for-self-improvement.md" >}}) | Lilian Weng，2026-07 | 从上下文管理到 Harness 代码，看失败证据、候选提案和回归验证怎样支持系统改进 |
+| [区分递归改进和局部提分]({{< relref "/posts/self-evolving-agents-rsi.md" >}}) | 周星星，2026-07 | 沿相近的分类看具体研究，重点是预算对等、留出任务和递归改进的证据 |
 
 第一段先讲概念、再看案例，最后转到规范：Building Effective Agents 发表最早，给出基本概念；Anthropic 的长任务实验和 OpenAI 的 Codex 项目是两个具体案例，前者侧重评价器和返工，后者侧重让运行环境可读、可验证；何艺萍的文章放在最后，把注意力转到规范，说明缺少契约时，执行环境再完善，Agent 仍可能实现错。三篇自我改进文章放在路径末尾，先读分类，再看 Harness 修改怎样生成和验证，最后检查预算、迁移与递归证据。
 

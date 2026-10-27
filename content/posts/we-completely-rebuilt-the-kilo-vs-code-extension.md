@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T23:28:00+08:00'
 lastmod: '2026-10-19T19:55:22+08:00'
-title: "Kilo 扩展重构：共享执行核心与并行任务管理"
+title: "Kilo Code 重写 VS Code 扩展：与 CLI 共用执行核心"
 summary: "Kilo 将 VS Code 扩展迁到与 CLI 共用的 OpenCode server 核心。本文区分工具并发、子 Agent 委派和 worktree 会话，说明审查反馈如何回到执行过程，以及预发布阶段仍有哪些限制。"
 description: "解读 Kilo VS Code 扩展预发布重构中的共享核心、并发组织和行级审查。"
 tags: ["agentic-coding", "harness-engineering"]

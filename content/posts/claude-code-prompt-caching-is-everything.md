@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
 lastmod: "2026-10-16T18:09:33+08:00"
-title: "Claude Code 如何围绕稳定前缀设计缓存"
+title: "Claude Code 团队谈缓存：围绕稳定前缀组织提示"
 summary: "提示顺序、模式切换、工具加载与会话压缩都会改变缓存命中。本文沿 Claude Code 团队的经验，解释怎样保留可复用前缀，以及优化命中率时仍需检查哪些任务与权限边界。"
 description: "解读 Claude Code 的缓存前缀布局、动态状态消息、工具延迟加载和上下文分叉。"
 tags: ["agentic-coding", "context-engineering", "caching-and-cost"]

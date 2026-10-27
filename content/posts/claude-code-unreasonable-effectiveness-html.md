@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T15:30:00+08:00'
 lastmod: '2026-10-19T19:55:22+08:00'
-title: "用 HTML 承接 Agent 输出：阅读、交互与结果回传"
+title: "Claude Code 团队谈 HTML 输出：用可交互页面审阅复杂方案"
 summary: "从 Claude Code 团队成员的 HTML 实践出发，讨论复杂方案怎样通过布局与交互帮助判断，操作结果怎样导回 Agent，以及生成与版本维护的成本。"
 description: "从 Claude Code 团队的 HTML 实践看 coding agent 输出格式的演进方向"
 tags: ["agentic-coding", "context-engineering", "anthropic"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T17:10:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: '从电子到 Token：吉瓦级 AI 工厂的物理约束与经济回报'
+title: 'MS&E 435 Week 3：吉瓦级 AI 工厂的物理约束与经济回报'
 summary: "AI 产品看起来是聊天框或 API，但每次训练与推理都要经过芯片、电力、冷却、建筑和网络。这场 Stanford 课堂用 Crusoe 的 Abilene 项目，把数据中心从抽象 CapEx 数字拆成能源选址、设备堆叠、互联集群和 token 服务的完整物理链。"
 description: "解读 Stanford MS&E 435 Week 3：吉瓦级 AI 工厂的能源选址、CapEx 堆叠、算力经济寿命与从基础设施出租到 token 服务的商业模式演进"
 tags: ["model-engineering", "行业动向"]

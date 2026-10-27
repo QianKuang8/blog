@@ -1,7 +1,7 @@
 ---
 date: '2026-05-07T21:10:00+08:00'
 lastmod: '2026-10-20T10:22:37+08:00'
-title: "SWE-bench Verified：测试错配与数据污染如何影响分数"
+title: "OpenAI 审查 SWE-bench Verified：测试错配与数据污染"
 summary: "OpenAI 对 SWE-bench Verified 的审查发现，部分隐藏测试会拒绝合理修复，部分模型又能复现公开题解。两种误差方向相反，却会共同削弱高分段的能力区分。"
 description: "解读 SWE-bench Verified 审计的样本范围、过窄与过宽测试、污染探测及评测替代方案的边界。"
 tags: ["evals", "agentic-coding", "openai"]

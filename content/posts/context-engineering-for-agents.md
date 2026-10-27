@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T22:11:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Context Engineering：管理 Agent 每一步能看到的信息"
+title: "Lance Martin：Agent 上下文工程的四类方法"
 summary: "Write、Select、Compress、Isolate 分别处理信息保存、取回、缩减与隔离。本文沿着一条信息流依次介绍四类方法，说明长任务中哪些状态应进入上下文，以及压缩和委派会丢失什么。"
 description: "解读 Lance Martin 的上下文工程分类、检索和压缩机制及信息交接边界。"
 tags: ["agent", "context-engineering"]

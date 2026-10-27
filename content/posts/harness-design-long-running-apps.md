@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "长任务 Harness：用独立评价器驱动返工"
+title: "Anthropic 长任务实验：先加评价器，模型升级后再拆编排"
 summary: "Anthropic 用前端设计和全栈应用实验，展示独立 evaluator 如何提供可执行反馈，也展示模型升级后哪些编排可以移除。收益需要连同预算、任务范围和评价器盲点一起看。"
 description: "分析长时间应用开发中的 evaluator 校准、sprint contract、上下文交接与 Harness 简化实验。"
 tags: ["harness-engineering", "agentic-coding", "agent", "anthropic"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "企业专用化如何形成反馈闭环：Eval、上下文与运行框架"
+title: "MS&E 435 Week 6：企业 AI 先定义合格，再用反馈改进"
 summary: "企业先用 eval 明确合格标准，再把纠错与业务结果用于改进。Model、Context 与 Harness 在任务中交换信息，经验也可进入不同更新位置；关键在于反馈能否反映业务成败，以及每次更新能否验证与撤回。"
 description: "解读 Stanford MS&E 435 Week 6 讲座：通用模型与企业知识的结构性距离、RLVR、DoorDash 案例、持续学习与三层系统协同"
 tags: ["context-engineering", "行业动向"]

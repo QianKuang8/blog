@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
 lastmod: '2026-10-19T20:18:09+08:00'
-title: "企业 AI 怎样形成交付收益：Databricks 连接器的流程重构"
+title: "MS&E 435 Week 4：Databricks 重构连接器交付流程"
 summary: "连接器原型两天可写，生产交付原先仍需九个月。Ghodsi 的案例说明，缩短需求周期、并行准备环境与共享项目所有权，怎样让代码生成能力进入完整交付流程。"
 description: "解读 Stanford MS&E 435 Week 4：AGI 与企业价值差距、软件已死命题、生产率悖论、Amdahl 定律与价值栈"
 tags: ["agent", "行业动向"]

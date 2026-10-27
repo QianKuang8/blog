@@ -1,7 +1,7 @@
 ---
 date: '2026-10-16T17:44:55+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: 'Cursor 的 token 效率优化：精简上下文、稳定缓存与按需委派'
+title: 'Cursor 的 token 效率优化：组合改动让用户 token 成本降 7%'
 summary: "Cursor 从请求组装、缓存复用和子智能体委派入手，报告组合优化让用户 token 成本降低了 7%。本文解释这些改动如何减少长任务中的重复处理，以及几个降幅数字各自的统计口径。"
 description: "解读 Cursor 的系统提示精简、工具按需加载、缓存前缀布局、稀疏行号和子智能体调度取舍。"
 tags: ["context-engineering", "harness-engineering", "caching-and-cost", "cursor"]

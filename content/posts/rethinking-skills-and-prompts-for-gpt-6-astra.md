@@ -1,7 +1,7 @@
 ---
 date: '2026-09-18T09:36:25+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: 'GPT-6 Astra 的指令整理：Skill 触发、上下文与完成边界'
+title: 'GPT-6 Astra 的 Skill 与提示整理：模型升级后减少多余指导'
 summary: "模型升级后，积累的 Skill 和仓库指令也需要重新检查。本文从触发条件、按需读取和完成标准出发，讨论怎样减少无关指导，并保留项目确实需要的约束。"
 description: "解读 OpenAI 关于 GPT-6 Astra 的 Skill、AGENTS.md 与任务提示词建议，分析指令选择、加载和验收之间的关系。"
 tags: ["skills", "prompt-engineering", "context-engineering", "openai"]

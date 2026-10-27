@@ -1,7 +1,7 @@
 ---
 date: '2026-05-08T09:36:20+08:00'
 lastmod: '2026-10-20T10:11:31+08:00'
-title: "Continuous AI：让仓库事件触发协作任务"
+title: "GitHub Next 的 Continuous AI：让仓库事件触发 AI 协作"
 summary: "GitHub Next 用 Continuous AI 描述持续参与文档、Issue 和 CI 等协作流程的 AI 自动化。本文从触发、上下文、产物与团队成本出发，解释这类工作流的组成和采用条件。"
 description: "解读 Continuous AI 的事件驱动协作、Actions 与模型调用分工，以及人工监督边界。"
 tags: ["agent", "行业动向", "github"]

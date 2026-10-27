@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T17:30:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: 'AI 基础设施的竞争单位：从名义算力到可交付智能的端到端系统'
+title: 'MS&E 435 Week 5：从名义算力到可用服务'
 summary: "Sachin Katti 从算力交付时间、模型生命周期中的推理负载和 Agent 计算图出发，说明怎样把名义容量转成可用服务，并区分规划目标、即席估算与远期设想。"
 description: "解读 Stanford MS&E 435 Week 5：算力交付、供应链同步、智能体计算图、TTFT 与全栈瓶颈迁移、价值迁移"
 tags: ["model-engineering", "行业动向"]

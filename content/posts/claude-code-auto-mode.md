@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
 lastmod: '2026-10-19T11:01:49+08:00'
-title: "Claude Code Auto Mode：如何判断动作是否越过授权"
+title: "Claude Code Auto Mode：用两阶段分类器审批动作"
 summary: "Auto Mode 将工具结果检查与动作审批分开，并用两阶段分类器减少人工确认。本文解释过滤信息、权限分层和拒绝后恢复的取舍，结合原文评测看残余风险。"
 description: "解读 Claude Code Auto Mode 的动作分类、用户意图判断、多 Agent 交接与评测边界。"
 tags: ["agentic-coding", "harness-engineering", "agent", "anthropic"]

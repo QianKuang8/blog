@@ -1,7 +1,7 @@
 ---
 date: '2026-09-03T16:49:48+08:00'
 lastmod: '2026-09-21T10:32:28+08:00'
-title: '从一次演示到可复用 Skill：Codex Record & Replay 与 Claude Record a Skill'
+title: '录制演示生成 Skill：Codex 与 Claude 的两种做法'
 summary: "比较 Codex Record & Replay 与 Claude Record a Skill 如何把一次桌面演示变成可复用 Skill，以及两种证据形态、执行机制和安全边界的差异。"
 description: "从录制证据、Skill 生成、再次执行和安全边界四个方面，比较 Codex Record & Replay 与 Claude Record a Skill。"
 tags: ["skills", "agent"]
@@ -208,7 +208,7 @@ Codex Record & Replay 和 Claude Record a Skill 都先把一次桌面演示变�
 
 ## 相关阅读
 
-- [从电脑活动到下一步行动：Computer History]({{< relref "/posts/from-activity-to-action.md" >}})：比较另一种工作线索来源，了解持续活动记录如何帮助用户接续任务。
+- [Computer History：从电脑活动整理出下一步行动]({{< relref "/posts/from-activity-to-action.md" >}})：比较另一种工作线索来源，了解持续活动记录如何帮助用户接续任务。
 - [拆解 skill-creator：分别验证触发、产物与改进效果]({{< relref "/posts/anthropic-skill-creator-breakdown.md" >}})：继续看 Skill 写好之后，怎样检验触发条件与执行效果。
 - [Agent 记忆与 Skill 阅读路径]({{< relref "/topics/agent-memory-and-skills.md" >}})：把桌面演示放回工作线索、文件上下文与方法复用的阅读路径。
 

@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
 lastmod: '2026-10-20T10:22:37+08:00'
-title: "五个 Agent Skills：从需求澄清到可测试的实现"
+title: "Matt Pocock 的五个日常 Skills：从需求追问到架构改进"
 summary: "Matt Pocock 用五个 Skills 串起追问、PRD、任务拆分、TDD 和架构改进。可复用的重点是每个阶段的输入、产物与交接条件，而不是命令名称或提示长度。"
 description: "解读五个 Agent Skills 的职责、纵向任务切片、测试循环和模块边界，区分实践经验与效果证据。"
 tags: ["skills", "agentic-coding"]

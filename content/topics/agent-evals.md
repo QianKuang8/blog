@@ -16,9 +16,9 @@ isCJKLanguage: true
 
 | 文章 | 原文 | 评估什么 |
 | --- | --- | --- |
-| [Agent 评估如何可信]({{< relref "/posts/demystifying-evals-for-ai-agents.md" >}}) | Mikaela Grace 等（Anthropic），2026-01 | 会调用工具、改变环境的 Agent：检查最终状态还是执行记录，评分器怎样选，重复运行的结果怎样解读 |
-| [产品评估如何支持迭代]({{< relref "/posts/product-evals.md" >}}) | Eugene Yan，2025-11 | LLM 产品的输出质量：人工标注样本，校准 LLM 评估器，再让每次配置变更都经过评估 |
-| [用行为评估守住关键动作]({{< relref "/posts/harness-engineering-behavioral-evaluations.md" >}}) | Taylor Mullen、Christian Gunderman（Google），2026-09 | Harness 改动以后，Agent 是否还执行关键的中间动作，例如完成前运行验证 |
+| [Anthropic 的 Agent 评估指南]({{< relref "/posts/demystifying-evals-for-ai-agents.md" >}}) | Mikaela Grace 等（Anthropic），2026-01 | 会调用工具、改变环境的 Agent：检查最终状态还是执行记录，评分器怎样选，重复运行的结果怎样解读 |
+| [Eugene Yan 的产品评估三步法]({{< relref "/posts/product-evals.md" >}}) | Eugene Yan，2025-11 | LLM 产品的输出质量：人工标注样本，校准 LLM 评估器，再让每次配置变更都经过评估 |
+| [用行为评估检查关键动作]({{< relref "/posts/harness-engineering-behavioral-evaluations.md" >}}) | Taylor Mullen、Christian Gunderman（Google），2026-09 | Harness 改动以后，Agent 是否还执行关键的中间动作，例如完成前运行验证 |
 | [拆解 skill-creator]({{< relref "/posts/anthropic-skill-creator-breakdown.md" >}}) | riba2534，2026-02 | 一份 Skill：该触发时是否触发、不该触发时是否保持不动，用上以后产物是否好于基线 |
 
 Anthropic 一篇的概念最完整，放在最前面；Eugene Yan 一篇把评估器校准展开成具体步骤：先人工标注，再让 LLM 评估器与标注对齐，最后用留出数据检查。后两篇把这些方法用在具体对象上，放在最后一段。

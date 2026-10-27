@@ -1,7 +1,7 @@
 ---
 date: '2026-05-08T09:36:20+08:00'
 lastmod: "2026-09-21T10:19:00+08:00"
-title: "Cursor 团队访谈：预测编辑、应用修改与验证结果"
+title: "Lex Fridman 访谈 Cursor 团队：Tab、Apply 与后台验证"
 summary: "Cursor 团队将 Tab、Apply 和审查界面作为相互衔接的工程问题。本文解释低延迟预测、专用应用模型和后台反馈的机制，并区分访谈中的已实现能力与研究设想。"
 description: "基于 Lex Fridman #447 访谈，梳理 Cursor 的编辑预测、修改应用、上下文和后台验证设计。"
 tags: ["agentic-coding", "code-editing", "next-edit"]

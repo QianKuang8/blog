@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T16:40:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "沟通战略怎样落地：理解受众、直接触达与可信叙事"
+title: "Lulu Cheng Meservey 谈沟通战略：从受众倒推渠道"
 summary: "Lulu Cheng Meservey 用跨文化经历和公司案例解释，怎样从目标受众倒推渠道，以可核查事实和人的经历支撑表达，并区分传播方法的适用情境。"
 description: "解读 Lulu Cheng Meservey 的沟通战略：Go Direct、宣言作为承诺装置、Jetsons 原则、真实性信号与长期复利"
 tags: []

@@ -1,7 +1,7 @@
 ---
 date: '2026-04-05T15:00:00+08:00'
 lastmod: '2026-10-19T11:01:49+08:00'
-title: "Assisted Generation：小模型草拟，大模型批量验证"
+title: "Hugging Face Assisted Generation：小模型草拟，大模型批量验证"
 summary: "Hugging Face 的 Assisted Generation 用小模型提出连续候选，再让目标模型一次验证多步，减少大模型的串行调用。收益取决于候选命中率、辅助开销及硬件条件。"
 description: "解释 Assisted Generation 的因果验证、候选接受规则、动态长度和延迟收益边界。"
 tags: ["model-engineering"]

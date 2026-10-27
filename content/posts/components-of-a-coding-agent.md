@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Coding Agent 的六个组件怎样组成执行循环"
+title: "Sebastian Raschka：Coding Agent 的六个组件"
 summary: "仓库上下文、稳定提示、工具校验、输出压缩、会话记忆与子任务委派共同决定 Agent 怎样继续工作。本文沿一次执行循环解释这些组件的输入输出，以及示例 Harness 能证明的范围。"
 description: "解读 Components of A Coding Agent 的上下文、工具、缓存、会话状态和限定范围的委派。"
 tags: ["agentic-coding", "agent", "context-engineering"]

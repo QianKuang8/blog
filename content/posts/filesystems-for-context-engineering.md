@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T22:12:00+08:00'
 lastmod: '2026-10-19T11:01:49+08:00'
-title: "文件系统与 Agent 上下文：保存、检索和重新读取"
+title: "LangChain：用文件系统做 Agent 的上下文工程"
 summary: "LangChain 用可用信息、必要信息和实际检索结果的关系解释上下文失效。文件系统让 Agent 卸载长输出、读取局部内容并保存任务状态，但不会自动解决信息选择与记忆质量。"
 description: "解读文件系统如何参与 Agent 的上下文检索、工作记忆和知识更新。"
 tags: ["agent", "context-engineering", "langchain"]

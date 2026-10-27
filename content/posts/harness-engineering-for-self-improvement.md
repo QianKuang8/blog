@@ -1,7 +1,7 @@
 ---
 date: '2026-10-27T16:03:41+08:00'
 lastmod: '2026-10-27T16:05:26+08:00'
-title: "Agent 如何通过 Harness Engineering 改进自身"
+title: "Lilian Weng 综述：Agent 能改进自己的 Harness 吗"
 summary: "从上下文内容、管理机制到 Harness 代码，梳理 Agent 自我改进的优化对象。结合 Self-Harness 和 AHE，理解失败证据怎样驱动修改，以及评估器、权限和模型能力为何决定改进能否成立。"
 description: "解读 Lilian Weng 的 Harness 自我改进综述，重点讨论上下文机制演化、失败归因、回归验证与执行约束。"
 tags: ["harness-engineering", "context-engineering", "agent"]

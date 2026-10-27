@@ -1,7 +1,7 @@
 ---
 date: '2026-08-31T15:45:00+08:00'
 lastmod: '2026-10-19T19:55:22+08:00'
-title: "Claude Code 会话管理：继续、回退、压缩与委派怎样选择"
+title: "Claude Code 团队谈会话管理：继续、回退、压缩与委派"
 summary: "围绕任务连续性比较五种上下文操作，解释压缩的信息取舍、回退与外部状态的区别，以及子代理报告需要保留的验证依据。"
 description: "从 Claude Code 的上下文管理实践看 1M context window 下的 session 策略和 compaction 陷阱"
 tags: ["agentic-coding", "context-engineering", "anthropic"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-04-05T15:30:00+08:00'
 lastmod: '2026-10-20T10:22:37+08:00'
-title: "Code Surgery：模型生成的修改怎样落到文件里"
+title: "Code Surgery：AI 编辑工具的输入格式与失败反馈"
 summary: "一段正确的修改建议仍可能在定位、缩进或重试时失败。本文比较上下文补丁、搜索替换与专用 Apply 模型，说明编辑工具需要怎样的输入契约和失败反馈。"
 description: "基于 Code Surgery 比较 Codex、Aider、RooCode、OpenHands 与 Cursor 的文件编辑机制。"
 tags: ["code-editing", "apply"]

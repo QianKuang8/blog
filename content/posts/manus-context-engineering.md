@@ -1,7 +1,7 @@
 ---
 date: '2026-04-06T10:20:00+08:00'
 lastmod: '2026-10-19T10:27:51+08:00'
-title: "Manus 上下文工程：缓存、外部记忆与长任务反馈"
+title: "Manus：构建 Agent 时的上下文工程经验"
 summary: "Manus 将多轮 Agent 的延迟、成本和行为稳定性落实到上下文组织：稳定前缀、约束动作空间、保存可恢复信息，并把目标与失败证据带回下一轮决策。"
 description: "解读 Manus 2025 年的上下文工程实践及其缓存、记忆和注意力管理取舍。"
 tags: ["agent", "context-engineering", "caching-and-cost"]

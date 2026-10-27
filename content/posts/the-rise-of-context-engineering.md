@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T22:10:00+08:00'
 lastmod: '2026-09-21T10:26:22+08:00'
-title: "Context Engineering：检查模型每一步实际看到了什么"
+title: "LangChain：上下文工程的定义与失败排查"
 summary: "LangChain 将上下文工程定义为动态组织信息、工具和表达格式。这个定义的实用之处，是让 Agent 的失败可以沿输入构造过程排查，而非只凭最终回答判断模型能力。"
 description: "解读上下文工程的动态输入、工具接口、数据格式与可观测性，说明其与提示工程的关系。"
 tags: ["context-engineering", "langchain"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Agentic AI Landscape：用三层地图定位项目"
+title: "蚂蚁开源 Agentic AI Landscape：用三层地图定位项目"
 summary: "这份生态索引以 Agent Infra、Model Infra 和 Large Models 组织代表项目。本文说明三层各回答什么问题，以及如何从图谱继续找到项目资料，而不把入选位置当成质量排名。"
 description: "基于 2026 年 6 月归档的 Agentic AI Landscape README，介绍生态地图的范围与使用方式。"
 tags: ["行业动向", "agent"]

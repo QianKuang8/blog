@@ -1,7 +1,7 @@
 ---
 date: '2026-04-05T18:00:00+08:00'
 lastmod: "2026-10-16T18:09:33+08:00"
-title: "Building Effective Agents：按任务的不确定性选择编排方式"
+title: "Anthropic 的 Building Effective Agents：何时用工作流，何时用 Agent"
 summary: "Anthropic 将固定工作流与模型自主控制的 Agent 分开讨论。本文以任务分解、反馈条件和工具接口为线索，说明何时值得增加调用与自主性。"
 description: "解读 Anthropic 的工作流模式、Agent 决策循环及工具接口设计原则。"
 tags: ["agent", "anthropic"]

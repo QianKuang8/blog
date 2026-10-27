@@ -1,7 +1,7 @@
 ---
 date: '2026-09-08T15:33:34+08:00'
 lastmod: '2026-10-26T16:30:41+08:00'
-title: 'Claude Code 团队如何工作：目标委派、动态工作流与验证反馈'
+title: 'Claude Code 团队怎样用 Claude Code：交代目标，逐项验证'
 summary: "Claude Code 团队把产品目标和背景交给代理，让它在开发环境中执行，再用逐项复核、测试、人工试用与真实反馈检查结果。本文解释这些步骤的输入、输出，以及各步由谁负责。"
 description: "解读 Claude Code 团队如何使用 Claude Tag、远端执行、动态工作流与反馈闭环完成日常开发"
 tags: ["agentic-coding", "anthropic"]

@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Harness 与 SDD：让任务约束能被找到、执行和验证"
+title: "何艺萍谈 Harness 与 SDD：Harness 给反馈，Spec 给验收依据"
 summary: "Harness 提供工具与反馈，Spec 提供意图、契约和验收依据。本文从跨服务错误码案例解释两者如何配合，并讨论导航、文档漂移和验证能力之间的关系。"
 description: "解读 Harness Engineering 与规范驱动开发的分工，以及 Spec 的组织和维护要求。"
 tags: ["harness-engineering", "agentic-coding", "context-engineering"]

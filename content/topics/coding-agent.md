@@ -16,11 +16,11 @@ Coding Agent 接到一个目标以后，会自己读代码、改多个文件、�
 
 | 文章 | 原文 | 回答的问题 |
 | --- | --- | --- |
-| [Agentic Coding 怎样执行修改循环]({{< relref "/posts/introduction-to-agentic-coding.md" >}}) | Anthropic，2025-10 | 从使用者的角度看，一个高层目标怎样变成跨文件修改，开发者还要提供哪些上下文和验收标准 |
+| [Anthropic 介绍 Agentic Coding]({{< relref "/posts/introduction-to-agentic-coding.md" >}}) | Anthropic，2025-10 | 从使用者的角度看，一个高层目标怎样变成跨文件修改，开发者还要提供哪些上下文和验收标准 |
 | [Coding Agent 的六个组件]({{< relref "/posts/components-of-a-coding-agent.md" >}}) | Sebastian Raschka，2026-04 | 从实现者的角度，用一个简化的 Python Agent 拆出六类组件，说明各自的输入和输出 |
 | [Codex Agent Loop]({{< relref "/posts/unrolling-codex-agent-loop.md" >}}) | Michael Bolin（OpenAI），2026-01 | 一个生产系统的请求细节：工具结果怎样对应到调用，历史怎样保持缓存前缀，压缩怎样重建输入 |
-| [Claude Code 早期访谈]({{< relref "/posts/claude-code-anthropic-agent-terminal.md" >}}) | Latent Space，2025-05 | 功能放在模型、运行框架还是外部工作流里，终端为什么方便接入脚本和 CI |
-| [Claude Code 团队如何工作]({{< relref "/posts/how-claude-code-team-uses-claude-code.md" >}}) | Claude 官方频道，2026-09 | 团队成员把目标交给 Agent 以后，注意力怎样转向验证、审查和真实反馈 |
+| [Latent Space 访谈 Claude Code 团队]({{< relref "/posts/claude-code-anthropic-agent-terminal.md" >}}) | Latent Space，2025-05 | 功能放在模型、运行框架还是外部工作流里，终端为什么方便接入脚本和 CI |
+| [Claude Code 团队怎样用 Claude Code]({{< relref "/posts/how-claude-code-team-uses-claude-code.md" >}}) | Claude 官方频道，2026-09 | 团队成员把目标交给 Agent 以后，注意力怎样转向验证、审查和真实反馈 |
 
 前三篇按抽象程度排列：Anthropic 的入门文章先给出“目标、上下文、修改、验证”的整体印象，六个组件一篇把这个循环拆开，Codex 一篇再落到一个生产系统的请求格式。读完这三篇再看八个层级和 CLI 选型，功能表里的条目就能对应到循环中的具体环节；层级表的后几级则延伸到跨会话的经验沉淀和多任务协调。两篇 Claude Code 访谈放在第二段开头，连着读，可以看到同一个团队怎样从逐次确认工具调用和权限，转向委派整个目标，验证、审查和真实反馈也随之承担更多工作。
 

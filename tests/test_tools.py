@@ -133,6 +133,7 @@ class LastmodReminderTests(unittest.TestCase):
     def test_metadata_formatting_and_dated_edits_pass_quietly(self):
         for metadata, body in (
             ({**self.metadata, "tags": ["agent", "evals"]}, "First paragraph.\n"),
+            ({**self.metadata, "title": "Renamed"}, "First paragraph.\n"),
             (self.metadata, "First   paragraph.\n\n"),
             ({**self.metadata, "lastmod": "2026-02-01T12:00:00+08:00"}, "Rewritten.\n"),
         ):
