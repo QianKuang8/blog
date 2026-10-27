@@ -13,6 +13,9 @@
 在仓库根目录执行：
 
 ```bash
+# 每个克隆首次使用时：固定本仓库的提交身份（云环境启动脚本也应执行）
+sh scripts/setup_git_identity.sh
+
 # 首次：校验依赖（Python 3.10+）与 PDF 子模块（正式构建需要完整历史）
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
@@ -101,6 +104,7 @@ showToc: true
 - 站点以桌面阅读为准，日常只检查桌面显示；窄屏只有单栏回退样式，除非用户要求，不做手机适配或验证。
 
 **提交**
+- 本仓库的 author 和 committer 均使用 `QianKuang8 <71264725+QianKuang8@users.noreply.github.com>`。提交前执行 `sh scripts/setup_git_identity.sh` 并核对输出；不继承云环境的全局身份，不用 `--author` 或 `GIT_AUTHOR_*` / `GIT_COMMITTER_*` 覆盖。
 - 直接在 `main` 上修改、提交并 `git push origin main`；不新建分支，不开 PR，也不做 merge。`blog-sources` 与 `blog-pdfs` 两个仓库同样直接提交到各自的 `main`。
 - 只用单行 git commit 信息。
 - 更新博文后主动提交；不适合直接提交时，先询问用户。
