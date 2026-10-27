@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="680" viewBox="0 0 1040 680" role="img" aria-labelledby="title desc">
+  <title id="title">报价助手的单主循环设计示例</title>
+  <desc id="desc">主循环保留客户约束，按需读取报价 Skill，并行查询库存与运费；工具结果回到主循环形成报价草案，保存接口校验价格版本与必需字段。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#46745e"/></marker>
+    <style>
+      text{font-family:"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#202820}
+      .heading{font-size:28px;font-weight:700}.label{font-size:24px;font-weight:600}.body{font-size:22px}.note{font-size:20px;fill:#58655c}
+      .line{fill:none;stroke:#46745e;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1040" height="680" rx="20" fill="#fafbf8"/>
+  <text x="48" y="55" class="heading">报价助手：保留约束，按需读取，工具校验</text>
+  <text x="48" y="88" class="note">本文假设案例 · 查询独立时可并行 · 非实测性能图</text>
+  <rect x="48" y="126" width="310" height="115" rx="14" fill="#f0eee5" stroke="#d7d7cd"/>
+  <text x="70" y="163" class="label">客户约束</text>
+  <text x="70" y="195" class="body">分批交付 · 含运费</text>
+  <text x="70" y="224" class="body">替代型号需确认</text>
+  <rect x="48" y="312" width="310" height="130" rx="14" fill="#f0eee5" stroke="#d7d7cd"/>
+  <text x="70" y="350" class="label">报价 Skill · 按需读取</text>
+  <text x="70" y="384" class="body">报价步骤与补问条件</text>
+  <text x="70" y="418" class="body">指导如何形成草案</text>
+  <rect x="428" y="210" width="240" height="206" rx="16" fill="#e4f0e7" stroke="#67967a" stroke-width="2"/>
+  <text x="456" y="254" class="label">同一主循环</text>
+  <text x="456" y="300" class="body">保留客户约束</text>
+  <text x="456" y="337" class="body">读取查询结果</text>
+  <text x="456" y="374" class="body">调整报价草案</text>
+  <path d="M358 184H392V255H424" class="line"/>
+  <path d="M358 377H389V355H424" class="line"/>
+  <rect x="758" y="144" width="232" height="94" rx="14" fill="#f0eee5" stroke="#d7d7cd"/>
+  <text x="782" y="184" class="label">库存查询</text>
+  <text x="782" y="217" class="body">数量与可用型号</text>
+  <rect x="758" y="328" width="232" height="94" rx="14" fill="#f0eee5" stroke="#d7d7cd"/>
+  <text x="782" y="368" class="label">运费查询</text>
+  <text x="782" y="401" class="body">按交付方案计费</text>
+  <path d="M668 246H708V175H753" class="line"/>
+  <path d="M758 212H730V280H673" class="line"/>
+  <path d="M668 343H708V359H753" class="line"/>
+  <path d="M758 396H730V385H673" class="line"/>
+  <text x="718" y="310" text-anchor="middle" class="note">结果返回</text>
+  <path d="M548 416V499" class="line"/>
+  <text x="569" y="468" class="note">提交草案</text>
+  <rect x="270" y="504" width="556" height="124" rx="14" fill="#f7ebdf" stroke="#c3a786"/>
+  <text x="298" y="547" class="label">报价保存工具 · 执行校验</text>
+  <text x="298" y="583" class="body">检查价格版本、资格与必需字段</text>
+  <text x="298" y="613" class="note">缺项或过期时返回原因，供主循环继续处理</text>
+</svg>
