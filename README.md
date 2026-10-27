@@ -4,26 +4,7 @@
 
 ## 快速上手
 
-```bash
-# 校验依赖（Python 3.10+）
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-
-# PDF 子模块（视频笔记的 PDF；正式构建需要完整历史）
-git submodule update --init static/pdfs
-
-# 写作时预览（含草稿）
-hugo server -D
-
-# 正式构建：检查源文件、在临时目录干净构建、检查产物，全部通过后才替换 public/
-.venv/bin/python scripts/build_site.py
-
-# 修改模板或脚本后运行测试
-.venv/bin/python -m unittest discover -s tests
-node --test tests/search.test.mjs
-```
-
-Hugo 使用 extended 版本，版本号与 [hugo.yaml](.github/workflows/hugo.yaml) 中的 `HUGO_VERSION` 一致。日常在 `main` 修改，构建通过后提交、推送，由 workflow 部署；不使用 PR。
+需要 Python 3.10+ 和 Hugo extended，Hugo 版本号与 [hugo.yaml](.github/workflows/hugo.yaml) 中的 `HUGO_VERSION` 一致。安装依赖、预览、正式构建、测试和起稿的命令见 [AGENTS.md](AGENTS.md) 的“常用命令”。推送 `main` 后由 workflow 测试、构建并部署。
 
 ## 目录
 
@@ -42,7 +23,7 @@ Hugo 使用 extended 版本，版本号与 [hugo.yaml](.github/workflows/hugo.ya
 
 ## 文档
 
-- [AGENTS.md](AGENTS.md)：必须遵守的规则（时间、栏目、标签、学习状态、来源、PDF、提交）。
+- [AGENTS.md](AGENTS.md)：常用命令和必须遵守的规则（时间、栏目、标签、学习状态、来源、PDF、提交）。
 - [WORKFLOW.md](WORKFLOW.md)：外部文章、视频笔记、PDF、标签和专题的处理流程。
 - [BLOG_PROMPTS.md](BLOG_PROMPTS.md)：按文章用途区分的写作与审校标准。
 - [docs/decisions.md](docs/decisions.md)：历史决策与一次性操作。

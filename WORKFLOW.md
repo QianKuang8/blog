@@ -1,6 +1,6 @@
 # 博客发布流程
 
-本文件记录各类文章从收集到发布的流程。硬性规则（时间、栏目、标签、学习状态、提交）见 [AGENTS.md](AGENTS.md)，写作与审校标准见 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)，历史决策见 [docs/decisions.md](docs/decisions.md)。
+本文件记录各类文章从收集到发布的流程和目录约定。硬性规则（时间、栏目、标签数量、学习状态、来源、PDF、提交）见 [AGENTS.md](AGENTS.md)，写作与审校标准见 [BLOG_PROMPTS.md](BLOG_PROMPTS.md)，历史决策见 [docs/decisions.md](docs/decisions.md)。这里只写流程和机制，不复述上述规则。
 
 博客定位为知识管理：主要为自己回查，也方便读者按问题阅读。
 
@@ -10,15 +10,13 @@
 
 发布前运行 `.venv/bin/python scripts/build_site.py`。它依次执行：
 
-1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录；本地克隆了私有归档时，公开记录须与归档 frontmatter 一致）、专题页的 `date`/`lastmod` 不晚于当前时间（专题页没有 `date` 时 Hugo 以 `lastmod` 为发布时间，未来时间会让页面被跳过）、站内链接不写死 `/blog/`，文章、专题页和推荐理由中超出限额的套话（见 BLOG_PROMPTS.md“避免的表达”，限定语过密只提示不阻塞），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
+1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录；本地克隆了私有归档时，公开记录须与归档 frontmatter 一致）、专题页的 `date`/`lastmod` 不晚于当前时间（专题页没有 `date` 时 Hugo 以 `lastmod` 为发布时间，未来时间会让页面被跳过）、站内链接不写死 `/blog/`，文章、专题页和推荐理由的“避免的表达”（BLOG_PROMPTS.md），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
 2. 在新的临时目录做干净的 Hugo 构建，并比对产物中的 PDF 字节。
 3. `scripts/check_site.py` 检查产物：站内链接与资源存在、每页唯一且指向自身的 canonical、每页 `<html lang>` 等于配置的 `languageCode`（`zh-CN`）、sitemap 不收录 noindex 或跳转页、文章 JSON-LD、搜索索引覆盖全部文章并带上各自来源记录的原文标题、文章页的复制按钮内容、文章类型标签、专题目录与文末导航、学习清单分组与编辑链接、停用标签的兼容入口。
 
 全部通过才替换 `public/`，失败时保留上次通过的产物。直接运行 `hugo` 只用于调试。检查不联网，也不能代替事实审校或线上链接核验。
 
 推送到 `main` 后，GitHub Actions 运行同样的测试和构建再部署。CI 缓存 `resources/_gen`（图片的 WebP 版本和 CSS），图片、`assets/`、图片渲染钩子或配置不变时直接复用；只改 `docs/` 或根目录说明文档（`*.md`）的提交不触发部署，需要时可在 Actions 页面手动运行。
-
-本站面向桌面阅读。新增或修改文章、图表和页面样式时只检查桌面显示；窄屏只保留单栏回退样式，除非用户明确要求，不做手机视口验证或移动端排版调整。
 
 ---
 
@@ -48,7 +46,7 @@
 
 ## Tag 体系
 
-Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与环境分组展示。一篇文章通常标 1-3 个主题 tag，可额外加 1 个来源 tag，来源 tag 不占主题数量。个人记录、环境初始化、博客维护等非 AI 文章可用少量非 AI tag，但避免 `default` 这类无信息量标签。
+Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与环境分组展示。标签数量见 AGENTS.md，来源标签不占主题数量。个人记录、环境初始化、博客维护等非 AI 文章可用少量非 AI tag，但避免 `default` 这类无信息量标签。
 
 | Tag | 类型 | 说明 |
 |-----|------|------|
@@ -76,7 +74,7 @@ Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与�
 - 先选最能描述文章内容的主题，再按需补充；来源标签按下方规则单独添加。
 - `agent` 适合跨任务的 Agent 机制，例如 Computer History；`agentic-coding` 适合 AI 编程产品、工作流和工程实践。只有两条主线都独立成立时才同时使用。
 - `skills` 只用于以 Skill 本身为主题的文章，正文顺带提到 Skill 时不加；`evals` 只用于以评估方法为主题的文章，仅用评测分数说明某项改进时不加。它们比 `agent`、`harness-engineering` 更准确时替换宽标签，主题标签仍保持 1-3 个。
-- 视频笔记只用栏目表示内容形式，按正文另选主题。沟通、组织管理等非技术文章没有合适主题时用 `tags: []`，同类内容积累后再考虑新增主题。
+- 视频笔记只用栏目表示内容形式，按正文另选主题。用 `tags: []` 的非技术文章积累到一定数量后，再考虑新增主题。
 - `行业动向` 只在正文充分展开趋势、生态、产业经济或竞争格局时使用；单一产品功能和实现文章优先用具体技术主题。不为减少数量而移除有依据的标签。
 - `next-edit`、`apply`、`speculative-edit` 是代码编辑的细分入口，即使文章少也保留。Context、Harness、Agent 等交叉主题不强制归入单一父级。
 - 新增 tag 前检查既有含义，避免同义词、大小写变体和没有检索价值的标签；旧入口需要迁移时保留兼容链接。
@@ -104,11 +102,10 @@ Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与�
 | `latent-space` | 原文由 Latent Space 发布，例如 `latent.space`（含 `www.latent.space`）上的文章或访谈 |
 
 - 以 `sources/orig/<slug>.md` 的 `source_url` 和文章实际主要来源为准。
-- 外部文章明确来自上述发布者时必须添加。只是引用官方文档、讨论某家公司或产品，不构成来源归属；第三方转载优先核对原始出处。
+- 只是引用官方文档、讨论某家公司或产品，不构成来源归属；第三方转载优先核对原始出处。
 - 员工个人博客、个人社交账号与第三方媒体不自动视为被报道公司的官方渠道；媒体原创文章与访谈按媒体自身归属，例如 Latent Space 的 Claude Code 访谈标 `latent-space`。来源不明确时先不加。
 - 微信公众号、X、YouTube 和 GitHub 等平台不直接代表原始发布者，应核对具体账号或仓库所属组织；例如 Lex Fridman 的 Cursor 团队访谈不标 `cursor`。
 - 原创文章、工具清单不因使用某家公司产品或引用其资料而添加来源标签；视频按 `sources/video/` 的官方发布渠道核对，不按讲者任职公司推断。
-- 补历史来源标签时保留原有 `date` 与 `lastmod`。
 
 示例：`tags: ["context-engineering", "prompt-engineering", "anthropic"]`。
 
@@ -116,10 +113,11 @@ Hugo tags 保持平铺，主题浏览页按主题、已维护来源、站点与�
 
 专题保存在 `content/topics/`，用于课程目录、问题索引和精选阅读路径。
 
-- 精选文章的顺序、分组和推荐理由统一维护在 `data/reading_paths.json`，专题用 `reading_path` shortcode 展示，标题取自文章页面。文章末尾根据同一份数据显示所属路径和下一篇。
+- 专题用 `reading_path` shortcode 展示 `data/reading_paths.json` 中的文章顺序、分组和推荐理由，标题取自文章页面。文章末尾根据同一份数据显示所属路径和下一篇。
+- 文末“相关文章”由 `layouts/partials/related_posts.html` 按共同主题标签生成：越少见的标签权重越高，来源标签只算一半，已作为专题下一篇的文章不重复列出。
 - 课程目录按周次或内容顺序列出文章，说明每篇回答什么问题；系列文章链接回目录。
 - 问题型专题说明适合谁、从哪里开始以及条目关系，可以同时收录三个栏目的文章。
-- 重点文章可补 1-3 个确有帮助的站内链接（`relref`），说明用于补背景、看机制或理解边界。向正文增加导航或推荐链接时更新 `lastmod`。
+- 重点文章可补 1-3 个确有帮助的站内链接（`relref`），说明用于补背景、看机制或理解边界。
 - 发布或修订文章时，检查是否适合补入已有专题；新建专题需有明确问题和足够的现有内容。专题保持精选。
 
 ---
@@ -158,11 +156,7 @@ slug 在文章、来源记录、私有归档和 PDF 之间保持一致。`source
 - **私有全文**：`sources/archive/orig/<slug>.md`，即私有仓库 `QianKuang8/blog-sources` 的 `orig/<slug>.md`。frontmatter 之后接 defuddle 提取和清洗后的 Markdown 正文，是写作与审校的依据。
 - **公开元信息**：`sources/orig/<slug>.md`，只有同一份 frontmatter，由 `scripts/source_record.py <slug>` 从私有全文生成。构建检查拒绝带正文的公开记录（书籍证据记录除外）。修改 frontmatter（例如补 `related_sources`）时先改私有全文，再重新生成公开记录，两边保持一致。
 
-首次使用时克隆私有仓库：
-
-```bash
-git clone https://github.com/QianKuang8/blog-sources.git sources/archive
-```
+首次使用时按 AGENTS.md“常用命令”把私有仓库克隆到 `sources/archive/`。
 
 frontmatter 推荐字段：
 
@@ -189,9 +183,9 @@ extractor: "defuddle"
 
 ### 书籍导读
 
-书籍导读归入 `好文分享`，沿用 `sources/orig/<slug>.md`，设置 `source_type: book` 和 `extractor: manual-book-evidence`，保留 `title`、`source_url`、`domain`、`description`、`retrieved_at`。与网页文章不同，书籍记录的正文是公开的证据索引：作者、版本、出版信息，以及关键论点对应的章节和证据边界；不包含原书或译本全文。
+书籍导读归入 `好文分享`，沿用 `sources/orig/<slug>.md`，设置 `source_type: book` 和 `extractor: manual-book-evidence`，保留 `title`、`source_url`、`domain`、`description`、`retrieved_at`。与网页文章不同，书籍记录的正文是公开的证据索引：作者、版本、出版信息，以及关键论点对应的章节和证据边界；不包含原书或译本全文。写法见 BLOG_PROMPTS.md。
 
-导读以自主概括、解释和适量引用组织，保留作者与作品署名；延伸讨论须与原书观点区分。原书、完整译稿、HTML 或 PDF 只存放在私有仓库 `QianKuang8/books`，不进入本仓库、`blog-pdfs` 或站点产物，该仓库不开启 GitHub Pages。从博客回查时，入口标注“个人阅读资料（需仓库权限）”；普通读者使用官方书籍链接。
+原书、完整译稿、HTML 或 PDF 只存放在私有仓库 `QianKuang8/books`，不进入本仓库、`blog-pdfs` 或站点产物，该仓库不开启 GitHub Pages。从博客回查时，入口标注“个人阅读资料（需仓库权限）”；普通读者使用官方书籍链接。
 
 ## 外部文章工作流
 
@@ -237,7 +231,7 @@ git commit -m "add: 文章标题"
 - 没有私有全文就不要继续发布；拿不到时由用户提供替代 URL、复制的文本或本地文件，先补齐全文再继续。
 - `defuddle` 适合标准文章页；对知乎、X、微信、视频页、重 JS 页面不要假设一定成功。不要自动尝试 defuddle 之外的抓取方案，除非用户授权。
 - 批量处理时不因个别失败暂停整个批次，成功的继续；批次结束后把 `failed-sources.md` 中的失败项汇报给用户。
-- 批量、长文、重要文章必须在提交前走 BLOG_PROMPTS.md 的 reviewer 流程，reviewer 对照文章与私有全文验收。
+- 哪些文章提交前必须经过独立 reviewer，见 BLOG_PROMPTS.md“Reviewer / Subagent 流程”。
 
 失败记录格式：
 
@@ -253,15 +247,14 @@ git commit -m "add: 文章标题"
 
 ## 外部文章配图
 
-- 选图标准见 `BLOG_PROMPTS.md`。写作时检查原页面，defuddle 提取的正文可能遗漏交互图表，不据此判断原文没有图。
-- 选用的图片存入 `static/images/<slug>/`，正文引用 `/images/<slug>/...`，沿用 Markdown 图片加下一段斜体图注的格式。图注说明图片含义与来源；细节较多时附完整图链接。
+- 选图标准、图注格式与发布前的图片检查见 BLOG_PROMPTS.md 的“配图要求”。写作时检查原页面，defuddle 提取的正文可能遗漏交互图表，不据此判断原文没有图。
+- 选用的图片存入 `static/images/<slug>/`，正文引用 `/images/<slug>/...`。
 - 构建时，图片渲染钩子为 PNG、JPEG、WebP 生成 720 与 1440 宽的 WebP 显示版本，并让图片链接到原图；SVG 原样显示。原图文件保持不变，不手工压缩，也不另存缩小版。
-- 优先取得清晰的原图文件；交互图表可截取原页面中的完整图表区域，保留标题、坐标、单位、图例和必要注释，并在图注注明“原页面图表截图”。
+- 优先取得清晰的原图文件；交互图表截取原页面中的完整图表区域。
 - 在私有归档 frontmatter 的 `image_sources` 中记录图片标题、站内路径、原图或页面 URL、取得方式和时间，再运行 `scripts/source_record.py <slug>` 同步公开元信息。重绘或局部截取须说明处理方式。
-- 发布前检查桌面正文宽度下的可读性、图文对应关系与图片加载情况，再执行正式构建。新增配图或图注属于正文修订，保留 `date` 并更新 `lastmod`。
 - `scripts/check_content.py` 会拒绝以下情况：
   - 所有文章：图片没有 alt；不是 `/images/...` 下实际存在的文件；`static/images/` 中有无人引用的文件。
-  - 文章解读与视频笔记：图片后面一段不是斜体图注；图注不以“图 N：”加标注（原图、原页面图表截图、局部截取、重绘、本文绘制）开头，或编号不是按顺序从 1 开始。
+  - 文章解读与视频笔记：图片后面一段不是斜体图注；图注开头不是 BLOG_PROMPTS.md 规定的“图 N：”加标注，或编号不是按顺序从 1 开始。
   - 文章解读：用到的站内图片没有列入 `image_sources`；`image_sources` 条目字段不全，或指向文章没有用到的图片。书籍导读的来源记录手工维护，`image_sources` 直接写在 `sources/orig/<slug>.md`。
 
 ## 视频笔记与 PDF
@@ -297,9 +290,9 @@ pdf_path: "standalone/<slug>.pdf"
 
 ### PDF 存储
 
-- PDF 母版由本地学习工作区保存，不进入本仓库。公开版直接使用选定源 PDF，不压缩、不重新编码，可以改成稳定的英文文件名，不在文件名中维护 `v1`、`v2`。
+- PDF 母版由本地学习工作区保存，不进入本仓库。公开版可以改成稳定的英文文件名，不在文件名中维护 `v1`、`v2`。
 - 复制后用 `cmp` 或 SHA-256 确认字节未变。
-- PDF 只提交到公开仓库 `https://github.com/QianKuang8/blog-pdfs`，本仓库通过 `static/pdfs` 子模块固定其提交。`blog-pdfs` 只有 `standalone/<slug>.pdf` 与 `stanford-mse435/week-<nn>-<slug>.pdf` 两类路径。
+- 公开仓库 `https://github.com/QianKuang8/blog-pdfs` 只有 `standalone/<slug>.pdf` 与 `stanford-mse435/week-<nn>-<slug>.pdf` 两类路径，本仓库通过 `static/pdfs` 子模块固定其提交。
 - 文章链接站点 PDF（从站点根目录写 `/pdfs/<pdf-path>`，模板补部署路径），同时提供固定到 PDF 提交的 GitHub 链接 `https://github.com/QianKuang8/blog-pdfs/blob/<pdf-commit>/<pdf-path>`。
 
 普通 `git clone` 不下载子模块。正式构建需要解析固定链接的提交，因此用 `git submodule update --init static/pdfs` 拉取完整历史；只预览时可加 `--depth 1`，之后再用 `git -C static/pdfs fetch --unshallow` 补齐。未初始化时 Hugo 仍能编译文章，但 PDF 链接不可用，正式构建会报错。
@@ -319,10 +312,4 @@ pdf_path: "standalone/<slug>.pdf"
 8. 提交并推送本仓库
 ```
 
-不能让本仓库指向只存在于本地、尚未推送的 PDF 提交，也不能只更新 PDF 仓库而遗漏子模块指针。回滚时回退本仓库中的文章和子模块指针；PDF 仓库历史继续保留。发布后确认原视频链接、站点 PDF 链接和 GitHub 源文件链接与当前版本一致。
-
----
-
-## 写作
-
-外部文章和视频默认采用博客解读风格；原创研究、实践教程和工具清单按用途组织。写作前先读 BLOG_PROMPTS.md，确认任务是新写、修订还是定稿发布适配。工具推荐、安装教程和持续维护的清单记录实际核验日期、环境或版本及核验范围，不以 `lastmod` 代替核验时间。
+不能只更新 PDF 仓库而遗漏子模块指针。回滚时回退本仓库中的文章和子模块指针；PDF 仓库历史继续保留。发布后确认原视频链接、站点 PDF 链接和 GitHub 源文件链接与当前版本一致。
