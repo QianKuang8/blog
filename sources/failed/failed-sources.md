@@ -2,6 +2,12 @@
 
 > 2026-10-10 起，下文提到的 `sources/orig/<slug>.md` 全文已迁到私有仓库 `blog-sources`（本地路径 `sources/archive/orig/<slug>.md`），公开仓库只保留元信息。
 
+### [2026-10-28] Agent Team / Agent Swarm 文章
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://zhuanlan.zhihu.com/p/2069524382196691517 | 原页返回 403；`npx --yes defuddle parse <URL> --json --md` 同样返回 `Failed to fetch: 403` | 经用户授权查找转载，defuddle 成功抓取青稞社区同文转载 `https://qingkeai.online/blog/%20Multi-Agent-form-Agent-to-Swarm`，页面署名周星星并标注同一知乎 URL；已核对前言、四章正文和总结，归档至私有仓库 `blog-sources` 的 `orig/from-agent-team-to-agent-swarm.md` | 已解决，使用转载补档；未推定知乎首发日期 |
+
 ### [2026-10-15] Self-evolving / Self-improving / RSI 自进化文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
