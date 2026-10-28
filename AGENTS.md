@@ -88,6 +88,7 @@ showToc: true
 
 **来源与链接**
 - 外部文章：`sources/orig/<slug>.md` 只有 frontmatter，由 `scripts/source_record.py` 从私有归档 `sources/archive/orig/<slug>.md` 生成；全文提交到 `blog-sources`，先于本仓库提交。
+- 外部文章遇到 403、提取为空或正文不完整时，默认按 WORKFLOW.md“抓取失败与替代来源补档”继续尝试浏览器、作者其他发布渠道或可信同文转载，无需逐次请求授权；仍无法取得可确认来源的完整正文时，再暂停并请用户提供材料。
 - 一篇文章用到多份来源时，在主来源记录的 `related_sources` 中列出其余记录；无人引用的来源记录会被检查拒绝。
 - 视频笔记必须有 `sources/video/<slug>.md`，记录来源、时间戳和证据边界。
 - 站内图片与 PDF 从站点根目录写（`/images/...`、`/pdfs/...`），不写 `/blog/` 前缀；引用站内文章用 `relref`。

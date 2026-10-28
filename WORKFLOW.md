@@ -155,7 +155,7 @@ slug 在文章、来源记录、私有归档和 PDF 之间保持一致。`source
 
 外部网页文章的全文受版权保护，不能放在公开仓库。归档分成两份：
 
-- **私有全文**：`sources/archive/orig/<slug>.md`，即私有仓库 `QianKuang8/blog-sources` 的 `orig/<slug>.md`。frontmatter 之后接 defuddle 提取和清洗后的 Markdown 正文，是写作与审校的依据。
+- **私有全文**：`sources/archive/orig/<slug>.md`，即私有仓库 `QianKuang8/blog-sources` 的 `orig/<slug>.md`。frontmatter 之后接提取和清洗后的 Markdown 正文，是写作与审校的依据；获取方式按下文“外部文章工作流”和“抓取失败与替代来源补档”处理。
 - **公开元信息**：`sources/orig/<slug>.md`，只有同一份 frontmatter，由 `scripts/source_record.py <slug>` 从私有全文生成。构建检查拒绝带正文的公开记录（书籍证据记录除外）。修改 frontmatter（例如补 `related_sources`）时先改私有全文，再重新生成公开记录，两边保持一致。
 
 首次使用时按 AGENTS.md“常用命令”把私有仓库克隆到 `sources/archive/`。
@@ -176,9 +176,9 @@ extractor: "defuddle"
 ```
 
 - `source_url` 指向原文；书籍记录使用作者或出版社的官方书籍页面。
-- `published_at` 必填，写原文页面标明的发布日期（加引号的 `"YYYY-MM-DD"`）。defuddle 的 `--json` 输出里的 `published` 通常可用；剪藏或抓取日期不能代替。页面只能确定到月或年时写 `"YYYY-MM"` 或 `"YYYY"`，确实没有发布日期（持续更新的网站、仓库）时写 `null`。
+- `published_at` 必填，写原文页面标明的发布日期（加引号的 `"YYYY-MM-DD"`）。defuddle 的 `--json` 输出里的 `published` 通常可用；转载、剪藏或抓取日期不能代替。页面只能确定到月或年时写 `"YYYY-MM"` 或 `"YYYY"`；页面没有发布日期，或补档后仍无法可靠确认原文日期时写 `null`，并在 `extraction_note` 说明。
 - `author` 写作者姓名；没有署名时写发布机构或公众号名，多位作者用英文逗号加空格分隔，不知道时省略。文章页标题下方会显示“原文 / 原书 / 原视频：标题、作者、日期”，视频记录取 `channel` 与 `published_at`。
-- `domain` 优先取提取工具的元信息，为空时从 URL 主域名补齐。
+- `domain` 与 `source_url` 对应，优先取匹配的提取工具元信息，否则从 `source_url` 主域名补齐；经转载补档时，不直接沿用转载页域名。
 - `retrieved_at` 必须带时区。
 - 正文之前不额外插入“Metadata”标题；抓取说明写在 frontmatter 的 `extraction_note`。
 - 一篇文章依据多份原文时，主记录用 `related_sources: ["<slug>"]` 列出其余记录（例如 Uber Arm 迁移的第二篇）。
@@ -210,7 +210,7 @@ extractor: "defuddle"
 .venv/bin/python scripts/new_post.py <slug> "https://..."
 # 输出的 check: 行列出需要手工确认的字段：没有发布日期、作者或描述。
 # defuddle 漏掉发布日期或作者时，用 --published YYYY-MM-DD、--author 补上；已保存的 defuddle JSON 可用 --from-json 读入。
-# 抓取失败则记录到 sources/failed/failed-sources.md，并暂停这篇文章。
+# 抓取失败或正文不完整时，按下文“抓取失败与替代来源补档”继续处理，并记录到 sources/failed/failed-sources.md。
 # 之后修改 frontmatter（补 related_sources、image_sources 等）时先改私有全文，再运行
 # .venv/bin/python scripts/source_record.py <slug>
 
@@ -230,10 +230,21 @@ git commit -m "add: 文章标题"
 
 注意事项：
 
-- 没有私有全文就不要继续发布；拿不到时由用户提供替代 URL、复制的文本或本地文件，先补齐全文再继续。
-- `defuddle` 适合标准文章页；对知乎、X、微信、视频页、重 JS 页面不要假设一定成功。不要自动尝试 defuddle 之外的抓取方案，除非用户授权。
+- 没有私有全文就不要继续发布；替代获取与暂停条件按下节处理。
+- `defuddle` 适合标准文章页；对知乎、X、微信、重 JS 页面不要假设一定成功。视频使用下文“视频笔记与 PDF”流程。
 - 批量处理时不因个别失败暂停整个批次，成功的继续；批次结束后把 `failed-sources.md` 中的失败项汇报给用户。
 - 哪些文章提交前必须经过独立 reviewer，见 BLOG_PROMPTS.md“Reviewer / Subagent 流程”。
+
+### 抓取失败与替代来源补档
+
+1. **先尝试原站。** 优先用 `scripts/new_post.py` / `defuddle` 获取正文。原站可访问但提取为空、被截断或遗漏图表时，可使用浏览器或页面读取工具核对并提取渲染后的正文。对明确的 403 不反复重试同一方式，转而查找替代来源。
+2. **查找同文。** 搜索原文链接、标题和作者，优先查作者其他发布渠道，再查明确署名、标注原始出处的可信转载。以往成功的渠道（如青稞社区）可作为线索，但每篇仍需核对，不能预设其必然收录或完整。
+3. **确认身份与完整性。** 结合标题、原作者、原文链接及可核对的章节内容确认是同一篇；转载页上传者不自动视为原作者。检查正文开头、主要章节、结尾、图片、表格与参考链接；搜索摘要、节选和他人解读不能代替全文。原站不可访问时如实记录核对依据，不声称已与原站逐段比对。
+4. **记录补档来源。** 新建补档记录时，`source_url` 保留原文链接，`domain` 与之对应，`archived_from` 记录实际取得全文的替代地址；`author` 写原作者，`extractor` 写实际提取方式。在 `extraction_note` 记录原站失败原因、替代来源、完整性核对结果与仍有的缺失。`published_at` 只记录可确认的原文日期；只能确认转载日期时，将其注明为转载日期写入 `extraction_note`，原文日期写 `null`。
+5. **取得全文后继续。** 替代页面可用 defuddle 提取时，沿用 `scripts/new_post.py`（也可用 `--from-json` 读取已保存的结果），再按上一步核对、修正私有归档元信息，并运行 `scripts/source_record.py <slug>` 同步公开记录。通过浏览器取得正文时，同样保存到私有归档、准确记录提取方式并生成公开记录，随后继续现有写作与审校流程。博文保留原文链接；实际依据转载时，同时提供转载链接并说明。
+6. **仍无法补齐时暂停。** 找不到可靠全文、正文仍有影响写作的缺失，或无法确认是同一篇时，简要告知已尝试的方式和缺少的材料，请用户提供替代 URL、复制的文本或本地文件，等待补齐后再继续这篇文章。
+
+在 `sources/failed/failed-sources.md` 中记录原链接、失败原因、补档来源与当前状态；成功补档后更新为已解决。
 
 失败记录格式：
 
