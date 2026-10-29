@@ -2,6 +2,12 @@
 
 > 2026-10-10 起，下文提到的 `sources/orig/<slug>.md` 全文已迁到私有仓库 `blog-sources`（本地路径 `sources/archive/orig/<slug>.md`），公开仓库只保留元信息。
 
+### [2026-10-29] Manus AI Native 组织文章
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://mp.weixin.qq.com/s/I_hNNAf7LFBf5nJ0rEJHig | `scripts/new_post.py` 调用 defuddle 返回 `Proxy CONNECT failed: 403` | 智源社区的 Founder Park 授权转载 `https://hub.baai.ac.cn/view/59129`；小互和 ReelOS 的原文链接均指向该微信 URL。已核对转载正文从开头到结尾及主要章节；原站不可访问，无法逐段比对，图和视频仅保留转载页面的可提取占位信息 | 已解决，使用转载补档 |
+
 ### [2026-10-28] Agent Team / Agent Swarm 文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
