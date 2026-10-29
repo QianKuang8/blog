@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
-lastmod: "2026-10-16T18:09:33+08:00"
+lastmod: '2026-10-29T17:15:00+08:00'
 title: "Claude Code 团队谈 Prompt Caching：围绕稳定前缀组织提示"
 summary: "提示顺序、模式切换、工具加载与会话压缩都会改变缓存命中。本文沿 Claude Code 团队的经验，解释怎样保留可复用前缀，以及优化命中率时仍需检查哪些任务与权限边界。"
 description: "解读 Claude Code 的缓存前缀布局、动态状态消息、工具延迟加载和上下文分叉。"
@@ -44,7 +44,7 @@ Plan Mode 的例子更进一步：保留工具定义，用 `EnterPlanMode` 和 `
 
 原文描述的 cache-safe fork 保留父会话的系统内容、上下文、工具定义和已有消息，在末尾追加压缩请求。对于缓存系统，这仍是原有前缀继续增长，新增部分主要是压缩指令。运行时还要预留 compaction buffer，为这条指令和摘要输出保留空间。
 
-![压缩与提示缓存：压缩前上下文接近占满并预留 compaction buffer；分叉出的压缩调用沿用系统、工具和完整对话，在末尾追加摘要指令；压缩后由摘要替代旧消息。](/images/claude-code-prompt-caching-is-everything/compaction-fork.jpg)
+![压缩与Prompt Caching：压缩前上下文接近占满并预留 compaction buffer；分叉出的压缩调用沿用系统、工具和完整对话，在末尾追加摘要指令；压缩后由摘要替代旧消息。](/images/claude-code-prompt-caching-is-everything/compaction-fork.jpg)
 
 *图 2：原图，来源同上。中间的分叉调用与父会话前缀一致，图中标注完整对话按缓存命中计价；右侧压缩后的会话以摘要替代旧消息，请求内容已经改变。图中的价格比例与摘要上限是原文当时的示意，不作为当前计费依据。*
 

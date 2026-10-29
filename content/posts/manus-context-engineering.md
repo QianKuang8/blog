@@ -1,6 +1,6 @@
 ---
 date: '2026-04-06T10:20:00+08:00'
-lastmod: '2026-10-19T10:27:51+08:00'
+lastmod: '2026-10-29T17:15:00+08:00'
 title: "Manus 的上下文工程：保住 KV Cache 命中率，把失败留在上下文里"
 summary: "Manus 将多轮 Agent 的延迟、成本和行为稳定性落实到上下文组织：稳定前缀、约束动作空间、保存可恢复信息，并把目标与失败证据带回下一轮决策。"
 description: "解读 Manus 2025 年的上下文工程实践及其缓存、记忆和注意力管理取舍。"
@@ -22,7 +22,7 @@ learning_status: done
 
 前缀缓存复用的是输入前部已经计算过的内容。若每轮在系统提示开头插入新的时间戳，或序列化时改变 JSON 键的顺序，本来相同的历史也可能变成不同 token 序列。Manus 因此强调稳定前缀、只追加动作与观察，以及确定性的序列化；需要显式缓存断点的服务还要正确设置断点，自托管分布式推理则要关注会话路由。
 
-![KV 缓存示意：左侧下一步改动了已有历史，Instruction 之后的缓存全部未命中；右侧只在末尾追加新的动作和观察，之前的前缀保持命中。](/images/manus-context-engineering/kv-cache-prefix.png)
+![KV Cache示意：左侧下一步改动了已有历史，Instruction 之后的缓存全部未命中；右侧只在末尾追加新的动作和观察，之前的前缀保持命中。](/images/manus-context-engineering/kv-cache-prefix.png)
 
 *图 1：原图，来源：[Manus](https://manus.im/zh-cn/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)。左侧下一步移除了最早的动作与观察，Instruction 之后全部未命中；右侧只在末尾追加，之前的内容继续命中。*
 

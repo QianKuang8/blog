@@ -1,8 +1,8 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
-lastmod: '2026-10-19T19:59:42+08:00'
+lastmod: '2026-10-29T17:15:00+08:00'
 title: "Sebastian Raschka 的 LLM 架构对比：各项设计优化哪种资源"
-summary: "GQA、MLA、MoE 和混合注意力优化的是不同资源。本文从 KV 缓存、激活计算和训练稳定性解释这些设计，并说明为什么结构图不能直接推出模型质量与服务速度。"
+summary: "GQA、MLA、MoE 和混合注意力优化的是不同资源。本文从 KV Cache、激活计算和训练稳定性解释这些设计，并说明为什么结构图不能直接推出模型质量与服务速度。"
 description: "基于 Sebastian Raschka 的架构比较，解释注意力、MoE、归一化与多 token 预测的机制边界。"
 tags: ["model-engineering", "行业动向"]
 categories: ["好文分享"]
@@ -16,7 +16,7 @@ learning_status: done
 
 Sebastian Raschka 的 [《The Big LLM Architecture Comparison》](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison) 对比了多种开放权重模型。本文依据仓库中收录的、更新至 2026 年 4 月 2 日的版本，按资源问题重组其中的代表性设计。原文也提醒，数据、训练方法和超参数不同，不能只凭架构推断模型能力。
 
-## 减少 KV 缓存，有两种不同的压缩位置
+## 减少 KV Cache，有两种不同的压缩位置
 
 自回归生成会复用历史 token 的 key 和 value。序列增长时，这些缓存也会增长；模型权重能放进设备，并不意味着还留有足够空间处理长输入和多个请求。
 
