@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Add a figure to an external-article post: save the original image file and record where it came from.
+"""Add or remove a figure of an external-article post, keeping the record of where it came from.
 
-Downloads the image (or copies a local file, such as a screenshot of an
-interactive chart) to static/images/<slug>/<name>.<ext>, taking the extension
-from the file's own bytes and leaving the bytes unchanged. Appends an
+Adding downloads the image (or copies a local file, such as a chart screenshot
+or a redrawn SVG) to static/images/<slug>/<name>.<ext>, taking the extension
+from the file's own bytes and leaving the bytes unchanged. It appends an
 image_sources entry to the private archive sources/archive/orig/<slug>.md,
 regenerates the public record sources/orig/<slug>.md, and prints the Markdown
-to paste into the article. Commits nothing.
+to paste into the article.
+
+Removing (--remove) deletes the file and its image_sources entry, once no page
+uses the figure; --image-note records why the article no longer uses the
+original's images. Commits nothing.
 """
 
 from __future__ import annotations
@@ -17,12 +21,13 @@ import json
 from pathlib import Path
 import re
 import sys
+import textwrap
 from urllib.parse import urlsplit
 from urllib.request import urlopen
 
 import yaml
 
-from check_content import FRONTMATTER, is_http_url, public_record
+from check_content import FRONTMATTER, figures, is_http_url, public_record
 from new_post import LOCAL, SLUG
 
 
@@ -50,6 +55,20 @@ def download(url: str) -> bytes:
         return response.read()
 
 
+def image_block(lines: list[str]) -> tuple[int, int] | None:
+    """Line range of the image_sources key and its block list in the frontmatter lines, or None without one."""
+    start = next((index for index, line in enumerate(lines) if re.match(r"image_sources\s*:", line)), None)
+    if start is None:
+        return None
+    value = lines[start].split(":", 1)[1].strip()
+    if value and value != "[]":
+        raise ValueError("image_sources is not a block list; edit it by hand")
+    end = start + 1
+    while end < len(lines) and (lines[end][:1] in {" ", "-"} or not lines[end].strip()):
+        end += 1
+    return start, end
+
+
 def with_image_source(text: str, entry: dict) -> str:
     """The archive text with entry appended to image_sources, leaving every other line as it was."""
     match = FRONTMATTER.match(text)
@@ -57,18 +76,12 @@ def with_image_source(text: str, entry: dict) -> str:
         raise ValueError("missing YAML frontmatter")
     lines = match[1].split("\n")
     item = [f"{key}: {json.dumps(value, ensure_ascii=False)}" for key, value in entry.items()]
-    start = next((index for index, line in enumerate(lines) if re.match(r"image_sources\s*:", line)), None)
-    if start is None:
+    block = image_block(lines)
+    if block is None:
         lines += ["image_sources:", *(("  - " if index == 0 else "    ") + line for index, line in enumerate(item))]
     else:
-        value = lines[start].split(":", 1)[1].strip()
-        if value == "[]":
-            lines[start] = "image_sources:"
-        elif value:
-            raise ValueError("image_sources is not a block list; add the entry by hand")
-        end = start + 1
-        while end < len(lines) and (lines[end][:1] in {" ", "-"} or not lines[end].strip()):
-            end += 1
+        start, end = block
+        lines[start] = "image_sources:"
         first = next((line for line in lines[start + 1:end] if line.lstrip().startswith("- ")), "  - ")
         indent = first[:len(first) - len(first.lstrip())]
         lines[end:end] = [(f"{indent}- " if index == 0 else f"{indent}  ") + line for index, line in enumerate(item)]
@@ -76,6 +89,36 @@ def with_image_source(text: str, entry: dict) -> str:
     before, after = yaml.safe_load(match[1]), yaml.safe_load(FRONTMATTER.match(updated)[1])
     if after.pop("image_sources")[-1] != entry or {key: value for key, value in before.items() if key != "image_sources"} != after:
         raise ValueError("could not append to image_sources cleanly; add the entry by hand")
+    return updated
+
+
+def without_image_source(text: str, path: str, note: str | None = None) -> str:
+    """The archive text without the image_sources entry for path, with image_note set when given."""
+    match = FRONTMATTER.match(text)
+    if not match:
+        raise ValueError("missing YAML frontmatter")
+    lines = match[1].split("\n")
+    block = image_block(lines)
+    starts = [index for index in range(*block) if lines[index].lstrip().startswith("- ")] if block else []
+    groups = [range(begin, next((later for later in starts if later > begin), block[1])) for begin in starts]
+    matching = [group for group in groups
+                if (yaml.safe_load(textwrap.dedent("\n".join(lines[index] for index in group))) or [{}])[0].get("path") == path]
+    if len(matching) != 1:
+        raise ValueError(f"image_sources has no entry for {path}")
+    dropped = set(matching[0]) | ({block[0]} if len(groups) == 1 else set())
+    lines = [line for index, line in enumerate(lines) if index not in dropped]
+    if note is not None:
+        if not note.strip():
+            raise ValueError("--image-note must be nonempty")
+        lines = [line for line in lines if not line.startswith("image_note:")]
+        lines.append(f"image_note: {json.dumps(note.strip(), ensure_ascii=False)}")
+    updated = text[:match.start(1)] + "\n".join(lines) + text[match.end(1):]
+    before, after = yaml.safe_load(match[1]), yaml.safe_load(FRONTMATTER.match(updated)[1])
+    kept = [entry for entry in before["image_sources"] if entry.get("path") != path]
+    if note is not None:
+        before["image_note"] = note.strip()
+    if after.pop("image_sources", []) != kept or {key: value for key, value in before.items() if key != "image_sources"} != after:
+        raise ValueError("could not remove the entry cleanly; edit image_sources by hand")
     return updated
 
 
@@ -107,15 +150,57 @@ def add_image(repo: Path, slug: str, name: str, data: bytes, title: str, source_
     return path, yaml.safe_load(FRONTMATTER.match(text)[1])
 
 
+def remove_image(repo: Path, slug: str, name: str, note: str | None = None) -> str:
+    """Delete a figure that no page uses, and its image_sources entry; return its site path."""
+    archive = repo / "sources/archive/orig" / f"{slug}.md"
+    if not archive.is_file():
+        raise ValueError(f"{archive.relative_to(repo)} is missing; book records are edited by hand")
+    folder = repo / "static/images" / slug
+    files = [file for file in folder.glob("*") if name in (file.name, file.stem)] if folder.is_dir() else []
+    if len(files) != 1:
+        raise ValueError(f"no single image named {name} in static/images/{slug}/")
+    path = f"/images/{slug}/{files[0].name}"
+    users = [page.relative_to(repo).as_posix() for page in sorted((repo / "content").rglob("*.md"))
+             if any(destination == path for _, destination, _ in figures(page.read_text(encoding="utf-8")))]
+    if users:
+        raise ValueError(f"{path} is still used by {', '.join(users)}; remove the figure and its caption there first, then renumber the remaining captions")
+    text = without_image_source(archive.read_text(encoding="utf-8"), path, note)
+    archive.write_text(text, encoding="utf-8")
+    (repo / "sources/orig" / f"{slug}.md").write_text(public_record(text), encoding="utf-8")
+    files[0].unlink()
+    if not any(folder.iterdir()):
+        folder.rmdir()
+    return path
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("slug", help="article slug, shared by the post, record and archive")
-    parser.add_argument("name", help="file name without extension, such as mono-before-after")
-    parser.add_argument("source", help="image URL, or a local file such as a chart screenshot")
-    parser.add_argument("--title", required=True, help="the figure's title in the original, or a short description")
+    parser.add_argument("name", help="file name without extension, such as mono-before-after (with --remove, the extension may be given)")
+    parser.add_argument("source", nargs="?", help="image URL, or a local file such as a chart screenshot or a redrawn SVG")
+    parser.add_argument("--title", help="the figure's title in the original, or a short description (required when adding)")
     parser.add_argument("--source-url", help="where the image comes from (default: the image URL; required for a local file)")
     parser.add_argument("--method", help=f"how it was obtained (default for downloads: {DOWNLOAD_METHOD}; required for a local file, e.g. 原页面图表截图)")
+    parser.add_argument("--remove", action="store_true", help="delete the figure and its image_sources entry; remove it from the article first")
+    parser.add_argument("--image-note", help="with --remove: why the article uses none of the original's images, when that is now the case")
     args = parser.parse_args()
+    if args.remove:
+        if args.source or args.title or args.source_url or args.method:
+            parser.error("--remove takes only the slug, the file name and --image-note")
+        try:
+            path = remove_image(REPO, args.slug, args.name, args.image_note)
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            print(f"add_image: {exc}", file=sys.stderr)
+            return 1
+        print(f"removed static{path} and its image_sources entry in sources/archive/orig/{args.slug}.md and sources/orig/{args.slug}.md")
+        post = REPO / "content/posts" / f"{args.slug}.md"
+        if post.is_file() and not figures(post.read_text(encoding="utf-8")) and args.image_note is None:
+            print("the article now has no figures: if the original has images, rerun with --image-note or add image_note to the archive")
+        return 0
+    if not args.source or not args.title:
+        parser.error("adding a figure needs the source and --title")
+    if args.image_note:
+        parser.error("--image-note goes with --remove")
     remote = urlsplit(args.source).scheme in {"http", "https"}
     if not remote and not (args.source_url and args.method):
         parser.error("a local file needs --source-url (the page it comes from) and --method (how it was made)")

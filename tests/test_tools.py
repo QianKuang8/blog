@@ -15,7 +15,7 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scripts"))
 from check_content import read_markdown, validate_content
-from add_image import add_image, image_format, with_image_source
+from add_image import add_image, image_format, remove_image, with_image_source, without_image_source
 from lastmod_reminder import reminders
 from new_post import author_name, create_post, published_date
 
@@ -193,6 +193,47 @@ class AddImageTests(unittest.TestCase):
                 self.assertTrue(updated.endswith("extractor: defuddle\n---\n\nBody text.\n"))
         with self.assertRaisesRegex(ValueError, "not a block list"):
             with_image_source("---\ntitle: T\nimage_sources: [{title: Old}]\n---\nBody\n", entry)
+
+    def test_removes_figures_and_their_records(self):
+        self.add()
+        self.add("chart", b"\xff\xd8\xff\xe0rest", title="Chart")
+        self.assertEqual(remove_image(self.repo, "product-evals", "loop"), "/images/product-evals/loop.png")
+        self.assertFalse((self.repo / "static/images/product-evals/loop.png").exists())
+        archived = read_markdown(self.archive)[0]
+        self.assertEqual([entry["path"] for entry in archived["image_sources"]], ["/images/product-evals/chart.jpg"])
+        self.assertEqual(read_markdown(self.repo / "sources/orig/product-evals.md"), (archived, ""))
+        # The last figure takes the image_sources key with it; the note says why none is used.
+        remove_image(self.repo, "product-evals", "chart.jpg", note="原文只有一张装饰性封面图，不选用。")
+        archived, body = read_markdown(self.archive)
+        self.assertNotIn("image_sources", archived)
+        self.assertEqual(archived["image_note"], "原文只有一张装饰性封面图，不选用。")
+        self.assertIn("## First, label some data", body)
+        self.assertFalse((self.repo / "static/images/product-evals").exists())
+        self.assertEqual(validate_content(self.repo), [])
+        with self.assertRaisesRegex(ValueError, "no single image named chart in static/images/product-evals/"):
+            remove_image(self.repo, "product-evals", "chart")
+
+    def test_remove_waits_until_no_page_uses_the_figure(self):
+        path, _ = self.add()
+        post = self.repo / "content/posts/product-evals.md"
+        post.write_text(post.read_text(encoding="utf-8") + f"\n![Eval loop]({path})\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "still used by content/posts/product-evals.md; remove the figure and its caption"):
+            remove_image(self.repo, "product-evals", "loop")
+        self.assertTrue((self.repo / "static/images/product-evals/loop.png").exists())
+        self.assertEqual(len(read_markdown(self.archive)[0]["image_sources"]), 1)
+
+    def test_removes_entries_in_either_indentation_and_replaces_the_note(self):
+        entries = "  - title: Old\n    path: /images/x/old.png\n  - title: New\n    path: /images/x/new.png\n"
+        for listing in (entries, entries.replace("  - ", "- ").replace("    ", "  ")):
+            with self.subTest(listing=listing):
+                text = f"---\ntitle: T\nimage_sources:\n{listing}image_note: \"old\"\nextractor: defuddle\n---\n\nBody text.\n"
+                updated = without_image_source(text, "/images/x/old.png", note="new")
+                self.assertEqual(yaml.safe_load(updated.split("---\n")[1]), {
+                    "title": "T", "image_sources": [{"title": "New", "path": "/images/x/new.png"}],
+                    "image_note": "new", "extractor": "defuddle"})
+                self.assertTrue(updated.endswith("---\n\nBody text.\n"))
+        with self.assertRaisesRegex(ValueError, "image_sources has no entry for /images/x/missing.png"):
+            without_image_source(f"---\ntitle: T\nimage_sources:\n{entries}---\nBody\n", "/images/x/missing.png")
 
     def test_formats_are_recognized_from_their_bytes(self):
         for data, expected in ((PNG, "png"), (b"\xff\xd8\xff\xdb", "jpg"), (b"GIF89a....", "gif"),

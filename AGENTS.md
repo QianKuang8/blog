@@ -32,6 +32,8 @@ git clone https://github.com/QianKuang8/blog-sources.git sources/archive
 
 # 外部文章选用配图：保存原图到 static/images/<slug>/，登记 image_sources 并同步公开记录
 .venv/bin/python scripts/add_image.py <slug> <name> <图片 URL 或本地文件> --title "图片标题"
+# 撤下配图：先从文章删掉图片和图注，再删除文件与 image_sources 记录（文章不再有图时加 --image-note "原因"）
+.venv/bin/python scripts/add_image.py <slug> <name> --remove
 
 # 新文章 / 视频笔记（默认待学习）
 hugo new content content/posts/my-post.md
