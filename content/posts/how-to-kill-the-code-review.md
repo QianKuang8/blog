@@ -1,7 +1,7 @@
 ---
 date: '2026-04-09T23:24:00+08:00'
 lastmod: '2026-10-26T12:21:49+08:00'
-title: "Ankit Jain：把人工审查前移到规范与验收标准"
+title: "Ankit Jain：不再逐行 Code Review，把人工审查前移到 Spec 与验收标准"
 summary: "Ankit Jain 主张把人类检查前移到规范与验收标准，并用测试、权限和独立验证承担更多质量检查。本文解释这些层如何配合，以及为什么增加检查层数仍不能自动保证正确。"
 description: "解读 How to Kill the Code Review 的上游规范、确定性验证与权限分工。"
 tags: ["agentic-coding", "latent-space"]

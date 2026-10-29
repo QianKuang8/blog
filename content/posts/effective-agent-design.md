@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
 lastmod: '2026-10-19T10:39:19+08:00'
-title: "Lance Martin：长程 Agent 的上下文设计模式"
+title: "Lance Martin 梳理长程 Agent 设计模式：状态存进文件系统，能力按需出现"
 summary: "Lance Martin 汇总了长程 Agent 的常见模式：用计算环境保存状态，让能力按需出现，利用缓存减少重复开销，并以独立上下文承接可拆分工作。每种机制解决的资源约束不同。"
 description: "梳理 Effective Agent Design 中的分层动作空间、渐进披露、上下文外置、缓存、隔离与经验更新。"
 tags: ["agent", "context-engineering", "harness-engineering"]

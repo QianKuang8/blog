@@ -13,9 +13,4 @@ image_sources:
     source_url: "https://rlancemartin.github.io/assets/context_eng_overview.png"
     method: "原图文件，未改动"
     retrieved_at: "2026-10-19T10:28:09+08:00"
-  - title: "Memory types"
-    path: "/images/context-engineering-for-agents/memory-types.webp"
-    source_url: "https://rlancemartin.github.io/assets/memory_types.png"
-    method: "原图文件，未改动；源地址以 .png 提供 WebP 数据，按实际格式保存为 .webp"
-    retrieved_at: "2026-10-19T10:28:09+08:00"
 ---

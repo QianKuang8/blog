@@ -7,10 +7,5 @@ published_at: "2026-09-09"
 description: "Learn how to build a robust evaluation harness for AI agents using behavioral evals. Test specific tool calls, automate prompt engineering, and ship with confidence."
 retrieved_at: "2026-09-10T16:36:43+08:00"
 extractor: "defuddle"
-image_sources:
-  - title: "End-to-end benchmarks vs. behavioral evals"
-    path: "/images/harness-engineering-behavioral-evaluations/macro-vs-micro-evals.png"
-    source_url: "https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Screenshot_2026-09-09_at_9.34.40AM.original.png"
-    method: "原图文件，未改动"
-    retrieved_at: "2026-10-19T11:01:49+08:00"
+image_note: "原文 2 张图：页首横幅（装饰）和端到端基准与行为评估的对照表。对照表以文字为主，已改写为正文表格，不作为图片使用。"
 ---

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="540" viewBox="0 0 1000 540" role="img" aria-labelledby="title desc">
+  <title id="title">Cursor 的编辑循环：从表达意图到验证结果</title>
+  <desc id="desc">四个环节依次为：表达意图（Cursor Tab 预测下一处编辑与导航）、应用修改（前沿模型给出修改草图，Apply 模型按原文件写入，speculative edits 与流式显示加快过程）、审查 diff（按逻辑顺序展示、突出高信息量部分等设计方向）、后台验证（Shadow Workspace 内部实验，从语言服务器取得反馈）。前两个环节在访谈时已进入产品，后两个是设计方向或内部实验。用户的接受、拒绝、继续输入或直接修改，作为新的意图回到第一步。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="540" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">Cursor 的编辑循环：从表达意图到验证结果</text>
+    <text x="40" y="86" font-size="19" fill="#526478">实线框在访谈时已进入产品，虚线框是团队讨论的设计方向或内部实验</text>
+
+    <!-- cards -->
+    <g fill="#fff" stroke="#c8d2de">
+      <rect x="40" y="116" width="209" height="300" rx="12"/>
+      <rect x="277" y="116" width="209" height="300" rx="12"/>
+    </g>
+    <g fill="#fbfcfd" stroke="#a7b4c2" stroke-dasharray="6 5">
+      <rect x="514" y="116" width="209" height="300" rx="12"/>
+      <rect x="751" y="116" width="209" height="300" rx="12"/>
+    </g>
+    <g font-size="20" font-weight="700" fill="#182b40">
+      <text x="56" y="150">① 表达意图</text>
+      <text x="293" y="150">② 应用修改</text>
+      <text x="530" y="150">③ 审查 diff</text>
+      <text x="767" y="150">④ 后台验证</text>
+    </g>
+    <!-- status chips -->
+    <rect x="56" y="162" width="104" height="28" rx="6" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <rect x="293" y="162" width="74" height="28" rx="6" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <rect x="530" y="162" width="82" height="28" rx="6" fill="#f3f6f9" stroke="#c8d2de"/>
+    <rect x="767" y="162" width="82" height="28" rx="6" fill="#f3f6f9" stroke="#c8d2de"/>
+    <g font-size="15">
+      <text x="66" y="181" fill="#24486f">Cursor Tab</text>
+      <text x="303" y="181" fill="#24486f">Apply</text>
+      <text x="540" y="181" fill="#526478">设计方向</text>
+      <text x="777" y="181" fill="#526478">内部实验</text>
+    </g>
+
+    <g font-size="15" fill="#344d68">
+      <text x="56" y="222">预测下一处编辑与导航</text>
+      <text x="56" y="250">专用小模型、稀疏 MoE</text>
+      <text x="56" y="278">复用 KV Cache</text>
+      <text x="56" y="306">假设接受，提前算下一条</text>
+
+      <text x="293" y="222">前沿模型给出修改草图</text>
+      <text x="293" y="250">Apply 模型按原文件写入</text>
+      <text x="293" y="278">speculative edits：</text>
+      <text x="293" y="306">原代码作候选批量验证</text>
+      <text x="293" y="334">流式显示，提前开始审查</text>
+
+      <text x="530" y="222">按逻辑顺序展示修改</text>
+      <text x="530" y="250">突出高信息量部分</text>
+      <text x="530" y="278">弱化重复变化</text>
+      <text x="530" y="306">提示疑似错误位置</text>
+
+      <text x="767" y="222">Shadow Workspace：</text>
+      <text x="767" y="250">隐藏窗口改缓冲区</text>
+      <text x="767" y="278">不保存到磁盘</text>
+      <text x="767" y="306">取语言服务器反馈</text>
+      <text x="767" y="334">后台运行代码还需要</text>
+      <text x="767" y="362">完整的环境隔离</text>
+    </g>
+    <!-- future direction inside card 1 -->
+    <rect x="56" y="348" width="177" height="56" rx="8" fill="#fbfcfd" stroke="#a7b4c2" stroke-dasharray="5 4"/>
+    <text x="66" y="371" font-size="15" fill="#526478">方向：跨文件移动、</text>
+    <text x="66" y="393" font-size="15" fill="#526478">终端命令等下一步动作</text>
+
+    <!-- flow arrows -->
+    <g fill="none" stroke="#50647a" stroke-width="1.8">
+      <path d="M251 266 H271" marker-end="url(#arrow)"/>
+      <path d="M488 266 H508" marker-end="url(#arrow)"/>
+      <path d="M725 266 H745" marker-end="url(#arrow)"/>
+      <path d="M855 418 V462 H144 V424" marker-end="url(#arrow)"/>
+    </g>
+    <text x="500" y="492" font-size="17" text-anchor="middle" fill="#344d68">接受、拒绝、继续输入，或亲自改一处让模型传播：都是新的意图，回到第一步</text>
+  </g>
+</svg>

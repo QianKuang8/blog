@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="title desc">
+  <title id="title">Agent 每一步的输入怎样构造，出错时从哪里查</title>
+  <desc id="desc">Agent 的输入来自开发者规则、用户请求、历史互动、工具结果和外部资料，其中工具结果和外部资料在执行中才出现。系统在每一步重新构造输入，再交给模型调用。出错时回到那次调用，按信息、工具、格式三个检查面定位：判断所需的事实是否进入输入，缺少的信息或操作能否获取，信息的表达是否适合当前判断。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#50647a" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1000" height="640" rx="20" fill="#f5f7fa"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="40" y="50" font-size="27" font-weight="700" fill="#182b40">Agent 每一步的输入怎样构造，出错时从哪里查</text>
+    <text x="40" y="86" font-size="19" fill="#526478">输入来自多个地方，有些在执行中才出现；出错时按信息、工具、格式三个检查面定位</text>
+
+    <!-- sources -->
+    <text x="40" y="128" font-size="17" font-weight="700" fill="#526478">输入来源</text>
+    <g stroke="#c8d2de">
+      <rect x="40" y="142" width="250" height="44" rx="9" fill="#fff"/>
+      <rect x="40" y="196" width="250" height="44" rx="9" fill="#fff"/>
+      <rect x="40" y="250" width="250" height="44" rx="9" fill="#fff"/>
+    </g>
+    <g stroke="#d9c397" fill="#fff4df">
+      <rect x="40" y="304" width="250" height="44" rx="9"/>
+      <rect x="40" y="358" width="250" height="44" rx="9"/>
+    </g>
+    <g font-size="17">
+      <text x="58" y="170" fill="#344d68">开发者规则</text>
+      <text x="58" y="224" fill="#344d68">用户请求</text>
+      <text x="58" y="278" fill="#344d68">历史互动</text>
+      <text x="58" y="332" fill="#725025">工具结果</text>
+      <text x="58" y="386" fill="#725025">外部资料</text>
+    </g>
+    <text x="40" y="428" font-size="15" fill="#725025">黄色：执行一次搜索或调用后才出现</text>
+
+    <!-- arrows into construction -->
+    <g fill="none" stroke="#50647a" stroke-width="1.6">
+      <path d="M292 164 C 326 164, 326 250, 354 262" marker-end="url(#arrow)"/>
+      <path d="M292 218 C 322 218, 326 266, 354 270" marker-end="url(#arrow)"/>
+      <path d="M292 272 H354" marker-end="url(#arrow)"/>
+      <path d="M292 326 C 322 326, 326 280, 354 276" marker-end="url(#arrow)"/>
+      <path d="M292 380 C 326 380, 326 294, 354 284" marker-end="url(#arrow)"/>
+      <path d="M642 274 H694" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- construction -->
+    <rect x="360" y="182" width="280" height="186" rx="12" fill="#e9f0fb" stroke="#a9bfdc"/>
+    <text x="378" y="216" font-size="20" font-weight="700" fill="#24486f">每一步重新构造输入</text>
+    <g font-size="16" fill="#344d68">
+      <text x="378" y="252">上一轮结果是否仍然有效</text>
+      <text x="378" y="282">历史偏好是否适用于当前任务</text>
+      <text x="378" y="312">工具返回中哪些字段影响下一步</text>
+      <text x="378" y="342">材料的用途和约束怎样说明</text>
+    </g>
+
+    <!-- model -->
+    <rect x="700" y="236" width="260" height="76" rx="12" fill="#fff" stroke="#c8d2de"/>
+    <text x="718" y="268" font-size="20" font-weight="700" fill="#182b40">模型调用</text>
+    <text x="718" y="296" font-size="16" fill="#526478">根据收到的输入决定下一步</text>
+
+    <!-- diagnosis -->
+    <g fill="none" stroke="#a7b4c2" stroke-width="1.6" stroke-dasharray="5 4">
+      <path d="M830 314 V446 H185 V468"/>
+      <path d="M500 446 V468"/>
+      <path d="M815 446 V468"/>
+    </g>
+    <text x="400" y="434" font-size="16" fill="#526478">出错时回到这次调用，按三个检查面定位</text>
+
+    <g fill="#fff" stroke="#c8d2de">
+      <rect x="40" y="472" width="290" height="140" rx="12"/>
+      <rect x="355" y="472" width="290" height="140" rx="12"/>
+      <rect x="670" y="472" width="290" height="140" rx="12"/>
+    </g>
+    <g font-size="20" font-weight="700" fill="#182b40">
+      <text x="58" y="506">信息</text>
+      <text x="373" y="506">工具</text>
+      <text x="688" y="506">格式</text>
+    </g>
+    <g font-size="16" fill="#344d68">
+      <text x="58" y="536">判断所需的事实进了输入吗</text>
+      <text x="373" y="536">缺的信息或操作能获取吗</text>
+      <text x="688" y="536">表达方式适合当前判断吗</text>
+    </g>
+    <g font-size="15" fill="#526478">
+      <text x="58" y="564">例：约束只写在未读取的文档里</text>
+      <text x="58" y="590">先查文档的发现与读取链路</text>
+      <text x="373" y="564">例：要实时状态，只给了旧摘要</text>
+      <text x="373" y="590">提供查询工具，说明何时调用</text>
+      <text x="688" y="564">例：错误消息丢了失败对象和原因</text>
+      <text x="688" y="590">保留决定下一步的字段</text>
+    </g>
+  </g>
+</svg>

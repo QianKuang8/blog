@@ -1,6 +1,6 @@
 ---
 date: '2026-06-05T21:34:00+08:00'
-lastmod: '2026-10-19T10:55:03+08:00'
+lastmod: '2026-10-29T17:06:00+08:00'
 title: "周星星谈上下文工程：四个动作的收益与损失"
 summary: "周星星用 Write、Select、Compress、Isolate 梳理 Agent 的信息流。本文按任务状态的生命周期解释四种动作，讨论检索、摘要和子 Agent 交接各自的收益与损失。"
 description: "解读上下文工程四分法，分析持久状态、相关信息选择、压缩保真及多 Agent 隔离的边界。"
@@ -34,9 +34,15 @@ learning_status: done
 
 例如，计划写进 `todo.md` 后，可以随任务调整，在需要时重新读取；一个 `todo` 状态变量也可以由不同步骤更新，而不是每次都重复放进 messages。存储载体不决定价值，关键是保存的内容是否足以支持下一次继续工作。
 
-![LangGraph 状态定义代码：OverallState 继承 MessagesState，在 messages 之外还定义了 todo、answer 和 step_index 字段。](/images/why-context-engineering-needed/state-todo-field.jpg)
+原文给出的 LangGraph 状态定义里，`todo` 与 `messages` 是同一状态对象中的不同字段，计划可以在流程中更新和读取，而不必每次都写进消息历史：
 
-*图 2：原图，来源同上。`todo` 与 `messages` 是同一状态对象中的不同字段，计划可以在流程中更新和读取，而不必每次都写进消息历史。*
+```python
+class OverallState(MessagesState):
+    messages: Annotated[list, operator.add]
+    todo: str
+    answer: str
+    step_index: int = Field(default=0)
+```
 
 这要求保留信息的语义。已经验证的结果、尚待检验的猜测、用户明确约束和临时尝试，不宜都写成同一种“事实”。原文强调保存有用信息；从工程上延伸，还需要来源、时间和状态，防止临时判断在后续被当作稳定规则。
 
@@ -62,9 +68,9 @@ learning_status: done
 
 隔离可以发生在 state 字段、代码执行环境或不同 Agent 的窗口中。原文讨论了把一串操作放进程序执行，只返回必要结果，以及让搜索、回答、评估 Agent 各自获得任务所需输入。
 
-![新闻检索 Agent 的流程图：supervisor 调度 search 与 answer，answer 之后经过 judge，再结束。](/images/why-context-engineering-needed/supervisor-search-answer-judge.jpg)
+![新闻检索 Agent 的流程图：从 start 进入 supervisor；supervisor 用条件边把任务交给 search 或 answer，search 完成后回到 supervisor；answer 之后进入 judge，judge 按评估结果回到 supervisor 或结束流程。](/images/why-context-engineering-needed/supervisor-flow.svg)
 
-*图 3：原图，来源同上。作者设计的新闻检索流程中，搜索、回答、评估各由一个 Agent 负责，supervisor 决定流转；随后讨论的问题是 judge 的输出怎样写回 supervisor 的上下文。*
+*图 2：重绘，来源同上，依据原文的 LangGraph 流程图整理，节点与连线不变，去掉了原图水印。作者设计的新闻检索流程中，搜索、回答、评估各由一个 Agent 负责，supervisor 决定流转；随后讨论的问题是 judge 的输出怎样写回 supervisor 的上下文。*
 
 其中有一条需要按评价目标补充条件。若 judge 只检查表达是否清楚、结构是否完整，答案与标准可能已经够用；若它要检查事实准确性，就仍然需要来源证据。不能为了隔离搜索过程，把完成验证所必需的资料也一并移走。
 

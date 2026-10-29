@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:28:00+08:00'
 lastmod: "2026-09-21T10:20:14+08:00"
-title: "Harrison Chase 谈长程 Agent：上下文、交接与可审查结果"
+title: "Harrison Chase 谈长程 Agent：适合产出可审查的初稿"
 summary: "长程 Agent 每一步都可能改变后续输入。Harrison Chase 从文件系统、子任务交接和 trace 说明如何维持任务连续性，并将可审查初稿与异步、同步交互作为产品边界。"
 description: "基于 Harrison Chase 访谈转录，解读长程 Agent 的上下文管理、评估反馈和工作区交互。"
 tags: ["agent", "context-engineering", "harness-engineering"]

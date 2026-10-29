@@ -95,7 +95,7 @@ Code-mode 在此基础上进一步改变了流程由谁推进。以数据仓库�
 ## 相关阅读
 
 - [LangChain Deep Agents 提分：只调 Harness，从 52.8 到 66.5]({{< relref "/posts/improving-deep-agents-with-harness-engineering.md" >}})：对照另一个改进案例，看失败轨迹怎样指导验证机制与推理预算调整。
-- [Claude Code 团队谈缓存：围绕稳定前缀组织提示]({{< relref "/posts/claude-code-prompt-caching-is-everything.md" >}})：补充缓存命中的机制，理解稳定前缀与上下文布局为什么影响成本。
+- [Claude Code 团队谈 Prompt Caching：围绕稳定前缀组织提示]({{< relref "/posts/claude-code-prompt-caching-is-everything.md" >}})：补充缓存命中的机制，理解稳定前缀与上下文布局为什么影响成本。
 - [Harness Engineering 阅读路径]({{< relref "/topics/harness-engineering.md" >}})：从工具与权限继续读到运行反馈、任务验证和成本改进。
 
 ## 原文

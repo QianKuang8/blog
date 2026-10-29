@@ -1,7 +1,7 @@
 ---
 date: '2026-06-05T21:30:00+08:00'
 lastmod: '2026-10-19T11:01:49+08:00'
-title: "Claude Code 团队谈工具设计：Seeing Like an Agent"
+title: "Claude Code 团队谈工具设计：先观察模型怎样用，再调整接口"
 summary: "Claude Code 团队通过提问工具、任务管理和搜索接口的演进，说明工具设计需要观察模型实际怎样行动。清晰的动作边界与按需发现，可以减少选择和上下文负担。"
 description: "解读 AskUserQuestion、TodoWrite 到 Tasks、渐进披露和 Guide 子 Agent 的设计经验。"
 tags: ["agentic-coding", "agent", "harness-engineering"]

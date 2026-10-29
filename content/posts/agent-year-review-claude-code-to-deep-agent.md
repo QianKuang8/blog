@@ -1,7 +1,7 @@
 ---
 date: '2026-04-06T11:00:00+08:00'
 lastmod: '2026-10-19T10:55:03+08:00'
-title: "周星星的 2025 Agent 复盘：从 Claude Code 到 Deep Agent"
+title: "周星星的 2025 Agent 复盘：Deep Agent 要兼顾专业判断与长时间执行"
 summary: "周星星的 2025 年复盘将专业判断与长时间执行视为 Deep Agent 的两项要求。本文梳理 Skills、子任务隔离、文件系统和工具分层怎样协作，并区分架构观察与已验证结论。"
 description: "解读一篇 2025 年 Agent 复盘中的业务知识封装、主从分工与长任务设计。"
 tags: ["agent", "行业动向"]

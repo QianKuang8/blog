@@ -1,7 +1,7 @@
 ---
 date: '2026-09-21T16:37:17+08:00'
 lastmod: '2026-10-20T10:55:09+08:00'
-title: 'OpenAI Habitat：存储扩展中的发布、排队与连接管理'
+title: 'OpenAI Habitat：服务层压低延迟后，连接洪峰容易冲垮下游'
 summary: "从 Habitat 的服务化经验出发，拆开存储请求中的发布耦合、事件循环等待与连接压力。判断扩容是否有效，需要同时观察用户延迟和下游成本。"
 description: "解读 OpenAI Habitat 的存储服务演进，并用时间线说明 asyncio 调度、连接池和查询边界如何影响扩展。"
 tags: ["架构迁移", "openai"]

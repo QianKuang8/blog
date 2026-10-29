@@ -19,8 +19,8 @@ Agent 每一步做得对不对，很大程度上取决于这一步的输入里�
 | [四个动作的收益与损失]({{< relref "/posts/why-context-engineering-needed.md" >}}) | 周星星，2025-09 | 用写入、选择、压缩、隔离四个动作梳理任务里的信息流，并讨论检索、摘要和交接各自会丢什么 |
 | [Agent 上下文工程的四类方法]({{< relref "/posts/context-engineering-for-agents.md" >}}) | Lance Martin，2025-06 | 四类方法的原始分类，以及每类方法对应的工程做法 |
 | [上下文工程的定义与失败排查]({{< relref "/posts/the-rise-of-context-engineering.md" >}}) | LangChain，2025-06 | 上下文工程的定义，以及怎样沿输入构造过程排查失败 |
-| [长程 Agent 的上下文设计模式]({{< relref "/posts/effective-agent-design.md" >}}) | Lance Martin，2026-01 | 半年后的实践汇总：用计算环境保存状态、按需发现能力、缓存和交接 |
-| [构建 Agent 时的上下文工程经验]({{< relref "/posts/manus-context-engineering.md" >}}) | Manus，2025-07 | 一个产品团队怎样处理缓存前缀、动作空间和失败记录 |
+| [状态存进文件系统，能力按需出现]({{< relref "/posts/effective-agent-design.md" >}}) | Lance Martin，2026-01 | 半年后的实践汇总：用计算环境保存状态、按需发现能力、缓存和交接 |
+| [保住 KV Cache 命中率，把失败留在上下文里]({{< relref "/posts/manus-context-engineering.md" >}}) | Manus，2025-07 | 一个产品团队怎样处理缓存前缀、动作空间和失败记录 |
 
 五篇都在路径里，按读者最先需要什么来排：LangChain 那篇给出定义，放在最前面；接下来两篇讲的是同一套框架，Lance Martin 的文章提出分类，周星星的中文文章按任务状态的生命周期重新展开，更容易代入具体任务，所以先读它；Manus 是一个完整的生产案例，放在机制部分开头；Lance Martin 半年后的模式汇总，放在长程任务部分开头。
 
