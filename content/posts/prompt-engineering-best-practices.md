@@ -1,9 +1,9 @@
 ---
 date: '2026-06-05T21:20:00+08:00'
-lastmod: '2026-09-21T10:26:22+08:00'
-title: "Claude 提示工程最佳实践：写清任务、材料与验收标准"
+lastmod: '2026-10-29T17:24:00+08:00'
+title: "Claude 提示词工程最佳实践：写清任务、材料与验收标准"
 summary: "一条可执行的提示，需要说明要做什么、材料如何使用、输出怎样验收，以及信息不足时如何处理。示例、格式控制和任务拆分应针对实际失败逐项加入。"
-description: "解读 Claude 提示工程指南中的明确指令、动机、示例、不确定性表达和多阶段任务拆分。"
+description: "解读 Claude 提示词工程指南中的明确指令、动机、示例、不确定性表达和多阶段任务拆分。"
 tags: ["prompt-engineering", "context-engineering", "anthropic"]
 categories: ["好文分享"]
 author: "Qian"

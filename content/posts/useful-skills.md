@@ -1,6 +1,6 @@
 ---
 date: '2026-03-12T23:30:00+08:00'
-lastmod: '2026-09-21T10:12:54+08:00'
+lastmod: '2026-10-29T17:24:00+08:00'
 title: "Skill 清单：Skill Creator、Superpowers、Grill Me 与 GitHub KB"
 summary: "整理 Skill Creator、Superpowers、Grill Me 与个人 GitHub KB 的用途，说明适用场景、预期产物和核验范围。"
 description: "面向重复工作选择 Agent Skills，并保留一个本地 GitHub 仓库知识库的历史创建需求。"
@@ -12,23 +12,23 @@ showToc: true
 learning_status: done
 ---
 
-遇到重复任务时，Skill 可以把操作方法、参考资料和辅助脚本保存在一起，供 Agent 按需读取。挑选它的依据应是自己经常遇到什么问题：创建技能、组织开发流程、澄清设计，还是维护一份本地知识索引。
+遇到重复任务时，Skill 可以把操作方法、参考资料和辅助脚本保存在一起，供 Agent 按需读取。挑选它的依据应是自己经常遇到什么问题：创建 Skill、组织开发流程、澄清设计，还是维护一份本地知识索引。
 
 这份清单保留原有的四个方向。2026 年 9 月 21 日核对了公开仓库中的用途说明与链接，没有重新安装并验证各宿主环境；个人 GitHub KB 仍只保留创建需求，不把它视为已经验收的通用工具。
 
-## 用 Skill Creator 把重复操作整理成技能
+## 用 Skill Creator 把重复操作整理成 Skill
 
-[Anthropic 的 Skill Creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) 适合创建或改进 Claude Skills。它的流程包含明确需求、编写技能、用测试任务检查结果，再根据反馈修改；触发描述也可以单独评估。
+[Anthropic 的 Skill Creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) 适合创建或改进 Claude Skills。它的流程包含明确需求、编写 Skill、用测试任务检查结果，再根据反馈修改；触发描述也可以单独评估。
 
 准备输入时，最好提供一次具体任务和预期产物。例如，与其要求“写一个代码审查 Skill”，不如说明要比较哪个基线、读取哪些规范、按什么格式报告问题。验收也应检查真实输出，不能只看 `SKILL.md` 是否写得完整。
 
 ## 用 Superpowers 组织一段开发流程
 
-[Superpowers](https://github.com/obra/superpowers) 把设计讨论、计划、测试驱动开发、调试和审查组织成可组合的技能。它适合需要多个阶段协作、又容易跳过某个阶段的开发任务。
+[Superpowers](https://github.com/obra/superpowers) 把设计讨论、计划、测试驱动开发、调试和审查组织成可组合的 Skill。它适合需要多个阶段协作、又容易跳过某个阶段的开发任务。
 
 原清单中值得回查的入口包括 `brainstorming`、`writing-plans`、`test-driven-development`、`systematic-debugging`、`subagent-driven-development` 和 `requesting-code-review`。具体名称、安装方法与宿主支持以仓库当前说明为准。
 
-使用整套流程前，应先判断任务规模。一个已经明确的小修补，未必需要完整的设计访谈；跨模块改动则可能需要计划、隔离工作区和独立审查。选择技能的目的，是补上当前任务缺失的步骤。
+使用整套流程前，应先判断任务规模。一个已经明确的小修补，未必需要完整的设计访谈；跨模块改动则可能需要计划、隔离工作区和独立审查。选择 Skill 的目的，是补上当前任务缺失的步骤。
 
 ## 用 Grill Me 找出尚未作出的决定
 
@@ -53,7 +53,7 @@ learning_status: done
 
 重新实现时有两点值得收紧。第一，“提到 repo 就触发”范围很大，可以改成用户确实需要查找、下载或理解仓库时再使用。第二，本地副本只是一个已知版本；回答当前远端状态时，需要检查分支和更新时间，再决定是否获取新信息。
 
-这四类工具分别沉淀方法、组织执行、澄清决策和定位资料。先为一个反复出现的问题选择一项，再用真实任务检查是否节省了重复工作，比一次安装许多技能更容易看清收益。
+这四类工具分别沉淀方法、组织执行、澄清决策和定位资料。先为一个反复出现的问题选择一项，再用真实任务检查是否节省了重复工作，比一次安装许多 Skill 更容易看清收益。
 
 ## 参考资料
 

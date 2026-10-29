@@ -7,6 +7,6 @@ legacyPosts: ["five-agent-skills-i-use-every-day", "prompt-engineering-guide"]
 ---
 
 - [5 个 Agent Skills：把经验变成可重复调用的流程]({{< relref "/posts/five-agent-skills-i-use-every-day.md" >}})
-- [Prompt Engineering Guide：适合作为提示工程的长期导航]({{< relref "/posts/prompt-engineering-guide.md" >}})
+- [Prompt Engineering Guide：适合作为提示词工程的长期导航]({{< relref "/posts/prompt-engineering-guide.md" >}})
 
 继续按[主题和来源]({{< relref "/tags" >}})浏览文章。
