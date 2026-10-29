@@ -10,7 +10,7 @@
 
 发布前运行 `.venv/bin/python scripts/build_site.py`。它依次执行：
 
-1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录；本地克隆了私有归档时，公开记录须与归档 frontmatter 一致）、专题页的 `date`/`lastmod` 不晚于当前时间（专题页没有 `date` 时 Hugo 以 `lastmod` 为发布时间，未来时间会让页面被跳过）、站内链接不写死 `/blog/`，文章、专题页和推荐理由的“避免的表达”（BLOG_PROMPTS.md），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
+1. `scripts/check_content.py` 检查源文件：必需元数据、显式时区、`lastmod >= date`、单一合法栏目、已登记且未停用的标签、未知 frontmatter 字段、来源记录（外部文章只有元信息、无人引用的记录；本地克隆了私有归档时，公开记录须与归档 frontmatter 一致）、专题页的 `date`/`lastmod` 不晚于当前时间（专题页没有 `date` 时 Hugo 以 `lastmod` 为发布时间，未来时间会让页面被跳过）、有来源记录的文章标题不与原题相同、克隆了私有归档时原文配图有选择记录（选用或 `image_note`）且归档不留没有地址的图片占位符、站内链接不写死 `/blog/`，文章、专题页和推荐理由的“避免的表达”（BLOG_PROMPTS.md），以及视频的来源字段、原视频链接、PDF 路径、子模块、站点与固定 GitHub 链接。
 2. 在新的临时目录做干净的 Hugo 构建，并比对产物中的 PDF 字节。
 3. `scripts/check_site.py` 检查产物：站内链接与资源存在、每页唯一且指向自身的 canonical、每页 `<html lang>` 等于配置的 `languageCode`（`zh-CN`）、sitemap 不收录 noindex 或跳转页、文章 JSON-LD、搜索索引覆盖全部文章并带上各自来源记录的原文标题、文章页的复制按钮内容、文章类型标签、专题目录与文末导航、学习清单分组与编辑链接、停用标签的兼容入口。
 
@@ -145,7 +145,7 @@ blog/
 ├── static/
 │   ├── images/<slug>/      # 文章配图
 │   └── pdfs/               # 子模块：公开仓库 blog-pdfs
-├── scripts/                # build_site.py、check_*.py、new_post.py、source_record.py、lastmod_reminder.py、hooks/
+├── scripts/                # build_site.py、check_*.py、new_post.py、add_image.py、source_record.py、lastmod_reminder.py、hooks/
 └── tests/
 ```
 
@@ -182,6 +182,7 @@ extractor: "defuddle"
 - `retrieved_at` 必须带时区。
 - 正文之前不额外插入“Metadata”标题；抓取说明写在 frontmatter 的 `extraction_note`。
 - 一篇文章依据多份原文时，主记录用 `related_sources: ["<slug>"]` 列出其余记录（例如 Uber Arm 迁移的第二篇）。
+- `image_sources` 由 `scripts/add_image.py` 追加；原文有图而文章一张不用时写 `image_note`（见 AGENTS.md）。
 
 ### 书籍导读
 
@@ -195,9 +196,9 @@ extractor: "defuddle"
 1. 收集：看到好文章 → 记录到 inbox.md（标题 + 链接）
 2. 批量处理（按主题分批，每批 5-10 篇）
    ├─ 2a. scripts/new_post.py 生成私有全文、公开元信息和文章草稿（必选）
-   ├─ 2b. 检查全文是否有完整 metadata + 正文，补齐脚本提示的字段
-   ├─ 2c. 确认 categories: ["好文分享"] 和 tags
-   ├─ 2d. 基于私有全文撰写博客文章，并检查原文图表、选取有解释价值的配图
+   ├─ 2b. 检查全文是否有完整 metadata + 正文和图片地址，补齐脚本提示的字段
+   ├─ 2c. 逐张查看原文图片，用 scripts/add_image.py 保存选用的图，或写 image_note
+   ├─ 2d. 基于私有全文撰写博客文章：本站标题（不沿用原题）、categories: ["好文分享"]、tags
    └─ 2e. 按 BLOG_PROMPTS.md 做发布前 review
 3. 发布：hugo server -D 预览 → scripts/build_site.py → 分别提交两个仓库并推送
 4. 清理：从 inbox.md 移除已发布条目
@@ -206,25 +207,32 @@ extractor: "defuddle"
 单篇命令：
 
 ```bash
-# 1. 用 defuddle 抓取全文，写出私有全文、公开元信息和草稿 content/posts/<slug>.md（draft: true）
+# 1. 抓取：用 defuddle 写出私有全文、公开元信息和草稿 content/posts/<slug>.md（draft: true）
 .venv/bin/python scripts/new_post.py <slug> "https://..."
-# 输出的 check: 行列出需要手工确认的字段：没有发布日期、作者或描述。
+# check: 行列出需要手工确认的事项：没有发布日期、作者或描述，以及原文图片数量。
 # defuddle 漏掉发布日期或作者时，用 --published YYYY-MM-DD、--author 补上；已保存的 defuddle JSON 可用 --from-json 读入。
 # 抓取失败或正文不完整时，按下文“抓取失败与替代来源补档”继续处理，并记录到 sources/failed/failed-sources.md。
-# 之后修改 frontmatter（补 related_sources、image_sources 等）时先改私有全文，再运行
+
+# 2. 配图：草稿开头的注释列出了提取到的原文图片；对照原页面补看 defuddle 漏掉的图表，逐张决定
+.venv/bin/python scripts/add_image.py <slug> <name> "<图片 URL>" --title "原图标题"
+# 页面截图等本地文件另加 --source-url <页面 URL> --method "原页面图表截图"。
+# 一张都不用时，在私有归档 frontmatter 写 image_note，再运行 source_record.py。
+
+# 3. 写作：按 BLOG_PROMPTS.md 写正文；标题按其“标题”一节改写，不沿用原题；删去草稿开头的注释和 draft
+# 之后修改 frontmatter（补 related_sources、image_note 等）时先改私有全文，再运行
 # .venv/bin/python scripts/source_record.py <slug>
 
-# 2. 写草稿：换成中文标题，删去 draft 和开头注释，预览并正式构建
+# 4. 预览并正式构建
 hugo server -D
 .venv/bin/python scripts/build_site.py
 
-# 3. 私有仓库提交全文
+# 5. 私有仓库提交全文
 git -C sources/archive add orig/<slug>.md
 git -C sources/archive commit -m "add: <slug>"
 git -C sources/archive push
 
-# 4. 本仓库提交文章和元信息，从 inbox.md 移除对应条目
-git add content/posts/<slug>.md sources/orig/<slug>.md
+# 6. 本仓库提交文章、元信息和配图，从 inbox.md 移除对应条目
+git add content/posts/<slug>.md sources/orig/<slug>.md static/images/<slug>/
 git commit -m "add: 文章标题"
 ```
 
@@ -239,7 +247,7 @@ git commit -m "add: 文章标题"
 
 1. **先尝试原站。** 优先用 `scripts/new_post.py` / `defuddle` 获取正文。原站可访问但提取为空、被截断或遗漏图表时，可使用浏览器或页面读取工具核对并提取渲染后的正文。对明确的 403 不反复重试同一方式，转而查找替代来源。
 2. **查找同文。** 搜索原文链接、标题和作者，优先查作者其他发布渠道，再查明确署名、标注原始出处的可信转载。以往成功的渠道（如青稞社区）可作为线索，但每篇仍需核对，不能预设其必然收录或完整。
-3. **确认身份与完整性。** 结合标题、原作者、原文链接及可核对的章节内容确认是同一篇；转载页上传者不自动视为原作者。检查正文开头、主要章节、结尾、图片、表格与参考链接；搜索摘要、节选和他人解读不能代替全文。原站不可访问时如实记录核对依据，不声称已与原站逐段比对。
+3. **确认身份与完整性。** 结合标题、原作者、原文链接及可核对的章节内容确认是同一篇；转载页上传者不自动视为原作者。检查正文开头、主要章节、结尾、图片、表格与参考链接，图片按 AGENTS.md 保留地址；搜索摘要、节选和他人解读不能代替全文。原站不可访问时如实记录核对依据，不声称已与原站逐段比对。
 4. **记录补档来源。** 新建补档记录时，`source_url` 保留原文链接，`domain` 与之对应，`archived_from` 记录实际取得全文的替代地址；`author` 写原作者，`extractor` 写实际提取方式。在 `extraction_note` 记录原站失败原因、替代来源、完整性核对结果与仍有的缺失。`published_at` 只记录可确认的原文日期；只能确认转载日期时，将其注明为转载日期写入 `extraction_note`，原文日期写 `null`。
 5. **取得全文后继续。** 替代页面可用 defuddle 提取时，沿用 `scripts/new_post.py`（也可用 `--from-json` 读取已保存的结果），再按上一步核对、修正私有归档元信息，并运行 `scripts/source_record.py <slug>` 同步公开记录。通过浏览器取得正文时，同样保存到私有归档、准确记录提取方式并生成公开记录，随后继续现有写作与审校流程。博文保留原文链接；实际依据转载时，同时提供转载链接并说明。
 6. **仍无法补齐时暂停。** 找不到可靠全文、正文仍有影响写作的缺失，或无法确认是同一篇时，简要告知已尝试的方式和缺少的材料，请用户提供替代 URL、复制的文本或本地文件，等待补齐后再继续这篇文章。
@@ -264,11 +272,12 @@ git commit -m "add: 文章标题"
 - 选用的图片存入 `static/images/<slug>/`，正文引用 `/images/<slug>/...`。
 - 构建时，图片渲染钩子为 PNG、JPEG、WebP 生成 720 与 1440 宽的 WebP 显示版本，并让图片链接到原图；SVG 原样显示。原图文件保持不变，不手工压缩，也不另存缩小版。点击配图时，原图在文章上方的灯箱中按屏幕大小显示，按 Esc 或点击任意处关闭；按住 Cmd 或 Ctrl 点击则在新标签页打开原图。
 - 优先取得清晰的原图文件；交互图表截取原页面中的完整图表区域。
-- 在私有归档 frontmatter 的 `image_sources` 中记录图片标题、站内路径、原图或页面 URL、取得方式和时间，再运行 `scripts/source_record.py <slug>` 同步公开元信息。重绘或局部截取须说明处理方式。
+- 用 `scripts/add_image.py` 保存选用的图：按文件内容确定扩展名（转载站常把 PNG 放在 `.webp` 地址下），不改动字节；在私有归档 frontmatter 的 `image_sources` 追加图片标题、站内路径、原图或页面 URL、取得方式和时间，同步公开元信息，并打印可粘贴的图片与图注模板。重绘或局部截取时传入本地文件，并在 `--method` 说明处理方式。
 - `scripts/check_content.py` 会拒绝以下情况：
   - 所有文章：图片没有 alt；不是 `/images/...` 下实际存在的文件；`static/images/` 中有无人引用的文件。
   - 文章解读与视频笔记：图片后面一段不是斜体图注；图注开头不是 BLOG_PROMPTS.md 规定的“图 N：”加标注，或编号不是按顺序从 1 开始。
   - 文章解读：用到的站内图片没有列入 `image_sources`；`image_sources` 条目字段不全，或指向文章没有用到的图片。书籍导读的来源记录手工维护，`image_sources` 直接写在 `sources/orig/<slug>.md`。
+  - 文章解读，且克隆了私有归档时：归档里有没有地址的图片占位符；原文有图（视频嵌入不算）而文章一张不用，又没有 `image_note`。
 
 ## 视频笔记与 PDF
 

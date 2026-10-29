@@ -1,4 +1,4 @@
-"""Tests for the writing tools: starting an external-article draft and the lastmod reminder."""
+"""Tests for the writing tools: starting an external-article draft, adding its figures, and the lastmod reminder."""
 
 from datetime import datetime, timedelta, timezone
 import os
@@ -15,6 +15,7 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scripts"))
 from check_content import read_markdown, validate_content
+from add_image import add_image, image_format, with_image_source
 from lastmod_reminder import reminders
 from new_post import author_name, create_post, published_date
 
@@ -92,6 +93,24 @@ class NewPostTests(unittest.TestCase):
         record = read_markdown(self.repo / "sources/archive/orig/dated.md")[0]
         self.assertEqual((record["published_at"], record["author"]), ("2024-05", "Example Team"))
 
+    def test_draft_lists_the_original_images_and_must_get_its_own_title(self):
+        content = "Text.\n\n![Loop](https://example.com/loop.png)\n\n![](https://www.youtube.com/watch?v=abc)\n\n【2†Image†cdn.example.com】\n"
+        notes = create_post(self.repo, "pictures", "https://example.com/post", {**DEFUDDLE, "content": content}, NOW)
+        self.assertIn("the original has 1 image(s), listed in the draft: add the useful ones with scripts/add_image.py, or record image_note", notes)
+        self.assertIn("1 image placeholder(s) have no address: take each image's src from the page and write ![title](URL) in the archive", notes)
+        draft = self.repo / "content/posts/pictures.md"
+        text = draft.read_text(encoding="utf-8")
+        self.assertIn("\n   - https://example.com/loop.png\n", text)
+        self.assertNotIn("youtube", text)
+        self.assertIn("不沿用原题", text)
+        self.assertIn("提取结果里没有图片", (self.repo / "content/posts/product-evals.md").read_text(encoding="utf-8"))
+        # Publishing the draft as generated is caught: the original title, the lost image address and the missing figure choice.
+        draft.write_text(text.replace("draft: true\n", "").replace('summary: ""', 'summary: "S"').replace('description: ""', 'description: "D"'), encoding="utf-8")
+        failures = "\n".join(validate_content(self.repo))
+        self.assertIn("content/posts/pictures.md: title repeats the original title", failures)
+        self.assertIn("sources/archive/orig/pictures.md: 1 image placeholder(s) have no address", failures)
+        self.assertIn("content/posts/pictures.md: the original has 2 image(s) but the article uses none", failures)
+
     def test_publication_dates_and_authors_are_read_from_common_formats(self):
         for value, expected in (("2026-03-11T08:00:00Z", "2026-03-11"), ("March 11, 2026", "2026-03-11"),
                                 ("11 Mar 2026", "2026-03-11"), ("", None), ("soon", None)):
@@ -100,6 +119,87 @@ class NewPostTests(unittest.TestCase):
         schema = {"author": "", "schemaOrgData": [{"author": [{"name": "A"}, {"name": "B"}]}]}
         self.assertEqual(author_name(schema), "A, B")
         self.assertIsNone(author_name({"author": "", "metaTags": [{"property": "article:author", "content": "https://x.com/a"}]}))
+
+
+PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 16
+
+
+class AddImageTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.repo = Path(self.temporary.name)
+        for directory in ("content/posts", "sources/orig", "sources/archive/orig", "config/_default", "data"):
+            (self.repo / directory).mkdir(parents=True)
+        for name in ("categories.json", "tag_groups.json"):
+            shutil.copy(REPO / "data" / name, self.repo / "data" / name)
+        (self.repo / "config/_default/config.yaml").write_text("baseURL: https://example.com/blog/\n")
+        self.url = "https://eugeneyan.com/writing/product-evals/"
+        create_post(self.repo, "product-evals", self.url, DEFUDDLE, NOW)
+        self.archive = self.repo / "sources/archive/orig/product-evals.md"
+
+    def add(self, name="loop", data=PNG, **changes):
+        arguments = {"title": "Eval loop", "source_url": "https://cdn.example.com/loop.webp", "method": "原图文件，未改动", **changes}
+        return add_image(self.repo, "product-evals", name, data, now=NOW, **arguments)
+
+    def test_saves_the_bytes_by_their_format_and_records_them(self):
+        path, record = self.add()
+        self.assertEqual(path, "/images/product-evals/loop.png", "the extension follows the bytes, not the URL")
+        self.assertEqual((self.repo / "static/images/product-evals/loop.png").read_bytes(), PNG)
+        entry = {"title": "Eval loop", "path": path, "source_url": "https://cdn.example.com/loop.webp",
+                 "method": "原图文件，未改动", "retrieved_at": "2026-10-26T18:00:00+08:00"}
+        self.assertEqual(record["image_sources"], [entry])
+        self.add("chart", b"\xff\xd8\xff\xe0rest", title="Chart")
+        archived, body = read_markdown(self.archive)
+        self.assertEqual([item["path"] for item in archived["image_sources"]], [path, "/images/product-evals/chart.jpg"])
+        self.assertEqual(archived["title"], DEFUDDLE["title"])
+        self.assertIn("## First, label some data", body)
+        self.assertEqual(read_markdown(self.repo / "sources/orig/product-evals.md"), (archived, ""))
+        # A published article that uses both figures passes the checks, archive comparison included.
+        post = self.repo / "content/posts/product-evals.md"
+        text = post.read_text(encoding="utf-8").replace("draft: true\n", "").replace('summary: ""', 'summary: "S"').replace('description: ""', 'description: "D"')
+        text = text.replace(f'title: "{DEFUDDLE["title"]}"', 'title: "Eugene Yan 的产品评估三步法"')
+        figures = "".join(f"![Figure]({image})\n\n*图 {number}：原图，来源：[原文]({self.url})。*\n\n"
+                          for number, image in enumerate((path, "/images/product-evals/chart.jpg"), 1))
+        post.write_text(text.replace("## 原文", figures + "## 原文"), encoding="utf-8")
+        self.assertEqual(validate_content(self.repo), [])
+
+    def test_refuses_html_existing_files_and_bad_names(self):
+        with self.assertRaisesRegex(ValueError, "not a PNG, JPEG, GIF, WebP or SVG file"):
+            self.add(data=b"<!DOCTYPE html><html>captcha</html>")
+        self.add()
+        with self.assertRaisesRegex(ValueError, "already exists: static/images/product-evals/loop.png"):
+            self.add()
+        for name in ("Loop", "loop.png", ""):
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, "lowercase letters"):
+                self.add(name)
+        with self.assertRaisesRegex(ValueError, "--source-url must be an absolute HTTP"):
+            self.add("other", source_url="loop.png")
+        with self.assertRaisesRegex(ValueError, "run scripts/new_post.py first"):
+            add_image(self.repo, "missing", "loop", PNG, "Title", "https://example.com/a.png", "原图文件，未改动", NOW)
+        self.assertEqual(len(read_markdown(self.archive)[0]["image_sources"]), 1, "failed calls record nothing")
+
+    def test_appends_to_existing_lists_in_either_indentation(self):
+        entry = {"title": "New", "path": "/images/x/new.png", "source_url": "https://example.com/new.png",
+                 "method": "原图文件，未改动", "retrieved_at": "2026-10-26T18:00:00+08:00"}
+        old = "  - title: Old\n    path: /images/x/old.png\n"
+        for listing in ("image_sources:\n" + old, "image_sources:\n" + old.replace("  - ", "- ").replace("    ", "  "), "image_sources: []\n"):
+            with self.subTest(listing=listing):
+                text = f"---\ntitle: T\n{listing}extractor: defuddle\n---\n\nBody text.\n"
+                updated = with_image_source(text, entry)
+                self.assertEqual(yaml.safe_load(updated.split("---\n")[1])["image_sources"][-1], entry)
+                # Every other line, and the archived text, stays exactly as it was.
+                self.assertTrue(updated.startswith("---\ntitle: T\nimage_sources:"))
+                self.assertTrue(updated.endswith("extractor: defuddle\n---\n\nBody text.\n"))
+        with self.assertRaisesRegex(ValueError, "not a block list"):
+            with_image_source("---\ntitle: T\nimage_sources: [{title: Old}]\n---\nBody\n", entry)
+
+    def test_formats_are_recognized_from_their_bytes(self):
+        for data, expected in ((PNG, "png"), (b"\xff\xd8\xff\xdb", "jpg"), (b"GIF89a....", "gif"),
+                               (b"RIFF\x00\x00\x00\x00WEBPVP8 ", "webp"), (b"<?xml version='1.0'?><svg xmlns='x'/>", "svg"),
+                               (b"<html><svg/></html>", None), (b"", None)):
+            with self.subTest(data=data[:12]):
+                self.assertEqual(image_format(data), expected)
 
 
 class LastmodReminderTests(unittest.TestCase):

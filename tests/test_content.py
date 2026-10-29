@@ -396,6 +396,54 @@ class ContentValidationTests(unittest.TestCase):
         self.record_image(self.add_image("example/other.png"))
         self.assert_failure("image_sources lists /images/example/other.png, but the article does not use it")
 
+    def test_title_must_not_repeat_the_original_title(self):
+        self.add_source()
+        for title in ("Original", "original", "Original：", " Ori ginal"):
+            with self.subTest(title=title):
+                self.metadata["title"] = title
+                self.write_post()
+                self.assert_failure("content/posts/example.md: title repeats the original title in sources/orig/example.md")
+        self.metadata["title"] = "Example Team：the point of the original"
+        self.write_post()
+        self.assertEqual(validate_content(self.repo), [])
+
+    def write_archive(self, body, **changes):
+        """Archive the article privately with the public record's frontmatter (plus changes) and the given text."""
+        self.record.update(changes)
+        self.write_markdown(self.source, self.record, "")
+        archive = self.repo / "sources/archive/orig/example.md"
+        archive.parent.mkdir(parents=True, exist_ok=True)
+        self.write_markdown(archive, self.record, body)
+        return archive
+
+    def test_original_images_need_a_choice_when_the_archive_is_cloned(self):
+        self.add_source()
+        self.assertEqual(validate_content(self.repo), [], "without the private archive there is nothing to compare")
+        self.write_archive("Text.\n\n![Architecture](https://example.com/architecture.png)\n\n<img src='https://example.com/b.png'>\n")
+        self.assert_failure("content/posts/example.md: the original has 2 image(s) but the article uses none")
+        self.write_archive("Text.", image_note="")
+        self.assert_failure("sources/orig/example.md: image_note must be a nonempty string")
+        self.write_archive("Text.\n\n![Architecture](https://example.com/architecture.png)\n", image_note="原文只有一张装饰性封面图，不选用。")
+        self.assertEqual(validate_content(self.repo), [])
+        # Video embeds are not images; an article that uses a figure needs no note.
+        self.record.pop("image_note")
+        self.write_archive("Text.\n\n![](https://www.youtube.com/watch?v=abc)\n")
+        self.assertEqual(validate_content(self.repo), [])
+        path = self.add_image("example/figure.png")
+        self.record_image(path)
+        self.write_archive("Text.\n\n![Architecture](https://example.com/architecture.png)\n")
+        self.write_post(f"![Figure]({path})\n\n*图 1：原图，来源：[Original](https://example.com/original)。*")
+        self.assertEqual(validate_content(self.repo), [])
+
+    def test_image_placeholders_without_an_address_fail(self):
+        self.add_source()
+        for body in ("Text.\n\n【2†Image†simg.example.com】\n", "Text.\n\n[图片]\n", "Text.\n\n  [image]\n"):
+            with self.subTest(body=body):
+                self.write_archive(body, image_note="原文只有一张装饰性封面图，不选用。")
+                self.assert_failure("sources/archive/orig/example.md: 1 image placeholder(s) have no address")
+        self.write_archive("Text.\n\n![图片](https://example.com/a.png)\n\n见 [图片] 说明。\n", image_note="原文只有一张装饰性封面图，不选用。")
+        self.assertEqual(validate_content(self.repo), [], "alt text and inline mentions are not placeholders")
+
     def test_image_sources_entries_are_validated(self):
         path = self.add_image("example/figure.png")
         self.add_source()

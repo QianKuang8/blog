@@ -161,6 +161,11 @@ WORDING_LIMITS = (
     ("边界", re.compile(r"(?<!模块|服务|进程|信任)边界(?!条件|情况)"), 3, "name the concrete condition or limit instead"),
 )
 TITLE_TEMPLATE = re.compile(r"把[^：:]{0,30}?(?:接成|接回|连成|连起来|变成)")
+# Images in an archived article, Markdown or HTML; defuddle also writes video embeds as images.
+ARCHIVE_IMAGE = re.compile(r"!\[[^\]\n]*\]\(\s*<?([^\s)>]+)|<img\b[^>]*?\bsrc\s*=\s*[\"']([^\"']+)", re.I)
+VIDEO_HOSTS = ("youtube.com", "youtu.be", "vimeo.com", "bilibili.com")
+# What page-reading tools leave when they drop an image's address, such as 【2†Image†simg.baai.ac.cn】 or a bare [图片] line.
+IMAGE_PLACEHOLDER = re.compile(r"†Image†|^[ \t]*\[(?:图片|image)\][ \t]*$", re.I | re.M)
 HEDGES = re.compile(r"不能|不等于|并不|未必|不代表|不意味着|边界")
 HEDGES_PER_THOUSAND = 6
 
@@ -185,6 +190,20 @@ def wording_failures(metadata: dict, body: str) -> list[str]:
     if isinstance(metadata.get("title"), str) and TITLE_TEMPLATE.search(metadata["title"]):
         failures.append("title follows the 把…接成/接回/连成/连起来/变成 template; name the subject and question instead")
     return failures
+
+
+def archive_images(body: str) -> tuple[list[str], int]:
+    """Image addresses in an archived article (video embeds excluded), and placeholders left without one."""
+    addresses = [markdown or html for markdown, html in ARCHIVE_IMAGE.findall(body)]
+    images = [url for url in addresses if not any(host in urlsplit(url).netloc for host in VIDEO_HOSTS)]
+    return images, len(IMAGE_PLACEHOLDER.findall(body))
+
+
+def same_title(first, second) -> bool:
+    """Equal once spacing, punctuation and letter case are ignored."""
+    def normalize(text):
+        return re.sub(r"[\W_]+", "", text).casefold() if isinstance(text, str) else None
+    return normalize(first) is not None and normalize(first) == normalize(second)
 
 
 def hedge_density(body: str) -> float:
@@ -354,7 +373,7 @@ class ContentChecker:
         if not isinstance(slug, str) or not re.fullmatch(r"[^/\\.][^/\\]*", slug):
             self.fail(post, "slug must be a single nonempty path segment")
             return
-        self.check_post_source(post, slug, source_dir, body, images, published)
+        self.check_post_source(post, slug, source_dir, data.get("title"), body, images, published)
 
     def check_post_fields(self, post: Path, data: dict, body: str) -> tuple[list[tuple[str, str, str]], datetime | None]:
         """Frontmatter, wording, links and images of a published post; returns its figures and date."""
@@ -411,13 +430,15 @@ class ContentChecker:
 
     # Source records.
 
-    def check_post_source(self, post: Path, slug: str, source_dir: str, body: str, images: list[tuple[str, str, str]], published: datetime | None) -> None:
+    def check_post_source(self, post: Path, slug: str, source_dir: str, title, body: str, images: list[tuple[str, str, str]], published: datetime | None) -> None:
         source = self.repo / "sources" / source_dir / f"{slug}.md"
         result = self.read(source)
         if result is None:
             return
         record, source_body = result
         self.check_record(source, record, source_body)
+        if same_title(title, record.get("title")):
+            self.fail(post, f"title repeats the original title in {source.relative_to(self.repo)}; write this post's own title, source first and then the point (BLOG_PROMPTS.md 标题)")
         own_recorded = self.check_image_sources(source, record)
         recorded = set(own_recorded)
         related = record.get("related_sources", [])
@@ -438,8 +459,26 @@ class ContentChecker:
                 self.fail(post, f"image {destination} is missing from image_sources in {source.relative_to(self.repo)}; for articles, record it in the private archive and run scripts/source_record.py")
             for path in sorted(own_recorded - used):
                 self.fail(source, f"image_sources lists {path}, but the article does not use it")
+            self.check_image_choice(post, source, record, used)
             return
         self.check_video(post, slug, body, source, record, published)
+
+    def check_image_choice(self, post: Path, source: Path, record: dict, used: set[str]) -> None:
+        """An article whose original has images uses some, or says in image_note why none; checked when the private archive is cloned."""
+        note = record.get("image_note")
+        if "image_note" in record and (not isinstance(note, str) or not note.strip()):
+            self.fail(source, "image_note must be a nonempty string; omit it when there is nothing to explain")
+        archived = self.repo / "sources/archive/orig" / source.name
+        if record.get("source_type") == "book" or not archived.is_file():
+            return
+        try:
+            originals, placeholders = archive_images(read_markdown(archived)[1])
+        except (OSError, ValueError, TypeError, yaml.YAMLError):
+            return  # reported by check_archive_sync
+        if placeholders:
+            self.fail(archived, f"{placeholders} image placeholder(s) have no address (such as 【2†Image†…】 or [图片]); take each image's src or data-src from the page and write ![title](URL) in its place")
+        if (originals or placeholders) and not used and not note:
+            self.fail(post, f"the original has {len(originals) + placeholders} image(s) but the article uses none; add the useful ones with scripts/add_image.py, or record why none is used in image_note in {archived.relative_to(self.repo)} and run scripts/source_record.py")
 
     def check_record(self, source: Path, record: dict, body: str) -> None:
         self.required_text(source, record, ("title", "source_url"))

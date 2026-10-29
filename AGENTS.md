@@ -27,8 +27,11 @@ git config core.hooksPath scripts/hooks
 # 写外部文章解读时：克隆私有原文归档（目录已被 git 忽略）
 git clone https://github.com/QianKuang8/blog-sources.git sources/archive
 
-# 外部文章：抓取全文写入私有归档，生成公开来源记录和文章草稿
+# 外部文章：抓取全文写入私有归档，生成公开来源记录和文章草稿（草稿开头列出剩余步骤和原文图片）
 .venv/bin/python scripts/new_post.py <slug> <url>
+
+# 外部文章选用配图：保存原图到 static/images/<slug>/，登记 image_sources 并同步公开记录
+.venv/bin/python scripts/add_image.py <slug> <name> <图片 URL 或本地文件> --title "图片标题"
 
 # 新文章 / 视频笔记（默认待学习）
 hugo new content content/posts/my-post.md
@@ -92,6 +95,12 @@ showToc: true
 - 一篇文章用到多份来源时，在主来源记录的 `related_sources` 中列出其余记录；无人引用的来源记录会被检查拒绝。
 - 视频笔记必须有 `sources/video/<slug>.md`，记录来源、时间戳和证据边界。
 - 站内图片与 PDF 从站点根目录写（`/images/...`、`/pdfs/...`），不写 `/blog/` 前缀；引用站内文章用 `relref`。
+
+**外部文章：标题与配图**
+- 新增外部文章按 WORKFLOW.md“外部文章工作流”的单篇步骤逐项完成，`new_post.py` 生成的草稿开头也列出了这些步骤。
+- 标题由本站自己写：按 BLOG_PROMPTS.md“标题”，来源在前，冒号后写这篇最值得记住的内容；不沿用原题，原题已经是中文也一样。用户请求里“文章标题为……”这类说法默认指原文标题，用来核对是哪一篇；只有用户明确要求博客标题用某个写法时才照用。检查会拒绝与来源记录 `title` 相同的标题。
+- 配图要逐张看过原文图片再决定：选用的图用 `scripts/add_image.py` 保存原图并登记 `image_sources`；一张都不用时，在私有归档 frontmatter 写 `image_note`，说明原文有哪些图、为什么不用，再运行 `source_record.py`。
+- 私有归档要保留每张原文图片的地址。页面读取工具把图片换成占位符（如 `【2†Image†…】`）时，从页面 HTML 的 `src`／`data-src` 补回 `![标题](URL)`；转载方添加的关注横幅、二维码等推广图不属于原文，不写入归档。克隆了私有归档时，检查会拒绝没有地址的占位符，以及原文有图、文章无图又没有 `image_note` 的文章。
 
 **PDF**
 - PDF 使用选定源文件，不压缩、不重新编码，只提交到公开仓库 `blog-pdfs`；本仓库只提交 `static/pdfs` 子模块指针。两个仓库分别检查、分别提交，不用 `git add .` 代替。

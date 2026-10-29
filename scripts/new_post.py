@@ -3,8 +3,9 @@
 
 Runs defuddle on the URL (or reads its saved --json output), writes
 sources/archive/orig/<slug>.md with the full text, sources/orig/<slug>.md with
-the same frontmatter only, and a draft content/posts/<slug>.md. Commits nothing:
-commit the private archive first, then this repository.
+the same frontmatter only, and a draft content/posts/<slug>.md whose opening
+comment lists the steps left before publishing, including the original's
+images. Commits nothing: commit the private archive first, then this repository.
 """
 
 from __future__ import annotations
@@ -18,7 +19,7 @@ import subprocess
 import sys
 from urllib.parse import urlsplit
 
-from check_content import PUBLISHED_DATE, public_record
+from check_content import PUBLISHED_DATE, archive_images, public_record
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -103,6 +104,11 @@ def create_post(repo: Path, slug: str, url: str, data: dict, now: datetime,
     description = (data.get("description") or "").strip()
     if not description:
         notes.append("description is empty: summarise the original in the archive frontmatter before publishing")
+    images, placeholders = archive_images(body)
+    if images:
+        notes.append(f"the original has {len(images)} image(s), listed in the draft: add the useful ones with scripts/add_image.py, or record image_note")
+    if placeholders:
+        notes.append(f"{placeholders} image placeholder(s) have no address: take each image's src from the page and write ![title](URL) in the archive")
     domain = (data.get("domain") or "").strip() or urlsplit(url).netloc.removeprefix("www.")
     record = {"title": title, "source_url": url, "domain": domain}
     if author:
@@ -113,12 +119,16 @@ def create_post(repo: Path, slug: str, url: str, data: dict, now: datetime,
     )
     archived = frontmatter(record) + "\n" + body + "\n"
     stamp = now.isoformat(timespec="seconds")
+    listing = "".join(f"\n   - {image}" for image in images) or "\n   - 提取结果里没有图片；对照原页面，确认没有漏掉图表"
     draft = (
         f"---\ndate: '{stamp}'\nlastmod: '{stamp}'\ndraft: true\n"
         f"title: {json.dumps(title, ensure_ascii=False)}\n"
         'summary: ""\ndescription: ""\ntags: []\ncategories: ["好文分享"]\n'
         'author: "Qian"\nisCJKLanguage: true\nshowToc: true\n---\n\n'
-        f"<!-- 依据 sources/archive/orig/{slug}.md 写解读，标准见 BLOG_PROMPTS.md；发布前删去这行注释和 draft，并换成中文标题。 -->\n\n"
+        f"<!-- 依据 sources/archive/orig/{slug}.md 写解读，标准见 BLOG_PROMPTS.md。发布前完成：\n"
+        "1. 标题：按 BLOG_PROMPTS.md“标题”改写，来源在前、冒号后写要点；不沿用原题，原题是中文也要改。\n"
+        f"2. 配图：逐张查看原文图片，选用的用 scripts/add_image.py 保存并登记；一张不用时在归档 frontmatter 写 image_note。{listing}\n"
+        "3. 删去这段注释和 draft。 -->\n\n"
         f"## 原文\n\n- [{title}{f' — {author}' if author else ''}]({url})\n"
     )
     for path, text in zip(targets, (archived, public_record(archived), draft)):
@@ -145,7 +155,8 @@ def main() -> int:
         print(f"wrote {path}")
     for note in notes:
         print(f"check: {note}")
-    print(f"next: write the draft, run scripts/build_site.py, then commit sources/archive (orig/{args.slug}.md) before this repository")
+    print(f"next: follow the checklist at the top of content/posts/{args.slug}.md (own title, images), run scripts/build_site.py, "
+          f"then commit sources/archive (orig/{args.slug}.md) before this repository")
     return 0
 
 
