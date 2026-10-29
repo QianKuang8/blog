@@ -130,7 +130,9 @@ def main() -> int:
     print(f"recorded image_sources in sources/archive/orig/{args.slug}.md and sources/orig/{args.slug}.md")
     print("paste where the article discusses it; describe the figure in the alt text and number captions in order:\n")
     print(f"![<what the figure shows>]({path})\n")
-    print(f"*图 N：原图，来源：[{record.get('title')}]({record.get('source_url')})。<what readers should notice>*")
+    link = f"[{record.get('title')}]({record.get('source_url')})"
+    origin = f"原图，来源：{link}" if remote else f"<原页面图表截图|局部截取|重绘|本文绘制>，依据 {link} 整理"
+    print(f"*图 N：{origin}。<what readers should notice>*")
     return 0
 
 

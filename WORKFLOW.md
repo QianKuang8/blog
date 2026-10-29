@@ -213,9 +213,9 @@ extractor: "defuddle"
 # defuddle 漏掉发布日期或作者时，用 --published YYYY-MM-DD、--author 补上；已保存的 defuddle JSON 可用 --from-json 读入。
 # 抓取失败或正文不完整时，按下文“抓取失败与替代来源补档”继续处理，并记录到 sources/failed/failed-sources.md。
 
-# 2. 配图：草稿开头的注释列出了提取到的原文图片；对照原页面补看 defuddle 漏掉的图表，逐张决定
+# 2. 配图：草稿开头的注释列出了提取到的原文图片；对照原页面补看 defuddle 漏掉的图表，逐张决定，标准见 BLOG_PROMPTS.md“配图要求”
 .venv/bin/python scripts/add_image.py <slug> <name> "<图片 URL>" --title "原图标题"
-# 页面截图等本地文件另加 --source-url <页面 URL> --method "原页面图表截图"。
+# 页面截图、重绘或本文绘制的本地文件另加 --source-url <依据的页面> --method "原页面图表截图"（或“重绘”“本文绘制”）。
 # 一张都不用时，在私有归档 frontmatter 写 image_note，再运行 source_record.py。
 
 # 3. 写作：按 BLOG_PROMPTS.md 写正文；标题按其“标题”一节改写，不沿用原题；删去草稿开头的注释和 draft
@@ -272,7 +272,7 @@ git commit -m "add: 文章标题"
 - 选用的图片存入 `static/images/<slug>/`，正文引用 `/images/<slug>/...`。
 - 构建时，图片渲染钩子为 PNG、JPEG、WebP 生成 720 与 1440 宽的 WebP 显示版本，并让图片链接到原图；SVG 原样显示。原图文件保持不变，不手工压缩，也不另存缩小版。点击配图时，原图在文章上方的灯箱中按屏幕大小显示，按 Esc 或点击任意处关闭；按住 Cmd 或 Ctrl 点击则在新标签页打开原图。
 - 优先取得清晰的原图文件；交互图表截取原页面中的完整图表区域。
-- 用 `scripts/add_image.py` 保存选用的图：按文件内容确定扩展名（转载站常把 PNG 放在 `.webp` 地址下），不改动字节；在私有归档 frontmatter 的 `image_sources` 追加图片标题、站内路径、原图或页面 URL、取得方式和时间，同步公开元信息，并打印可粘贴的图片与图注模板。重绘或局部截取时传入本地文件，并在 `--method` 说明处理方式。
+- 用 `scripts/add_image.py` 保存选用的图：按文件内容确定扩展名（转载站常把 PNG 放在 `.webp` 地址下），不改动字节；在私有归档 frontmatter 的 `image_sources` 追加图片标题、站内路径、原图或页面 URL、取得方式和时间，同步公开元信息，并打印可粘贴的图片与图注模板。重绘、本文绘制或局部截取时传入本地文件，`--source-url` 写所依据的页面，`--method` 写处理方式；取自其他一手来源的图，`--source-url` 写该来源。
 - `scripts/check_content.py` 会拒绝以下情况：
   - 所有文章：图片没有 alt；不是 `/images/...` 下实际存在的文件；`static/images/` 中有无人引用的文件。
   - 文章解读与视频笔记：图片后面一段不是斜体图注；图注开头不是 BLOG_PROMPTS.md 规定的“图 N：”加标注，或编号不是按顺序从 1 开始。

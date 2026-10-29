@@ -127,7 +127,7 @@ def create_post(repo: Path, slug: str, url: str, data: dict, now: datetime,
         'author: "Qian"\nisCJKLanguage: true\nshowToc: true\n---\n\n'
         f"<!-- 依据 sources/archive/orig/{slug}.md 写解读，标准见 BLOG_PROMPTS.md。发布前完成：\n"
         "1. 标题：按 BLOG_PROMPTS.md“标题”改写，来源在前、冒号后写要点；不沿用原题，原题是中文也要改。\n"
-        f"2. 配图：逐张查看原文图片，选用的用 scripts/add_image.py 保存并登记；一张不用时在归档 frontmatter 写 image_note。{listing}\n"
+        f"2. 配图：先逐张看原文图片，合适的用 scripts/add_image.py 保存；原图不合适或原文没图而正文适合画图时，可以重绘或本文绘制（BLOG_PROMPTS.md“配图要求”）；原文有图而一张不用时，在归档 frontmatter 写 image_note。{listing}\n"
         "3. 删去这段注释和 draft。 -->\n\n"
         f"## 原文\n\n- [{title}{f' — {author}' if author else ''}]({url})\n"
     )
