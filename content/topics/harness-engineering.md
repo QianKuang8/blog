@@ -2,13 +2,13 @@
 title: "Harness Engineering 阅读路径"
 description: "从工具、权限、反馈、评估和可观测性，串起 Qian's blog 中关于 Harness Engineering 的文章。"
 summary: "模型周围的系统怎样影响结果：约束怎样被读到，工具和权限怎样设计，反馈怎样让 Harness 持续改进。"
-lastmod: '2026-10-27T16:03:41+08:00'
+lastmod: '2026-11-03T16:51:33+08:00'
 hideMeta: true
 showToc: true
 isCJKLanguage: true
 ---
 
-模型能读写代码、调用工具以后，结果好坏越来越取决于它周围的系统：能读到哪些约束，能调用哪些工具、在什么权限下调用，修改以后能拿到什么反馈。Harness Engineering 讨论的就是这部分。这条路径的 16 篇文章先看为什么要在 Harness 上投入，再看工具和权限怎样设计，最后看反馈、观测和自进化怎样让 Harness 持续改进。
+模型能读写代码、调用工具以后，结果好坏越来越取决于它周围的系统：能读到哪些约束，能调用哪些工具、在什么权限下调用，修改以后能拿到什么反馈。Harness Engineering 讨论的就是这部分。这条路径的 17 篇文章先看为什么要在 Harness 上投入，再看工具和权限怎样设计，最后看反馈、观测和自进化怎样让 Harness 持续改进。
 
 ## 先分清几篇相近的文章
 

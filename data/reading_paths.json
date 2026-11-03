@@ -277,6 +277,10 @@
               "reason": "聚焦规划与执行的交接，理解上下文分工、审查证据和任务成本之间的关系。"
             },
             {
+              "post": "/posts/deepseek-super-agent",
+              "reason": "从单任务交接扩展到持续在线的多任务系统，检查 Router 分派、事件直通与异步执行怎样影响响应时间和 token 开销。"
+            },
+            {
               "post": "/posts/a-taxonomy-of-self-evolving-agents",
               "reason": "先按反馈落点区分产物搜索、执行方法与模型学习，并看工具扩张怎样引出专家路由问题。"
             },

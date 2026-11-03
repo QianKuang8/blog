@@ -2,6 +2,12 @@
 
 > 2026-10-10 起，下文提到的 `sources/orig/<slug>.md` 全文已迁到私有仓库 `blog-sources`（本地路径 `sources/archive/orig/<slug>.md`），公开仓库只保留元信息。
 
+### [2026-11-03] DeepSeek Super-agent 设计探索
+
+| URL | 失败原因 | 补档来源 | 状态 |
+|-----|---------|---------|------|
+| https://mp.weixin.qq.com/s/zoS7GlReWPhfCjENGxXCdg | 页面读取工具无法打开原页，curl 返回 HTTP 403 | defuddle 成功提取 UIED 同文转载 `https://www.uied.cn/posts/922127`，其文章来源精确指向该微信链接；已核对第 1–9 节、实验、结语、作者致谢及 14 张正文图，保留图片地址。原站不可访问，未逐段比对；发布日期由 IT之家与上海证券报当日报道交叉确认 | 已解决，全文归档至私有仓库 `blog-sources` 的 `orig/deepseek-super-agent.md` |
+
 ### [2026-10-29] Manus AI Native 组织文章
 
 | URL | 失败原因 | 补档来源 | 状态 |
