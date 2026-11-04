@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="570" viewBox="0 0 960 570" role="img" aria-labelledby="title desc">
+  <title id="title">共享同一个包：少做重复生成，可能多传已有对象</title>
+  <desc id="desc">假设基线 B 是两个读取方的共同历史，包 P 含 p1 和 p2。甲已有 B 和 p1，乙已有 B；二者都下载 P 时，甲重复接收 p1。此图不是 Pando 实测。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#426d5a" stroke-width="1.8"/></marker>
+  </defs>
+  <rect width="960" height="570" rx="20" fill="#f6f7f4"/>
+  <g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif" fill="#26362f">
+    <text x="40" y="50" font-size="26" font-weight="700">复用包的前提：接收方具备共同基线</text>
+    <text x="40" y="82" font-size="18" fill="#637069">假设示例 · B、p1、p2 表示对象集合</text>
+    <rect x="40" y="116" width="880" height="67" rx="12" fill="#e4eee7" stroke="#b8cdbf"/>
+    <text x="64" y="157" font-size="22" font-weight="600">共同基线 B</text>
+    <text x="260" y="157" font-size="20">甲、乙都已拥有；本例不再传输</text>
+    <rect x="300" y="216" width="360" height="100" rx="14" fill="#fff" stroke="#426d5a" stroke-width="2"/>
+    <text x="480" y="255" text-anchor="middle" font-size="23" font-weight="700">可复用的包 P</text>
+    <text x="480" y="289" text-anchor="middle" font-size="22">p1 + p2</text>
+    <path d="M370 316V341H250V375" fill="none" stroke="#426d5a" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M590 316V341H710V375" fill="none" stroke="#426d5a" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="480" y="359" text-anchor="middle" font-size="18" fill="#52655b">下载相同字节</text>
+    <rect x="40" y="385" width="420" height="126" rx="14" fill="#fff" stroke="#c9d3cc"/>
+    <rect x="500" y="385" width="420" height="126" rx="14" fill="#fff" stroke="#c9d3cc"/>
+    <text x="64" y="424" font-size="22" font-weight="700">读取方甲 · 已有 B + p1</text>
+    <text x="64" y="459" font-size="20">得到所需 p2</text>
+    <text x="64" y="490" font-size="20" fill="#9a5c26">代价：重复接收 p1</text>
+    <text x="524" y="424" font-size="22" font-weight="700">读取方乙 · 已有 B</text>
+    <text x="524" y="459" font-size="20">得到所需 p1 + p2</text>
+    <text x="524" y="490" font-size="20" fill="#426d5a">本例没有重复对象</text>
+    <text x="40" y="548" font-size="18" fill="#637069">比较时同时计入：生成成本、传输字节、依赖补齐、客户端处理。</text>
+  </g>
+</svg>
