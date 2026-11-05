@@ -14,4 +14,9 @@ image_sources:
     source_url: "https://claude.dev/media/dafbc5fb0edf5aeed96af8984ec09f6a0f8ebd753274c305ccf3043e1640d75a.png"
     method: "原图文件，未改动"
     retrieved_at: "2026-11-05T16:06:15+08:00"
+  - title: "Common causes of harness overfitting（Figure 5）"
+    path: "/images/automating-eval-design-and-hillclimbing/harness-overfitting.png"
+    source_url: "https://claude.dev/media/a328a3f4d5bfd0967174ef2ca79bc8f094d8db3c12af71be3189891bf40d0e53.png"
+    method: "原图文件，未改动（curl 下载）"
+    retrieved_at: "2026-11-05T16:23:52+08:00"
 ---
