@@ -337,6 +337,10 @@
               "reason": "理解行为断言能证明什么，以及它怎样与端到端评测共同检查回归。"
             },
             {
+              "post": "/posts/automating-eval-design-and-hillclimbing",
+              "reason": "从构建和校准评估出发，看单项修改、噪声检查与留出样例怎样约束自动优化，并区分候选筛选与最终效果验证。"
+            },
+            {
               "post": "/posts/anthropic-skill-creator-breakdown",
               "reason": "把评估用在 Skill 上：分别检查触发是否准确、产物是否优于不用 Skill 的基线，以及留出样例怎样参与候选选择。"
             }
