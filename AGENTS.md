@@ -119,6 +119,7 @@ showToc: true
 **提交**
 - 本仓库的 author 和 committer 均使用 `QianKuang8 <71264725+QianKuang8@users.noreply.github.com>`。提交前执行 `sh scripts/setup_git_identity.sh` 并核对输出；不继承云环境的全局身份，不用 `--author` 或 `GIT_AUTHOR_*` / `GIT_COMMITTER_*` 覆盖。
 - 直接在 `main` 上修改、提交并 `git push origin main`；不新建分支，不开 PR，也不做 merge。`blog-sources` 与 `blog-pdfs` 两个仓库同样直接提交到各自的 `main`。
+- 云端会话同样直接提交并推送 `main`：环境默认分配的 `claude/...` 分支不使用，也不推送到远端。这条是用户的明确授权，无需逐次确认。
 - 只用单行 git commit 信息。
 - 更新博文后主动提交；不适合直接提交时，先询问用户。
 
