@@ -1,0 +1,41 @@
+{{- /* The rail beside article lists: every reading path and every tag group, with article counts.
+  It is the same on all list pages, so callers use partialCached. */ -}}
+<aside class="bc-rail" aria-label="专题与主题入口">
+  <nav class="bc-panel" aria-labelledby="rail-topics-heading">
+    <div class="bc-panel-heading">
+      <h2 id="rail-topics-heading">阅读专题</h2>
+      {{- with site.GetPage "/topics" }}<a href="{{ .RelPermalink }}">总览 →</a>{{ end }}
+    </div>
+    <ul>
+      {{- range hugo.Data.reading_paths.paths }}
+        {{- $path := . }}
+        {{- $count := 0 }}
+        {{- range .groups }}{{ $count = add $count (len .entries) }}{{ end }}
+        {{- with site.GetPage .topic }}
+      <li><a href="{{ .RelPermalink }}" title="{{ .Params.summary | default .Description }}" aria-label="{{ .Title }}，{{ $count }} 篇文章"><span>{{ replaceRE "：.*$| ?(阅读路径|课程笔记目录)$" "" .Title }}</span><span class="bc-panel-count" aria-hidden="true">{{ $count }}</span></a></li>
+        {{- else }}
+          {{- errorf "reading path topic %q does not exist" $path.topic }}
+        {{- end }}
+      {{- end }}
+    </ul>
+  </nav>
+  {{- with site.GetPage "/tags" }}
+  {{- $tags := . }}
+  <nav class="bc-panel" aria-labelledby="rail-tags-heading">
+    <div class="bc-panel-heading">
+      <h2 id="rail-tags-heading">按主题浏览</h2>
+      <a href="{{ .RelPermalink }}">全部 →</a>
+    </div>
+    <ul>
+      {{- range hugo.Data.tag_groups.topics }}
+        {{- /* An article with several tags of one group counts once. */ -}}
+        {{- $pages := slice }}
+        {{- range union .tags (.details | default slice) }}
+          {{- with site.GetPage (printf "/tags/%s" .) }}{{ $pages = $pages | union .RegularPages }}{{ end }}
+        {{- end }}
+      <li><a href="{{ $tags.RelPermalink }}#group-{{ .id }}" aria-label="{{ .title }}，{{ len $pages }} 篇文章"><span>{{ .title }}</span><span class="bc-panel-count" aria-hidden="true">{{ len $pages }}</span></a></li>
+      {{- end }}
+    </ul>
+  </nav>
+  {{- end }}
+</aside>

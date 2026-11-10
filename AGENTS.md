@@ -114,6 +114,7 @@ showToc: true
 - 专题顺序和推荐理由只在 `data/reading_paths.json` 维护。
 - 文末“相关文章”自动生成，不手工维护推荐列表；推荐不合适时调整标签（生成方式见 WORKFLOW.md“专题与文章内链”）。
 - 站点以桌面阅读为准，日常只检查桌面显示；窄屏只有单栏回退样式，除非用户要求，不做手机适配或验证。
+- 站点不提供 RSS（`config.yaml` 的 `disableKinds`）。用户已确认不需要，不要重新开启，也不要再作为优化建议提出。
 
 **提交**
 - 本仓库的 author 和 committer 均使用 `QianKuang8 <71264725+QianKuang8@users.noreply.github.com>`。提交前执行 `sh scripts/setup_git_identity.sh` 并核对输出；不继承云环境的全局身份，不用 `--author` 或 `GIT_AUTHOR_*` / `GIT_COMMITTER_*` 覆盖。

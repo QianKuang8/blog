@@ -1,8 +1,30 @@
+{{- /* The image shown when a page is shared. A post uses its first raster figure, fitted onto the
+  card base (assets/share/base.png: paper background, site mark and name) and published as
+  share/<slug>.jpg. Posts without a raster figure (none, or only SVG) and all other pages use the
+  site card. A title on the card would need a CJK font shipped in the repository, so there is none. */ -}}
 {{- $image := "site-card.png" -}}
 {{- with site.Params.images }}{{ $image = index . 0 }}{{ end -}}
-{{- with .Params.images }}{{ $image = index . 0 }}{{ end -}}
+{{- $custom := false -}}
+{{- with .Params.images }}{{ $image = index . 0 }}{{ $custom = true }}{{ end -}}
 {{- with .Params.cover.image -}}
   {{- $image = . -}}
+  {{- $custom = true -}}
   {{- if $.Params.cover.relative }}{{ $image = printf "%s%s" $.RelPermalink . }}{{ end -}}
 {{- end -}}
-{{- return ($image | absURL) -}}
+{{- $url := $image | absURL -}}
+{{- if and (not $custom) .IsPage (eq .Section "posts") -}}
+  {{- $figure := false -}}
+  {{- range findRESubmatch `!\[[^\]]*\]\(/(images/[^)\s]+\.(?:png|jpe?g|webp))` .RawContent -}}
+    {{- if not $figure }}{{ with resources.Get (index . 1) }}{{ $figure = . }}{{ end }}{{ end -}}
+  {{- end -}}
+  {{- with $figure -}}
+    {{- $base := resources.Get "share/base.png" -}}
+    {{- /* The figure area is 1104x452, centred above the footer band of the 1200x630 base. */ -}}
+    {{- $fitted := .Fit "1104x452 Lanczos" -}}
+    {{- $x := div (sub 1200 $fitted.Width) 2 -}}
+    {{- $y := add 40 (div (sub 452 $fitted.Height) 2) -}}
+    {{- $card := ($base.Filter (images.Overlay $fitted $x $y)).Process "jpg q86" -}}
+    {{- $url = ($card | resources.Copy (printf "share/%s.jpg" ($.Slug | default $.File.ContentBaseName))).Permalink -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

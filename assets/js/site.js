@@ -7,8 +7,9 @@
     function updateTheme(dark) {
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         if (themeToggle) {
-            themeToggle.textContent = dark ? '浅色主题' : '深色主题';
-            themeToggle.setAttribute('aria-label', `切换为${dark ? '浅色' : '深色'}主题`);
+            const label = `切换为${dark ? '浅色' : '深色'}主题`;
+            themeToggle.setAttribute('aria-label', label);
+            themeToggle.title = label;
         }
     }
     if (themeToggle) {

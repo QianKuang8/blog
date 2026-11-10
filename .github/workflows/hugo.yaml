@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: resources/_gen
-          key: hugo-resources-${{ env.HUGO_VERSION }}-${{ hashFiles('static/images/**', 'assets/**', 'layouts/_default/_markup/render-image.html', 'config/_default/config.yaml') }}
+          key: hugo-resources-${{ env.HUGO_VERSION }}-${{ hashFiles('static/images/**', 'assets/**', 'layouts/_default/_markup/render-image.html', 'layouts/partials/share_image.html', 'config/_default/config.yaml') }}
           restore-keys: |
             hugo-resources-${{ env.HUGO_VERSION }}-
       - name: Install validation dependencies

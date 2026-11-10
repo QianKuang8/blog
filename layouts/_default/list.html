@@ -11,21 +11,24 @@
     <button type="submit">搜索</button>
   </form>
 </header>
-{{- with .Content }}<div class="prose bc-list-intro">{{ . }}</div>{{ end }}
-<section class="bc-posts" aria-label="文章列表">
-  <div class="bc-list-heading">
-    {{- if or (eq .Type "categories") (eq .Section "posts") }}
-      {{ partial "category_tabs.html" . }}
+<div class="bc-list-grid">
+  <section class="bc-posts" aria-label="文章列表">
+    {{- with .Content }}<div class="prose bc-list-intro">{{ . }}</div>{{ end }}
+    <div class="bc-list-heading">
+      {{- if or (eq .Type "categories") (eq .Section "posts") }}
+        {{ partial "category_tabs.html" . }}
+      {{- else }}
+        <a class="bc-back" href="{{ (site.GetPage "/tags").RelPermalink }}">← 主题浏览</a>
+      {{- end }}
+      <span>{{ len $pages }} 篇</span>
+    </div>
+    {{- range $paginator.Pages }}
+      {{ partial "post_row.html" (dict "page" .) }}
     {{- else }}
-      <a class="bc-back" href="{{ (site.GetPage "/tags").RelPermalink }}">← 主题浏览</a>
+      <p class="bc-empty">这个分类下还没有文章。</p>
     {{- end }}
-    <span>{{ len $pages }} 篇</span>
-  </div>
-  {{- range $paginator.Pages }}
-    {{ partial "post_row.html" (dict "page" .) }}
-  {{- else }}
-    <p class="bc-empty">这个分类下还没有文章。</p>
-  {{- end }}
-</section>
-{{ partial "pagination.html" $paginator }}
+    {{ partial "pagination.html" $paginator }}
+  </section>
+  {{ partialCached "list_rail.html" site }}
+</div>
 {{- end -}}

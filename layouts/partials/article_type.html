@@ -7,5 +7,6 @@
   {{- if and $config.bookType (eq (partialCached "source_record.html" $page $page.RelPermalink).source_type "book") -}}
     {{- $label = $config.bookType -}}
   {{- end -}}
-  <a class="article-type" href="{{ $category.RelPermalink }}" data-category-term="{{ $category.Data.Term }}">{{ $label }}</a>
+  {{- /* data-source lets the stylesheet mark the kind of writing: orig, video, or own for categories without a source directory. */ -}}
+  <a class="article-type" href="{{ $category.RelPermalink }}" data-category-term="{{ $category.Data.Term }}" data-source="{{ $config.source | default "own" }}">{{ $label }}</a>
 {{- end -}}

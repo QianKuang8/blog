@@ -1,8 +1,17 @@
+{{- /* One article in a list. Lists show title, summary and meta; the archive passes "compact"
+  for a one-line index entry (day, title, kind of writing) under its year heading. */ -}}
 {{- $page := .page -}}
-<article class="bc-post-row{{ if .compact }} bc-post-row--compact{{ end }}">
+{{- if .compact }}
+<article class="bc-index-row">
+  <time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "01.02" }}</time>
+  <h3><a href="{{ $page.RelPermalink }}">{{ $page.Title }}{{ if $page.Draft }} <span class="bc-draft">草稿</span>{{ end }}</a></h3>
+  {{- if not ($page.Param "hideMeta") }}{{ partial "article_type.html" $page }}{{ end }}
+</article>
+{{- else }}
+<article class="bc-post-row">
   <div class="bc-post-copy">
     <h2><a href="{{ $page.RelPermalink }}">{{ $page.Title }}{{ if $page.Draft }} <span class="bc-draft">草稿</span>{{ end }}</a></h2>
-    {{- if and (not .compact) (ne ($page.Param "hideSummary") true) }}
+    {{- if ne ($page.Param "hideSummary") true }}
     <p>{{ $page.Summary | plainify | htmlUnescape }}{{ if $page.Truncated }}…{{ end }}</p>
     {{- end }}
     {{- if not ($page.Param "hideMeta") }}
@@ -23,3 +32,4 @@
     {{- end }}
   </div>
 </article>
+{{- end }}

@@ -10,7 +10,7 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 capitalizeListTitles: false
-disableKinds: ["rss"]
+disableKinds: ["rss"] # the site has no RSS feed by decision; see AGENTS.md
 
 markup:
   goldmark:

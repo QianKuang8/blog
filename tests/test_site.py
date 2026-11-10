@@ -121,6 +121,14 @@ class LocalReferenceTests(SiteFixture):
         self.assertEqual(len(failures), 1)
         self.assertIn("img[srcset] target does not exist: /blog/images/a_1440.webp", failures[0])
 
+    def test_share_image_on_this_site_must_exist(self):
+        self.write("site-card.png", "png")
+        card = '<meta property="og:image" content="https://example.org/blog/site-card.png">'
+        self.write("posts/one/index.html", card + '<meta name="twitter:image" content="https://cdn.example.net/card.png">')
+        self.assertEqual(self.failures(), [])
+        self.write("posts/one/index.html", card.replace("site-card.png", "share/one.jpg"))
+        self.assertIn("meta[content] target does not exist: https://example.org/blog/share/one.jpg", "\n".join(self.failures()))
+
     def test_relative_reference_must_keep_the_site_path(self):
         self.write("posts/one/index.html", '<a href="/pdfs/file.pdf">PDF</a>')
         self.assertIn("outside the site path", "\n".join(self.failures()))

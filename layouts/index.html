@@ -12,20 +12,17 @@
     <button type="submit">搜索</button>
   </form>
 </header>
-<section class="bc-topic-strip" aria-label="按主题浏览">
-  <span>按主题浏览</span>
-  {{- range hugo.Data.tag_groups.topics }}
-  <a href="{{ (site.GetPage "/tags").RelPermalink }}#group-{{ .id }}">{{ .title }}</a>
-  {{- end }}
-</section>
-<section class="bc-posts" aria-label="最近的文章">
-  <div class="bc-list-heading">
-    {{ partial "category_tabs.html" . }}
-    <span>{{ len $pages }} 篇</span>
-  </div>
-  {{- range $paginator.Pages }}
-    {{ partial "post_row.html" (dict "page" .) }}
-  {{- end }}
-</section>
-{{ partial "pagination.html" $paginator }}
+<div class="bc-list-grid">
+  <section class="bc-posts" aria-label="最近的文章">
+    <div class="bc-list-heading">
+      {{ partial "category_tabs.html" . }}
+      <span>{{ len $pages }} 篇</span>
+    </div>
+    {{- range $paginator.Pages }}
+      {{ partial "post_row.html" (dict "page" .) }}
+    {{- end }}
+    {{ partial "pagination.html" $paginator }}
+  </section>
+  {{ partialCached "list_rail.html" site }}
+</div>
 {{- end -}}

@@ -50,6 +50,8 @@ class Page(HTMLParser):
             self.canonical_urls.append(attributes.get("href") or "")
         elif tag == "meta":
             self.meta.append(attributes)
+            if (attributes.get("property") == "og:image" or attributes.get("name") == "twitter:image") and attributes.get("content"):
+                self.references.append((tag, "content", attributes["content"]))
         elif tag == "script" and attributes.get("type") == "application/ld+json":
             self._json_ld = []
         elif tag == "a":
